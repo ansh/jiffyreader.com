@@ -5,18 +5,18 @@ chrome.storage.sync.get("color", ({ color }) => {
   changeColor.style.backgroundColor = color;
 });
 
-// When the button is clicked, inject convertToReadbaleText into current page
+// When the button is clicked, inject convertToReadableText into current page
 changeColor.addEventListener("click", async () => {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    function: convertToReadbaleText,
+    function: convertToReadableText,
   });
 });
 
 // The body of this function will be executed as a content script inside the current page
-function convertToReadbaleText() {
+function convertToReadableText() {
   chrome.storage.sync.get("color", async ({ color }) => {
     // setting up pList
     let pList;
@@ -30,7 +30,7 @@ function convertToReadbaleText() {
 
     // setting global styles
     var style = document.createElement("style");
-    style.textContent = "b { font-weight: bold; !important }";
+    style.textContent = "b { font-weight: bold !important; }";
     document.head.appendChild(style);
 
     // making half of the letters in a word bold
@@ -45,7 +45,6 @@ function convertToReadbaleText() {
         const htmlWord = `<b>${firstHalf}</b>${secondHalf}`;
         return htmlWord;
       });
-      console.log();
       sentence.innerHTML = textArrTransformed.join(" ");
     }
   });
