@@ -19,22 +19,25 @@ changeColor.addEventListener("click", async () => {
 // current page
 function setPageBackgroundColor() {
   chrome.storage.sync.get("color", async ({ color }) => {
+    // setting up pList
     let pList;
     let option1 = document.getElementsByTagName("p");
     let option2 = document.getElementsByTagName("font");
-
-    var style = document.createElement("style");
-    style.textContent = "b { font-weight: bold; !important }";
-    document.head.appendChild(style);
-
     if (option1.length > option2.length) {
       pList = option1;
     } else {
       pList = option2;
     }
+    
+    // setting global styles
+    var style = document.createElement("style");
+    style.textContent = "b { font-weight: bold; !important }";
+    document.head.appendChild(style);
+
+
+    // making half of the letters in a word bold 
     for (let sentence of pList) {
       const sentenceText = sentence.innerText;
-
       const textArr = sentenceText.split(" ");
       const textArrTransformed = textArr.map((word) => {
         const length = word.length;
