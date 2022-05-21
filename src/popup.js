@@ -32,7 +32,7 @@ function convertToReadbaleText() {
 	
 	tags.forEach((element) => {
 		pList = document.getElementsByTagName(element);
-	    // making half of the letters in a word bold
+		// making half of the letters in a word bold
 		for (let sentence of pList) {
 		  const sentenceText = sentence.innerText;
 		  const textArr = sentenceText.split(" ");
