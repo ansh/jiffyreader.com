@@ -15,10 +15,6 @@ changeColor.addEventListener("click", async () => {
   });
 });
 
-function convertTagsToBionic(tagArray){
-	tagArray
-}
-
 // The body of this function will be executed as a content script inside the current page
 function convertToReadbaleText() {
   chrome.storage.sync.get("color", async ({ color }) => {
