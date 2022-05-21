@@ -15,38 +15,39 @@ changeColor.addEventListener("click", async () => {
   });
 });
 
+function convertTagsToBionic(tagArray){
+	tagArray
+}
+
 // The body of this function will be executed as a content script inside the current page
 function convertToReadbaleText() {
   chrome.storage.sync.get("color", async ({ color }) => {
-    // setting up pList
-    let pList;
-    let option1 = document.getElementsByTagName("p");
-    let option2 = document.getElementsByTagName("font");
-    if (option1.length > option2.length) {
-      pList = option1;
-    } else {
-      pList = option2;
-    }
-
+    
     // setting global styles
     var style = document.createElement("style");
-    style.textContent = "b { font-weight: bold; !important }";
+    style.textContent = "b { font-weight: bold !important; }";
     document.head.appendChild(style);
+	
+	let tags = ["p", "font", "span"];
+	
+	tags.forEach((element) => {
+		pList = document.getElementsByTagName(element);
+	    // making half of the letters in a word bold
+		for (let sentence of pList) {
+		  const sentenceText = sentence.innerText;
+		  const textArr = sentenceText.split(" ");
+		  const textArrTransformed = textArr.map((word) => {
+			const length = word.length;
+			const midPoint = Math.round(length / 2);
+			const firstHalf = word.slice(0, midPoint);
+			const secondHalf = word.slice(midPoint);
+			const htmlWord = `<b>${firstHalf}</b>${secondHalf}`;
+			return htmlWord;
+		  });
+		  console.log();
+		  sentence.innerHTML = textArrTransformed.join(" ");
+		}
+	});
 
-    // making half of the letters in a word bold
-    for (let sentence of pList) {
-      const sentenceText = sentence.innerText;
-      const textArr = sentenceText.split(" ");
-      const textArrTransformed = textArr.map((word) => {
-        const length = word.length;
-        const midPoint = Math.round(length / 2);
-        const firstHalf = word.slice(0, midPoint);
-        const secondHalf = word.slice(midPoint);
-        const htmlWord = `<b>${firstHalf}</b>${secondHalf}`;
-        return htmlWord;
-      });
-      console.log();
-      sentence.innerHTML = textArrTransformed.join(" ");
-    }
   });
 }
