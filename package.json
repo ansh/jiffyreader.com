@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "https://github.com/ansh/bionic-reading.git",
   "author": "Ansh Nanda <anshnanda10@gmail.com>",
-  "license": "GNU"
+  "license": "GNU",
+  "dependencies": {
+    "@mozilla/readability": "^0.4.2"
+  }
 }
