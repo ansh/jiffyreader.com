@@ -22,6 +22,11 @@ function setPageBackgroundColor() {
     let pList;
     let option1 = document.getElementsByTagName("p");
     let option2 = document.getElementsByTagName("font");
+
+    var style = document.createElement("style");
+    style.textContent = "b { font-weight: bold; !important }";
+    document.head.appendChild(style);
+
     if (option1.length > option2.length) {
       pList = option1;
     } else {
