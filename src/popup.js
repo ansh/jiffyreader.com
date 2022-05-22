@@ -26,16 +26,26 @@ function convertToReadbaleText() {
         const midPoint = Math.round(length / 2)
         const firstHalf = word.slice(0, midPoint)
         const secondHalf = word.slice(midPoint)
-        const htmlWord = `<b>${firstHalf}</b>${secondHalf}`
+        const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`
         return htmlWord
       })
       .join(' ')
   }
 
-	chrome.storage.sync.get('color', async ({ color }) => {
+  chrome.storage.sync.get('color', async ({ color }) => {
+    // check if we have already highlighted the text
+    const boldedElements = document.getElementsByTagName('br-bold')
+    if (boldedElements.length > 0) {
+      for (const element of boldedElements) {
+        console.log(element)
+        element.classList.toggle('br-bold')
+      }
+      return
+    }
+
     // setting global styles
     var style = document.createElement('style')
-    style.textContent = 'b { font-weight: bold !important; }'
+    style.textContent = '.br-bold { font-weight: bold !important; display: inline; }'
     document.head.appendChild(style)
 
     let tags = ['p', 'font', 'span', 'li']
