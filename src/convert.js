@@ -3,8 +3,22 @@ function highlightText(sentenceText) {
   return sentenceText
     .split(' ')
     .map((word) => {
+      const hasNumber = /\d/
+      if (hasNumber.test(word)) {
+        return word
+      }
       const length = word.length
-      const midPoint = Math.round(length / 2)
+      let midPoint;
+      switch (length) {
+        case 1:
+        case 2:
+        case 3:
+          midPoint = 1; break;
+        case 4:
+          midPoint = 2; break;
+        default:
+          midPoint = Math.round(length * 0.6)
+      }
       const firstHalf = word.slice(0, midPoint)
       const secondHalf = word.slice(midPoint)
       const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`
