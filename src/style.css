@@ -13,6 +13,7 @@ button {
   border: none;
   border-radius: 2px;
   color: white;
+  cursor: pointer;
 }
 
 #checkboxContainer {
