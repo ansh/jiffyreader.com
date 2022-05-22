@@ -4,7 +4,8 @@ function highlightText(sentenceText) {
     .split(" ")
     .map((word) => {
       const length = word.length;
-      const midPoint = Math.round(length / 2);
+      let midPoint = 1;
+      if (length > 3) midPoint = Math.round(length / 2);
       const firstHalf = word.slice(0, midPoint);
       const secondHalf = word.slice(midPoint);
       const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`;
