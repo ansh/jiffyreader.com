@@ -9,5 +9,6 @@ How to download:
 3. Right click the ZIP file > Extract All > OK
 4. Open Chrome > go to this link chrome://extensions/
 5. Click "Load unpacked" and then choose the folder. 
+6. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
 
 If there is interest, I am happy to work on this more and make it a dedicated screen reader. 
