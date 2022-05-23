@@ -1,3 +1,11 @@
+function logn(value, base = 10) {
+    return Math.log(value) / Math.log(base);
+}
+
+function determineMidpoint(word) {
+    return Math.ceil(logn(word.length, 2));
+}
+
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
   return sentenceText
@@ -11,13 +19,13 @@ function highlightText(sentenceText) {
       if (hasNumber.test(word)) {
         return word;
       }
-      const { length } = word;
-      let midPoint = 1;
-      if (length > 3) midPoint = Math.round(length / 2);
+
+      const midPoint = determineMidpoint(word);
+
       const firstHalf = word.slice(0, midPoint);
       const secondHalf = word.slice(midPoint);
-      const htmlWord = `<br-bold>${firstHalf}</br-bold>${secondHalf}`;
-      return htmlWord;
+      
+      return `<br-bold>${firstHalf}</br-bold>${secondHalf}`;
     })
     .join(' ');
 }
