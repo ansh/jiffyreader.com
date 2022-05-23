@@ -3,6 +3,10 @@ function highlightText(sentenceText) {
   return sentenceText
     .split(' ')
     .map((word) => {
+      const hasNumber = /\d/
+      if (hasNumber.test(word)) {
+        return word
+      }
       const length = word.length
       let midPoint = 1
       if (length > 3) midPoint = Math.round(length / 2)
