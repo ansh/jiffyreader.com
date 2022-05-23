@@ -16,7 +16,7 @@ function highlightText(sentenceText) {
       if (length > 3) midPoint = Math.round(length / 2)
       const firstHalf = word.slice(0, midPoint)
       const secondHalf = word.slice(midPoint)
-      const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`
+      const htmlWord = `<br-bold>${firstHalf}</br-bold>${secondHalf}`
       return htmlWord
     })
     .join(' ')
@@ -25,16 +25,20 @@ function highlightText(sentenceText) {
 function main() {
   // check if we have already highlighted the text
   const boldedElements = document.getElementsByTagName('br-bold')
-  if (boldedElements.length > 0) {
-    for (const element of boldedElements) {
-      element.classList.toggle('br-bold')
-    }
+
+  //only add br bold to body element
+  document.body.classList.toggle('br-bold')
+
+  if ( boldedElements.length ) {
+    //end if no br-bold elements found on the page
     return
+    
   }
+  
 
   // setting global styles
   var style = document.createElement('style')
-  style.textContent = '.br-bold { font-weight: bold !important; display: inline; }'
+  style.textContent = '.br-bold br-bold { font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); }'
   document.head.appendChild(style)
 
   let tags = ['p', 'font', 'span', 'li']
