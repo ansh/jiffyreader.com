@@ -1,5 +1,26 @@
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
+  // if the word contains Japanese Character
+  // making only kanji bold
+  const hasJapanese = /[一-龠]/;
+  if (hasJapanese.test(sentenceText)) {
+    const kanji = /[一-龠]/g;
+    let execResult;
+    const indexArray = [];
+    while (execResult = kanji.exec(sentenceText)) {
+        indexArray.push(execResult.index)
+    }
+    let htmlText = sentenceText
+    indexArray
+      .reverse()
+      .forEach((index) => {
+        const firstHalf = htmlText.slice(0, index);
+        const kanji = htmlText.slice(index, index+1);
+  			const secondHalf = htmlText.slice(index+1);
+        htmlText = `${firstHalf}<br-bold>${kanji}</br-bold>${secondHalf}`;
+      })
+    return htmlText;
+  }
   return sentenceText
     .split(' ')
     .map((word) => {
