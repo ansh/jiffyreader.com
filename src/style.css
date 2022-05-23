@@ -16,9 +16,34 @@ button {
   cursor: pointer;
 }
 
+button:active{
+  transform: scale(1.05);
+}
+
+#lineHeightEdit{
+  margin: 12px 0 12px;
+  padding: 4px;
+}
+
+#lineHieghtLbl{
+  padding-bottom: 4px;
+}
+
 #checkboxContainer {
   margin-top: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.w-100 {
+  width: 100%
+}
+
+.flex {
+  display:flex
+}
+
+.justify-between{
+  justify-content: space-between;
 }
