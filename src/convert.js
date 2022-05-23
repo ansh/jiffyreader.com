@@ -8,17 +8,8 @@ function highlightText(sentenceText) {
         return word
       }
       const length = word.length
-      let midPoint;
-      switch (length) {
-        case 1:
-        case 2:
-        case 3:
-          midPoint = 1; break;
-        case 4:
-          midPoint = 2; break;
-        default:
-          midPoint = Math.round(length * 0.6)
-      }
+      let midPoint = 1
+      if (length > 3) midPoint = Math.round(length / 2)
       const firstHalf = word.slice(0, midPoint)
       const secondHalf = word.slice(midPoint)
       const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`
