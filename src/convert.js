@@ -3,6 +3,10 @@ function highlightText(sentenceText) {
   return sentenceText
     .split(' ')
     .map((word) => {
+      // special case - hyphenated compound word, e.g. video-game
+      if (word.includes('-')) {
+        return word.split('-').map((component) => highlightText(component)).join('-')
+      }
       const hasNumber = /\d/
       if (hasNumber.test(word)) {
         return word
