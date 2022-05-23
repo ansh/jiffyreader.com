@@ -154,6 +154,13 @@ module.exports = {
       hash: true,
       filename: "popup.html",
     }),
+    new HtmlWebpackPlugin({
+      template: path.join(viewsPath, "background.html"),
+      inject: "body",
+      chunks: ["options"],
+      hash: true,
+      filename: "background.html",
+    }),
     // write css file(s) to build folder
     new MiniCssExtractPlugin({ filename: "css/[name].css" }),
     // copy static assets

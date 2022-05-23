@@ -1,24 +1,5 @@
-// Initialize buttons with user's preferred color
-const toggleBtn = document.getElementById('toggleBtn');
-const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
-const saccadesIntervalSlider = document.getElementById('saccadesSlider');
-
-chrome.storage.sync.get(['saccadesInterval'], ({ saccadesInterval }) => {
-  const documentButtons = document.getElementsByTagName('button');
-  for (let index = 0; index < documentButtons.length; index++) {
-    const button = documentButtons.item(index);
-
-    const buttonId = button.getAttribute('id');
-    if (/lineHeight/.test(buttonId)) {
-      button.addEventListener('click', updateLineHeightClickHandler);
-    }
-  }
-
-  updateSaccadesLabelValue(saccadesInterval);
-  saccadesIntervalSlider.value = saccadesInterval;
-
-  saccadesIntervalSlider.addEventListener('change', updateSaccadesChangeHandler);
-});
+// Initialize button with user's preferred color
+let toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode')
 
 chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
   toggleOnDefaultCheckbox.checked = toggleOnDefault;

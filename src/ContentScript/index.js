@@ -16,15 +16,28 @@ const ToggleReading = (enableReading) => {
   console.log("enableReading =>", enableReading);
   const boldedElements = document.getElementsByTagName('br-bold')
   if (boldedElements.length > 0){
-    if(enableReading == false || typeof enableReading == undefined || enableReading == undefined )
+    if(typeof enableReading == undefined || enableReading == undefined )
     {
       for (const element of boldedElements) {
         element.classList.toggle('br-bold')
       }
     }
+    else if(enableReading == false){
+      for (const element of boldedElements) {
+        element.classList.remove('br-bold');
+      }
+    }
+    else{
+      for (const element of boldedElements) {
+        element.classList.add('br-bold');
+      }
+    }
     console.log("I am returning from here");
     return;
-  }else if(enableReading == false){
+  }
+  
+  if(enableReading == false)
+  {
     return;
   }
   
