@@ -91,10 +91,15 @@ docReady(async () => {
   var style = document.createElement('style')
   style.textContent = '.br-bold { font-weight: bold !important; display: inline; }'
   document.head.appendChild(style)
-  chrome.runtime.onMessage.addListener(onChromeRuntimeMessage);
-  chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
-    console.log("Got toggleOnDefault value => ",toggleOnDefault);
-    ToggleReading(typeof toggleOnDefault == undefined?false:toggleOnDefault);
-  })
+  const runTimeHandler = typeof browser === "undefined"?chrome:browser;
+
+  runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
+  runTimeHandler.runtime.sendMessage(
+    { message: "getToggleOnDefault" },
+    function (response) {
+      console.log("getToggleOnDefault response=> ", response);
+      ToggleReading(response["data"] == "true"?true:false);
+    }
+  );
 });
 

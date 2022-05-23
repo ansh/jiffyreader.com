@@ -1,18 +1,21 @@
-// Initialize button with user's preferred color
-let toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode')
+const runTimeHandler = typeof browser === "undefined"?chrome:browser;
+const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode')
 
-chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
-  toggleOnDefaultCheckbox.checked = toggleOnDefault;
-});
+runTimeHandler.runtime.sendMessage(
+  { message: "getToggleOnDefault" },
+  function (response) {
+    console.log("getToggleOnDefault response in POP up=> ", response);
+    toggleOnDefaultCheckbox.checked = response["data"] == "true"?true:false;
+  }
+);
 
-// When the button is clicked, inject convertToReadbaleText into current page
 changeColor.addEventListener('click', async () => {
   chrome.tabs.query({ active: true }, function (tabs) {
     chrome.tabs.sendMessage(
       tabs[0].id,
       { type: "toggleReadingMode", data: undefined },
       () => {
-        if (chrome.runtime.lastError) {
+        if (runTimeHandler.runtime.lastError) {
         }
       }
     );
@@ -20,7 +23,11 @@ changeColor.addEventListener('click', async () => {
 })
 
 toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
-  chrome.storage.sync.set({ toggleOnDefault: event.target.checked })
+  runTimeHandler.runtime.sendMessage(
+    { message: "setToggleOnDefault", data: event.target.checked},
+    function (response) {
+    }
+  );  
   chrome.tabs.query({}, function (tabs) {
     tabs.forEach((tab) => {
       return new Promise(() => {
@@ -30,7 +37,7 @@ toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
             tab.id,
             { type: "setReadingMode", data: event.target.checked },
             () => {
-              if (chrome.runtime.lastError) {
+              if (runTimeHandler.runtime.lastError) {
               }
             }
           );
@@ -39,3 +46,4 @@ toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
     });
   });
 })
+
