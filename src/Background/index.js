@@ -1,8 +1,7 @@
 
 const runTimeHandler = typeof browser === "undefined"?chrome:browser;
 
-console.log("Comming from bg");
-const listener = async (request, sender, sendResponse) => {
+const listener = (request, sender, sendResponse) => {
     switch (request.message) {
         case "getToggleOnDefault": {
             const toggleOnDefault = localStorage.getItem('toggleOnDefault');
