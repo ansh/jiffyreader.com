@@ -1,0 +1,27 @@
+{
+  "name": "Bionic Reading",
+  "description": "An extension that allows for Bionic Reading on any webpage!",
+  "version": "0.0.1",
+  "manifest_version": 3,
+
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "64": "assets/icons/icon64.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "action": {
+    "default_icon": "assets/icons/icon128.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "js/background.bundle.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["js/contentScript.bundle.js"]
+    }
+  ],
+  "permissions": ["storage", "activeTab"]
+}

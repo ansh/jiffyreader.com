@@ -1,19 +1,41 @@
 {
-  "name": "bionic-reading",
-  "version": "0.0.1",
-  "description": "A Chrome Extension for Bionic Reading on ANY website!",
+  "name": "jiffy-reader",
+  "version": "1.0.0",
+  "description": "jiffy reader",
   "main": "index.js",
+  "dependencies": {
+    "@babel/core": "^7.18.0",
+    "babel-loader": "^8.2.5",
+    "clean-webpack-plugin": "^4.0.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
+    "filemanager-webpack-plugin": "^7.0.0-beta.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.6.0",
+    "optimize-css-assets-webpack-plugin": "^6.0.1",
+    "webpack": "^5.72.1",
+    "webpack-extension-reloader": "^1.1.4",
+    "wext-manifest-loader": "^2.3.0",
+    "wext-manifest-webpack-plugin": "^1.2.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
+    "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
+    "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
+    "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
+    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ansh/bionic-reading.git"
+    "url": "https://github.com/ansh/bionic-reading"
   },
-  "homepage": "https://github.com/ansh/bionic-reading#readme",
-  "devDependencies": {
-    "eslint": "^8.16.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
-  }
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ansh/bionic-reading/issues"
+  },
+  "homepage": "https://github.com/ansh/bionic-reading#readme"
 }
