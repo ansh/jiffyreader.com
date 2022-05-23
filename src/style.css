@@ -16,16 +16,16 @@ button {
   cursor: pointer;
 }
 
-button:active{
+button:active {
   transform: scale(1.05);
 }
 
-#lineHeightEdit{
+#lineHeightEdit {
   margin: 12px 0 12px;
   padding: 4px;
 }
 
-#lineHieghtLbl{
+#lineHeightLabel {
   padding-bottom: 4px;
 }
 
@@ -41,9 +41,10 @@ button:active{
 }
 
 .flex {
-  display:flex
+  display: flex
 }
 
-.justify-between{
+.justify-between {
   justify-content: space-between;
 }
+
