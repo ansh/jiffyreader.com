@@ -2,29 +2,24 @@
 const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
-const saccadesIntervalSlider = document.getElementById('saccades_slider')
-const SACCADES = [1,2,3,4,5]
-const DEFAULT_SACCADE = 2
+const saccadesIntervalSlider = document.getElementById('saccades_slider');
 
-chrome.storage.sync.get(['saccades','color'], ({ color, saccades}) => {
+chrome.storage.sync.get(['saccades', 'color'], ({ color, saccades }) => {
   // set all button colors in the popup
   for (let index = 0; index < documentButtons.length; index++) {
     const btn = documentButtons.item(index);
     btn.style.backgroundColor = color;
-    
-    const btn_id = btn.getAttribute('id')
-    if (/lineHeight/.test(btn_id)) {
+
+    const btnId = btn.getAttribute('id');
+    if (/lineHeight/.test(btnId)) {
       btn.addEventListener('click', updateLineHeightClickHandler);
     }
-      
   }
 
-  updateSaccadesLabelValue(saccades)
-  saccadesIntervalSlider.value = saccades
+  updateSaccadesLabelValue(saccades);
+  saccadesIntervalSlider.value = saccades;
 
-  saccadesIntervalSlider.addEventListener('change',updateSaccadesChangeHandler)
-
-
+  saccadesIntervalSlider.addEventListener('change', updateSaccadesChangeHandler);
 });
 
 chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
@@ -55,30 +50,26 @@ async function updateLineHeightClickHandler(event) {
   });
 }
 
-function updateSaccadesChangeHandler(event){
-  
+function updateSaccadesChangeHandler(event) {
+  const nextSaccades = Number(event.target.value);
 
-  debugger
-  chrome.storage.sync.get(['saccades'],({saccades})=>{
-      let next_saccades = Number(event.target.value)
+  updateSaccadesLabelValue(nextSaccades);
 
-      updateSaccadesLabelValue(next_saccades)
-
-      updateSaccadesIntermediateHandler( next_saccades);
-
-  })
+  updateSaccadesIntermediateHandler(nextSaccades);
 }
 
-async function updateSaccadesIntermediateHandler( next_saccades) {
+async function updateSaccadesIntermediateHandler(nextSaccades) {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id, allFrames: true },
-    function: ({next_saccades})=>{document.body.setAttribute('saccades',next_saccades);return next_saccades},
-    args: [{next_saccades}],
-  },
-    ([active_frame]) => {
-      chrome.storage.sync.set({ saccades:active_frame.result });
-    });
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tab.id, allFrames: true },
+      function: ({ next_saccades: saccades }) => { document.body.setAttribute('saccades', saccades); return saccades; },
+      args: [{ next_saccades: nextSaccades }],
+    },
+    ([activeFrame]) => {
+      chrome.storage.sync.set({ saccades: activeFrame.result });
+    },
+  );
 }
 
 function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
@@ -111,11 +102,10 @@ function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
   }
 }
 
-
 /**
  * @description Show the word interval between saccades which is displayed as (saccades -1)
- * @param {Number} saccades  
+ * @param {Number} saccades
  */
-function updateSaccadesLabelValue(saccades){
-  document.getElementById('saccades_label_value').textContent = saccades-1
+function updateSaccadesLabelValue(saccades) {
+  document.getElementById('saccades_label_value').textContent = saccades - 1;
 }

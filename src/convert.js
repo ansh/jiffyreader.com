@@ -24,7 +24,11 @@ function main() {
     return;
   }
 
-  // setting global styles with options for saccades interval between 0 and 4 words to the next saccade
+  /*
+   *setting global styles with options for saccades interval between 0 and 4 words to the
+   *next saccade
+  */
+
   const style = document.createElement('style');
   style.textContent = `
     .br-bold :is(

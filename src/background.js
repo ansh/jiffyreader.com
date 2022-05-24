@@ -1,17 +1,16 @@
 // background.js
 
 const color = '#3aa757';
-const DEFAULT_SACCADE = 2;//value can be changed to 1 also
+const DEFAULT_SACCADE = 2; // value can be changed to 1 also
 
 chrome.runtime.onInstalled.addListener(async () => {
-	chrome.storage.sync.set({ color, saccades: DEFAULT_SACCADE });
-	console.log("Default background color set to %cgreen", `color: ${color}`);
-
+  chrome.storage.sync.set({ color, saccades: DEFAULT_SACCADE });
+  console.log('Default background color set to %cgreen', `color: ${color}`);
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.status === 'complete' && tab.active) {
-    chrome.storage.sync.get(['toggleOnDefault','saccades'], ({ toggleOnDefault, saccades }) => {
+    chrome.storage.sync.get(['toggleOnDefault', 'saccades'], ({ toggleOnDefault, saccades }) => {
       if (!toggleOnDefault) {
         return;
       }
@@ -20,19 +19,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         target: { tabId, allFrames: true },
         files: ['src/convert.js'],
       });
-      
+
       // set defualt saccades on install
-      chrome.scripting.executeScript({
-          target: { tabId , allFrames: true },
-          function: (saccades)=>{document.body.setAttribute('saccades',saccades);return saccades},	//set saccades on body element and return it to be saved in storage.sync		
-          args: [saccades??DEFAULT_SACCADE],
+      chrome.scripting.executeScript(
+        {
+          target: { tabId, allFrames: true },
+          function: (_saccades) => { document.body.setAttribute('saccades', _saccades); return _saccades; }, // set saccades on body element and return it to be saved in storage.sync
+          args: [saccades ?? DEFAULT_SACCADE],
         },
-        ([active_frame]) => {
-          //save the current/Default_saccades in storage.sync
-          chrome.storage.sync.set({ saccades: active_frame.result });
-        });
-
-
+        ([activeFrame]) => {
+        // save the current/Default_saccades in storage.sync
+          chrome.storage.sync.set({ saccades: activeFrame.result });
+        },
+      );
     });
   }
 });
