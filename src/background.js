@@ -20,7 +20,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         files: ['src/convert.js'],
       });
 
-      // set defualt saccades on install
+      // set default saccades on install
       chrome.scripting.executeScript(
         {
           target: { tabId, allFrames: true },

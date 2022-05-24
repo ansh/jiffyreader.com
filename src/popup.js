@@ -2,7 +2,7 @@
 const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
-const saccadesIntervalSlider = document.getElementById('saccades_slider');
+const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 
 chrome.storage.sync.get(['saccades', 'color'], ({ color, saccades }) => {
   // set all button colors in the popup
@@ -107,5 +107,5 @@ function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
  * @param {Number} saccades
  */
 function updateSaccadesLabelValue(saccades) {
-  document.getElementById('saccades_label_value').textContent = saccades - 1;
+  document.getElementById('saccadesLabelValue').textContent = saccades - 1;
 }
