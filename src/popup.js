@@ -2,6 +2,7 @@
 const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
+const saccadesIntervalSlider = document.getElementById('saccades_slider')
 const SACCADES = [1,2,3,4,5]
 const DEFAULT_SACCADE = 2
 
@@ -15,12 +16,14 @@ chrome.storage.sync.get(['saccades','color'], ({ color, saccades}) => {
     if (/lineHeight/.test(btn_id)) {
       btn.addEventListener('click', updateLineHeightClickHandler);
     }
-    else if(/saccades/i.test(btn_id)) {
-      btn.addEventListener('click', updateSaccadesClickHandler)
-    }    
+      
   }
 
   updateSaccadesLabelValue(saccades)
+  saccadesIntervalSlider.value = saccades
+
+  saccadesIntervalSlider.addEventListener('change',updateSaccadesChangeHandler)
+
 
 });
 
@@ -52,12 +55,12 @@ async function updateLineHeightClickHandler(event) {
   });
 }
 
-function updateSaccadesClickHandler(event){
+function updateSaccadesChangeHandler(event){
   
 
   debugger
   chrome.storage.sync.get(['saccades'],({saccades})=>{
-      let next_saccades = getNextSaccades(event.target.getAttribute('id'),saccades,SACCADES)
+      let next_saccades = Number(event.target.value)
 
       updateSaccadesLabelValue(next_saccades)
 
@@ -108,28 +111,6 @@ function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
   }
 }
 
-
-
-function getNextSaccades(action,previous_saccades,SACCADES){
-  // if (!/\d/.test(previous_saccades)) return DEFAULT_SACCADE
-  let saccades_index = SACCADES.lastIndexOf(previous_saccades)
-
-  switch(action){
-    case 'increaseSaccades': 
-    saccades_index = (previous_saccades < SACCADES.length )? saccades_index+1: saccades_index
-    break;  
-
-    case 'decreaseSaccades':
-      saccades_index = (previous_saccades > 1)? saccades_index -1: 0
-      break;
-
-    default:
-      //use default to reset
-      saccades_index = SACCADES.lastIndexOf(DEFAULT_SACCADE);
-  }
-
-  return SACCADES[saccades_index]
-}
 
 /**
  * @description Show the word interval between saccades which is displayed as (saccades -1)
