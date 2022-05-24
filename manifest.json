@@ -10,5 +10,13 @@
   "host_permissions": ["https://*/*"],
   "action": {
     "default_popup": "src/popup.html"
+  },
+  "commands": {
+    "toggle-bionic": {
+      "suggested_key": {
+        "default": "Alt+Shift+B"
+      },
+      "description": "Toggle bionic reading mode"
+    }
   }
 }
