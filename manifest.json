@@ -13,8 +13,8 @@
   },
   "commands": {
     "toggle-bionic": {
-      "suggensted_key": {
-        "default": "Alt-Shift-B"
+      "suggested_key": {
+        "default": "Alt+Shift+B"
       },
       "description": "Toggle bionic reading mode"
     }
