@@ -2,16 +2,26 @@
 const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
+const SACCADES = [1,2,3,4,5]
+const DEFAULT_SACCADE = 2
 
-chrome.storage.sync.get('color', ({ color }) => {
+chrome.storage.sync.get(['saccades','color'], ({ color, saccades}) => {
   // set all button colors in the popup
   for (let index = 0; index < documentButtons.length; index++) {
     const btn = documentButtons.item(index);
     btn.style.backgroundColor = color;
-    if (/lineHeight/.test(btn.getAttribute('id'))) {
+    
+    const btn_id = btn.getAttribute('id')
+    if (/lineHeight/.test(btn_id)) {
       btn.addEventListener('click', updateLineHeightClickHandler);
     }
+    else if(/saccades/i.test(btn_id)) {
+      btn.addEventListener('click', updateSaccadesClickHandler)
+    }    
   }
+
+  updateSaccadesLabelValue(saccades)
+
 });
 
 chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
@@ -42,6 +52,32 @@ async function updateLineHeightClickHandler(event) {
   });
 }
 
+function updateSaccadesClickHandler(event){
+  
+
+  debugger
+  chrome.storage.sync.get(['saccades'],({saccades})=>{
+      let next_saccades = getNextSaccades(event.target.getAttribute('id'),saccades,SACCADES)
+
+      updateSaccadesLabelValue(next_saccades)
+
+      updateSaccadesIntermediateHandler( next_saccades);
+
+  })
+}
+
+async function updateSaccadesIntermediateHandler( next_saccades) {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  chrome.scripting.executeScript({
+    target: { tabId: tab.id, allFrames: true },
+    function: ({next_saccades})=>{document.body.setAttribute('saccades',next_saccades);return next_saccades},
+    args: [{next_saccades}],
+  },
+    ([active_frame]) => {
+      chrome.storage.sync.set({ saccades:active_frame.result });
+    });
+}
+
 function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
   // const line_height_key = "--br-line-height";
   // const STEP = 0.5; //increase or descrease line height by this much per click
@@ -70,4 +106,35 @@ function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
   } else {
     document.body.style.removeProperty(LINE_HEIGHT_KEY);
   }
+}
+
+
+
+function getNextSaccades(action,previous_saccades,SACCADES){
+  // if (!/\d/.test(previous_saccades)) return DEFAULT_SACCADE
+  let saccades_index = SACCADES.lastIndexOf(previous_saccades)
+
+  switch(action){
+    case 'increaseSaccades': 
+    saccades_index = (previous_saccades < SACCADES.length )? saccades_index+1: saccades_index
+    break;  
+
+    case 'decreaseSaccades':
+      saccades_index = (previous_saccades > 1)? saccades_index -1: 0
+      break;
+
+    default:
+      //use default to reset
+      saccades_index = SACCADES.lastIndexOf(DEFAULT_SACCADE);
+  }
+
+  return SACCADES[saccades_index]
+}
+
+/**
+ * @description Show the word interval between saccades which is displayed as (saccades -1)
+ * @param {Number} saccades  
+ */
+function updateSaccadesLabelValue(saccades){
+  document.getElementById('saccades_label_value').textContent = saccades-1
 }

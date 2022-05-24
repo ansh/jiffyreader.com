@@ -34,9 +34,19 @@ function main() {
     return;
   }
 
-  // setting global styles
+  // setting global styles with options for saccades interval between 0 and 4 words to the next saccade
   const style = document.createElement('style');
-  style.textContent = '.br-bold br-bold { font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); }';
+  style.textContent = `
+    .br-bold :is(
+      [saccades="1"] br-bold, 
+      [saccades="2"] br-bold:nth-of-type(2n+1),
+      [saccades="3"] br-bold:nth-of-type(3n+1),
+      [saccades="4"] br-bold:nth-of-type(4n+1),
+      [saccades="5"] br-bold:nth-of-type(5n+1)
+      ) { 
+      font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); 
+    }
+    `;
   document.head.appendChild(style);
 
   const tags = ['p', 'font', 'span', 'li'];
