@@ -1,16 +1,7 @@
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
   return sentenceText
-    .split(' ')
-    .map((word) => {
-      // special case - hyphenated compound word, e.g. video-game
-      if (word.includes('-')) {
-        return word.split('-').map((component) => highlightText(component)).join('-');
-      }
-      const hasNumber = /\d/;
-      if (hasNumber.test(word)) {
-        return word;
-      }
+    .replace(/\p{L}+/gu, (word) => {
       const { length } = word;
       let midPoint = 1;
       if (length > 3) midPoint = Math.round(length / 2);
@@ -18,8 +9,7 @@ function highlightText(sentenceText) {
       const secondHalf = word.slice(midPoint);
       const htmlWord = `<br-bold>${firstHalf}</br-bold>${secondHalf}`;
       return htmlWord;
-    })
-    .join(' ');
+    });
 }
 
 function main() {

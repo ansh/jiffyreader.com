@@ -36,3 +36,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     });
   }
 });
+
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command === 'toggle-bionic') {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id, allFrames: true },
+      files: ['src/convert.js'],
+    });
+  }
+});
