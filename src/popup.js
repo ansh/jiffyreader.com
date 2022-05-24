@@ -81,6 +81,10 @@ saccadeFrequencySlider.addEventListener('change', async (event) => {
 });
 
 chrome.storage.sync.get('saccadeFrequency', ({ saccadeFrequency }) => {
+	if (!saccadeFrequency) {
+		saccadeFrequency = 1;
+		chrome.storage.sync.set({ saccadeFrequency: saccadeFrequency});
+	}
 	saccadeFrequencySlider.value = saccadeFrequency;
 	setSaccadeDisplay(saccadeFrequency)
 });
