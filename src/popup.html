@@ -6,17 +6,21 @@
 </head>
 
 <button id="toggleBtn" class="w-100">Toggle Reading Mode</button>
+<div class="w-100 divider">
+  <p>Saccade: <span id="saccadeDisplay"></span></p>
+  <input id="saccadeFrequency" type="range" min="1" max="5" value="1" class="w-100">
+</div>
 
-<div id="lineHeightEdit" class="w-100">
+<div id="lineHeightEdit" class="w-100 divider">
   <label style="display:block" id="lineHeightLabel">Line Height</label>
   <div id="buttonGroup" class="w-100 flex justify-between">
     <button id="lineHeightdecrease">Smaller</button>
     <button id="lineHeightIncrease">Bigger</button>
     <button id="lineHeightReset">&circlearrowleft;</button>
   </div>
-  </div>
+</div>
 
-<div id="checkboxContainer">
+<div id="checkboxContainer" class="divider">
   <input type="checkbox" id="toggleReadingMode" name="toggle">
   <label for="toggleReadingMode">Toggle on default</label>
 </div>

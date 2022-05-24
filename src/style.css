@@ -40,6 +40,11 @@ button:active {
   width: 100%
 }
 
+.divider {
+  margin-top: 15px;
+  border-top: 1px solid #bbb;
+}
+
 .flex {
   display: flex
 }

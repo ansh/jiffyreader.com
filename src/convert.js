@@ -1,11 +1,15 @@
 // making half of the letters in a word bold
-function highlightText(sentenceText) {
+function highlightText(sentenceText, saccadeFrequency) {
   return sentenceText
     .split(' ')
-    .map((word) => {
+    .map((word, index) => {
+
+      if (index % saccadeFrequency !== 0) {
+        return word
+      }
       // special case - hyphenated compound word, e.g. video-game
       if (word.includes('-')) {
-        return word.split('-').map((component) => highlightText(component)).join('-');
+        return word.split('-').map((component) => highlightText(component, saccadeFrequency)).join('-');
       }
       const hasNumber = /\d/;
       if (hasNumber.test(word)) {
@@ -22,7 +26,7 @@ function highlightText(sentenceText) {
     .join(' ');
 }
 
-function main() {
+async function main() {
   // check if we have already highlighted the text
   const boldedElements = document.getElementsByTagName('br-bold');
 
@@ -39,6 +43,7 @@ function main() {
   style.textContent = '.br-bold br-bold { font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); }';
   document.head.appendChild(style);
 
+  const { saccadeFrequency } = await chrome.storage.sync.get('saccadeFrequency');
   const tags = ['p', 'font', 'span', 'li'];
 
   const parser = new DOMParser();
@@ -47,7 +52,7 @@ function main() {
       const n = parser.parseFromString(element.innerHTML, 'text/html');
       const textArrTransformed = Array.from(n.body.childNodes).map((node) => {
         if (node.nodeType === Node.TEXT_NODE) {
-          return highlightText(node.nodeValue);
+          return highlightText(node.nodeValue, saccadeFrequency);
         }
         return node.outerHTML;
       });

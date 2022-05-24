@@ -2,6 +2,8 @@
 const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
+const saccadeFrequencySlider = document.getElementById('saccadeFrequency');
+const saccadeFrequencyDisplay = document.getElementById('saccadeDisplay');
 
 chrome.storage.sync.get('color', ({ color }) => {
   // set all button colors in the popup
@@ -70,4 +72,26 @@ function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
   } else {
     document.body.style.removeProperty(LINE_HEIGHT_KEY);
   }
+};
+
+saccadeFrequencySlider.addEventListener('change', async (event) => {
+	const saccadeFrequency = parseInt(event.target.value)
+	chrome.storage.sync.set({ saccadeFrequency: saccadeFrequency });
+	setSaccadeDisplay(saccadeFrequency)
+});
+
+chrome.storage.sync.get('saccadeFrequency', ({ saccadeFrequency }) => {
+	saccadeFrequencySlider.value = saccadeFrequency;
+	setSaccadeDisplay(saccadeFrequency)
+});
+
+function setSaccadeDisplay(frequency) {
+	const displayString = {
+		1: "every word",
+		2: "every second word",
+		3: "every third word",
+		4: "every fourth word",
+		5: "every fifth word",
+	};
+	saccadeFrequencyDisplay.innerHTML = displayString[frequency];
 }
