@@ -1,0 +1,18 @@
+ Volume in drive C has no label.
+ Volume Serial Number is A89A-80CE
+
+ Directory of C:\Users\hp\Desktop\MyGitProject\bionic-reading
+
+05/25/2022  06:36 PM    <DIR>          .
+05/25/2022  06:36 PM    <DIR>          ..
+05/25/2022  06:27 PM               343 .eslintrc.js
+05/25/2022  06:27 PM                15 .gitignore
+05/25/2022  06:27 PM            35,823 LICENSE
+05/25/2022  06:27 PM               564 manifest.json
+05/25/2022  06:27 PM           116,593 package-lock.json
+05/25/2022  06:27 PM               546 package.json
+05/25/2022  06:27 PM             2,527 README.md
+05/25/2022  06:27 PM    <DIR>          src
+05/25/2022  06:36 PM                 0 test.txt
+               8 File(s)        156,411 bytes
+               3 Dir(s)  24,065,519,616 bytes free
