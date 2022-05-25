@@ -3,7 +3,7 @@
 const DEFAULT_SACCADE_INTERVAL = 0;
 
 chrome.runtime.onInstalled.addListener(async () => {
-  chrome.storage.sync.set({ saccades: DEFAULT_SACCADE_INTERVAL });
+  chrome.storage.sync.set({ saccadesInterval: DEFAULT_SACCADE_INTERVAL });
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -27,7 +27,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         },
         ([activeFrame]) => {
         // save the current/Default_saccade_INTERVALs in storage.sync
-          chrome.storage.sync.set({ saccades: activeFrame.result });
+          chrome.storage.sync.set({ saccadesInterval: activeFrame.result });
         },
       );
     });
