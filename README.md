@@ -10,10 +10,12 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 1. Click on "Code" button > "Download ZIP".
 2. Open the file location (e.g. Download).
 3. Right click the ZIP file > Extract All > OK
-4. Open Chrome > go to this link chrome://extensions/
-5. Enable "Developer mode".
-6. Click "Load unpacked" and then choose the extracted folder. 
-7. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
+4. Open the folder in the command line
+5. Run `yarn install; yarn build;`
+6. Open Chrome > go to this link chrome://extensions/
+7. Enable "Developer mode".
+8. Click "Load unpacked" and then choose `extension/chrome` inside the extracted folder. 
+9. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
 
 ### Image instructions
 1. Download code as zip.
