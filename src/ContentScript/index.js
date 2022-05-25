@@ -76,6 +76,36 @@ const onChromeRuntimeMessage = (message) => {
       document.body.setAttribute('saccades-interval', saccadesInterval);
       break;
     }
+    case "setlineHeight": {
+      const action = message["action"];
+      const step =  message["step"];
+      const LINE_HEIGHT_KEY = "--br-line-heigh";
+      let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
+      switch (action) {
+        case 'lineHeightdecrease':
+          currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - step : currentHeight;
+          break;
+    
+        case 'lineHeightIncrease':
+          currentHeight = /\d+/.test(currentHeight) ? Number(currentHeight) : 1;
+          currentHeight += step;
+          break;
+    
+        case 'lineHeightReset':
+          currentHeight = '';
+          break;
+    
+        default:
+          break;
+      }
+      console.log("Setting currentHeight : ", currentHeight);
+      if (/\d+/.test(currentHeight)) {
+        document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
+      } else {
+        document.body.style.removeProperty(LINE_HEIGHT_KEY);
+      }
+      break;
+    }
   }
 };
 

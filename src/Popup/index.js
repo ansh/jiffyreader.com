@@ -73,15 +73,16 @@ toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
 });
 
 async function updateLineHeightClickHandler(event) {
-  console.log("updateLineHeightClickHandler event=>", event);
-  /*const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
-  chrome.scripting.executeScript({
-    target: { tabId: tab.id, allFrames: true },
-    function: updateLineHeightActiveTab,
-    args: [{ action: event.target.getAttribute('id'), LINE_HEIGHT_KEY: '--br-line-height', STEP: 0.5 }],
-  });*/
-  //TODO
+  chrome.tabs.query({ active: true }, function (tabs) {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { type: "setlineHeight", action:event.target.getAttribute('id'), step:0.5 },
+      () => {
+        if (runTimeHandler.runtime.lastError) {
+        }
+      }
+    );
+  });
 }
 
 function updateSaccadesChangeHandler(event) {
@@ -91,7 +92,6 @@ function updateSaccadesChangeHandler(event) {
 }
 
 async function updateSaccadesIntermediateHandler(_saccadesInterval) {
-  console.log("_saccadesInterval=>", _saccadesInterval);
   runTimeHandler.runtime.sendMessage(
     { message: "setSaccadesInterval", data: _saccadesInterval},
     function (response) {
@@ -113,47 +113,6 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
       });
     });
   });
-  /*const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  chrome.scripting.executeScript(
-    {
-      target: { tabId: tab.id, allFrames: true },
-      function: (saccadesInterval) => { document.body.setAttribute('saccades-interval', saccadesInterval); return saccadesInterval; },
-      args: [_saccadesInterval],
-    },
-    ([activeFrame]) => {
-      chrome.storage.sync.set({ saccadesInterval: activeFrame.result });
-    },
-  );*/
-  //TODO
-}
-
-function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
-  console.log("updateLineHeightActiveTab => ", action, " LINE_HEIGHT_KEY :", LINE_HEIGHT_KEY, " STEP: ", STEP)
-  let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
-
-  switch (action) {
-    case 'lineHeightdecrease':
-      currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - STEP : currentHeight;
-      break;
-
-    case 'lineHeightIncrease':
-      currentHeight = /\d+/.test(currentHeight) ? Number(currentHeight) : 1;
-      currentHeight += STEP;
-      break;
-
-    case 'lineHeightReset':
-      currentHeight = '';
-      break;
-
-    default:
-      break;
-  }
-
-  if (/\d+/.test(currentHeight)) {
-    document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
-  } else {
-    document.body.style.removeProperty(LINE_HEIGHT_KEY);
-  }
 }
 
 /**
