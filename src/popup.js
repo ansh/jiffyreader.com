@@ -28,10 +28,12 @@ chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
 toggleBtn.addEventListener('click', async () => {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
-  chrome.scripting.executeScript({
+  await chrome.scripting.executeScript({
     target: { tabId: tab.id, allFrames: true },
     files: ['src/convert.js'],
   });
+
+  updateSaccadesIntermediateHandler(saccadesIntervalSlider.value);
 });
 
 toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
