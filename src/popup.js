@@ -2,16 +2,24 @@
 const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
+const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 
-chrome.storage.sync.get('color', ({ color }) => {
+chrome.storage.sync.get(['saccadesInterval', 'color'], ({ color, saccadesInterval }) => {
   // set all button colors in the popup
   for (let index = 0; index < documentButtons.length; index++) {
     const btn = documentButtons.item(index);
     btn.style.backgroundColor = color;
-    if (/lineHeight/.test(btn.getAttribute('id'))) {
+
+    const btnId = btn.getAttribute('id');
+    if (/lineHeight/.test(btnId)) {
       btn.addEventListener('click', updateLineHeightClickHandler);
     }
   }
+
+  updateSaccadesLabelValue(saccadesInterval);
+  saccadesIntervalSlider.value = saccadesInterval;
+
+  saccadesIntervalSlider.addEventListener('change', updateSaccadesChangeHandler);
 });
 
 chrome.storage.sync.get('toggleOnDefault', ({ toggleOnDefault }) => {
@@ -42,9 +50,29 @@ async function updateLineHeightClickHandler(event) {
   });
 }
 
+function updateSaccadesChangeHandler(event) {
+  const saccadesInterval = Number(event.target.value);
+
+  updateSaccadesLabelValue(saccadesInterval);
+
+  updateSaccadesIntermediateHandler(saccadesInterval);
+}
+
+async function updateSaccadesIntermediateHandler(_saccadesInterval) {
+  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tab.id, allFrames: true },
+      function: (saccadesInterval) => { document.body.setAttribute('saccades-interval', saccadesInterval); return saccadesInterval; },
+      args: [_saccadesInterval],
+    },
+    ([activeFrame]) => {
+      chrome.storage.sync.set({ saccadesInterval: activeFrame.result });
+    },
+  );
+}
+
 function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
-  // const line_height_key = "--br-line-height";
-  // const STEP = 0.5; //increase or descrease line height by this much per click
   let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
 
   switch (action) {
@@ -70,4 +98,11 @@ function updateLineHeightActiveTab({ action, LINE_HEIGHT_KEY, STEP }) {
   } else {
     document.body.style.removeProperty(LINE_HEIGHT_KEY);
   }
+}
+
+/**
+ * @description Show the word interval between saccades
+ */
+function updateSaccadesLabelValue(saccadesInterval) {
+  document.getElementById('saccadesLabelValue').textContent = saccadesInterval;
 }
