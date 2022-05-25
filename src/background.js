@@ -1,12 +1,9 @@
 // background.js
 
-const color = '#3aa757';
-
 const DEFAULT_SACCADE_INTERVAL = 0;
 
 chrome.runtime.onInstalled.addListener(async () => {
-  chrome.storage.sync.set({ color, saccades: DEFAULT_SACCADE_INTERVAL });
-  console.log('Default background color set to %cgreen', `color: ${color}`);
+  chrome.storage.sync.set({ saccades: DEFAULT_SACCADE_INTERVAL });
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {

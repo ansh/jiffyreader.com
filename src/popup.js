@@ -1,18 +1,16 @@
 // Initialize buttons with user's preferred color
-const documentButtons = document.getElementsByTagName('button');
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 
-chrome.storage.sync.get(['saccadesInterval', 'color'], ({ color, saccadesInterval }) => {
-  // set all button colors in the popup
+chrome.storage.sync.get(['saccadesInterval'], ({ saccadesInterval }) => {
+  const documentButtons = document.getElementsByTagName('button');
   for (let index = 0; index < documentButtons.length; index++) {
-    const btn = documentButtons.item(index);
-    btn.style.backgroundColor = color;
+    const button = documentButtons.item(index);
 
-    const btnId = btn.getAttribute('id');
-    if (/lineHeight/.test(btnId)) {
-      btn.addEventListener('click', updateLineHeightClickHandler);
+    const buttonId = button.getAttribute('id');
+    if (/lineHeight/.test(buttonId)) {
+      button.addEventListener('click', updateLineHeightClickHandler);
     }
   }
 

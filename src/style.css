@@ -15,6 +15,7 @@ button {
   border-radius: 2px;
   color: white;
   cursor: pointer;
+  background-color: #3aa757;
 }
 
 button:active {
