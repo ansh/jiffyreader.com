@@ -1,5 +1,5 @@
 // making half of the letters in a word bold
-function highlightText(sentenceText) {
+function highlightText (sentenceText) {
   return sentenceText
     .replace(/\p{L}+/gu, (word) => {
       const { length } = word;
@@ -7,7 +7,7 @@ function highlightText(sentenceText) {
       if (length > 3) midPoint = Math.round(length / 2);
       const firstHalf = word.slice(0, midPoint);
       const secondHalf = word.slice(midPoint);
-      const htmlWord = `<br-bold>${firstHalf}</br-bold>${secondHalf}`;
+      const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`;
       return htmlWord;
     });
 }
@@ -19,20 +19,22 @@ const ToggleReading = (enableReading) => {
     if(typeof enableReading == undefined || enableReading == undefined )
     {
       for (const element of boldedElements) {
-        element.classList.toggle('br-bold')
+        element.classList.toggle('br-bold');
+        document.body.classList.toggle('br-bold');
       }
     }
     else if(enableReading == false){
       for (const element of boldedElements) {
         element.classList.remove('br-bold');
+        document.body.classList.remove('br-bold');
       }
     }
     else{
       for (const element of boldedElements) {
         element.classList.add('br-bold');
+        document.body.classList.add('br-bold');
       }
     }
-    console.log("I am returning from here");
     return;
   }
   
@@ -40,9 +42,9 @@ const ToggleReading = (enableReading) => {
   {
     return;
   }
-  
-  let tags = ['p', 'font', 'span', 'li']
-  const parser = new DOMParser()
+  document.body.classList.add('br-bold');
+  const tags = ['p', 'font', 'span', 'li'];
+  const parser = new DOMParser();
   tags.forEach((tag) => {
     for (const element of document.getElementsByTagName(tag)) {
       const n = parser.parseFromString(element.innerHTML, 'text/html');
@@ -54,23 +56,26 @@ const ToggleReading = (enableReading) => {
       });
       element.innerHTML = textArrTransformed.join(' ');
     }
-  })
+  });
+  
 };
 
 const onChromeRuntimeMessage = (message) => {
-  if (
-    message.hasOwnProperty("type") &&
-    message["type"] == "toggleReadingMode"
-  ) {
-    console.log("Got msge in content script as =>", message)
-    ToggleReading();
-  }
-  else if (
-    message.hasOwnProperty("type") &&
-    message["type"] == "setReadingMode"
-  ) {
-    console.log("Got msge in content script as =>", message)
-    ToggleReading(message["data"]);
+  console.log("Got msge in content script as =>", message)
+  switch (message["type"]) {
+    case "toggleReadingMode": {
+      ToggleReading();
+      break;
+    }
+    case "setReadingMode": {
+      ToggleReading(message["data"]);
+      break;
+    }
+    case "setSaccadesIntervalInDOM": {
+      const saccadesInterval =  message["data"] == null ? 0 : message["data"];
+      document.body.setAttribute('saccades-interval', saccadesInterval);
+      break;
+    }
   }
 };
 
@@ -89,8 +94,19 @@ function docReady(fn) {
 
 docReady(async () => {
   var style = document.createElement('style')
-  style.textContent = '.br-bold { font-weight: bold !important; display: inline; }'
-  document.head.appendChild(style)
+  style.textContent = `
+    .br-bold :is(
+      [saccades-interval="0"] br-bold, 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1),
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1),
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1),
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1)
+      ) { 
+      font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); 
+    }
+    `;
+  document.head.appendChild(style);
+
   const runTimeHandler = typeof browser === "undefined"?chrome:browser;
 
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
@@ -99,6 +115,14 @@ docReady(async () => {
     function (response) {
       console.log("getToggleOnDefault response=> ", response);
       ToggleReading(response["data"] == "true"?true:false);
+    }
+  );
+  runTimeHandler.runtime.sendMessage(
+    { message: "getSaccadesInterval" },
+    function (response) {
+      console.log("getSaccadesInterval response=> ", response);
+      const saccadesInterval =  response == undefined || response["data"] == null ? 0 : response["data"];
+      document.body.setAttribute('saccades-interval', saccadesInterval);
     }
   );
 });
