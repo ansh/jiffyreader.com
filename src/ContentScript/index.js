@@ -79,7 +79,7 @@ const onChromeRuntimeMessage = (message) => {
     case "setlineHeight": {
       const action = message["action"];
       const step =  message["step"];
-      const LINE_HEIGHT_KEY = "--br-line-heigh";
+      const LINE_HEIGHT_KEY = "--br-line-height";
       let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
       switch (action) {
         case 'lineHeightdecrease':
