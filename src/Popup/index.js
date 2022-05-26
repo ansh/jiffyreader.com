@@ -3,6 +3,8 @@ const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
+const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
+const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
 
 runTimeHandler.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
@@ -33,6 +35,13 @@ runTimeHandler.runtime.sendMessage(
     toggleOnDefaultCheckbox.checked = response.data === 'true';
   },
 );
+
+runTimeHandler.tabs.query({ active: true }, ([tab]) => {
+  runTimeHandler.tabs.sendMessage(tab.id, { type: 'getFixationStrength' }, (response) => {
+    fixationStrengthLabelValue.textContent = response.data;
+    fixationStrengthSlider.value = response.data;
+  });
+});
 
 toggleBtn.addEventListener('click', async () => {
   chrome.tabs.query({ active: true }, (tabs) => {
@@ -118,6 +127,12 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
   });
 }
 
+fixationStrengthSlider.addEventListener('change', (event) => {
+  fixationStrengthLabelValue.textContent = event.target.value;
+  chrome.tabs.query({ active: true }, ([tab]) => {
+    runTimeHandler.tabs.sendMessage(tab.id, { type: 'setFixationStrength', data: event.target.value });
+  });
+});
 /**
  * @description Show the word interval between saccades
  */

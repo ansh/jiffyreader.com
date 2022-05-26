@@ -26,6 +26,15 @@ const listener = (request, sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     }
+    case 'getFixationStrength': {
+      sendResponse({ data: localStorage.getItem('fixationStrength') });
+      break;
+    }
+    case 'setFixationStrength': {
+      localStorage.setItem('fixationStrength', request.data);
+      sendResponse({ success: true });
+      break;
+    }
     default: break;
   }
 };

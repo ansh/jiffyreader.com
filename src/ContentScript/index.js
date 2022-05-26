@@ -1,3 +1,7 @@
+const FIXATION_BREAK_RATIO = 0.33;
+const FIXATION_LOWER_BOUND = 0;
+const DEFAULT_SACCADES_INTERVAL = 0;
+const DEFAULT_FIXATION_STRENGTH = 3;
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
   return sentenceText
@@ -7,9 +11,28 @@ function highlightText(sentenceText) {
       if (length > 3) midPoint = Math.round(length / 2);
       const firstHalf = word.slice(0, midPoint);
       const secondHalf = word.slice(midPoint);
-      const htmlWord = `<br-bold class="br-bold">${firstHalf}</br-bold>${secondHalf}`;
+      const htmlWord = `<br-bold class="br-bold">${makeFixations(firstHalf)}</br-bold>${secondHalf}`;
       return htmlWord;
     });
+}
+
+function makeFixations(/** @type string */ textContent) {
+  const fixationWidth = Math.floor(textContent.length * FIXATION_BREAK_RATIO);
+
+  if (fixationWidth === FIXATION_LOWER_BOUND) return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`;
+
+  const start = textContent.substring(0, fixationWidth);
+  const end = textContent.substring((textContent.length - 1) - fixationWidth, textContent.length);
+
+  const weakFixation = `<br-fixation fixation-strength="1">${start}</br-fixation>`;
+  const strongFixation = `<br-fixation fixation-strength="3">${end}</br-fixation>`;
+  const mildFixation = ((textContent.length - (fixationWidth * 2)) > 0)
+    ? `<br-fixation fixation-strength="2">${textContent.substring(fixationWidth, (textContent.length - 1) - fixationWidth)}</br-fixation>` : '';
+
+  // console.table({
+  //   textContent, weakFixation, mildFixation, strongFixation, fixationWidth,
+  // });
+  return weakFixation + mildFixation + strongFixation;
 }
 
 const ToggleReading = (enableReading) => {
@@ -55,11 +78,20 @@ const ToggleReading = (enableReading) => {
   });
 };
 
-const onChromeRuntimeMessage = (message) => {
+const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   console.log('Got msge in content script as =>', message);
   switch (message.type) {
     case 'toggleReadingMode': {
       ToggleReading();
+      break;
+    }
+    case 'getFixationStrength': {
+      sendResponse({ data: document.body.getAttribute('fixation-strength') });
+      return true;
+    }
+    case 'setFixationStrength': {
+      document.body.setAttribute('fixation-strength', message.data);
+      sendResponse({ success: true });
       break;
     }
     case 'setReadingMode': {
@@ -121,12 +153,51 @@ function docReady(fn) {
 docReady(async () => {
   const style = document.createElement('style');
   style.textContent = `
-    .br-bold :is(
-      [saccades-interval="0"] br-bold, 
-      [saccades-interval="1"] br-bold:nth-of-type(2n+1),
-      [saccades-interval="2"] br-bold:nth-of-type(3n+1),
-      [saccades-interval="3"] br-bold:nth-of-type(4n+1),
-      [saccades-interval="4"] br-bold:nth-of-type(5n+1)
+    .br-bold[fixation-strength="1"] :is(
+      [saccades-interval="0"] br-bold [fixation-strength="1"], 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1) [fixation-strength="1"],
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1) [fixation-strength="1"],
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1) [fixation-strength="1"],
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1) [fixation-strength="1"]
+      ) { 
+      font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); 
+    }
+
+    .br-bold[fixation-strength="2"] :is(
+      [saccades-interval="0"] br-bold [fixation-strength="1"], 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1) [fixation-strength="1"],
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1) [fixation-strength="1"],
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1) [fixation-strength="1"],
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1) [fixation-strength="1"],
+
+      [saccades-interval="0"] br-bold [fixation-strength="2"], 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1) [fixation-strength="2"],
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1) [fixation-strength="2"],
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1) [fixation-strength="2"],
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1) [fixation-strength="2"]
+      ) { 
+      font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); 
+    }
+
+    .br-bold[fixation-strength="3"] :is(
+
+      [saccades-interval="0"] br-bold [fixation-strength="1"], 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1) [fixation-strength="1"],
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1) [fixation-strength="1"],
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1) [fixation-strength="1"],
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1) [fixation-strength="1"],
+      
+      [saccades-interval="0"] br-bold [fixation-strength="2"], 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1) [fixation-strength="2"],
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1) [fixation-strength="2"],
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1) [fixation-strength="2"],
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1) [fixation-strength="2"]
+      ,
+      [saccades-interval="0"] br-bold [fixation-strength="3"], 
+      [saccades-interval="1"] br-bold:nth-of-type(2n+1) [fixation-strength="3"],
+      [saccades-interval="2"] br-bold:nth-of-type(3n+1) [fixation-strength="3"],
+      [saccades-interval="3"] br-bold:nth-of-type(4n+1) [fixation-strength="3"],
+      [saccades-interval="4"] br-bold:nth-of-type(5n+1) [fixation-strength="3"]
       ) { 
       font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); 
     }
@@ -147,8 +218,19 @@ docReady(async () => {
     { message: 'getSaccadesInterval' },
     (response) => {
       console.log('getSaccadesInterval response=> ', response);
-      const saccadesInterval = response === undefined || response.data == null ? 0 : response.data;
+      const saccadesInterval = response === undefined || response.data == null
+        ? DEFAULT_SACCADES_INTERVAL : response.data;
       document.body.setAttribute('saccades-interval', saccadesInterval);
+    },
+  );
+
+  runTimeHandler.runtime.sendMessage(
+    { message: 'getFixationStrength' },
+    (response) => {
+      console.log('getFixationStrength response=> ', response);
+      const fixationStrength = response === undefined || response.data == null
+        ? DEFAULT_FIXATION_STRENGTH : response.data;
+      document.body.setAttribute('fixation-strength', fixationStrength);
     },
   );
 });
