@@ -23,5 +23,4 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "extension/chrome.zip, extension/firefox.xpi, extension/opera.crx"
-          bodyFile: "body.md"
           token: ${{ secrets.GITHUB_TOKEN }}
