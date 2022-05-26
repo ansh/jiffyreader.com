@@ -6,8 +6,11 @@ This extension was made by me on May 20th in about 15 minutes of coding time. Pl
 If there is interest, I am happy to work on this more and make it a dedicated screen reader. 
 
 ## Installation Instructions
-### Text instructions
-1. Click on "Code" button > "Download ZIP".
+
+### Chrome, Edge and chromium-based browsers
+
+#### Text instructions
+1. Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases)
 2. Open the file location (e.g. Download).
 3. Right click the ZIP file > Extract All > OK
 4. Open Chrome > go to this link chrome://extensions/
@@ -15,7 +18,7 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 6. Click "Load unpacked" and then choose the extracted folder. 
 7. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
 
-### Image instructions
+#### Image instructions
 1. Download code as zip.
 ![download](https://user-images.githubusercontent.com/15909768/169638232-7f664570-1cc8-4c9b-8954-5e4ad9d6ec72.png)
 
@@ -39,6 +42,14 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 ![convert](https://user-images.githubusercontent.com/15909768/169638273-b70c3aaf-8a52-4dd0-bf58-a4a7dffe8608.png)
 
 
+
+## Firefox
+
+- Download the latest build `firefox.xpi` in [releases](https://github.com/ansh/bionic-reading/releases)
+- open Firefox
+- enter `about:debugging#/runtime/this-firefox` in the URL bar
+- click "Load Temporary Add-on"
+- select the `firefox.xpi`
 
 ## What is Bionic Reading?
 Bionic Reading is a new method facilitating the reading process by guiding the eyes through text with artficial fixation points.
