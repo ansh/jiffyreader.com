@@ -6,6 +6,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 14px;
 }
 
 button {
@@ -14,16 +15,13 @@ button {
   border-radius: 2px;
   color: white;
   cursor: pointer;
+  background-color: #3aa757;
 }
 
 button:active {
   transform: scale(1.05);
 }
 
-#lineHeightEdit {
-  margin: 12px 0 12px;
-  padding: 4px;
-}
 
 #lineHeightLabel {
   padding-bottom: 4px;
@@ -47,4 +45,3 @@ button:active {
 .justify-between {
   justify-content: space-between;
 }
-
