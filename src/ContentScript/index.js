@@ -13,32 +13,21 @@ function highlightText(sentenceText) {
 }
 
 const ToggleReading = (enableReading) => {
+  console.time('ToggleReading-Time');
   console.log('enableReading =>', enableReading);
   const boldedElements = document.getElementsByTagName('br-bold');
+
+  if (enableReading === true) {
+    document.body.classList.add('br-bold');
+  } else {
+    document.body.classList.toggle('br-bold');
+  }
+
   if (boldedElements.length > 0) {
-    if (typeof enableReading === 'undefined' || enableReading === undefined) {
-      for (const element of boldedElements) {
-        element.classList.toggle('br-bold');
-        document.body.classList.toggle('br-bold');
-      }
-    } else if (enableReading === false) {
-      for (const element of boldedElements) {
-        element.classList.remove('br-bold');
-        document.body.classList.remove('br-bold');
-      }
-    } else {
-      for (const element of boldedElements) {
-        element.classList.add('br-bold');
-        document.body.classList.add('br-bold');
-      }
-    }
+    console.timeEnd('ToggleReading-Time');
     return;
   }
 
-  if (enableReading === false) {
-    return;
-  }
-  document.body.classList.add('br-bold');
   const tags = ['p', 'font', 'span', 'li'];
   const parser = new DOMParser();
   tags.forEach((tag) => {
@@ -53,11 +42,15 @@ const ToggleReading = (enableReading) => {
       element.innerHTML = textArrTransformed.join(' ');
     }
   });
+  console.timeEnd('ToggleReading-Time');
 };
 
-const onChromeRuntimeMessage = (message) => {
-  console.log('Got msge in content script as =>', message);
+const onChromeRuntimeMessage = (message, sender, sendResponse) => {
+  // console.log('Got msge in content script as =>', message);
   switch (message.type) {
+    case 'getBrMode':
+      sendResponse({ data: document.body.classList.contains('br-bold') });
+      return true;
     case 'toggleReadingMode': {
       ToggleReading();
       break;
@@ -91,6 +84,7 @@ const onChromeRuntimeMessage = (message) => {
           break;
 
         default:
+          console.log('match not found');
           break;
       }
       console.log('Setting currentHeight : ', currentHeight);
@@ -101,7 +95,9 @@ const onChromeRuntimeMessage = (message) => {
       }
       break;
     }
-    default: break;
+    default:
+      console.log('match not found');
+      break;
   }
 };
 
