@@ -4,8 +4,14 @@
     <link rel="stylesheet" href="style.css" />
   </head>
 
-  <body>
-    <button id="toggleBtn" class="w-100">Toggle Reading Mode</button>
+  <body class="flex flex-column" br-mode="">
+    <button id="toggleBtn" class="w-100 flex flex-column align-items-center">
+		<span>	
+			Toggle Reading Mode 
+		</span>
+		<span id="onModeLabel" class="modeLabel">On</span>
+		<span id="offModeLabel" class="modeLabel">off</span>
+	</button>
 
     <div id="saccadesEdit" class="w-100">
       <label style="display: block" id="lineHeightLabel">Saccades interval: <span id="saccadesLabelValue"></span></label>
