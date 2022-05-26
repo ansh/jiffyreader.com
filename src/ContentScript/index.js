@@ -19,7 +19,7 @@ function highlightText(sentenceText) {
 }
 
 function makeFixations(/** @type string */ textContent) {
-  const fixationWidth = Math.floor(textContent.length * FIXATION_BREAK_RATIO);
+  const fixationWidth = Math.round(textContent.length * FIXATION_BREAK_RATIO);
 
   if (fixationWidth === FIXATION_LOWER_BOUND) return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`;
 
@@ -53,7 +53,7 @@ const ToggleReading = (enableReading) => {
     return;
   }
 
-  const tags = ['p', 'font', 'span', 'li'];
+  const tags = ['p', 'font', 'span', 'li' , 'ul'];
   const parser = new DOMParser();
   tags.forEach((tag) => {
     for (const element of document.getElementsByTagName(tag)) {
