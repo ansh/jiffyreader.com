@@ -24,12 +24,12 @@ function makeFixations(/** @type string */ textContent) {
   if (fixationWidth === FIXATION_LOWER_BOUND) return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`;
 
   const start = textContent.substring(0, fixationWidth);
-  const end = textContent.substring((textContent.length - 1) - fixationWidth, textContent.length);
+  const end = textContent.substring((textContent.length) - fixationWidth, textContent.length);
 
   const weakFixation = `<br-fixation fixation-strength="1">${start}</br-fixation>`;
   const strongFixation = `<br-fixation fixation-strength="3">${end}</br-fixation>`;
   const mildFixation = ((textContent.length - (fixationWidth * 2)) > 0)
-    ? `<br-fixation fixation-strength="2">${textContent.substring(fixationWidth, (textContent.length - 1) - fixationWidth)}</br-fixation>` : '';
+    ? `<br-fixation fixation-strength="2">${textContent.substring(fixationWidth, (textContent.length) - fixationWidth)}</br-fixation>` : '';
 
   // console.table({
   //   textContent, weakFixation, mildFixation, strongFixation, fixationWidth,
@@ -53,7 +53,7 @@ const ToggleReading = (enableReading) => {
     return;
   }
 
-  const tags = ['p', 'font', 'span', 'li' , 'ul'];
+  const tags = ['p', 'font', 'span', 'li', 'ul'];
   const parser = new DOMParser();
   tags.forEach((tag) => {
     for (const element of document.getElementsByTagName(tag)) {
