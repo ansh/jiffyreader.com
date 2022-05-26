@@ -1,0 +1,27 @@
+name: Release and publish on tag
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*.*.*'
+    branches: [master]
+
+jobs:
+  build-release-publish:
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: build
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "extension/chrome.zip, extension/firefox.xpi, extension/opera.crx"
+          bodyFile: "body.md"
+          token: ${{ secrets.GITHUB_TOKEN }}
