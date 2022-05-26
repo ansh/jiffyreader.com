@@ -15,5 +15,6 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-plusplus': 'off',
     'no-restricted-syntax': 'off',
+    'no-unused-vars': 'off',
   },
 };

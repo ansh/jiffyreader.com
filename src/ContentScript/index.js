@@ -1,5 +1,5 @@
 // making half of the letters in a word bold
-function highlightText (sentenceText) {
+function highlightText(sentenceText) {
   return sentenceText
     .replace(/\p{L}+/gu, (word) => {
       const { length } = word;
@@ -13,23 +13,20 @@ function highlightText (sentenceText) {
 }
 
 const ToggleReading = (enableReading) => {
-  console.log("enableReading =>", enableReading);
-  const boldedElements = document.getElementsByTagName('br-bold')
-  if (boldedElements.length > 0){
-    if(typeof enableReading == undefined || enableReading == undefined )
-    {
+  console.log('enableReading =>', enableReading);
+  const boldedElements = document.getElementsByTagName('br-bold');
+  if (boldedElements.length > 0) {
+    if (typeof enableReading === 'undefined' || enableReading === undefined) {
       for (const element of boldedElements) {
         element.classList.toggle('br-bold');
         document.body.classList.toggle('br-bold');
       }
-    }
-    else if(enableReading == false){
+    } else if (enableReading === false) {
       for (const element of boldedElements) {
         element.classList.remove('br-bold');
         document.body.classList.remove('br-bold');
       }
-    }
-    else{
+    } else {
       for (const element of boldedElements) {
         element.classList.add('br-bold');
         document.body.classList.add('br-bold');
@@ -37,9 +34,8 @@ const ToggleReading = (enableReading) => {
     }
     return;
   }
-  
-  if(enableReading == false)
-  {
+
+  if (enableReading === false) {
     return;
   }
   document.body.classList.add('br-bold');
@@ -57,48 +53,47 @@ const ToggleReading = (enableReading) => {
       element.innerHTML = textArrTransformed.join(' ');
     }
   });
-  
 };
 
 const onChromeRuntimeMessage = (message) => {
-  console.log("Got msge in content script as =>", message)
-  switch (message["type"]) {
-    case "toggleReadingMode": {
+  console.log('Got msge in content script as =>', message);
+  switch (message.type) {
+    case 'toggleReadingMode': {
       ToggleReading();
       break;
     }
-    case "setReadingMode": {
-      ToggleReading(message["data"]);
+    case 'setReadingMode': {
+      ToggleReading(message.data);
       break;
     }
-    case "setSaccadesIntervalInDOM": {
-      const saccadesInterval =  message["data"] == null ? 0 : message["data"];
+    case 'setSaccadesIntervalInDOM': {
+      const saccadesInterval = message.data == null ? 0 : message.data;
       document.body.setAttribute('saccades-interval', saccadesInterval);
       break;
     }
-    case "setlineHeight": {
-      const action = message["action"];
-      const step =  message["step"];
-      const LINE_HEIGHT_KEY = "--br-line-height";
+    case 'setlineHeight': {
+      const { action } = message;
+      const { step } = message;
+      const LINE_HEIGHT_KEY = '--br-line-height';
       let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
       switch (action) {
         case 'lineHeightdecrease':
           currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - step : currentHeight;
           break;
-    
+
         case 'lineHeightIncrease':
           currentHeight = /\d+/.test(currentHeight) ? Number(currentHeight) : 1;
           currentHeight += step;
           break;
-    
+
         case 'lineHeightReset':
           currentHeight = '';
           break;
-    
+
         default:
           break;
       }
-      console.log("Setting currentHeight : ", currentHeight);
+      console.log('Setting currentHeight : ', currentHeight);
       if (/\d+/.test(currentHeight)) {
         document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
       } else {
@@ -106,24 +101,25 @@ const onChromeRuntimeMessage = (message) => {
       }
       break;
     }
+    default: break;
   }
 };
 
 function docReady(fn) {
   // see if DOM is already available
   if (
-    document.readyState === "complete" ||
-    document.readyState === "interactive"
+    document.readyState === 'complete'
+    || document.readyState === 'interactive'
   ) {
     // call on next available tick
     setTimeout(fn, 1);
   } else {
-    document.addEventListener("DOMContentLoaded", fn);
+    document.addEventListener('DOMContentLoaded', fn);
   }
 }
 
 docReady(async () => {
-  var style = document.createElement('style')
+  const style = document.createElement('style');
   style.textContent = `
     .br-bold :is(
       [saccades-interval="0"] br-bold, 
@@ -137,23 +133,22 @@ docReady(async () => {
     `;
   document.head.appendChild(style);
 
-  const runTimeHandler = typeof browser === "undefined"?chrome:browser;
+  const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
   runTimeHandler.runtime.sendMessage(
-    { message: "getToggleOnDefault" },
-    function (response) {
-      console.log("getToggleOnDefault response=> ", response);
-      ToggleReading(response["data"] == "true"?true:false);
-    }
+    { message: 'getToggleOnDefault' },
+    (response) => {
+      console.log('getToggleOnDefault response=> ', response);
+      ToggleReading(response.data === 'true');
+    },
   );
   runTimeHandler.runtime.sendMessage(
-    { message: "getSaccadesInterval" },
-    function (response) {
-      console.log("getSaccadesInterval response=> ", response);
-      const saccadesInterval =  response == undefined || response["data"] == null ? 0 : response["data"];
+    { message: 'getSaccadesInterval' },
+    (response) => {
+      console.log('getSaccadesInterval response=> ', response);
+      const saccadesInterval = response === undefined || response.data == null ? 0 : response.data;
       document.body.setAttribute('saccades-interval', saccadesInterval);
-    }
+    },
   );
 });
-
