@@ -35,7 +35,9 @@ const listener = (request, sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     }
-    default: break;
+    default:
+      console.log(`Error: ${request.message} not found`);
+      break;
   }
 };
 runTimeHandler.runtime.onMessage.addListener(listener);

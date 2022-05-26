@@ -139,8 +139,13 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
 
 fixationStrengthSlider.addEventListener('change', (event) => {
   fixationStrengthLabelValue.textContent = event.target.value;
+  const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: event.target.value };
+
+  runTimeHandler.runtime.sendMessage(payload, (response) => {
+    console.log(response);
+  });
   chrome.tabs.query({ active: true }, ([tab]) => {
-    runTimeHandler.tabs.sendMessage(tab.id, { type: 'setFixationStrength', data: event.target.value });
+    runTimeHandler.tabs.sendMessage(tab.id, payload);
   });
 });
 /**

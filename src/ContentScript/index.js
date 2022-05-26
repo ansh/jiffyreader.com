@@ -1,3 +1,5 @@
+const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
+
 const FIXATION_BREAK_RATIO = 0.33;
 const FIXATION_LOWER_BOUND = 0;
 const DEFAULT_SACCADES_INTERVAL = 0;
@@ -199,8 +201,6 @@ docReady(async () => {
     }
     `;
   document.head.appendChild(style);
-
-  const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
   runTimeHandler.runtime.sendMessage(
