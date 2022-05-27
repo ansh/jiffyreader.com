@@ -6,7 +6,7 @@ const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
 
-runTimeHandler.runtime.sendMessage(
+chrome.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
   (response) => {
     console.log('getSaccadesInterval response in POP up=> ', response);
@@ -28,7 +28,7 @@ runTimeHandler.runtime.sendMessage(
   },
 );
 
-runTimeHandler.runtime.sendMessage(
+chrome.runtime.sendMessage(
   { message: 'getToggleOnDefault' },
   (response) => {
     console.log('getToggleOnDefault response in POP up => ', response);
@@ -36,20 +36,18 @@ runTimeHandler.runtime.sendMessage(
   },
 );
 
-runTimeHandler.tabs.query({ active: true }, ([tab]) => {
+chrome.tabs.query({ active: true }, ([tab]) => {
+  console.log(tab);
   chrome.tabs.sendMessage(tab.id, {
-    type: 'getBrMode',
+    message: 'getBrMode', type: 'getBrMode',
   }, (request) => {
-    if (runTimeHandler.runtime.lastError) {
-      return console.error(runTimeHandler.runttime.lastError);
-    }
     setBrModeOnBody(request.data);
   });
+});
 
-  runTimeHandler.tabs.sendMessage(tab.id, { type: 'getFixationStrength' }, (response) => {
-    fixationStrengthLabelValue.textContent = response.data;
-    fixationStrengthSlider.value = response.data;
-  });
+chrome.runtime.sendMessage({ type: 'getFixationStrength', message: 'getFixationStrength' }, (response) => {
+  fixationStrengthLabelValue.textContent = response.data;
+  fixationStrengthSlider.value = response.data;
 });
 
 toggleBtn.addEventListener('click', async () => {
@@ -59,7 +57,7 @@ toggleBtn.addEventListener('click', async () => {
       tabs[0].id,
       { type: 'toggleReadingMode', data: undefined },
       () => {
-        if (runTimeHandler.runtime.lastError) {
+        if (chrome.runtime.lastError) {
           // no-op
         }
       },
@@ -68,28 +66,28 @@ toggleBtn.addEventListener('click', async () => {
 });
 
 toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'setToggleOnDefault', data: event.target.checked },
     (response) => {
     },
   );
-  chrome.tabs.query({}, (tabs) => {
-    tabs.forEach((tab) => new Promise(() => {
-      try {
-        chrome.tabs.sendMessage(
-          tab.id,
-          { type: 'setReadingMode', data: event.target.checked },
-          () => {
-            if (runTimeHandler.runtime.lastError) {
-              // no-op
-            }
-          },
-        );
-      } catch (e) {
-        // no-op
-      }
-    }));
-  });
+  // chrome.tabs.query({}, (tabs) => {
+  //   tabs.forEach((tab) => new Promise(() => {
+  //     try {
+  //       chrome.tabs.sendMessage(
+  //         tab.id,
+  //         { type: 'setReadingMode', data: event.target.checked },
+  //         () => {
+  //           if (chrome.runtime.lastError) {
+  //             // no-op
+  //           }
+  //         },
+  //       );
+  //     } catch (e) {
+  //       // no-op
+  //     }
+  //   }));
+  // });
 });
 
 async function updateLineHeightClickHandler(event) {
@@ -98,7 +96,7 @@ async function updateLineHeightClickHandler(event) {
       tabs[0].id,
       { type: 'setlineHeight', action: event.target.getAttribute('id'), step: 0.5 },
       () => {
-        if (runTimeHandler.runtime.lastError) {
+        if (chrome.runtime.lastError) {
           // no-op
         }
       },
@@ -113,7 +111,7 @@ function updateSaccadesChangeHandler(event) {
 }
 
 async function updateSaccadesIntermediateHandler(_saccadesInterval) {
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'setSaccadesInterval', data: _saccadesInterval },
     (response) => {
     },
@@ -125,7 +123,7 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
           tab.id,
           { type: 'setSaccadesIntervalInDOM', data: _saccadesInterval },
           () => {
-            if (runTimeHandler.runtime.lastError) {
+            if (chrome.runtime.lastError) {
               // no-op
             }
           },
@@ -140,12 +138,14 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
 fixationStrengthSlider.addEventListener('change', (event) => {
   fixationStrengthLabelValue.textContent = event.target.value;
   const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: event.target.value };
-
-  runTimeHandler.runtime.sendMessage(payload, (response) => {
-    console.log(response);
-  });
   chrome.tabs.query({ active: true }, ([tab]) => {
-    runTimeHandler.tabs.sendMessage(tab.id, payload);
+    chrome.tabs.sendMessage(tab.id, payload, (response) => {
+      //
+    });
+  });
+
+  chrome.runtime.sendMessage(payload, (response) => {
+    console.log(response);
   });
 });
 /**

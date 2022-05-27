@@ -36,7 +36,7 @@ const listener = (request, sender, sendResponse) => {
       break;
     }
     default:
-      console.log(`Error: ${request.message} not found`);
+      console.log('Error: not found', request);
       break;
   }
 };

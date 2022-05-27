@@ -71,18 +71,18 @@ const ToggleReading = (enableReading) => {
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-  console.log('Got msge in content script as =>', message);
+  console.log('Got msge in content script as =>', message, sender);
   switch (message.type) {
     case 'getBrMode':
       sendResponse({ data: document.body.classList.contains('br-bold') });
-      return true;
+      break;
     case 'toggleReadingMode': {
       ToggleReading();
       break;
     }
     case 'getFixationStrength': {
       sendResponse({ data: document.body.getAttribute('fixation-strength') });
-      return true;
+      break;
     }
     case 'setFixationStrength': {
       document.body.setAttribute('fixation-strength', message.data);
@@ -130,7 +130,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     default:
-      console.log('match not found');
+      console.log('Error: not found', message);
       break;
   }
 };
@@ -203,14 +203,14 @@ docReady(async () => {
   document.head.appendChild(style);
 
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'getToggleOnDefault' },
     (response) => {
       console.log('getToggleOnDefault response=> ', response);
       ToggleReading(response.data === 'true');
     },
   );
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'getSaccadesInterval' },
     (response) => {
       console.log('getSaccadesInterval response=> ', response);
@@ -220,7 +220,7 @@ docReady(async () => {
     },
   );
 
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'getFixationStrength' },
     (response) => {
       console.log('getFixationStrength response=> ', response);
