@@ -47,7 +47,7 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 
 ## Firefox
 
-- Download the latest build `firefox.xpi` in [releases](https://github.com/ansh/bionic-reading/releases)
+- Download the latest build `firefox.xpi` in [releases](https://github.com/ansh/bionic-reading/releases) (Use other browsers, Firefox won't allow downloading unsigned xip files)
 - open Firefox
 - enter `about:debugging#/runtime/this-firefox` in the URL bar
 - click "Load Temporary Add-on"
