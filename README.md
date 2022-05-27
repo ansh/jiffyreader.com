@@ -53,6 +53,14 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 - click "Load Temporary Add-on"
 - select the `firefox.xpi`
 
+## Opera
+
+- Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases) and unzip it
+- open Opera
+- Enable Developer mode in Extension page
+- click "Load Unpacked"
+- select the folder
+
 ## What is Bionic Reading?
 Bionic Reading is a new method facilitating the reading process by guiding the eyes through text with artficial fixation points.
 As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word.
