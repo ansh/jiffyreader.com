@@ -26,7 +26,18 @@ const listener = (request, sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     }
-    default: break;
+    case 'getFixationStrength': {
+      sendResponse({ data: localStorage.getItem('fixationStrength') });
+      break;
+    }
+    case 'setFixationStrength': {
+      localStorage.setItem('fixationStrength', request.data);
+      sendResponse({ success: true });
+      break;
+    }
+    default:
+      console.log('Error: not found', request);
+      break;
   }
 };
 runTimeHandler.runtime.onMessage.addListener(listener);

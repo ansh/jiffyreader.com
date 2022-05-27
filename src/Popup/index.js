@@ -3,8 +3,10 @@ const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
+const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
+const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
 
-runTimeHandler.runtime.sendMessage(
+chrome.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
   (response) => {
     console.log('getSaccadesInterval response in POP up=> ', response);
@@ -26,7 +28,7 @@ runTimeHandler.runtime.sendMessage(
   },
 );
 
-runTimeHandler.runtime.sendMessage(
+chrome.runtime.sendMessage(
   { message: 'getToggleOnDefault' },
   (response) => {
     console.log('getToggleOnDefault response in POP up => ', response);
@@ -34,13 +36,28 @@ runTimeHandler.runtime.sendMessage(
   },
 );
 
+chrome.tabs.query({ active: true }, ([tab]) => {
+  console.log(tab);
+  chrome.tabs.sendMessage(tab.id, {
+    message: 'getBrMode', type: 'getBrMode',
+  }, (request) => {
+    setBrModeOnBody(request.data);
+  });
+});
+
+chrome.runtime.sendMessage({ type: 'getFixationStrength', message: 'getFixationStrength' }, (response) => {
+  fixationStrengthLabelValue.textContent = response.data;
+  fixationStrengthSlider.value = response.data;
+});
+
 toggleBtn.addEventListener('click', async () => {
+  setBrModeOnBody(document.body.getAttribute('br-mode') === 'off');
   chrome.tabs.query({ active: true }, (tabs) => {
     chrome.tabs.sendMessage(
       tabs[0].id,
       { type: 'toggleReadingMode', data: undefined },
       () => {
-        if (runTimeHandler.runtime.lastError) {
+        if (chrome.runtime.lastError) {
           // no-op
         }
       },
@@ -49,28 +66,28 @@ toggleBtn.addEventListener('click', async () => {
 });
 
 toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'setToggleOnDefault', data: event.target.checked },
     (response) => {
     },
   );
-  chrome.tabs.query({}, (tabs) => {
-    tabs.forEach((tab) => new Promise(() => {
-      try {
-        chrome.tabs.sendMessage(
-          tab.id,
-          { type: 'setReadingMode', data: event.target.checked },
-          () => {
-            if (runTimeHandler.runtime.lastError) {
-              // no-op
-            }
-          },
-        );
-      } catch (e) {
-        // no-op
-      }
-    }));
-  });
+  // chrome.tabs.query({}, (tabs) => {
+  //   tabs.forEach((tab) => new Promise(() => {
+  //     try {
+  //       chrome.tabs.sendMessage(
+  //         tab.id,
+  //         { type: 'setReadingMode', data: event.target.checked },
+  //         () => {
+  //           if (chrome.runtime.lastError) {
+  //             // no-op
+  //           }
+  //         },
+  //       );
+  //     } catch (e) {
+  //       // no-op
+  //     }
+  //   }));
+  // });
 });
 
 async function updateLineHeightClickHandler(event) {
@@ -79,7 +96,7 @@ async function updateLineHeightClickHandler(event) {
       tabs[0].id,
       { type: 'setlineHeight', action: event.target.getAttribute('id'), step: 0.5 },
       () => {
-        if (runTimeHandler.runtime.lastError) {
+        if (chrome.runtime.lastError) {
           // no-op
         }
       },
@@ -94,7 +111,7 @@ function updateSaccadesChangeHandler(event) {
 }
 
 async function updateSaccadesIntermediateHandler(_saccadesInterval) {
-  runTimeHandler.runtime.sendMessage(
+  chrome.runtime.sendMessage(
     { message: 'setSaccadesInterval', data: _saccadesInterval },
     (response) => {
     },
@@ -106,7 +123,7 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
           tab.id,
           { type: 'setSaccadesIntervalInDOM', data: _saccadesInterval },
           () => {
-            if (runTimeHandler.runtime.lastError) {
+            if (chrome.runtime.lastError) {
               // no-op
             }
           },
@@ -118,9 +135,26 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
   });
 }
 
+fixationStrengthSlider.addEventListener('change', (event) => {
+  fixationStrengthLabelValue.textContent = event.target.value;
+  const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: event.target.value };
+  chrome.tabs.query({ active: true }, ([tab]) => {
+    chrome.tabs.sendMessage(tab.id, payload, (response) => {
+      //
+    });
+  });
+
+  chrome.runtime.sendMessage(payload, (response) => {
+    console.log(response);
+  });
+});
 /**
  * @description Show the word interval between saccades
  */
 function updateSaccadesLabelValue(saccadesInterval) {
   document.getElementById('saccadesLabelValue').textContent = saccadesInterval;
+}
+
+function setBrModeOnBody(/** @type boolean */mode) {
+  document.body.setAttribute('br-mode', mode ? 'on' : 'off');
 }
