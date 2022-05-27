@@ -53,7 +53,7 @@ const ToggleReading = (enableReading) => {
     return;
   }
 
-  const tags = ['p', 'font', 'span', 'li', 'ul'];
+  const tags = ['p', 'font', 'span', 'li'];
   const parser = new DOMParser();
   tags.forEach((tag) => {
     for (const element of document.getElementsByTagName(tag)) {
