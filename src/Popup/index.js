@@ -3,6 +3,8 @@ const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 const toggleBtn = document.getElementById('toggleBtn');
 const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
+const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
+const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
 
 runTimeHandler.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
@@ -34,7 +36,24 @@ runTimeHandler.runtime.sendMessage(
   },
 );
 
+runTimeHandler.tabs.query({ active: true }, ([tab]) => {
+  chrome.tabs.sendMessage(tab.id, {
+    type: 'getBrMode',
+  }, (request) => {
+    if (runTimeHandler.runtime.lastError) {
+      return console.error(runTimeHandler.runttime.lastError);
+    }
+    setBrModeOnBody(request.data);
+  });
+
+  runTimeHandler.tabs.sendMessage(tab.id, { type: 'getFixationStrength' }, (response) => {
+    fixationStrengthLabelValue.textContent = response.data;
+    fixationStrengthSlider.value = response.data;
+  });
+});
+
 toggleBtn.addEventListener('click', async () => {
+  setBrModeOnBody(document.body.getAttribute('br-mode') === 'off');
   chrome.tabs.query({ active: true }, (tabs) => {
     chrome.tabs.sendMessage(
       tabs[0].id,
@@ -118,9 +137,24 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
   });
 }
 
+fixationStrengthSlider.addEventListener('change', (event) => {
+  fixationStrengthLabelValue.textContent = event.target.value;
+  const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: event.target.value };
+
+  runTimeHandler.runtime.sendMessage(payload, (response) => {
+    console.log(response);
+  });
+  chrome.tabs.query({ active: true }, ([tab]) => {
+    runTimeHandler.tabs.sendMessage(tab.id, payload);
+  });
+});
 /**
  * @description Show the word interval between saccades
  */
 function updateSaccadesLabelValue(saccadesInterval) {
   document.getElementById('saccadesLabelValue').textContent = saccadesInterval;
+}
+
+function setBrModeOnBody(/** @type boolean */mode) {
+  document.body.setAttribute('br-mode', mode ? 'on' : 'off');
 }

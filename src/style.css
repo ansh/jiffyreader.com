@@ -1,47 +1,58 @@
 body {
-  padding: 10px;
-  min-width: 170px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
+	padding: 10px;
+	min-width: 170px;
+	justify-content: center;
+	gap: 14px;
 }
 
 button {
-  padding: 10px;
-  border: none;
-  border-radius: 2px;
-  color: white;
-  cursor: pointer;
-  background-color: #3aa757;
+	padding: 10px;
+	border: none;
+	border-radius: 2px;
+	color: white;
+	cursor: pointer;
+	background: #3aa757;
+}
+
+.modeLabel {
+	display: none;
+}
+
+:is([br-mode="on"] #onModeLabel, [br-mode="off"] #offModeLabel) {
+	display: initial;
 }
 
 button:active {
-  transform: scale(1.05);
+	transform: scale(1.05);
 }
 
-
 #lineHeightLabel {
-  padding-bottom: 4px;
+	padding-bottom: 4px;
 }
 
 #checkboxContainer {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .w-100 {
-  width: 100%
+	width: 100%;
 }
 
 .flex {
-  display: flex
+	display: flex;
+}
+
+.flex-column {
+	flex-direction: column;
 }
 
 .justify-between {
-  justify-content: space-between;
+	justify-content: space-between;
+}
+
+.align-items-center {
+	align-items: center;
 }
