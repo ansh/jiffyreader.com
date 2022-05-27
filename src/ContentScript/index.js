@@ -19,18 +19,18 @@ const ToggleReading = (enableReading) => {
     if (typeof enableReading === 'undefined' || enableReading === undefined) {
       for (const element of boldedElements) {
         element.classList.toggle('br-bold');
-        document.body.classList.toggle('br-bold');
       }
+      document.body.classList.toggle('br-bold');
     } else if (enableReading === false) {
       for (const element of boldedElements) {
         element.classList.remove('br-bold');
-        document.body.classList.remove('br-bold');
       }
+      document.body.classList.remove('br-bold');
     } else {
       for (const element of boldedElements) {
         element.classList.add('br-bold');
-        document.body.classList.add('br-bold');
       }
+      document.body.classList.add('br-bold');
     }
     return;
   }
