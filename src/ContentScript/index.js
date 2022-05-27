@@ -37,22 +37,7 @@ function makeFixations(/** @type string */ textContent) {
   return weakFixation + mildFixation + strongFixation;
 }
 
-const ToggleReading = (enableReading) => {
-  console.time('ToggleReading-Time');
-  console.log('enableReading =>', enableReading);
-  const boldedElements = document.getElementsByTagName('br-bold');
-
-  if (enableReading === true) {
-    document.body.classList.add('br-bold');
-  } else {
-    document.body.classList.toggle('br-bold');
-  }
-
-  if (boldedElements.length > 0) {
-    console.timeEnd('ToggleReading-Time');
-    return;
-  }
-
+function parseDocument() {
   const tags = ['p', 'font', 'span', 'li'];
   const parser = new DOMParser();
   tags.forEach((tag) => {
@@ -67,6 +52,35 @@ const ToggleReading = (enableReading) => {
       element.innerHTML = textArrTransformed.join(' ');
     }
   });
+}
+
+const ToggleReading = (enableReading) => {
+  console.time('ToggleReading-Time');
+  console.log('enableReading =>', enableReading);
+  const boldedElements = document.getElementsByTagName('br-bold');
+
+  // if (enableReading === true) {
+  //   document.body.classList.add('br-bold');
+  // } else {
+  //   document.body.classList.toggle('br-bold');
+  // }
+
+  if (document.body.classList.contains('br-bold') || enableReading === false) {
+    document.body.classList.remove('br-bold');
+    return;
+  }
+
+  if (!document.body.classList.contains('br-bold')) {
+    document.body.classList.add('br-bold');
+  }
+
+  if (enableReading) document.body.classList.add('br-bold');
+
+  if (boldedElements.length > 0) {
+    console.timeEnd('ToggleReading-Time');
+    return;
+  }
+
   console.timeEnd('ToggleReading-Time');
 };
 
@@ -202,11 +216,15 @@ docReady(async () => {
     `;
   document.head.appendChild(style);
 
+  parseDocument();
+
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
+
   chrome.runtime.sendMessage(
     { message: 'getToggleOnDefault' },
     (response) => {
       console.log('getToggleOnDefault response=> ', response);
+      if (!['true', true].includes(response.data)) return;
       ToggleReading(response.data === 'true');
     },
   );
