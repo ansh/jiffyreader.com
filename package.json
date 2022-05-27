@@ -14,7 +14,6 @@
     "mini-css-extract-plugin": "^2.6.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "webpack": "^5.72.1",
-    "webpack-extension-reloader": "^1.1.4",
     "wext-manifest-loader": "^2.3.0",
     "wext-manifest-webpack-plugin": "^1.2.1"
   },
@@ -22,7 +21,9 @@
     "eslint": "^8.16.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "webpack-cli": "^4.9.2"
+    "terser-webpack-plugin": "^5.3.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-ext-reloader": "^1.1.9"
   },
   "scripts": {
     "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
