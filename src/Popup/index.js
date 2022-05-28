@@ -124,7 +124,6 @@ fixationStrengthSlider.addEventListener('change', (event) => {
   });
 
   chrome.runtime.sendMessage(payload, (response) => {
-    console.log(response);
   });
 });
 /**

@@ -45,7 +45,7 @@ function parseNode(/** @type Element */ node) {
 
       node.parentElement.replaceChild(brSpan, node);
     } catch (error) {
-      console.error(error);
+
     }
     return;
   }
@@ -78,7 +78,6 @@ const ToggleReading = (enableReading) => {
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-  console.log('Got message in content script as =>', message, sender);
   switch (message.type) {
     case 'getBrMode':
       sendResponse({ data: document.body.classList.contains('br-bold') });
@@ -125,7 +124,6 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
           break;
 
         default:
-          console.log('match not found');
           break;
       }
       if (/\d+/.test(currentHeight)) {
@@ -136,7 +134,6 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     default:
-      console.log('Error: not found', message);
       break;
   }
 };
