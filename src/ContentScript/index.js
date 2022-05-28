@@ -31,9 +31,6 @@ function makeFixations(/** @type string */ textContent) {
   const mildFixation = ((textContent.length - (fixationWidth * 2)) > 0)
     ? `<br-fixation fixation-strength="2">${textContent.substring(fixationWidth, (textContent.length) - fixationWidth)}</br-fixation>` : '';
 
-  // console.table({
-  //   textContent, weakFixation, mildFixation, strongFixation, fixationWidth,
-  // });
   return weakFixation + mildFixation + strongFixation;
 }
 
@@ -56,14 +53,12 @@ function parseDocument() {
 
 const ToggleReading = (enableReading) => {
   console.time('ToggleReading-Time');
-  console.log('enableReading =>', enableReading);
   const boldedElements = document.getElementsByTagName('br-bold');
 
-  // if (enableReading === true) {
-  //   document.body.classList.add('br-bold');
-  // } else {
-  //   document.body.classList.toggle('br-bold');
-  // }
+  if (boldedElements.length < 1) {
+    addStyles();
+    parseDocument();
+  }
 
   if (document.body.classList.contains('br-bold') || enableReading === false) {
     document.body.classList.remove('br-bold');
@@ -85,7 +80,7 @@ const ToggleReading = (enableReading) => {
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-  console.log('Got msge in content script as =>', message, sender);
+  console.log('Got message in content script as =>', message, sender);
   switch (message.type) {
     case 'getBrMode':
       sendResponse({ data: document.body.classList.contains('br-bold') });
@@ -135,7 +130,6 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
           console.log('match not found');
           break;
       }
-      console.log('Setting currentHeight : ', currentHeight);
       if (/\d+/.test(currentHeight)) {
         document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
       } else {
@@ -162,7 +156,7 @@ function docReady(fn) {
   }
 }
 
-docReady(async () => {
+function addStyles() {
   const style = document.createElement('style');
   style.textContent = `
     .br-bold[fixation-strength="1"] :is(
@@ -215,15 +209,14 @@ docReady(async () => {
     }
     `;
   document.head.appendChild(style);
+}
 
-  parseDocument();
-
+docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
   chrome.runtime.sendMessage(
     { message: 'getToggleOnDefault' },
     (response) => {
-      console.log('getToggleOnDefault response=> ', response);
       if (!['true', true].includes(response.data)) return;
       ToggleReading(response.data === 'true');
     },
@@ -231,7 +224,6 @@ docReady(async () => {
   chrome.runtime.sendMessage(
     { message: 'getSaccadesInterval' },
     (response) => {
-      console.log('getSaccadesInterval response=> ', response);
       const saccadesInterval = response === undefined || response.data == null
         ? DEFAULT_SACCADES_INTERVAL : response.data;
       document.body.setAttribute('saccades-interval', saccadesInterval);
@@ -241,7 +233,6 @@ docReady(async () => {
   chrome.runtime.sendMessage(
     { message: 'getFixationStrength' },
     (response) => {
-      console.log('getFixationStrength response=> ', response);
       const fixationStrength = response === undefined || response.data == null
         ? DEFAULT_FIXATION_STRENGTH : response.data;
       document.body.setAttribute('fixation-strength', fixationStrength);

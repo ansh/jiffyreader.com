@@ -9,8 +9,6 @@ const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabe
 chrome.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
   (response) => {
-    console.log('getSaccadesInterval response in POP up=> ', response);
-
     const saccadesInterval = response === undefined || response.data == null ? 0 : response.data;
     const documentButtons = document.getElementsByTagName('button');
     for (let index = 0; index < documentButtons.length; index++) {
@@ -31,13 +29,11 @@ chrome.runtime.sendMessage(
 chrome.runtime.sendMessage(
   { message: 'getToggleOnDefault' },
   (response) => {
-    console.log('getToggleOnDefault response in POP up => ', response);
     toggleOnDefaultCheckbox.checked = response.data === 'true';
   },
 );
 
 chrome.tabs.query({ active: true }, ([tab]) => {
-  console.log(tab);
   chrome.tabs.sendMessage(tab.id, {
     message: 'getBrMode', type: 'getBrMode',
   }, (request) => {
@@ -71,23 +67,6 @@ toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
     (response) => {
     },
   );
-  // chrome.tabs.query({}, (tabs) => {
-  //   tabs.forEach((tab) => new Promise(() => {
-  //     try {
-  //       chrome.tabs.sendMessage(
-  //         tab.id,
-  //         { type: 'setReadingMode', data: event.target.checked },
-  //         () => {
-  //           if (chrome.runtime.lastError) {
-  //             // no-op
-  //           }
-  //         },
-  //       );
-  //     } catch (e) {
-  //       // no-op
-  //     }
-  //   }));
-  // });
 });
 
 async function updateLineHeightClickHandler(event) {
