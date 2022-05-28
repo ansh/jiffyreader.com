@@ -15,10 +15,11 @@ const sourcePath = path.join(__dirname, 'src');
 const destPath = path.join(__dirname, 'extension');
 const nodeEnv = process.env.NODE_ENV || 'development';
 const targetBrowser = process.env.TARGET_BROWSER;
+const targetPort = { chrome: 9090, firefox: 9091 }[targetBrowser ?? 'chrome'];
 
 const extensionReloaderPlugin = nodeEnv === 'development'
   ? new ExtensionReloader({
-    port: 9090,
+    port: targetPort,
     reloadPage: true,
     entries: {
       background: 'background',

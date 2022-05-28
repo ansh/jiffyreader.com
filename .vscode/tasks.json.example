@@ -1,0 +1,43 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "dev:firefox",
+			"problemMatcher": [],
+			"label": "npm: dev:firefox",
+			"detail": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"runOptions": {
+				"instanceLimit": 1,
+				// "runOn": "folderOpen"
+			}
+		},
+		{
+			"type": "npm",
+			"script": "dev:chrome",
+			"problemMatcher": [],
+			"label": "npm: dev:chrome",
+			"detail": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"runOptions": {
+				"instanceLimit": 1,
+				"runOn": "folderOpen"
+			}
+		}
+	]
+}
