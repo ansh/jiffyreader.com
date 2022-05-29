@@ -22,7 +22,6 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 
 ## Chrome
 
-### Text instructions
 1. Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases)
 2. Open the file location (e.g. Download).
 3. Right click the ZIP file > Extract All > OK.
@@ -32,30 +31,6 @@ If there is interest, I am happy to work on this more and make it a dedicated sc
 7. Enable "Developer mode".
 8. Click "Load unpacked" and then choose `extension/chrome` inside the extracted folder. 
 9. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
-
-### Image instructions
-1. Download code as zip.
-![download](https://user-images.githubusercontent.com/15909768/169638232-7f664570-1cc8-4c9b-8954-5e4ad9d6ec72.png)
-
-2. extract.
-![extract](https://user-images.githubusercontent.com/15909768/169638240-df7e0fd8-bbc9-4f9b-9df0-bde4908540af.png)
-
-3. Open extensions in chrome settings.
-![extensions](https://user-images.githubusercontent.com/15909768/169638245-852414ad-ddb4-4308-90c9-08077b433e5b.png)
-
-4. Enable developer mode.
-![developer](https://user-images.githubusercontent.com/15909768/169638247-6d2fefee-7fe7-4bbf-aec2-0ab2a8401bdb.png)
-
-5. "Load unpacked" select the folder you extracted to.
-![load unpacked](https://user-images.githubusercontent.com/15909768/169638261-563a64cc-019d-4d1e-929d-030c2c577d8f.png)
-![select folder](https://user-images.githubusercontent.com/15909768/169638257-54d9a69b-d577-4353-ac5a-6b99a910ff07.png)
-
-6. Click on extension.  should be under "access requested".
-![access](https://user-images.githubusercontent.com/15909768/169638268-47f74e01-455c-4222-8b82-4d79bb4e1ea0.png)
-
-7. Click convert.
-![convert](https://user-images.githubusercontent.com/15909768/169638273-b70c3aaf-8a52-4dd0-bf58-a4a7dffe8608.png)
-
 
 
 ## Firefox
