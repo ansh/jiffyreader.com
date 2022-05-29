@@ -34,21 +34,23 @@ function makeFixations(/** @type string */ textContent) {
   return weakFixation + mildFixation + strongFixation;
 }
 
-function parseDocument() {
-  const tags = ['p', 'font', 'span', 'li'];
-  const parser = new DOMParser();
-  tags.forEach((tag) => {
-    for (const element of document.getElementsByTagName(tag)) {
-      const n = parser.parseFromString(element.innerHTML, 'text/html');
-      const textArrTransformed = Array.from(n.body.childNodes).map((node) => {
-        if (node.nodeType === Node.TEXT_NODE) {
-          return highlightText(node.nodeValue);
-        }
-        return node.outerHTML;
-      });
-      element.innerHTML = textArrTransformed.join(' ');
+function parseNode(/** @type Element */ node) {
+  if (node.nodeType === Node.TEXT_NODE && node.nodeValue.length) {
+    try {
+      const brSpan = document.createElement('br-span');
+
+      brSpan.innerHTML = highlightText(node.nodeValue);
+
+      if (brSpan.childElementCount === 0) return;
+
+      node.parentElement.replaceChild(brSpan, node);
+    } catch (error) {
+
     }
-  });
+    return;
+  }
+
+  if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
 const ToggleReading = (enableReading) => {
@@ -57,11 +59,12 @@ const ToggleReading = (enableReading) => {
 
   if (boldedElements.length < 1) {
     addStyles();
-    parseDocument();
+    [...document.body.children].forEach(parseNode);
   }
 
   if (document.body.classList.contains('br-bold') || enableReading === false) {
     document.body.classList.remove('br-bold');
+    console.timeEnd('ToggleReading-Time');
     return;
   }
 
@@ -71,16 +74,10 @@ const ToggleReading = (enableReading) => {
 
   if (enableReading) document.body.classList.add('br-bold');
 
-  if (boldedElements.length > 0) {
-    console.timeEnd('ToggleReading-Time');
-    return;
-  }
-
   console.timeEnd('ToggleReading-Time');
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-  console.log('Got message in content script as =>', message, sender);
   switch (message.type) {
     case 'getBrMode':
       sendResponse({ data: document.body.classList.contains('br-bold') });
@@ -137,7 +134,6 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     default:
-      console.log('Error: not found', message);
       break;
   }
 };
