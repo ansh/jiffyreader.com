@@ -33,7 +33,7 @@ chrome.runtime.sendMessage(
   },
 );
 
-chrome.tabs.query({ active: true }, ([tab]) => {
+chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
   chrome.tabs.sendMessage(tab.id, {
     message: 'getBrMode', type: 'getBrMode',
   }, (request) => {
@@ -48,7 +48,7 @@ chrome.runtime.sendMessage({ type: 'getFixationStrength', message: 'getFixationS
 
 toggleBtn.addEventListener('click', async () => {
   setBrModeOnBody(document.body.getAttribute('br-mode') === 'off');
-  chrome.tabs.query({ active: true }, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(
       tabs[0].id,
       { type: 'toggleReadingMode', data: undefined },
@@ -70,7 +70,7 @@ toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
 });
 
 async function updateLineHeightClickHandler(event) {
-  chrome.tabs.query({ active: true }, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(
       tabs[0].id,
       { type: 'setlineHeight', action: event.target.getAttribute('id'), step: 0.5 },
@@ -117,7 +117,7 @@ async function updateSaccadesIntermediateHandler(_saccadesInterval) {
 fixationStrengthSlider.addEventListener('change', (event) => {
   fixationStrengthLabelValue.textContent = event.target.value;
   const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: event.target.value };
-  chrome.tabs.query({ active: true }, ([tab]) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
     chrome.tabs.sendMessage(tab.id, payload, (response) => {
       //
     });
