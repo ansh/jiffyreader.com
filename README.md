@@ -1,51 +1,69 @@
 # bionic-reading
 A Chrome Extension for Bionic Reading on ANY website!
 
+# How it works
+This is a screenshot demonstrating how the extension works by bolding out the initial parts of all text on any page when clicked. There are toggles and dials to customize it to your preference so you can enjoy your time reading. You must agree; this is awesome right.
+
+
 The best way to install this extension is to follow the instructions below. However, we will also periodically be releasing this extension on the various stores under the name  [Jiffy Reader](https://jiffyreader.com). 
+
+
 
 # Table of Contents
 - [bionic-reading](#bionic-reading)
+- [How it works](#how-it-works)
 - [Table of Contents](#table-of-contents)
 - [Installation Instructions Chrome, Edge and chromium-based browsers](#installation-instructions-chrome-edge-and-chromium-based-browsers)
   - [Chrome](#chrome)
-    - [Text instructions](#text-instructions)
-    - [Image instructions](#image-instructions)
   - [Firefox](#firefox)
   - [Opera](#opera)
+  - [Edge](#edge)
 - [What is Bionic Reading?](#what-is-bionic-reading)
 - [How to build](#how-to-build)
-- [Development](#development)
+  - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
+- [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
+- [How to Contribution](#how-to-contribution)
+  - [Development](#development)
 
 # Installation Instructions Chrome, Edge and chromium-based browsers
 
+
 ## Chrome
 
-1. Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases)
-2. Open the file location (e.g. Download).
-3. Right click the ZIP file > Extract All > OK.
-4. Open the folder in the command line (Suggesting to use bash terminal in case you are using the Windows operating system).
-5. Run `yarn install; yarn build;` .
-6. Open Chrome > go to this link `chrome://extensions/` .
-7. Enable "Developer mode".
-8. Click "Load unpacked" and then choose `extension/chrome` inside the extracted folder. 
-9. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
+  1. Download: Click [here](https://github.com/ansh/bionic-reading/releases/latest/download/chrome.zip) to download the latest `chrome.zip` release
+  2. Extract the zip file
+  3. From the browser click [here](chrome://extensions) to open the chrome extensions page or enter `chrome://extensions`  in the address bar 
+  4. Enable `developer mode` with the toggle on the top right side of the page if it is not enabled already
+  5. Click `load unpacked` on the left side of the page
+  6. Find and select the extracted folder, this extension should now be intalled
+  7. To pin the extension, click the `puzzle icon` on the top right of Chrome, then `pin the extension`.
+
 
 
 ## Firefox
+  1. Download `firefox.api` by right clicking [here](https://github.com/ansh/bionic-reading/releases/latest/download/firefox.xpi) and choose `Save link as` to download the latest `firefox.xpi `release
+  2. Click [here](about:debugging#/runtime/this-firefox) to open the firefox add-ons /extensions page or enter `about:debugging#/runtime/this-firefox`  in the address bar 
+  3. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `firefox.xpi` and select it to install it
 
-- Download the latest build `firefox.xpi` in [releases](https://github.com/ansh/bionic-reading/releases) (Use other browsers, Firefox won't allow downloading unsigned xip files)
-- open Firefox
-- enter `about:debugging#/runtime/this-firefox` in the URL bar
-- click "Load Temporary Add-on"
-- select the `firefox.xpi`
+<strong>Firefox will remove the extension when the browser is closed. This will be solved once we provide a means to download the extension from the firefox store<strong>
+
+
 
 ## Opera
 
-- Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases) and unzip it
-- open Opera
-- Enable Developer mode in Extension page
-- click "Load Unpacked"
-- select the folder
+  1. Download: Click [here](https://github.com/ansh/bionic-reading/releases/latest/download/opera.crx) to download the latest `opera.crx` release
+  2. Extract the zip file
+  3. From the browser click [here](opera://extensions) to open the chrome extensions page or enter `opera://extensions`  in the address bar 
+  4. Enable `developer mode` with the toggle on the top right side of the page if it is not enabled already
+  5. Click `load unpacked` on the left side of the page
+  6. Find and select the extracted folder, this extension should now be intalled
+  7. To pin the extension, click the `cube icon` on the top right of Chrome, then `pin the extension`.
+
+## Edge
+
+  - Please follow the steps for [chrome](#chrome) above
+
+
 
 # What is Bionic Reading?
 Bionic Reading is a new method facilitating the reading process by guiding the eyes through text with artficial fixation points.
@@ -54,6 +72,8 @@ In a digital world dominated by shallow forms of reading, Bionic Reading aims to
 
 Read more about [Bionic Reading](https://bionic-reading.com/about/).
 
+
+
 # How to build
 Need to install npm and yarn
 To build run followings
@@ -61,6 +81,30 @@ To build run followings
 2. yarn build (This will create extentions for chrome, firefox and opera inside extention folder)
 to debug run 
 
-# Development
-1. Run ```yarn dev:chrome``` to start dev server with hot reloading <br/>
-You may enable vscode to run ```yarn dev:chrome``` by copying .vscode/tasks.json.example to .vscode/tasks.json
+
+## Configure vscode to run the project when it is opened
+  1. Copy `.vscode/tasks.json.example` to `.vscode/tasks.json` or enter `cp .vscode/tasks.json.example .vscode/tasks.json` in the terminal from the `project root`
+  2. Open `vs code command pallet`
+  3. Type and select `Tasks: Manage Automatic Tasks in Folder`
+  4. Click `Allow Automatic Tasks in Folder`.
+  5. Reload vs code. 
+
+
+
+# Reporting Issues, bugs and feature request
+  Visit the issues page to report, bugs or tell us about a feature you would like to see and hopefully we will get to you.
+  Kindly allow for some time after submitting a issue for someone to get back to you.
+  You can also see a list of open issues that you may contribute to by commenting to help out someone with a challenge or developing and opening a PR. [See contribution section](#how-to-contribution)
+
+
+
+# How to Contribution
+  Anyone is welcome to provide contributions to this project by submitting a PR (Pull Request) and it will be happily merged to provide features and 
+  fixes to the increadible people using the extension.
+
+## Development
+   1. Clone the project
+   2. Open in VS Code or your favourite editor
+   3. Run `yarn` or `npm i` to install dependencies
+   4. Run `yarn dev:chrome` or `npm run dev:chrome` to build the development version. Substitute chrome for firefox if that is your prefered browser.
+   5. Follow the installation version for your prefered browser but navigate to the `projectRootFolder/extensions/` and choose the folder that corresponds with your browser.
