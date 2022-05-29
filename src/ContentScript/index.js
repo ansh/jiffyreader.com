@@ -59,7 +59,7 @@ const ToggleReading = (enableReading) => {
 
   if (boldedElements.length < 1) {
     addStyles();
-    [...document.body.children].flatMap((child) => [...child.childNodes]).forEach(parseNode);
+    [...document.body.children].forEach(parseNode);
   }
 
   if (document.body.classList.contains('br-bold') || enableReading === false) {
