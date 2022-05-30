@@ -4,6 +4,10 @@ const FIXATION_BREAK_RATIO = 0.33;
 const FIXATION_LOWER_BOUND = 0;
 const DEFAULT_SACCADES_INTERVAL = 0;
 const DEFAULT_FIXATION_STRENGTH = 3;
+
+// which tag's content should be ignored from bolded
+const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT'];
+
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
   return sentenceText
@@ -35,6 +39,11 @@ function makeFixations(/** @type string */ textContent) {
 }
 
 function parseNode(/** @type Element */ node) {
+  // some websites add <style>, <script> tags in the <body>, ignore these tags
+  if (IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
+    return;
+  }
+
   if (node.nodeType === Node.TEXT_NODE && node.nodeValue.length) {
     try {
       const brSpan = document.createElement('br-span');
@@ -45,7 +54,7 @@ function parseNode(/** @type Element */ node) {
 
       node.parentElement.replaceChild(brSpan, node);
     } catch (error) {
-
+      // no-op
     }
     return;
   }
