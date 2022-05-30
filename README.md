@@ -6,31 +6,27 @@ A Chrome Extension for Bionic Reading on ANY website!
 The best way to install this extension is to follow the instructions below. However, we will also periodically be releasing this extension on the various stores under the name  [Jiffy Reader](https://jiffyreader.com). 
 
 # Table of Contents
-- [bionic-reading](#bionic-reading)
-- [Table of Contents](#table-of-contents)
-- [Installation Instructions Chrome, Edge and chromium-based browsers](#installation-instructions-chrome-edge-and-chromium-based-browsers)
-  - [Chrome](#chrome)
-    - [Text instructions](#text-instructions)
-    - [Image instructions](#image-instructions)
+- [Installation Instructions](#installation-instructions)
+  - [Chrome, Edge and chromium-based browsers](#chrome-edge-and-chromium-based-browsers)
   - [Firefox](#firefox)
   - [Opera](#opera)
 - [What is Bionic Reading?](#what-is-bionic-reading)
 - [How to build](#how-to-build)
 - [Development](#development)
+- [Release a new version](#release-a-new-version)
 
-# Installation Instructions Chrome, Edge and chromium-based browsers
+# Installation Instructions 
 
-## Chrome
+## Chrome, Edge and chromium-based browsers
 
-1. Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases)
-2. Open the file location (e.g. Download).
-3. Right click the ZIP file > Extract All > OK.
-4. Open the folder in the command line (Suggesting to use bash terminal in case you are using the Windows operating system).
-5. Run `yarn install; yarn build;` .
-6. Open Chrome > go to this link `chrome://extensions/` .
-7. Enable "Developer mode".
-8. Click "Load unpacked" and then choose `extension/chrome` inside the extracted folder. 
-9. To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
+> Download via [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) or
+
+- Download the latest build `chrome.zip` in [releases](https://github.com/ansh/bionic-reading/releases)
+- Extract the `chrome` folder from the zip file
+- Open Chrome > go to this link `chrome://extensions/` .
+- Enable "Developer mode".
+- Click "Load unpacked" and then choose the `chrome` folder. 
+- To pin the extension, click the puzzle icon on the top right of Chrome, then pin the extension.
 
 
 ## Firefox
@@ -66,3 +62,10 @@ to debug run
 # Development
 1. Run ```yarn dev:chrome``` to start dev server with hot reloading <br/>
 You may enable vscode to run ```yarn dev:chrome``` by copying .vscode/tasks.json.example to .vscode/tasks.json
+
+# Release a new version
+
+- Change `version` in `package.json`, eg. `"version": "1.0.0"`
+- Push a new tag to GitHub, eg. `git tag 1.0.0 && git push --tags`
+- The Workflow should be running [here](https://github.com/ansh/bionic-reading/actions)
+- Check the release version [here](https://github.com/ansh/bionic-reading/releases) and edit release notes.

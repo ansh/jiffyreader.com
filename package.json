@@ -1,6 +1,6 @@
 {
   "name": "jiffy-reader",
-  "version": "1.0.0",
+  "version": "0.0.3",
   "description": "jiffy reader",
   "main": "index.js",
   "dependencies": {
