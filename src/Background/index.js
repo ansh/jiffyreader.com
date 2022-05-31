@@ -31,6 +31,26 @@ const listener = (request, sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     }
+    case 'getToggledOnList': {
+      const toggledOnListJSON = localStorage.getItem('toggledOnList');
+      try {
+        const list = JSON.parse(toggledOnListJSON);
+        sendResponse({ data: list });
+      } catch (err) {
+        sendResponse({ data: {} });
+      }
+      break;
+    }
+    case 'setToggledOnList': {
+      try {
+        const jsonStr = JSON.stringify(request.data);
+        localStorage.setItem('toggledOnList', jsonStr);
+        sendResponse({ success: true });
+      } catch (err) {
+        sendResponse({ success: false });
+      }
+      break;
+    }
     default:
       break;
   }

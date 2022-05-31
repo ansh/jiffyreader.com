@@ -5,6 +5,9 @@ const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
+const toggledListBtn = document.getElementById('toggledListBtn');
+const toggledOnListEl = document.getElementById('toggledOnList');
+let toggledOnList = {};
 
 chrome.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
@@ -136,3 +139,66 @@ function updateSaccadesLabelValue(saccadesInterval) {
 function setBrModeOnBody(/** @type boolean */mode) {
   document.body.setAttribute('br-mode', mode ? 'on' : 'off');
 }
+
+async function handleToggledOnListChange() {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const currentUrl = tabs[0].url;
+    toggledListBtn.classList.remove('bg-danger');
+    if (toggledOnList[currentUrl]) {
+      toggledListBtn.textContent = 'Remove URL From Toggled On List';
+      toggledListBtn.classList.add('bg-danger');
+      toggledListBtn.setAttribute('data-url', currentUrl);
+      chrome.tabs.sendMessage(
+        tabs[0].id,
+        { type: 'toggleReadingMode', data: undefined },
+        () => {
+          if (chrome.runtime.lastError) {
+            // no-op
+          }
+        },
+      );
+    } else {
+      toggledListBtn.textContent = 'Add URL To Toggled On List';
+    }
+  });
+
+  while (toggledOnListEl.firstChild) {
+    toggledOnListEl.removeChild(toggledOnListEl.firstChild);
+  }
+  for (const url in toggledOnList) {
+    if (toggledOnList[url]) {
+      const li = document.createElement('li');
+      li.textContent = url;
+      toggledOnListEl.appendChild(li);
+    }
+  }
+}
+
+chrome.runtime.sendMessage(
+  { message: 'getToggledOnList' },
+  (response) => {
+    toggledOnList = response.data;
+    handleToggledOnListChange();
+  },
+);
+
+toggledListBtn.addEventListener('click', async () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    const urlToRemove = toggledListBtn.getAttribute('data-url');
+    if (urlToRemove && toggledOnList[urlToRemove]) {
+      delete toggledOnList[urlToRemove];
+    } else {
+      toggledOnList[tabs[0].url] = true;
+    }
+    chrome.runtime.sendMessage(
+      { message: 'setToggledOnList', data: toggledOnList },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          // no-op
+        } else if (response.success) {
+          handleToggledOnListChange();
+        }
+      },
+    );
+  });
+});

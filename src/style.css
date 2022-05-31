@@ -37,6 +37,34 @@ button:active {
 	justify-content: center;
 }
 
+#toggledOnList {
+    list-style-type: none;
+    padding: 0;
+    max-height: 100px;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow-y: auto;
+    white-space: nowrap;
+	margin: 0;
+	scrollbar-width: thin;
+}
+
+#toggledOnList li {
+	margin-top: 4px;
+}
+
+.bg-danger {
+	background: #f44336;
+}
+
+.m-0 {
+	margin: 0;
+}
+
+.mt-lg {
+	margin-top: 12px
+}
+
 .w-100 {
 	width: 100%;
 }
