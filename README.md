@@ -22,6 +22,7 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Firefox](#firefox)
   - [Opera](#opera)
   - [Edge](#edge)
+  - [Bookmarklet](#bookmarklet)
 - [What is Bionic Reading?](#what-is-bionic-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
 - [How to Contribution](#how-to-contribution)
@@ -74,6 +75,11 @@ The best way to install this extension is to follow the instructions below. Howe
   - Please follow the steps for [chrome](#chrome) above
 
 
+## Bookmarklet
+Drag and drop the following code into your browser's bookmarks section as seen below, then click the bookmark on any page to toggle Bionic Reading.:
+```js
+function highlightText(t){return t.split(" ").map((t=>{if(t.includes("-"))return t.split("-").map((t=>highlightText(t))).join("-");if(/\d/.test(t))return t;const{length:e}=t;let n=1;e>3&&(n=Math.round(e/2));return`<br-bold>${t.slice(0,n)}</br-bold>${t.slice(n)}`})).join(" ")}function main(){const t=document.getElementsByTagName("br-bold");if(document.body.classList.toggle("br-bold"),t.length)return;const e=document.createElement("style");e.textContent=".br-bold br-bold { font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); }",document.head.appendChild(e);const n=new DOMParser;["p","font","span","li"].forEach((t=>{for(const e of document.getElementsByTagName(t)){const t=n.parseFromString(e.innerHTML,"text/html"),o=Array.from(t.body.childNodes).map((t=>t.nodeType===Node.TEXT_NODE?highlightText(t.nodeValue):t.outerHTML));e.innerHTML=o.join(" ")}}))}main();
+```
 
 # What is Bionic Reading?
 Bionic Reading is a new method facilitating the reading process by guiding the eyes through text with artficial fixation points.
