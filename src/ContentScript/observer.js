@@ -1,6 +1,6 @@
 /** @type {MutationCallback} */
 export function makeObserverCallback(parserFn) {
-  function observeNewlyAddedNodes(/** @type {MutationrRecord[]} */ mutationRecords) {
+  function observeNewlyAddedNodesCallback(/** @type {MutationrRecord[]} */ mutationRecords) {
     mutationRecords.forEach(({ type, addedNodes }) => {
       if (type !== 'childList') return;
 
@@ -8,7 +8,7 @@ export function makeObserverCallback(parserFn) {
     });
   }
 
-  return observeNewlyAddedNodes;
+  return observeNewlyAddedNodesCallback;
 }
 
 export function runObserver(observer, target, observerCallback) {
