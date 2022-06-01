@@ -1,4 +1,6 @@
-/** @type {MutationCallback} */
+/** @type {MutationCallback}
+ * @description make and observer callback function to process new nodes
+ */
 export function makeObserverCallback(parserFn) {
   function observeNewlyAddedNodesCallback(/** @type {MutationrRecord[]} */ mutationRecords) {
     mutationRecords.forEach(({ type, addedNodes }) => {
@@ -11,6 +13,9 @@ export function makeObserverCallback(parserFn) {
   return observeNewlyAddedNodesCallback;
 }
 
+/**
+ * @description setup an observer on a target node
+ */
 export function runObserver(observer, target, observerCallback) {
   if (observer || !target) return null;
 
