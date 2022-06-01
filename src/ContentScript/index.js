@@ -1,3 +1,5 @@
+import { destroyObserver, makeObserverCallback, runObserver } from './observer';
+
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const FIXATION_BREAK_RATIO = 0.33;
@@ -6,7 +8,9 @@ const DEFAULT_SACCADES_INTERVAL = 0;
 const DEFAULT_FIXATION_STRENGTH = 3;
 
 // which tag's content should be ignored from bolded
-const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT'];
+const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD'];
+
+let observer;
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
@@ -40,7 +44,7 @@ function makeFixations(/** @type string */ textContent) {
 
 function parseNode(/** @type Element */ node) {
   // some websites add <style>, <script> tags in the <body>, ignore these tags
-  if (IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
+  if (!node?.parentElement?.tagName || IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
     return;
   }
 
@@ -69,11 +73,13 @@ const ToggleReading = (enableReading) => {
   if (boldedElements.length < 1) {
     addStyles();
     [...document.body.children].forEach(parseNode);
+    observer = runObserver(observer, document.body, makeObserverCallback(parseNode));
   }
 
   if (document.body.classList.contains('br-bold') || enableReading === false) {
     document.body.classList.remove('br-bold');
     console.timeEnd('ToggleReading-Time');
+    destroyObserver(observer);
     return;
   }
 
