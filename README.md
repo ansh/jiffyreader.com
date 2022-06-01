@@ -7,7 +7,7 @@ A Chrome Extension for Bionic Reading on ANY website!
 
 
 # How it works
-Below is a screenshot demonstrating how the extension works by bolding out the initial parts of all text on any page when clicked. There are toggles and dials to customize it to your preference so you can enjoy your time reading. You must agree; this is awesome right.
+Below is a screenshot demonstrating how the extension works by bolding out the initial parts of all text on any page when clicked. There are toggles and sliders to customize it to your preference so you can enjoy your time reading. You must agree this is awesome right?
 ![Screenshot from 2022-05-29 19-13-02](https://user-images.githubusercontent.com/20851930/170895288-992e802f-4f64-4134-97cc-5144685ecb9e.png)
 
 
@@ -93,9 +93,8 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
 
 
 
-# How to Contribution
-  Anyone is welcome to provide contributions to this project by submitting a PR (Pull Request) and it will be happily merged to provide features and 
-  fixes to the increadible people using the extension.
+# How to Contribute
+  Anyone is welcome to provide contributions to this project by submitting a PR (Pull Request) and it will be happily merged to provide features and fixes to the incredible people using the extension.
 
 ## Development
    1. Clone the project
@@ -111,7 +110,7 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
   2. Open `vs code command pallet`
   3. Type and select `Tasks: Manage Automatic Tasks in Folder`
   4. Click `Allow Automatic Tasks in Folder`.
-  5. Reload vs code. 
+  5. Reload VS code. 
 
 
 
