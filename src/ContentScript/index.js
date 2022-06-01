@@ -72,22 +72,27 @@ const ToggleReading = (enableReading) => {
 
   if (boldedElements.length < 1) {
     addStyles();
-    [...document.body.children].forEach(parseNode);
-    observer = runObserver(observer, document.body, makeObserverCallback(parseNode));
   }
 
   if (document.body.classList.contains('br-bold') || enableReading === false) {
     document.body.classList.remove('br-bold');
     console.timeEnd('ToggleReading-Time');
     destroyObserver(observer);
+    observer = null;
     return;
   }
 
-  if (!document.body.classList.contains('br-bold')) {
+  /**
+   * add .br-bold if it was not present or if enableReading is true
+   * enableReading = true means add .br-bold to document.body when a page loads
+   */
+  if (!document.body.classList.contains('br-bold') || enableReading) {
     document.body.classList.add('br-bold');
-  }
+    [...document.body.children].forEach(parseNode);
 
-  if (enableReading) document.body.classList.add('br-bold');
+    /** make an observer if one does not exist and .br-bold is present on body/active */
+    if (!observer) observer = runObserver(observer, document.body, makeObserverCallback(parseNode));
+  }
 
   console.timeEnd('ToggleReading-Time');
 };
