@@ -1,53 +1,68 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" href="style.css" />
-  </head>
 
-  <body class="flex flex-column" br-mode="">
-    <button id="toggleBtn" class="w-100 flex flex-column align-items-center">
-		<span>	
-			Toggle Reading Mode 
-		</span>
-		<span id="onModeLabel" class="modeLabel">On</span>
-		<span id="offModeLabel" class="modeLabel">off</span>
-	</button>
+<head>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-    <div id="saccadesEdit" class="w-100">
-      <label style="display: block" id="lineHeightLabel">Saccades interval: <span id="saccadesLabelValue"></span></label>
-      <div class="slidecontainer">
-        <input type="range" min="0" max="4" value="" class="slider" id="saccadesSlider" />
+<body class="flex flex-column" br-mode="">
+
+  <div class="flex flex-column">
+    <span class="mb-md">Preference:</span>
+    <div class="flex w-100 justify-between">
+      <div class="w-100 pr-mr">
+        <button id="globalPrefs" class="flex flex-column align-items-center w-100">
+          Global
+        </button>
+      </div>
+      <div class="w-100 pl-md">
+        <button id="localPrefs" class="flex flex-column align-items-center w-100">
+          Site
+        </button>
       </div>
     </div>
+  </div>
 
-    <div id="fixationsEdit" class="w-100">
-      <label style="display: block" id="lineHeightLabel">Fixations strength: <span id="fixationStrengthLabelValue"></span></label>
-      <div class="slidecontainer">
-        <input type="range" min="1" max="3" value="" class="slider" id="fixationStrengthSlider" />
-      </div>
-    </div>
-    
-    <div id="lineHeightEdit" class="w-100">
-      <label style="display: block" id="lineHeightLabel">Line Height</label>
-      <div id="buttonGroup" class="w-100 flex justify-between">
-        <button id="lineHeightdecrease">Smaller</button>
-        <button id="lineHeightIncrease">Bigger</button>
-        <button id="lineHeightReset">&circlearrowleft;</button>
-      </div>
-    </div>
+  <button id="readingModeToggleBtn" class="w-100 flex flex-column align-items-center">
+    Enable Reading Mode
+  </button>
 
-    <div id="checkboxContainer">
-      <input type="checkbox" id="toggleReadingMode" name="toggle" />
-      <label for="toggleReadingMode">Toggle on default</label>
+  <div id="saccadesEdit" class="w-100">
+    <label class="block" id="lineHeightLabel">
+      Saccades interval: <span id="saccadesLabelValue"></span>
+    </label>
+    <div class="slidecontainer">
+      <input type="range" min="0" max="4" value="" class="slider w-100" id="saccadesSlider" />
     </div>
+  </div>
 
-    <div class="flex flex-column">
-      <button id="toggledListBtn" class="w-100 flex flex-column align-items-center">
-      </button> 
-      <p class="m-0 mt-lg">Toggled On List:</p>
-      <ul id="toggledOnList">
-      </ul>
+  <div id="fixationsEdit" class="w-100">
+    <label class="block" id="lineHeightLabel">
+      Fixations strength: <span id="fixationStrengthLabelValue"></span>
+    </label>
+    <div class="slidecontainer">
+      <input type="range" min="1" max="3" value="" class="slider w-100" id="fixationStrengthSlider" />
     </div>
+  </div>
 
-    </body>
+  <div class="w-100">
+    <label class="block" id="lineHeightLabel">Line Height</label>
+    <div class="w-100 flex justify-center">
+      <button id="lineHeightdecrease" class="mr-md w-100">
+        <span class="block">Aa</span>
+        <span class="text-sm">Smaller</span>
+      </button>
+      <button id="lineHeightIncrease" class="ml-md w-100">
+        <span class="block text-bold">Aa</span>
+        <span class="text-sm">Larger</span>
+      </button>
+    </div>
+  </div>
+
+  <button id="toggleBtn" class="w-100 flex flex-column align-items-center">
+    Reset Defaults
+  </button>
+
+</body>
+
 </html>

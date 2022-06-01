@@ -1,86 +1,142 @@
 body {
-	padding: 10px;
-	min-width: 170px;
-	justify-content: center;
-	gap: 14px;
+  padding: 10px;
+  min-width: 170px;
+  justify-content: center;
+  gap: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
+    Ubuntu, Cantarell, Helvetica Neue, sans-serif;
 }
 
 button {
-	padding: 10px;
-	border: none;
-	border-radius: 2px;
-	color: white;
-	cursor: pointer;
-	background: #3aa757;
+  padding: 9px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  background: transparent;
+  color: #3aa757;
+  outline: 1px solid #3aa757;
+  box-sizing: border-box;
 }
 
-.modeLabel {
-	display: none;
-}
-
-:is([br-mode="on"] #onModeLabel, [br-mode="off"] #offModeLabel) {
-	display: initial;
+button:active,
+button.selected {
+  background: #3aa757;
+  outline: 1px solid transparent;
+  color: white;
 }
 
 button:active {
-	transform: scale(1.05);
+  transform: scale(1.05);
+}
+
+.modeLabel {
+  display: none;
+}
+
+:is([br-mode="on"] #onModeLabel, [br-mode="off"] #offModeLabel) {
+  display: initial;
 }
 
 #lineHeightLabel {
-	padding-bottom: 4px;
+  padding-bottom: 4px;
 }
 
 #checkboxContainer {
-	margin-top: 10px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-#toggledOnList {
-    list-style-type: none;
-    padding: 0;
-    max-height: 100px;
-    max-width: 200px;
-    text-overflow: ellipsis;
-    overflow-y: auto;
-    white-space: nowrap;
-	margin: 0;
-	scrollbar-width: thin;
-}
-
-#toggledOnList li {
-	margin-top: 4px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .bg-danger {
-	background: #f44336;
+  background: #f44336;
 }
 
 .m-0 {
-	margin: 0;
+  margin: 0;
+}
+
+.m-sm {
+  margin: 4px;
+}
+
+.mr-md {
+  margin-right: 4px;
+}
+
+.ml-md {
+  margin-left: 4px;
+}
+
+.m-md {
+  margin: 8px;
+}
+
+.mb-md {
+  margin-bottom: 8px;
 }
 
 .mt-lg {
-	margin-top: 12px
+  margin-top: 12px;
+}
+
+.pt-sm {
+  padding-top: 4px;
+}
+
+.pr-sm {
+  padding-right: 4px;
+}
+
+.pr-md {
+  padding-right: 6px;
+}
+
+.pl-sm {
+  padding-left: 4px;
+}
+
+.pl-md {
+  padding-left: 6px;
 }
 
 .w-100 {
-	width: 100%;
+  width: 100%;
+}
+
+.text-sm {
+  font-size: 75%;
+}
+
+.text-bold {
+  font-weight: bold;
 }
 
 .flex {
-	display: flex;
+  display: flex;
 }
 
 .flex-column {
-	flex-direction: column;
+  flex-direction: column;
 }
 
 .justify-between {
-	justify-content: space-between;
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
 }
 
 .align-items-center {
-	align-items: center;
+  align-items: center;
+}
+
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
 }
