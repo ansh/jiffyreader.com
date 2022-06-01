@@ -24,5 +24,7 @@
       "js": ["js/contentScript.bundle.js"]
     }
   ],
-  "permissions": ["storage", "activeTab"]
+  "permissions": ["storage", "activeTab"],
+  "__dev__name": "jiffy-reader-dev"
+  
 }
