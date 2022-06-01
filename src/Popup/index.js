@@ -30,12 +30,16 @@ function retrievePrefs() {
         storePrefs(preferences);
       }
       getPrefsByScope(preferences, (scopedPrefs) => {
-        onSaccadesInterval(scopedPrefs.saccadesInterval);
-        onReadingModeToggled(scopedPrefs.enabled);
-        onFixationStrength(scopedPrefs.fixationStrength);
+        applyScopedPrefsUpdates(scopedPrefs);
       });
     },
   );
+}
+
+function applyScopedPrefsUpdates(scopedPrefs) {
+  onSaccadesInterval(scopedPrefs.saccadesInterval);
+  onReadingModeToggled(scopedPrefs.enabled);
+  onFixationStrength(scopedPrefs.fixationStrength);
 }
 
 function storePrefs(prefs) {
@@ -87,31 +91,34 @@ function setPrefsByScope(newScopedPrefscb, cb) {
   getPrefsByScope(preferences, (scopedPrefs) => {
     newPrefsByScope(
       preferences,
-      newScopedPrefscb(scopedPrefs),
+      ({ ...scopedPrefs, ...newScopedPrefscb(scopedPrefs) }),
       (newPreferences, newScopedPrefs) => {
         preferences = newPreferences;
         storePrefs(preferences);
-        cb(preferences, newScopedPrefs);
+        if (typeof cb === 'function') {
+          cb(preferences, newScopedPrefs);
+        }
+        applyScopedPrefsUpdates(newScopedPrefs);
       },
     );
   });
 }
 
 function onSaccadesInterval(value) {
-  const saccadesInterval = value;
-  const documentButtons = document.getElementsByTagName('button');
-  for (let index = 0; index < documentButtons.length; index++) {
-    const button = documentButtons.item(index);
-
-    const buttonId = button.getAttribute('id');
-    if (/lineHeight/.test(buttonId)) {
-      button.addEventListener('click', updateLineHeightClickHandler);
-    }
-  }
-
-  updateSaccadesLabelValue(saccadesInterval);
+  const saccadesInterval = Number(value);
+  saccadesLabelValue.textContent = saccadesInterval;
   saccadesIntervalSlider.value = saccadesInterval;
-  saccadesIntervalSlider.addEventListener('change', updateSaccadesChangeHandler);
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+    chrome.tabs.sendMessage(
+      tab.id,
+      { type: 'setSaccadesIntervalInDOM', data: saccadesInterval },
+      () => {
+        if (chrome.runtime.lastError) {
+          // no-op
+        }
+      },
+    );
+  });
 }
 
 function onReadingModeToggled(enabled) {
@@ -120,34 +127,59 @@ function onReadingModeToggled(enabled) {
   } else {
     readingModeToggleBtn.classList.remove('selected');
   }
+
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { type: 'setReadingMode', data: enabled },
+      () => {
+        if (chrome.runtime.lastError) {
+          // no-op
+        }
+      },
+    );
+  });
 }
 
 function onFixationStrength(value) {
   fixationStrengthLabelValue.textContent = value;
   fixationStrengthSlider.value = value;
-}
-
-readingModeToggleBtn.addEventListener('click', async () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    setPrefsByScope(
-      (oldScopedPrefs) => ({
-        ...oldScopedPrefs,
-        enabled: !oldScopedPrefs.enabled,
-      }),
-      (newPreferences, newScopedPrefs) => {
-        setBrModeOnBody(newScopedPrefs.enabled);
-        chrome.tabs.sendMessage(
-          tabs[0].id,
-          { type: 'setReadingMode', data: newScopedPrefs.enabled },
-          () => {
-            if (chrome.runtime.lastError) {
-              // no-op
-            }
-          },
-        );
+  const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: value };
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+    chrome.tabs.sendMessage(
+      tab.id,
+      payload,
+      (response) => {
+        if (chrome.runtime.lastError) {
+          // no-op
+        }
       },
     );
   });
+}
+
+saccadesIntervalSlider.addEventListener('change', (event) => {
+  setPrefsByScope(
+    (_) => ({
+      saccadesInterval: event.target.value,
+    }),
+  );
+});
+
+fixationStrengthSlider.addEventListener('change', (event) => {
+  setPrefsByScope(
+    (_) => ({
+      fixationStrength: event.target.value,
+    }),
+  );
+});
+
+readingModeToggleBtn.addEventListener('click', async () => {
+  setPrefsByScope(
+    (oldScopedPrefs) => ({
+      enabled: !oldScopedPrefs.enabled,
+    }),
+  );
 });
 
 async function updateLineHeightClickHandler(event) {
@@ -164,56 +196,4 @@ async function updateLineHeightClickHandler(event) {
   });
 }
 
-function updateSaccadesChangeHandler(event) {
-  const saccadesInterval = Number(event.target.value);
-  updateSaccadesLabelValue(saccadesInterval);
-  updateSaccadesIntermediateHandler(saccadesInterval);
-}
-
-async function updateSaccadesIntermediateHandler(_saccadesInterval) {
-  chrome.runtime.sendMessage(
-    { message: 'setSaccadesInterval', data: _saccadesInterval },
-    (response) => {
-    },
-  );
-  chrome.tabs.query({}, (tabs) => {
-    tabs.forEach((tab) => new Promise(() => {
-      try {
-        chrome.tabs.sendMessage(
-          tab.id,
-          { type: 'setSaccadesIntervalInDOM', data: _saccadesInterval },
-          () => {
-            if (chrome.runtime.lastError) {
-              // no-op
-            }
-          },
-        );
-      } catch (e) {
-        // no-op
-      }
-    }));
-  });
-}
-
-fixationStrengthSlider.addEventListener('change', (event) => {
-  fixationStrengthLabelValue.textContent = event.target.value;
-  const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: event.target.value };
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(tab.id, payload, (response) => {
-      //
-    });
-  });
-
-  chrome.runtime.sendMessage(payload, (response) => {
-  });
-});
-/**
- * @description Show the word interval between saccades
- */
-function updateSaccadesLabelValue(saccadesInterval) {
-  document.getElementById('saccadesLabelValue').textContent = saccadesInterval;
-}
-
-function setBrModeOnBody(/** @type boolean */mode) {
-  document.body.setAttribute('br-mode', mode ? 'on' : 'off');
-}
+retrievePrefs();

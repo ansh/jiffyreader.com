@@ -145,7 +145,6 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
 
 function docReady(fn) {
   // see if DOM is already available
-  
   if (
     document.readyState === 'complete'
     || document.readyState === 'interactive'
