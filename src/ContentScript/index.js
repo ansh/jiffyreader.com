@@ -218,28 +218,28 @@ function addStyles() {
 docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-  chrome.runtime.sendMessage(
-    { message: 'getToggleOnDefault' },
-    (response) => {
-      if (!['true', true].includes(response.data)) return;
-      ToggleReading(response.data === 'true');
-    },
-  );
-  chrome.runtime.sendMessage(
-    { message: 'getSaccadesInterval' },
-    (response) => {
-      const saccadesInterval = response === undefined || response.data == null
-        ? DEFAULT_SACCADES_INTERVAL : response.data;
-      document.body.setAttribute('saccades-interval', saccadesInterval);
-    },
-  );
+  // chrome.runtime.sendMessage(
+  //   { message: 'getToggleOnDefault' },
+  //   (response) => {
+  //     if (!['true', true].includes(response.data)) return;
+  //     ToggleReading(response.data === 'true');
+  //   },
+  // );
+  // chrome.runtime.sendMessage(
+  //   { message: 'getSaccadesInterval' },
+  //   (response) => {
+  //     const saccadesInterval = response === undefined || response.data == null
+  //       ? DEFAULT_SACCADES_INTERVAL : response.data;
+  //     document.body.setAttribute('saccades-interval', saccadesInterval);
+  //   },
+  // );
 
-  chrome.runtime.sendMessage(
-    { message: 'getFixationStrength' },
-    (response) => {
-      const fixationStrength = response === undefined || response.data == null
-        ? DEFAULT_FIXATION_STRENGTH : response.data;
-      document.body.setAttribute('fixation-strength', fixationStrength);
-    },
-  );
+  // chrome.runtime.sendMessage(
+  //   { message: 'getFixationStrength' },
+  //   (response) => {
+  //     const fixationStrength = response === undefined || response.data == null
+  //       ? DEFAULT_FIXATION_STRENGTH : response.data;
+  //     document.body.setAttribute('fixation-strength', fixationStrength);
+  //   },
+  // );
 });

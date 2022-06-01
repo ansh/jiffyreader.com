@@ -1,13 +1,63 @@
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
-const toggleBtn = document.getElementById('toggleBtn');
-const toggleOnDefaultCheckbox = document.getElementById('toggleReadingMode');
+const readingModeToggleBtn = document.getElementById('readingModeToggleBtn');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
+const saccadesLabelValue = document.getElementById('saccadesLabelValue');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
-const toggledListBtn = document.getElementById('toggledListBtn');
-const toggledOnListEl = document.getElementById('toggledOnList');
-let toggledOnList = {};
+
+const preference = {
+  enabled: false,
+  saccadesInterval: 0,
+  fixationStrength: 1,
+};
+
+let currentPrefs = {
+  pref: 'global', // 'global', 'local',
+  global: {
+    ...preference,
+  },
+  local: {},
+};
+
+chrome.runtime.sendMessage(
+  { message: 'getPrefs' },
+  (response) => {
+    if (response.data) {
+      currentPrefs = response.data;
+    } else {
+      setPrefs(currentPrefs);
+    }
+
+    selectPrefsToApply(currentPrefs, (prefs) => {
+      console.log('olhehehea', prefs)
+    });
+  },
+);
+
+function setPrefs(prefs) {
+  chrome.runtime.sendMessage(
+    { message: 'setPrefs', data: prefs },
+    (response) => { },
+  );
+}
+
+function selectPrefsToApply(prefs, cb) {
+  let prefsToApply = prefs.global;
+  if (prefs.pref === 'local') {
+    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+      for (const origin in prefs.local) {
+        if (tab.url.indexOf(origin) === 0) {
+          prefsToApply = prefs.local[origin];
+          break;
+        }
+      }
+      cb(prefsToApply);
+    });
+  } else {
+    cb(prefsToApply);
+  }
+}
 
 chrome.runtime.sendMessage(
   { message: 'getSaccadesInterval' },
@@ -140,65 +190,4 @@ function setBrModeOnBody(/** @type boolean */mode) {
   document.body.setAttribute('br-mode', mode ? 'on' : 'off');
 }
 
-async function handleToggledOnListChange() {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const currentUrl = tabs[0].url;
-    toggledListBtn.classList.remove('bg-danger');
-    if (toggledOnList[currentUrl]) {
-      toggledListBtn.textContent = 'Remove URL From Toggled On List';
-      toggledListBtn.classList.add('bg-danger');
-      toggledListBtn.setAttribute('data-url', currentUrl);
-      chrome.tabs.sendMessage(
-        tabs[0].id,
-        { type: 'toggleReadingMode', data: undefined },
-        () => {
-          if (chrome.runtime.lastError) {
-            // no-op
-          }
-        },
-      );
-    } else {
-      toggledListBtn.textContent = 'Add URL To Toggled On List';
-    }
-  });
 
-  while (toggledOnListEl.firstChild) {
-    toggledOnListEl.removeChild(toggledOnListEl.firstChild);
-  }
-  for (const url in toggledOnList) {
-    if (toggledOnList[url]) {
-      const li = document.createElement('li');
-      li.textContent = url;
-      toggledOnListEl.appendChild(li);
-    }
-  }
-}
-
-chrome.runtime.sendMessage(
-  { message: 'getToggledOnList' },
-  (response) => {
-    toggledOnList = response.data;
-    handleToggledOnListChange();
-  },
-);
-
-toggledListBtn.addEventListener('click', async () => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    const urlToRemove = toggledListBtn.getAttribute('data-url');
-    if (urlToRemove && toggledOnList[urlToRemove]) {
-      delete toggledOnList[urlToRemove];
-    } else {
-      toggledOnList[tabs[0].url] = true;
-    }
-    chrome.runtime.sendMessage(
-      { message: 'setToggledOnList', data: toggledOnList },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          // no-op
-        } else if (response.success) {
-          handleToggledOnListChange();
-        }
-      },
-    );
-  });
-});

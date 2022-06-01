@@ -2,52 +2,23 @@ const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const listener = (request, sender, sendResponse) => {
   switch (request.message) {
-    case 'getToggleOnDefault': {
-      const toggleOnDefault = localStorage.getItem('toggleOnDefault');
-      sendResponse({ data: toggleOnDefault });
-      break;
-    }
-    case 'setToggleOnDefault': {
-      localStorage.setItem('toggleOnDefault', request.data);
-      sendResponse({ success: true });
-      break;
-    }
-    case 'getSaccadesInterval': {
-      const saccadesInterval = localStorage.getItem('saccadesInterval');
-      sendResponse({ data: saccadesInterval });
-      break;
-    }
-    case 'setSaccadesInterval': {
-      localStorage.setItem('saccadesInterval', request.data);
-      sendResponse({ success: true });
-      break;
-    }
-    case 'getFixationStrength': {
-      sendResponse({ data: localStorage.getItem('fixationStrength') });
-      break;
-    }
-    case 'setFixationStrength': {
-      localStorage.setItem('fixationStrength', request.data);
-      sendResponse({ success: true });
-      break;
-    }
-    case 'getToggledOnList': {
-      const toggledOnListJSON = localStorage.getItem('toggledOnList');
+    case 'setPrefs': {
       try {
-        const list = JSON.parse(toggledOnListJSON);
-        sendResponse({ data: list });
+        const prefsJSONStr = JSON.stringify(request.data);
+        localStorage.setItem('sitePreferences', prefsJSONStr);
+        sendResponse({ success: true });
       } catch (err) {
-        sendResponse({ data: {} });
+        sendResponse({ success: false, error: err });
       }
       break;
     }
-    case 'setToggledOnList': {
+    case 'getPrefs': {
+      const prefsJSONStr = localStorage.getItem('sitePreferences');
       try {
-        const jsonStr = JSON.stringify(request.data);
-        localStorage.setItem('toggledOnList', jsonStr);
-        sendResponse({ success: true });
+        const prefs = JSON.parse(prefsJSONStr);
+        sendResponse({ data: prefs });
       } catch (err) {
-        sendResponse({ success: false });
+        sendResponse({ data: null, error: err });
       }
       break;
     }
