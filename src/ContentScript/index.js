@@ -63,7 +63,6 @@ function parseNode(/** @type Element */ node) {
 }
 
 const ToggleReading = (enableReading) => {
-  console.time('ToggleReading-Time');
   const boldedElements = document.getElementsByTagName('br-bold');
 
   if (boldedElements.length < 1) {
@@ -73,7 +72,6 @@ const ToggleReading = (enableReading) => {
 
   if (document.body.classList.contains('br-bold') || enableReading === false) {
     document.body.classList.remove('br-bold');
-    console.timeEnd('ToggleReading-Time');
     return;
   }
 
@@ -82,8 +80,6 @@ const ToggleReading = (enableReading) => {
   }
 
   if (enableReading) document.body.classList.add('br-bold');
-
-  console.timeEnd('ToggleReading-Time');
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
@@ -149,6 +145,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
 
 function docReady(fn) {
   // see if DOM is already available
+  
   if (
     document.readyState === 'complete'
     || document.readyState === 'interactive'

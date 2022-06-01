@@ -6,120 +6,148 @@ const saccadesLabelValue = document.getElementById('saccadesLabelValue');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
 
-const preference = {
+const defaultPrefs = {
   enabled: false,
   saccadesInterval: 0,
   fixationStrength: 1,
 };
 
-let currentPrefs = {
-  pref: 'global', // 'global', 'local',
+let preferences = {
+  scope: 'global', // 'global', 'local',
   global: {
-    ...preference,
+    ...defaultPrefs,
   },
   local: {},
 };
 
-chrome.runtime.sendMessage(
-  { message: 'getPrefs' },
-  (response) => {
-    if (response.data) {
-      currentPrefs = response.data;
-    } else {
-      setPrefs(currentPrefs);
-    }
-
-    selectPrefsToApply(currentPrefs, (prefs) => {
-      console.log('olhehehea', prefs)
-    });
-  },
-);
-
-function setPrefs(prefs) {
+function retrievePrefs() {
   chrome.runtime.sendMessage(
-    { message: 'setPrefs', data: prefs },
+    { message: 'retrievePrefs' },
+    (response) => {
+      if (response.data) {
+        preferences = response.data;
+      } else {
+        storePrefs(preferences);
+      }
+      getPrefsByScope(preferences, (scopedPrefs) => {
+        onSaccadesInterval(scopedPrefs.saccadesInterval);
+        onReadingModeToggled(scopedPrefs.enabled);
+        onFixationStrength(scopedPrefs.fixationStrength);
+      });
+    },
+  );
+}
+
+function storePrefs(prefs) {
+  chrome.runtime.sendMessage(
+    { message: 'storePrefs', data: prefs },
     (response) => { },
   );
 }
 
-function selectPrefsToApply(prefs, cb) {
-  let prefsToApply = prefs.global;
-  if (prefs.pref === 'local') {
+function getPrefsByScope(prefs, cb) {
+  let scopedPrefs = prefs.global;
+  if (prefs.scope === 'local') {
     chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       for (const origin in prefs.local) {
         if (tab.url.indexOf(origin) === 0) {
-          prefsToApply = prefs.local[origin];
+          scopedPrefs = prefs.local[origin];
           break;
         }
       }
-      cb(prefsToApply);
+      cb(scopedPrefs);
     });
   } else {
-    cb(prefsToApply);
+    cb(scopedPrefs);
   }
 }
 
-chrome.runtime.sendMessage(
-  { message: 'getSaccadesInterval' },
-  (response) => {
-    const saccadesInterval = response === undefined || response.data == null ? 0 : response.data;
-    const documentButtons = document.getElementsByTagName('button');
-    for (let index = 0; index < documentButtons.length; index++) {
-      const button = documentButtons.item(index);
+function newPrefsByScope(prefs, scopedPrefs, cb) {
+  const newPrefs = { ...prefs };
+  newPrefs.global = { ...prefs.global, ...scopedPrefs };
+  let newScopedPrefs = newPrefs.global;
 
-      const buttonId = button.getAttribute('id');
-      if (/lineHeight/.test(buttonId)) {
-        button.addEventListener('click', updateLineHeightClickHandler);
-      }
-    }
-
-    updateSaccadesLabelValue(saccadesInterval);
-    saccadesIntervalSlider.value = saccadesInterval;
-    saccadesIntervalSlider.addEventListener('change', updateSaccadesChangeHandler);
-  },
-);
-
-chrome.runtime.sendMessage(
-  { message: 'getToggleOnDefault' },
-  (response) => {
-    toggleOnDefaultCheckbox.checked = response.data === 'true';
-  },
-);
-
-chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-  chrome.tabs.sendMessage(tab.id, {
-    message: 'getBrMode', type: 'getBrMode',
-  }, (request) => {
-    setBrModeOnBody(request.data);
-  });
-});
-
-chrome.runtime.sendMessage({ type: 'getFixationStrength', message: 'getFixationStrength' }, (response) => {
-  fixationStrengthLabelValue.textContent = response.data;
-  fixationStrengthSlider.value = response.data;
-});
-
-toggleBtn.addEventListener('click', async () => {
-  setBrModeOnBody(document.body.getAttribute('br-mode') === 'off');
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(
-      tabs[0].id,
-      { type: 'toggleReadingMode', data: undefined },
-      () => {
-        if (chrome.runtime.lastError) {
-          // no-op
+  if (prefs.scope === 'local') {
+    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+      for (const origin in prefs.local) {
+        if (tab.url.indexOf(origin) === 0) {
+          newPrefs.local[origin] = { ...newPrefs.local[origin], ...scopedPrefs };
+          newScopedPrefs = newPrefs.local[origin];
+          break;
         }
+      }
+      cb(newPrefs, newScopedPrefs);
+    });
+  } else {
+    cb(newPrefs, newScopedPrefs);
+  }
+}
+
+function setPrefsByScope(newScopedPrefscb, cb) {
+  getPrefsByScope(preferences, (scopedPrefs) => {
+    newPrefsByScope(
+      preferences,
+      newScopedPrefscb(scopedPrefs),
+      (newPreferences, newScopedPrefs) => {
+        preferences = newPreferences;
+        storePrefs(preferences);
+        cb(preferences, newScopedPrefs);
       },
     );
   });
-});
+}
 
-toggleOnDefaultCheckbox.addEventListener('change', async (event) => {
-  chrome.runtime.sendMessage(
-    { message: 'setToggleOnDefault', data: event.target.checked },
-    (response) => {
-    },
-  );
+function onSaccadesInterval(value) {
+  const saccadesInterval = value;
+  const documentButtons = document.getElementsByTagName('button');
+  for (let index = 0; index < documentButtons.length; index++) {
+    const button = documentButtons.item(index);
+
+    const buttonId = button.getAttribute('id');
+    if (/lineHeight/.test(buttonId)) {
+      button.addEventListener('click', updateLineHeightClickHandler);
+    }
+  }
+
+  updateSaccadesLabelValue(saccadesInterval);
+  saccadesIntervalSlider.value = saccadesInterval;
+  saccadesIntervalSlider.addEventListener('change', updateSaccadesChangeHandler);
+}
+
+function onReadingModeToggled(enabled) {
+  if (enabled) {
+    readingModeToggleBtn.classList.add('selected');
+  } else {
+    readingModeToggleBtn.classList.remove('selected');
+  }
+}
+
+function onFixationStrength(value) {
+  fixationStrengthLabelValue.textContent = value;
+  fixationStrengthSlider.value = value;
+}
+
+readingModeToggleBtn.addEventListener('click', async () => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    setPrefsByScope(
+      (oldScopedPrefs) => ({
+        ...oldScopedPrefs,
+        enabled: !oldScopedPrefs.enabled,
+      }),
+      (newPreferences, newScopedPrefs) => {
+        setBrModeOnBody(newScopedPrefs.enabled);
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          { type: 'setReadingMode', data: newScopedPrefs.enabled },
+          () => {
+            if (chrome.runtime.lastError) {
+              // no-op
+            }
+          },
+        );
+      },
+    );
+  });
 });
 
 async function updateLineHeightClickHandler(event) {
@@ -189,5 +217,3 @@ function updateSaccadesLabelValue(saccadesInterval) {
 function setBrModeOnBody(/** @type boolean */mode) {
   document.body.setAttribute('br-mode', mode ? 'on' : 'off');
 }
-
-

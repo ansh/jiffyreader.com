@@ -2,18 +2,18 @@ const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const listener = (request, sender, sendResponse) => {
   switch (request.message) {
-    case 'setPrefs': {
+    case 'storePrefs': {
       try {
         const prefsJSONStr = JSON.stringify(request.data);
-        localStorage.setItem('sitePreferences', prefsJSONStr);
+        localStorage.setItem('preferences', prefsJSONStr);
         sendResponse({ success: true });
       } catch (err) {
         sendResponse({ success: false, error: err });
       }
       break;
     }
-    case 'getPrefs': {
-      const prefsJSONStr = localStorage.getItem('sitePreferences');
+    case 'retrievePrefs': {
+      const prefsJSONStr = localStorage.getItem('preferences');
       try {
         const prefs = JSON.parse(prefsJSONStr);
         sendResponse({ data: prefs });
