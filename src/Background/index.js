@@ -4,8 +4,9 @@ const listener = (request, sender, sendResponse) => {
   switch (request.message) {
     case 'storePrefs': {
       try {
+        const key = `preferences_${request.action}`;
         const prefsJSONStr = JSON.stringify(request.data);
-        localStorage.setItem('preferences', prefsJSONStr);
+        localStorage.setItem(key, prefsJSONStr);
         sendResponse({ success: true });
       } catch (err) {
         sendResponse({ success: false, error: err });
@@ -13,7 +14,8 @@ const listener = (request, sender, sendResponse) => {
       break;
     }
     case 'retrievePrefs': {
-      const prefsJSONStr = localStorage.getItem('preferences');
+      const key = `preferences_${request.action}`;
+      const prefsJSONStr = localStorage.getItem(key);
       try {
         const prefs = JSON.parse(prefsJSONStr);
         sendResponse({ data: prefs });

@@ -17,124 +17,128 @@ const defaultPrefs = {
   saccadesInterval: 0,
   lineHeight: '',
   fixationStrength: 1,
+  scope: 'global',
 };
 
-let preferences = {
-  scope: 'global', // 'global', 'local',
-  global: {
-    ...defaultPrefs,
-  },
-  local: {},
-};
-
-function retrievePrefs() {
-  chrome.runtime.sendMessage(
-    { message: 'retrievePrefs' },
-    (response) => {
-      if (response.data) {
-        preferences = response.data;
-      }
-      if (preferences.scope === 'local') {
-        chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-          chrome.tabs.sendMessage(
-            tab.id,
-            { type: 'getOrigin' },
-            (res) => {
-              const origin = res.data;
-              if (!preferences.local[origin]) {
-                preferences.scope = 'global';
-              }
-              storePrefs(preferences);
-              getPrefsByScope(preferences, (scopedPrefs) => {
-                applyPrefsUpdate(preferences, scopedPrefs);
-              });
-            },
-          );
-        });
-      } else {
-        storePrefs(preferences);
-        getPrefsByScope(preferences, (scopedPrefs) => {
-          applyPrefsUpdate(preferences, scopedPrefs);
-        });
-      }
-    },
-  );
+async function retrieveLocalPrefs() {
+  return retrievePrefs('local');
 }
 
-function applyPrefsUpdate(newPreferences, scopedPrefs) {
-  onSaccadesInterval(scopedPrefs.saccadesInterval);
-  onReadingModeToggled(scopedPrefs.enabled);
-  onFixationStrength(scopedPrefs.fixationStrength);
-  onLineHeight(scopedPrefs.lineHeight);
-  onScopePreference(newPreferences.scope);
+async function retriveGlobalPrefs() {
+  return retrievePrefs('global');
 }
 
-function storePrefs(prefs) {
-  chrome.runtime.sendMessage(
-    { message: 'storePrefs', data: prefs },
-    (response) => { },
-  );
-}
-
-function getPrefsByScope(prefs, cb) {
-  if (prefs.scope === 'local') {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      chrome.tabs.sendMessage(
-        tab.id,
-        { type: 'getOrigin' },
-        (response) => {
-          const origin = response.data;
-          const scopedPrefs = prefs.local[origin] || { ...defaultPrefs };
-          cb(scopedPrefs);
-        },
-      );
-    });
-  } else {
-    const scopedPrefs = prefs.global;
-    cb(scopedPrefs);
-  }
-}
-
-function newPrefsByScope(prefs, scopedPrefs, cb) {
-  const newPrefs = { ...prefs };
-  let newScopedPrefs;
-
-  if (prefs.scope === 'local') {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      chrome.tabs.sendMessage(
-        tab.id,
-        { type: 'getOrigin' },
-        (response) => {
-          const origin = response.data;
-          newPrefs.local[origin] = { ...newPrefs.local[origin], ...scopedPrefs };
-          newScopedPrefs = newPrefs.local[origin];
-          cb(newPrefs, newScopedPrefs);
-        },
-      );
-    });
-  } else {
-    newPrefs.global = { ...prefs.global, ...scopedPrefs };
-    newScopedPrefs = newPrefs.global;
-    cb(newPrefs, newScopedPrefs);
-  }
-}
-
-function setPrefs(newScopedPrefscb, preferencePatch, cb) {
-  preferences = { ...preferences, ...preferencePatch };
-  getPrefsByScope(preferences, (scopedPrefs) => {
-    newPrefsByScope(
-      preferences,
-      ({ ...scopedPrefs, ...newScopedPrefscb(scopedPrefs) }),
-      (newPreferences, newScopedPrefs) => {
-        preferences = newPreferences;
-        storePrefs(preferences);
-        if (typeof cb === 'function') {
-          cb(preferences, newScopedPrefs);
-        }
-        applyPrefsUpdate(preferences, newScopedPrefs);
+async function retrievePrefs(action) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(
+      { message: 'retrievePrefs', action },
+      async (response) => {
+        resolve(response.data);
       },
     );
   });
+}
+
+async function storeLocalPrefs(prefs) {
+  return storePrefs(prefs, 'local');
+}
+
+async function storeGlobalPrefs(prefs) {
+  return storePrefs(prefs, 'global');
+}
+
+function storePrefs(prefs, action) {
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(
+      { message: 'storePrefs', data: prefs, action },
+      async (_) => {
+        resolve(true);
+      },
+    );
+  });
+}
+
+async function getOrigin() {
+  return new Promise((resolve, reject) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+      chrome.tabs.sendMessage(
+        tab.id,
+        { type: 'getOrigin' },
+        (res) => {
+          const origin = res.data;
+          if (origin) {
+            resolve(origin);
+          }
+        },
+      );
+    });
+  });
+}
+
+async function startup() {
+  let localPrefs = await retrieveLocalPrefs();
+  let globalPrefs = await retriveGlobalPrefs();
+  const origin = await getOrigin();
+
+  if (localPrefs == null) {
+    localPrefs = {};
+  }
+
+  if (!localPrefs[origin]) {
+    localPrefs[origin] = { ...defaultPrefs };
+  }
+
+  if (!globalPrefs) {
+    globalPrefs = { ...defaultPrefs };
+  }
+
+  storeLocalPrefs(localPrefs);
+  storeGlobalPrefs(globalPrefs);
+
+  if (localPrefs[origin].scope === 'global') {
+    applyPrefsUpdate(globalPrefs);
+  } else {
+    applyPrefsUpdate(localPrefs[origin]);
+  }
+}
+
+function applyPrefsUpdate(prefs) {
+  onSaccadesInterval(prefs.saccadesInterval);
+  onReadingModeToggled(prefs.enabled);
+  onFixationStrength(prefs.fixationStrength);
+  onLineHeight(prefs.lineHeight);
+  onScopePreference(prefs.scope || 'global');
+}
+
+async function setPrefs(newPrefs) {
+  const localPrefs = await retrieveLocalPrefs();
+  let globalPrefs = await retriveGlobalPrefs();
+  const origin = await getOrigin();
+
+  if (typeof newPrefs !== 'function' && newPrefs.scope) {
+    localPrefs[origin] = { ...localPrefs[origin], scope: newPrefs.scope };
+  }
+
+  if (localPrefs[origin].scope === 'global') {
+    globalPrefs = {
+      ...globalPrefs,
+      ...(typeof newPrefs === 'function'
+        ? newPrefs(globalPrefs)
+        : newPrefs),
+    };
+    applyPrefsUpdate(globalPrefs);
+  } else {
+    localPrefs[origin] = {
+      ...localPrefs[origin],
+      ...(typeof newPrefs === 'function'
+        ? newPrefs(localPrefs[origin])
+        : newPrefs),
+    };
+    applyPrefsUpdate(localPrefs[origin]);
+  }
+
+  storeLocalPrefs(localPrefs);
+  storeGlobalPrefs(globalPrefs);
 }
 
 function onSaccadesInterval(value) {
@@ -215,47 +219,38 @@ function onScopePreference(scope) {
 }
 
 saccadesIntervalSlider.addEventListener('change', (event) => {
-  setPrefs(
-    (_) => ({
-      saccadesInterval: event.target.value,
-    }),
-  );
+  setPrefs({
+    saccadesInterval: event.target.value,
+  });
 });
 
 fixationStrengthSlider.addEventListener('change', (event) => {
-  setPrefs(
-    (_) => ({
-      fixationStrength: event.target.value,
-    }),
-  );
+  setPrefs({
+    fixationStrength: event.target.value,
+  });
 });
 
-readingModeToggleBtn.addEventListener('click', async () => {
-  setPrefs(
-    (oldScopedPrefs) => ({
-      enabled: !oldScopedPrefs.enabled,
-    }),
-  );
+readingModeToggleBtn.addEventListener('click', (event) => {
+  setPrefs((currentPrefs) => ({
+    enabled: !currentPrefs.enabled,
+  }));
 });
 
 resetDefaultsBtn.addEventListener('click', () => {
-  setPrefs(
-    (_) => ({
-      ...defaultPrefs,
-    }),
-  );
+  setPrefs({
+    ...defaultPrefs,
+  });
 });
+
 [
   globalPrefsBtn,
   localPrefsBtn,
 ].forEach((el) => {
   el.addEventListener('click', (event) => {
-    setPrefs(
-      (_) => ({}),
-      {
-        scope: el.getAttribute('data-scope'),
-      },
-    );
+    const scope = el.getAttribute('data-scope');
+    setPrefs({
+      scope,
+    });
   });
 });
 
@@ -268,15 +263,13 @@ resetDefaultsBtn.addEventListener('click', () => {
         tab.id,
         { type: 'setlineHeight', action: el.getAttribute('id'), step: 0.5 },
         (response) => {
-          setPrefs(
-            (scopedPrefs) => ({
-              lineHeight: response.data,
-            }),
-          );
+          setPrefs({
+            lineHeight: response.data,
+          });
         },
       );
     });
   });
 });
 
-retrievePrefs();
+startup();
