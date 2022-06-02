@@ -128,9 +128,9 @@ function onReadingModeToggled(enabled) {
     readingModeToggleBtn.classList.remove('selected');
   }
 
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
     chrome.tabs.sendMessage(
-      tabs[0].id,
+      tab.id,
       { type: 'setReadingMode', data: enabled },
       () => {
         if (chrome.runtime.lastError) {
