@@ -106,7 +106,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       const LINE_HEIGHT_KEY = '--br-line-height';
       let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
       switch (action) {
-        case 'lineHeightdecrease':
+        case 'lineHeightDecrease':
           currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - step : currentHeight;
           break;
 
@@ -127,6 +127,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       } else {
         document.body.style.removeProperty(LINE_HEIGHT_KEY);
       }
+      sendResponse({ data: currentHeight });
       break;
     }
     default:

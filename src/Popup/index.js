@@ -5,6 +5,10 @@ const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 const saccadesLabelValue = document.getElementById('saccadesLabelValue');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
+const lineHeightIncrease = document.getElementById('lineHeightIncrease');
+const lineHeightDecrease = document.getElementById('lineHeightDecrease');
+const lineHeightLabel = document.getElementById('lineHeightLabel');
+const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 
 const defaultPrefs = {
   enabled: false,
@@ -124,8 +128,10 @@ function onSaccadesInterval(value) {
 function onReadingModeToggled(enabled) {
   if (enabled) {
     readingModeToggleBtn.classList.add('selected');
+    readingModeToggleBtn.textContent = 'Reading Mode';
   } else {
     readingModeToggleBtn.classList.remove('selected');
+    readingModeToggleBtn.textContent = 'Enable Reading Mode';
   }
 
   chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
@@ -182,18 +188,35 @@ readingModeToggleBtn.addEventListener('click', async () => {
   );
 });
 
-async function updateLineHeightClickHandler(event) {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.tabs.sendMessage(
-      tabs[0].id,
-      { type: 'setlineHeight', action: event.target.getAttribute('id'), step: 0.5 },
-      () => {
-        if (chrome.runtime.lastError) {
-          // no-op
-        }
-      },
-    );
+resetDefaultsBtn.addEventListener('click', () => {
+  setPrefsByScope(
+    (_) => ({
+      ...defaultPrefs,
+    }),
+  );
+});
+
+[
+  lineHeightIncrease, lineHeightDecrease,
+].forEach((el) => {
+  el.addEventListener('click', (event) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+      chrome.tabs.sendMessage(
+        tab.id,
+        { type: 'setlineHeight', action: el.getAttribute('id'), step: 0.5 },
+        (response) => {
+          if (response.data) {
+            lineHeightLabel.textContent = `Line Height ${response.data}`;
+          } else {
+            lineHeightLabel.textContent = 'Line Height';
+          }
+          if (chrome.runtime.lastError) {
+            // no-op
+          }
+        },
+      );
+    });
   });
-}
+});
 
 retrievePrefs();
