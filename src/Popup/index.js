@@ -15,6 +15,7 @@ const localPrefsBtn = document.getElementById('localPrefsBtn');
 const defaultPrefs = {
   enabled: false,
   saccadesInterval: 0,
+  lineHeight: '',
   fixationStrength: 1,
 };
 
@@ -64,6 +65,7 @@ function applyPrefsUpdate(newPreferences, scopedPrefs) {
   onSaccadesInterval(scopedPrefs.saccadesInterval);
   onReadingModeToggled(scopedPrefs.enabled);
   onFixationStrength(scopedPrefs.fixationStrength);
+  onLineHeight(scopedPrefs.lineHeight);
   onScopePreference(newPreferences.scope);
 }
 
@@ -191,6 +193,14 @@ function onFixationStrength(value) {
   });
 }
 
+function onLineHeight(height) {
+  if (height) {
+    lineHeightLabel.textContent = `Line Height ${height}`;
+  } else {
+    lineHeightLabel.textContent = 'Line Height';
+  }
+}
+
 function onScopePreference(scope) {
   [
     globalPrefsBtn,
@@ -258,14 +268,11 @@ resetDefaultsBtn.addEventListener('click', () => {
         tab.id,
         { type: 'setlineHeight', action: el.getAttribute('id'), step: 0.5 },
         (response) => {
-          if (response.data) {
-            lineHeightLabel.textContent = `Line Height ${response.data}`;
-          } else {
-            lineHeightLabel.textContent = 'Line Height';
-          }
-          if (chrome.runtime.lastError) {
-            // no-op
-          }
+          setPrefs(
+            (scopedPrefs) => ({
+              lineHeight: response.data,
+            }),
+          );
         },
       );
     });
