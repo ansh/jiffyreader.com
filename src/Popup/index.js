@@ -237,8 +237,9 @@ readingModeToggleBtn.addEventListener('click', (event) => {
 });
 
 resetDefaultsBtn.addEventListener('click', () => {
+  const { scope, ...noScope } = { ...defaultPrefs };
   setPrefs({
-    ...defaultPrefs,
+    ...noScope,
   });
 });
 
