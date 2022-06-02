@@ -62,7 +62,7 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const ToggleReading = (enableReading) => {
+const SetReadingMode = (enableReading) => {
   const boldedElements = document.getElementsByTagName('br-bold');
 
   if (boldedElements.length < 1) {
@@ -70,16 +70,11 @@ const ToggleReading = (enableReading) => {
     [...document.body.children].forEach(parseNode);
   }
 
-  if (document.body.classList.contains('br-bold') || enableReading === false) {
-    document.body.classList.remove('br-bold');
-    return;
-  }
-
-  if (!document.body.classList.contains('br-bold')) {
+  if (enableReading) {
     document.body.classList.add('br-bold');
+  } else {
+    document.body.classList.remove('br-bold');
   }
-
-  if (enableReading) document.body.classList.add('br-bold');
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
@@ -87,10 +82,6 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
     case 'getBrMode':
       sendResponse({ data: document.body.classList.contains('br-bold') });
       break;
-    case 'toggleReadingMode': {
-      ToggleReading();
-      break;
-    }
     case 'getFixationStrength': {
       sendResponse({ data: document.body.getAttribute('fixation-strength') });
       break;
@@ -101,7 +92,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     case 'setReadingMode': {
-      ToggleReading(message.data);
+      SetReadingMode(message.data);
       break;
     }
     case 'setSaccadesIntervalInDOM': {
@@ -218,7 +209,7 @@ docReady(async () => {
   //   { message: 'getToggleOnDefault' },
   //   (response) => {
   //     if (!['true', true].includes(response.data)) return;
-  //     ToggleReading(response.data === 'true');
+  //     SetReadingMode(response.data === 'true');
   //   },
   // );
   // chrome.runtime.sendMessage(
