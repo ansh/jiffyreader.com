@@ -1,4 +1,5 @@
-import { destroyObserver, makeObserverCallback, runObserver } from './observer';
+import { logError, logTime } from '../utills';
+import NodeObserver from './observer';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
@@ -10,6 +11,7 @@ const DEFAULT_FIXATION_STRENGTH = 3;
 // which tag's content should be ignored from bolded
 const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD'];
 
+/** @type {NodeObserver} */
 let observer;
 
 // making half of the letters in a word bold
@@ -66,35 +68,51 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
+function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
+  mutationRecords.forEach(({ type, addedNodes }) => {
+    if (type !== 'childList') return;
+
+    addedNodes?.forEach(parseNode);
+  });
+}
+
 const ToggleReading = (enableReading) => {
-  console.time('ToggleReading-Time');
-  const boldedElements = document.getElementsByTagName('br-bold');
+  const endTimer = logTime('ToggleReading-Time');
+  try {
+    const boldedElements = document.getElementsByTagName('br-bold');
 
-  if (boldedElements.length < 1) {
-    addStyles();
+    if (boldedElements.length < 1) {
+      addStyles();
+    }
+
+    if (document.body.classList.contains('br-bold') || enableReading === false) {
+      document.body.classList.remove('br-bold');
+      observer.destroy();
+      // destroyObserver(observer);
+      observer = null;
+      return;
+    }
+
+    /**
+		 * add .br-bold if it was not present or if enableReading is true
+		 * enableReading = true means add .br-bold to document.body when a page loads
+		 */
+    if (!document.body.classList.contains('br-bold') || enableReading) {
+      document.body.classList.add('br-bold');
+      [...document.body.children].forEach(parseNode);
+
+      /** make an observer if one does not exist and .br-bold is present on body/active */
+      // if (!observer) observer = runObserver(observer, document.body, mutationCallback);
+      if (!observer) {
+        observer = new NodeObserver(document.body, null, mutationCallback);
+        observer.observe();
+      }
+    }
+  } catch (error) {
+    logError(error);
+  } finally {
+    endTimer();
   }
-
-  if (document.body.classList.contains('br-bold') || enableReading === false) {
-    document.body.classList.remove('br-bold');
-    console.timeEnd('ToggleReading-Time');
-    destroyObserver(observer);
-    observer = null;
-    return;
-  }
-
-  /**
-   * add .br-bold if it was not present or if enableReading is true
-   * enableReading = true means add .br-bold to document.body when a page loads
-   */
-  if (!document.body.classList.contains('br-bold') || enableReading) {
-    document.body.classList.add('br-bold');
-    [...document.body.children].forEach(parseNode);
-
-    /** make an observer if one does not exist and .br-bold is present on body/active */
-    if (!observer) observer = runObserver(observer, document.body, makeObserverCallback(parseNode));
-  }
-
-  console.timeEnd('ToggleReading-Time');
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
