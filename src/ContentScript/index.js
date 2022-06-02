@@ -100,6 +100,10 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       document.body.setAttribute('saccades-interval', saccadesInterval);
       break;
     }
+    case 'getOrigin': {
+      sendResponse({ data: window.location.origin });
+      break;
+    }
     case 'setlineHeight': {
       const { action } = message;
       const { step } = message;

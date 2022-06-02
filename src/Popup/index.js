@@ -9,6 +9,8 @@ const lineHeightIncrease = document.getElementById('lineHeightIncrease');
 const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
 const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+const globalPrefsBtn = document.getElementById('globalPrefsBtn');
+const localPrefsBtn = document.getElementById('localPrefsBtn');
 
 const defaultPrefs = {
   enabled: false,
@@ -30,20 +32,39 @@ function retrievePrefs() {
     (response) => {
       if (response.data) {
         preferences = response.data;
+      }
+      if (preferences.scope === 'local') {
+        chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+          chrome.tabs.sendMessage(
+            tab.id,
+            { type: 'getOrigin' },
+            (res) => {
+              const origin = res.data;
+              if (!preferences.local[origin]) {
+                preferences.scope = 'global';
+              }
+              storePrefs(preferences);
+              getPrefsByScope(preferences, (scopedPrefs) => {
+                applyPrefsUpdate(preferences, scopedPrefs);
+              });
+            },
+          );
+        });
       } else {
         storePrefs(preferences);
+        getPrefsByScope(preferences, (scopedPrefs) => {
+          applyPrefsUpdate(preferences, scopedPrefs);
+        });
       }
-      getPrefsByScope(preferences, (scopedPrefs) => {
-        applyScopedPrefsUpdates(scopedPrefs);
-      });
     },
   );
 }
 
-function applyScopedPrefsUpdates(scopedPrefs) {
+function applyPrefsUpdate(newPreferences, scopedPrefs) {
   onSaccadesInterval(scopedPrefs.saccadesInterval);
   onReadingModeToggled(scopedPrefs.enabled);
   onFixationStrength(scopedPrefs.fixationStrength);
+  onScopePreference(newPreferences.scope);
 }
 
 function storePrefs(prefs) {
@@ -54,44 +75,50 @@ function storePrefs(prefs) {
 }
 
 function getPrefsByScope(prefs, cb) {
-  let scopedPrefs = prefs.global;
   if (prefs.scope === 'local') {
     chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      for (const origin in prefs.local) {
-        if (tab.url.indexOf(origin) === 0) {
-          scopedPrefs = prefs.local[origin];
-          break;
-        }
-      }
-      cb(scopedPrefs);
+      chrome.tabs.sendMessage(
+        tab.id,
+        { type: 'getOrigin' },
+        (response) => {
+          const origin = response.data;
+          const scopedPrefs = prefs.local[origin] || { ...defaultPrefs };
+          cb(scopedPrefs);
+        },
+      );
     });
   } else {
+    const scopedPrefs = prefs.global;
     cb(scopedPrefs);
   }
 }
 
 function newPrefsByScope(prefs, scopedPrefs, cb) {
   const newPrefs = { ...prefs };
-  newPrefs.global = { ...prefs.global, ...scopedPrefs };
-  let newScopedPrefs = newPrefs.global;
+  let newScopedPrefs;
 
   if (prefs.scope === 'local') {
     chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      for (const origin in prefs.local) {
-        if (tab.url.indexOf(origin) === 0) {
+      chrome.tabs.sendMessage(
+        tab.id,
+        { type: 'getOrigin' },
+        (response) => {
+          const origin = response.data;
           newPrefs.local[origin] = { ...newPrefs.local[origin], ...scopedPrefs };
           newScopedPrefs = newPrefs.local[origin];
-          break;
-        }
-      }
-      cb(newPrefs, newScopedPrefs);
+          cb(newPrefs, newScopedPrefs);
+        },
+      );
     });
   } else {
+    newPrefs.global = { ...prefs.global, ...scopedPrefs };
+    newScopedPrefs = newPrefs.global;
     cb(newPrefs, newScopedPrefs);
   }
 }
 
-function setPrefsByScope(newScopedPrefscb, cb) {
+function setPrefs(newScopedPrefscb, preferencePatch, cb) {
+  preferences = { ...preferences, ...preferencePatch };
   getPrefsByScope(preferences, (scopedPrefs) => {
     newPrefsByScope(
       preferences,
@@ -102,7 +129,7 @@ function setPrefsByScope(newScopedPrefscb, cb) {
         if (typeof cb === 'function') {
           cb(preferences, newScopedPrefs);
         }
-        applyScopedPrefsUpdates(newScopedPrefs);
+        applyPrefsUpdate(preferences, newScopedPrefs);
       },
     );
   });
@@ -164,8 +191,21 @@ function onFixationStrength(value) {
   });
 }
 
+function onScopePreference(scope) {
+  [
+    globalPrefsBtn,
+    localPrefsBtn,
+  ].forEach((el) => {
+    el.classList.remove('selected');
+    const scopeAttr = el.getAttribute('data-scope');
+    if (scope === scopeAttr) {
+      el.classList.add('selected');
+    }
+  });
+}
+
 saccadesIntervalSlider.addEventListener('change', (event) => {
-  setPrefsByScope(
+  setPrefs(
     (_) => ({
       saccadesInterval: event.target.value,
     }),
@@ -173,7 +213,7 @@ saccadesIntervalSlider.addEventListener('change', (event) => {
 });
 
 fixationStrengthSlider.addEventListener('change', (event) => {
-  setPrefsByScope(
+  setPrefs(
     (_) => ({
       fixationStrength: event.target.value,
     }),
@@ -181,7 +221,7 @@ fixationStrengthSlider.addEventListener('change', (event) => {
 });
 
 readingModeToggleBtn.addEventListener('click', async () => {
-  setPrefsByScope(
+  setPrefs(
     (oldScopedPrefs) => ({
       enabled: !oldScopedPrefs.enabled,
     }),
@@ -189,11 +229,24 @@ readingModeToggleBtn.addEventListener('click', async () => {
 });
 
 resetDefaultsBtn.addEventListener('click', () => {
-  setPrefsByScope(
+  setPrefs(
     (_) => ({
       ...defaultPrefs,
     }),
   );
+});
+[
+  globalPrefsBtn,
+  localPrefsBtn,
+].forEach((el) => {
+  el.addEventListener('click', (event) => {
+    setPrefs(
+      (_) => ({}),
+      {
+        scope: el.getAttribute('data-scope'),
+      },
+    );
+  });
 });
 
 [
