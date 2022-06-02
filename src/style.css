@@ -24,7 +24,9 @@ button {
   transition-property: background-color, transform, box-shadow;
   transition-duration: 200ms;
 }
-
+button:hover, button:focus {
+  box-shadow: 0 0 0 3px #3aa75733;
+}
 button:active,
 button.selected {
   background: #3aa757;
