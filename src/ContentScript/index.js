@@ -88,21 +88,19 @@ const ToggleReading = (enableReading) => {
     if (document.body.classList.contains('br-bold') || enableReading === false) {
       document.body.classList.remove('br-bold');
       observer.destroy();
-      // destroyObserver(observer);
       observer = null;
       return;
     }
 
     /**
-		 * add .br-bold if it was not present or if enableReading is true
-		 * enableReading = true means add .br-bold to document.body when a page loads
-		 */
+   * add .br-bold if it was not present or if enableReading is true
+   * enableReading = true means add .br-bold to document.body when a page loads
+   */
     if (!document.body.classList.contains('br-bold') || enableReading) {
       document.body.classList.add('br-bold');
       [...document.body.children].forEach(parseNode);
 
       /** make an observer if one does not exist and .br-bold is present on body/active */
-      // if (!observer) observer = runObserver(observer, document.body, mutationCallback);
       if (!observer) {
         observer = new NodeObserver(document.body, null, mutationCallback);
         observer.observe();
