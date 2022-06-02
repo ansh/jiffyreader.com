@@ -17,6 +17,8 @@ button {
   color: #3aa757;
   outline: 1px solid #3aa757;
   box-sizing: border-box;
+  transition-property: background-color, transform, box-shadow;
+  transition-duration: 200ms;
 }
 
 button:active,
