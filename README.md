@@ -1,5 +1,5 @@
 # Jiffy Reader
-A Chrome Extension for Bionic Reading on ANY website!
+A Browser Extension for Bionic Reading on ANY website!
 
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=347823&theme=light" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly&#0033; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=347823&theme=light&period=daily" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
@@ -36,7 +36,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 ## Chrome
 
-  > Download via [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) or
+  > Download via [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) or follow the instructions below
 
   1. Click [here](https://github.com/ansh/bionic-reading/releases/latest/download/chrome.zip) to download the latest `chrome.zip` release
   2. Extract the file
@@ -50,6 +50,8 @@ The best way to install this extension is to follow the instructions below. Howe
 
 
 ## Firefox
+
+> Download via the [Mozilla Firefox Plugin/Add-on Store](https://addons.mozilla.org/en-US/firefox/addon/jiffy-reader/) or follow the instructions below
 
   1. Download `firefox.xpi` by right clicking [here](https://github.com/ansh/bionic-reading/releases/latest/download/firefox.xpi) and choose `Save link as` to download the latest `firefox.xpi `release
   2. Open Firefox
