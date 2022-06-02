@@ -31,6 +31,7 @@
     "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
     "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
+    "build:bookmarklet": "node scripts/updateBookmarklet.mjs",
     "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera"
   },
   "repository": {
