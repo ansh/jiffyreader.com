@@ -85,7 +85,7 @@ const setSaccadesIntervalInDOM = (data) => {
 };
 
 const setFixationStrength = (data) => {
-    document.body.setAttribute('fixation-strength', data);
+  document.body.setAttribute('fixation-strength', data);
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
@@ -225,6 +225,9 @@ docReady(async () => {
       resolve(window.location.origin);
     }),
     subscribe: (prefs) => {
+      if (!prefs.onPageLoad) {
+        return;
+      }
       setSaccadesIntervalInDOM(prefs.saccadesInterval);
       SetReadingMode(prefs.enabled);
       setFixationStrength(prefs.fixationStrength);

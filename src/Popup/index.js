@@ -11,6 +11,7 @@ const lineHeightLabel = document.getElementById('lineHeightLabel');
 const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
+const onPageLoadBtn = document.getElementById('onPageLoadBtn');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
   getOrigin: async () => new Promise((resolve, _) => {
@@ -29,6 +30,7 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
     onFixationStrength(prefs.fixationStrength);
     onLineHeight(prefs.lineHeight);
     onScopePreference(prefs.scope);
+    onPageLoadToggled(prefs.onPageLoad);
   },
 });
 
@@ -64,6 +66,14 @@ function onSaccadesInterval(value) {
       },
     );
   });
+}
+
+function onPageLoadToggled(enabled) {
+  if (enabled) {
+    onPageLoadBtn.classList.add('selected');
+  } else {
+    onPageLoadBtn.classList.remove('selected');
+  }
 }
 
 function onReadingModeToggled(enabled) {
@@ -116,6 +126,12 @@ fixationStrengthSlider.addEventListener('change', (event) => {
   setPrefs({
     fixationStrength: event.target.value,
   });
+});
+
+onPageLoadBtn.addEventListener('click', (event) => {
+  setPrefs((currentPrefs) => ({
+    onPageLoad: !currentPrefs.onPageLoad,
+  }));
 });
 
 readingModeToggleBtn.addEventListener('click', (event) => {

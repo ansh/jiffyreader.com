@@ -4,7 +4,7 @@ const defaultPrefs = {
   lineHeight: '',
   fixationStrength: 1,
   scope: 'global',
-  applyOnPageLoad: false,
+  onPageLoad: false,
 };
 
 const subscribers = [];
