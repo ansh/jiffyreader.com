@@ -100,10 +100,14 @@ function onReadingModeToggled(enabled) {
 
 function onLineHeight(height) {
   if (height) {
-    lineHeightLabel.textContent = `Line Height ${height}`;
-  } else {
-    lineHeightLabel.textContent = 'Line Height';
+    lineHeightLabel.textContent = `Line Height ${parseInt(height * 100, 10)}%`;
   }
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+    chrome.tabs.sendMessage(
+      tab.id,
+      { type: 'setlineHeight', data: height },
+    );
+  });
 }
 
 function onScopePreference(scope) {
@@ -158,16 +162,17 @@ resetDefaultsBtn.addEventListener('click', () => {
 
 [lineHeightIncrease, lineHeightDecrease].forEach((el) => {
   el.addEventListener('click', (event) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      chrome.tabs.sendMessage(
-        tab.id,
-        { type: 'setlineHeight', action: el.getAttribute('id'), step: 0.5 },
-        (response) => {
-          setPrefs({
-            lineHeight: response.data,
-          });
-        },
-      );
+    const operation = el.getAttribute('data-op');
+    setPrefs((currentPrefs) => {
+      let lineHeight = parseFloat(currentPrefs.lineHeight, 10);
+      if (operation === 'increase') {
+        lineHeight += 0.5;
+      } else {
+        lineHeight -= 0.5;
+      }
+      return ({
+        lineHeight: Math.max(1, lineHeight),
+      });
     });
   });
 });

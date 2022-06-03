@@ -1,7 +1,7 @@
 const defaultPrefs = {
   enabled: false,
   saccadesInterval: 0,
-  lineHeight: '',
+  lineHeight: 1,
   fixationStrength: 1,
   scope: 'global',
   onPageLoad: false,
@@ -86,13 +86,10 @@ async function start() {
     localPrefs = {};
   }
 
-  if (!localPrefs[origin]) {
-    localPrefs[origin] = { ...defaultPrefs };
-  }
-
-  if (!globalPrefs) {
-    globalPrefs = { ...defaultPrefs };
-  }
+  // just in case their missing a default prefs
+  // be sure to pepper the default prefs
+  localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
+  globalPrefs = { ...defaultPrefs, ...globalPrefs };
 
   storeLocalPrefs(localPrefs);
   storeGlobalPrefs(globalPrefs);

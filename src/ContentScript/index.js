@@ -64,7 +64,7 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const SetReadingMode = (enableReading) => {
+const setReadingMode = (enableReading) => {
   const boldedElements = document.getElementsByTagName('br-bold');
 
   if (boldedElements.length < 1) {
@@ -88,60 +88,31 @@ const setFixationStrength = (data) => {
   document.body.setAttribute('fixation-strength', data);
 };
 
+const setLineHeight = (lineHeight) => {
+  document.body.style.setProperty('--br-line-height', lineHeight);
+};
+
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
-    case 'getBrMode':
-      sendResponse({ data: document.body.classList.contains('br-bold') });
-      break;
-    case 'getFixationStrength': {
-      sendResponse({ data: document.body.getAttribute('fixation-strength') });
-      break;
-    }
     case 'setFixationStrength': {
       setFixationStrength(message.data);
       sendResponse({ success: true });
       break;
     }
     case 'setReadingMode': {
-      SetReadingMode(message.data);
+      setReadingMode(message.data);
       break;
     }
     case 'setSaccadesIntervalInDOM': {
       setSaccadesIntervalInDOM(message.data);
       break;
     }
-    case 'getOrigin': {
-      sendResponse({ data: window.location.origin });
+    case 'setlineHeight': {
+      setLineHeight(message.data);
       break;
     }
-    case 'setlineHeight': {
-      const { action } = message;
-      const { step } = message;
-      const LINE_HEIGHT_KEY = '--br-line-height';
-      let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
-      switch (action) {
-        case 'lineHeightDecrease':
-          currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - step : currentHeight;
-          break;
-
-        case 'lineHeightIncrease':
-          currentHeight = /\d+/.test(currentHeight) ? Number(currentHeight) : 1;
-          currentHeight += step;
-          break;
-
-        case 'lineHeightReset':
-          currentHeight = '';
-          break;
-
-        default:
-          break;
-      }
-      if (/\d+/.test(currentHeight)) {
-        document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
-      } else {
-        document.body.style.removeProperty(LINE_HEIGHT_KEY);
-      }
-      sendResponse({ data: currentHeight });
+    case 'getOrigin': {
+      sendResponse({ data: window.location.origin });
       break;
     }
     default:
@@ -220,7 +191,7 @@ function addStyles() {
 docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-  const { start, setPrefs, defaultPrefs } = Preferences.init({
+  const { start } = Preferences.init({
     getOrigin: async () => new Promise((resolve, _) => {
       resolve(window.location.origin);
     }),
@@ -229,9 +200,9 @@ docReady(async () => {
         return;
       }
       setSaccadesIntervalInDOM(prefs.saccadesInterval);
-      SetReadingMode(prefs.enabled);
+      setReadingMode(prefs.enabled);
       setFixationStrength(prefs.fixationStrength);
-      // onLineHeight(prefs.lineHeight);
+      setLineHeight(prefs.lineHeight);
     },
   });
 
