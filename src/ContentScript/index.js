@@ -1,3 +1,5 @@
+import Preferences from '../Preferences';
+
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const FIXATION_BREAK_RATIO = 0.33;
@@ -77,6 +79,15 @@ const SetReadingMode = (enableReading) => {
   }
 };
 
+const setSaccadesIntervalInDOM = (data) => {
+  const saccadesInterval = data == null ? 0 : data;
+  document.body.setAttribute('saccades-interval', saccadesInterval);
+};
+
+const setFixationStrength = (data) => {
+    document.body.setAttribute('fixation-strength', data);
+};
+
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
     case 'getBrMode':
@@ -87,7 +98,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     case 'setFixationStrength': {
-      document.body.setAttribute('fixation-strength', message.data);
+      setFixationStrength(message.data);
       sendResponse({ success: true });
       break;
     }
@@ -96,8 +107,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     case 'setSaccadesIntervalInDOM': {
-      const saccadesInterval = message.data == null ? 0 : message.data;
-      document.body.setAttribute('saccades-interval', saccadesInterval);
+      setSaccadesIntervalInDOM(message.data);
       break;
     }
     case 'getOrigin': {
@@ -210,28 +220,17 @@ function addStyles() {
 docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-  // chrome.runtime.sendMessage(
-  //   { message: 'getToggleOnDefault' },
-  //   (response) => {
-  //     if (!['true', true].includes(response.data)) return;
-  //     SetReadingMode(response.data === 'true');
-  //   },
-  // );
-  // chrome.runtime.sendMessage(
-  //   { message: 'getSaccadesInterval' },
-  //   (response) => {
-  //     const saccadesInterval = response === undefined || response.data == null
-  //       ? DEFAULT_SACCADES_INTERVAL : response.data;
-  //     document.body.setAttribute('saccades-interval', saccadesInterval);
-  //   },
-  // );
+  const { start, setPrefs, defaultPrefs } = Preferences.init({
+    getOrigin: async () => new Promise((resolve, _) => {
+      resolve(window.location.origin);
+    }),
+    subscribe: (prefs) => {
+      setSaccadesIntervalInDOM(prefs.saccadesInterval);
+      SetReadingMode(prefs.enabled);
+      setFixationStrength(prefs.fixationStrength);
+      // onLineHeight(prefs.lineHeight);
+    },
+  });
 
-  // chrome.runtime.sendMessage(
-  //   { message: 'getFixationStrength' },
-  //   (response) => {
-  //     const fixationStrength = response === undefined || response.data == null
-  //       ? DEFAULT_FIXATION_STRENGTH : response.data;
-  //     document.body.setAttribute('fixation-strength', fixationStrength);
-  //   },
-  // );
+  start();
 });

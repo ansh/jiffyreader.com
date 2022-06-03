@@ -1,4 +1,4 @@
-const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
+import Preferences from '../Preferences';
 
 const readingModeToggleBtn = document.getElementById('readingModeToggleBtn');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
@@ -12,133 +12,41 @@ const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
 
-const defaultPrefs = {
-  enabled: false,
-  saccadesInterval: 0,
-  lineHeight: '',
-  fixationStrength: 1,
-  scope: 'global',
-};
-
-async function retrieveLocalPrefs() {
-  return retrievePrefs('local');
-}
-
-async function retriveGlobalPrefs() {
-  return retrievePrefs('global');
-}
-
-async function retrievePrefs(action) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(
-      { message: 'retrievePrefs', action },
-      async (response) => {
-        resolve(response.data);
-      },
-    );
-  });
-}
-
-async function storeLocalPrefs(prefs) {
-  return storePrefs(prefs, 'local');
-}
-
-async function storeGlobalPrefs(prefs) {
-  return storePrefs(prefs, 'global');
-}
-
-function storePrefs(prefs, action) {
-  return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(
-      { message: 'storePrefs', data: prefs, action },
-      async (_) => {
-        resolve(true);
-      },
-    );
-  });
-}
-
-async function getOrigin() {
-  return new Promise((resolve, reject) => {
+const { start, setPrefs, defaultPrefs } = Preferences.init({
+  getOrigin: async () => new Promise((resolve, _) => {
     chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      chrome.tabs.sendMessage(
-        tab.id,
-        { type: 'getOrigin' },
-        (res) => {
-          const origin = res.data;
-          if (origin) {
-            resolve(origin);
-          }
-        },
-      );
+      chrome.tabs.sendMessage(tab.id, { type: 'getOrigin' }, (res) => {
+        const origin = res.data;
+        if (origin) {
+          resolve(origin);
+        }
+      });
+    });
+  }),
+  subscribe: (prefs) => {
+    onSaccadesInterval(prefs.saccadesInterval);
+    onReadingModeToggled(prefs.enabled);
+    onFixationStrength(prefs.fixationStrength);
+    onLineHeight(prefs.lineHeight);
+    onScopePreference(prefs.scope);
+  },
+});
+
+function onFixationStrength(value) {
+  fixationStrengthLabelValue.textContent = value;
+  fixationStrengthSlider.value = value;
+  const payload = {
+    message: 'setFixationStrength',
+    type: 'setFixationStrength',
+    data: value,
+  };
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+    chrome.tabs.sendMessage(tab.id, payload, (response) => {
+      if (chrome.runtime.lastError) {
+        // no-op
+      }
     });
   });
-}
-
-async function startup() {
-  let localPrefs = await retrieveLocalPrefs();
-  let globalPrefs = await retriveGlobalPrefs();
-  const origin = await getOrigin();
-
-  if (localPrefs == null) {
-    localPrefs = {};
-  }
-
-  if (!localPrefs[origin]) {
-    localPrefs[origin] = { ...defaultPrefs };
-  }
-
-  if (!globalPrefs) {
-    globalPrefs = { ...defaultPrefs };
-  }
-
-  storeLocalPrefs(localPrefs);
-  storeGlobalPrefs(globalPrefs);
-
-  if (localPrefs[origin].scope === 'global') {
-    applyPrefsUpdate(globalPrefs);
-  } else {
-    applyPrefsUpdate(localPrefs[origin]);
-  }
-}
-
-function applyPrefsUpdate(prefs) {
-  onSaccadesInterval(prefs.saccadesInterval);
-  onReadingModeToggled(prefs.enabled);
-  onFixationStrength(prefs.fixationStrength);
-  onLineHeight(prefs.lineHeight);
-  onScopePreference(prefs.scope || 'global');
-}
-
-async function setPrefs(newPrefs) {
-  const localPrefs = await retrieveLocalPrefs();
-  let globalPrefs = await retriveGlobalPrefs();
-  const origin = await getOrigin();
-
-  if (typeof newPrefs !== 'function' && newPrefs.scope) {
-    localPrefs[origin] = { ...localPrefs[origin], scope: newPrefs.scope };
-  }
-
-  if (localPrefs[origin].scope === 'global') {
-    globalPrefs = {
-      ...globalPrefs,
-      ...(typeof newPrefs === 'function'
-        ? newPrefs(globalPrefs)
-        : newPrefs),
-    };
-    applyPrefsUpdate(globalPrefs);
-  } else {
-    localPrefs[origin] = {
-      ...localPrefs[origin],
-      ...(typeof newPrefs === 'function'
-        ? newPrefs(localPrefs[origin])
-        : newPrefs),
-    };
-    applyPrefsUpdate(localPrefs[origin]);
-  }
-
-  storeLocalPrefs(localPrefs);
-  storeGlobalPrefs(globalPrefs);
 }
 
 function onSaccadesInterval(value) {
@@ -180,23 +88,6 @@ function onReadingModeToggled(enabled) {
   });
 }
 
-function onFixationStrength(value) {
-  fixationStrengthLabelValue.textContent = value;
-  fixationStrengthSlider.value = value;
-  const payload = { message: 'setFixationStrength', type: 'setFixationStrength', data: value };
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(
-      tab.id,
-      payload,
-      (response) => {
-        if (chrome.runtime.lastError) {
-          // no-op
-        }
-      },
-    );
-  });
-}
-
 function onLineHeight(height) {
   if (height) {
     lineHeightLabel.textContent = `Line Height ${height}`;
@@ -206,10 +97,7 @@ function onLineHeight(height) {
 }
 
 function onScopePreference(scope) {
-  [
-    globalPrefsBtn,
-    localPrefsBtn,
-  ].forEach((el) => {
+  [globalPrefsBtn, localPrefsBtn].forEach((el) => {
     el.classList.remove('selected');
     const scopeAttr = el.getAttribute('data-scope');
     if (scope === scopeAttr) {
@@ -243,10 +131,7 @@ resetDefaultsBtn.addEventListener('click', () => {
   });
 });
 
-[
-  globalPrefsBtn,
-  localPrefsBtn,
-].forEach((el) => {
+[globalPrefsBtn, localPrefsBtn].forEach((el) => {
   el.addEventListener('click', (event) => {
     const scope = el.getAttribute('data-scope');
     setPrefs({
@@ -255,9 +140,7 @@ resetDefaultsBtn.addEventListener('click', () => {
   });
 });
 
-[
-  lineHeightIncrease, lineHeightDecrease,
-].forEach((el) => {
+[lineHeightIncrease, lineHeightDecrease].forEach((el) => {
   el.addEventListener('click', (event) => {
     chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       chrome.tabs.sendMessage(
@@ -273,4 +156,4 @@ resetDefaultsBtn.addEventListener('click', () => {
   });
 });
 
-startup();
+start();
