@@ -145,6 +145,10 @@ readingModeToggleBtn.addEventListener('click', (event) => {
 });
 
 resetDefaultsBtn.addEventListener('click', () => {
+  // when resetting default, we don't want to overwrite the scope
+  // cause the setPrefs knows which scope we currently at.
+  // and it should only reset the current selected scope
+  // scope by the user
   const { scope, ...noScope } = { ...defaultPrefs() };
   setPrefs({
     ...noScope,
