@@ -1,4 +1,4 @@
-import { logError, logTime } from '../utills';
+import Logger from '../Logger';
 import NodeObserver from './observer';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
@@ -69,6 +69,7 @@ function parseNode(/** @type Element */ node) {
 }
 
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
+  Logger.logInfo('mutationCallback fired ', mutationRecords.length);
   mutationRecords.forEach(({ type, addedNodes }) => {
     if (type !== 'childList') return;
 
@@ -77,7 +78,7 @@ function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
 }
 
 const ToggleReading = (enableReading) => {
-  const endTimer = logTime('ToggleReading-Time');
+  const endTimer = Logger.logTime('ToggleReading-Time');
   try {
     const boldedElements = document.getElementsByTagName('br-bold');
 
@@ -107,7 +108,7 @@ const ToggleReading = (enableReading) => {
       }
     }
   } catch (error) {
-    logError(error);
+    Logger.logError(error);
   } finally {
     endTimer();
   }
