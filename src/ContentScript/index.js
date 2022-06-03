@@ -1,3 +1,6 @@
+import Logger from '../Logger';
+import NodeObserver from './observer';
+
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const FIXATION_BREAK_RATIO = 0.33;
@@ -6,7 +9,10 @@ const DEFAULT_SACCADES_INTERVAL = 0;
 const DEFAULT_FIXATION_STRENGTH = 3;
 
 // which tag's content should be ignored from bolded
-const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT'];
+const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD'];
+
+/** @type {NodeObserver} */
+let observer;
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
@@ -40,7 +46,7 @@ function makeFixations(/** @type string */ textContent) {
 
 function parseNode(/** @type Element */ node) {
   // some websites add <style>, <script> tags in the <body>, ignore these tags
-  if (IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
+  if (!node?.parentElement?.tagName || IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
     return;
   }
 
@@ -62,28 +68,50 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
+function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
+  Logger.logInfo('mutationCallback fired ', mutationRecords.length);
+  mutationRecords.forEach(({ type, addedNodes }) => {
+    if (type !== 'childList') return;
+
+    addedNodes?.forEach(parseNode);
+  });
+}
+
 const ToggleReading = (enableReading) => {
-  console.time('ToggleReading-Time');
-  const boldedElements = document.getElementsByTagName('br-bold');
+  const endTimer = Logger.logTime('ToggleReading-Time');
+  try {
+    const boldedElements = document.getElementsByTagName('br-bold');
 
-  if (boldedElements.length < 1) {
-    addStyles();
-    [...document.body.children].forEach(parseNode);
+    if (boldedElements.length < 1) {
+      addStyles();
+    }
+
+    if (document.body.classList.contains('br-bold') || enableReading === false) {
+      document.body.classList.remove('br-bold');
+      observer.destroy();
+      observer = null;
+      return;
+    }
+
+    /**
+   * add .br-bold if it was not present or if enableReading is true
+   * enableReading = true means add .br-bold to document.body when a page loads
+   */
+    if (!document.body.classList.contains('br-bold') || enableReading) {
+      document.body.classList.add('br-bold');
+      [...document.body.children].forEach(parseNode);
+
+      /** make an observer if one does not exist and .br-bold is present on body/active */
+      if (!observer) {
+        observer = new NodeObserver(document.body, null, mutationCallback);
+        observer.observe();
+      }
+    }
+  } catch (error) {
+    Logger.logError(error);
+  } finally {
+    endTimer();
   }
-
-  if (document.body.classList.contains('br-bold') || enableReading === false) {
-    document.body.classList.remove('br-bold');
-    console.timeEnd('ToggleReading-Time');
-    return;
-  }
-
-  if (!document.body.classList.contains('br-bold')) {
-    document.body.classList.add('br-bold');
-  }
-
-  if (enableReading) document.body.classList.add('br-bold');
-
-  console.timeEnd('ToggleReading-Time');
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
