@@ -186,6 +186,9 @@ async function start() {
   }
 }
 
+// calls all subscriber call back
+// and pass them the preference via prefs
+// params
 function dispatchPrefsUpdate(prefs) {
   subscribers.forEach((cb) => {
     cb(prefs);
