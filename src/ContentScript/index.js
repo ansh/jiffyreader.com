@@ -1,3 +1,4 @@
+import Preferences from '../Preferences';
 import Logger from '../Logger';
 import NodeObserver from './observer';
 
@@ -68,36 +69,21 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
-  Logger.logInfo('mutationCallback fired ', mutationRecords.length);
-  mutationRecords.forEach(({ type, addedNodes }) => {
-    if (type !== 'childList') return;
-
-    addedNodes?.forEach(parseNode);
-  });
-}
-
-const ToggleReading = (enableReading) => {
+const setReadingMode = (enableReading) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
   try {
-    const boldedElements = document.getElementsByTagName('br-bold');
+    if (enableReading) {
+      const boldedElements = document.getElementsByTagName('br-bold');
 
-    if (boldedElements.length < 1) {
-      addStyles();
-    }
-
-    if (document.body.classList.contains('br-bold') || enableReading === false) {
-      document.body.classList.remove('br-bold');
-      observer.destroy();
-      observer = null;
-      return;
-    }
-
-    /**
-   * add .br-bold if it was not present or if enableReading is true
-   * enableReading = true means add .br-bold to document.body when a page loads
-   */
-    if (!document.body.classList.contains('br-bold') || enableReading) {
+      // makes sure to only run once regadless of how many times
+      // setReadingMode(true) is called, consecutively
+      if (boldedElements.length < 1) {
+        addStyles();
+      }
+      /**
+       * add .br-bold if it was not present or if enableReading is true
+       * enableReading = true means add .br-bold to document.body when a page loads
+       */
       document.body.classList.add('br-bold');
       [...document.body.children].forEach(parseNode);
 
@@ -105,6 +91,12 @@ const ToggleReading = (enableReading) => {
       if (!observer) {
         observer = new NodeObserver(document.body, null, mutationCallback);
         observer.observe();
+      }
+    } else {
+      document.body.classList.remove('br-bold');
+      if (observer) {
+        observer.destroy();
+        observer = null;
       }
     }
   } catch (error) {
@@ -114,62 +106,56 @@ const ToggleReading = (enableReading) => {
   }
 };
 
+const setSaccadesIntervalInDOM = (data) => {
+  const saccadesInterval = data == null ? 0 : data;
+  document.body.setAttribute('saccades-interval', saccadesInterval);
+};
+
+const setFixationStrength = (data) => {
+  document.body.setAttribute('fixation-strength', data);
+};
+
+const setLineHeight = (lineHeight) => {
+  document.body.style.setProperty('--br-line-height', lineHeight);
+};
+
+function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
+  Logger.logInfo('mutationCallback fired ', mutationRecords.length);
+  mutationRecords.forEach(({ type, addedNodes }) => {
+    if (type !== 'childList') return;
+
+    addedNodes?.forEach(parseNode);
+  });
+}
+
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
-    case 'getBrMode':
-      sendResponse({ data: document.body.classList.contains('br-bold') });
-      break;
-    case 'toggleReadingMode': {
-      ToggleReading();
-      break;
-    }
-    case 'getFixationStrength': {
-      sendResponse({ data: document.body.getAttribute('fixation-strength') });
-      break;
-    }
     case 'setFixationStrength': {
-      document.body.setAttribute('fixation-strength', message.data);
+      setFixationStrength(message.data);
       sendResponse({ success: true });
       break;
     }
     case 'setReadingMode': {
-      ToggleReading(message.data);
+      setReadingMode(message.data);
       break;
     }
     case 'setSaccadesIntervalInDOM': {
-      const saccadesInterval = message.data == null ? 0 : message.data;
-      document.body.setAttribute('saccades-interval', saccadesInterval);
+      setSaccadesIntervalInDOM(message.data);
       break;
     }
     case 'setlineHeight': {
-      const { action } = message;
-      const { step } = message;
-      const LINE_HEIGHT_KEY = '--br-line-height';
-      let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
-      switch (action) {
-        case 'lineHeightdecrease':
-          currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - step : currentHeight;
-          break;
-
-        case 'lineHeightIncrease':
-          currentHeight = /\d+/.test(currentHeight) ? Number(currentHeight) : 1;
-          currentHeight += step;
-          break;
-
-        case 'lineHeightReset':
-          currentHeight = '';
-          break;
-
-        default:
-          break;
-      }
-      if (/\d+/.test(currentHeight)) {
-        document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
-      } else {
-        document.body.style.removeProperty(LINE_HEIGHT_KEY);
-      }
+      setLineHeight(message.data);
       break;
     }
+    case 'getOrigin': {
+      sendResponse({ data: window.location.origin });
+      break;
+    }
+    case 'getReadingMode': {
+      sendResponse({ data: document.body.classList.contains('br-bold') });
+      break;
+    }
+
     default:
       break;
   }
@@ -246,28 +232,20 @@ function addStyles() {
 docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-  chrome.runtime.sendMessage(
-    { message: 'getToggleOnDefault' },
-    (response) => {
-      if (!['true', true].includes(response.data)) return;
-      ToggleReading(response.data === 'true');
+  const { start } = Preferences.init({
+    getOrigin: async () => new Promise((resolve, _) => {
+      resolve(window.location.origin);
+    }),
+    subscribe: (prefs) => {
+      if (!prefs.onPageLoad) {
+        return;
+      }
+      setReadingMode(prefs.onPageLoad);
+      setSaccadesIntervalInDOM(prefs.saccadesInterval);
+      setFixationStrength(prefs.fixationStrength);
+      setLineHeight(prefs.lineHeight);
     },
-  );
-  chrome.runtime.sendMessage(
-    { message: 'getSaccadesInterval' },
-    (response) => {
-      const saccadesInterval = response === undefined || response.data == null
-        ? DEFAULT_SACCADES_INTERVAL : response.data;
-      document.body.setAttribute('saccades-interval', saccadesInterval);
-    },
-  );
+  });
 
-  chrome.runtime.sendMessage(
-    { message: 'getFixationStrength' },
-    (response) => {
-      const fixationStrength = response === undefined || response.data == null
-        ? DEFAULT_FIXATION_STRENGTH : response.data;
-      document.body.setAttribute('fixation-strength', fixationStrength);
-    },
-  );
+  start();
 });
