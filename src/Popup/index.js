@@ -149,8 +149,17 @@ resetDefaultsBtn.addEventListener('click', () => {
 [globalPrefsBtn, localPrefsBtn].forEach((el) => {
   el.addEventListener('click', (event) => {
     const scope = el.getAttribute('data-scope');
-    setPrefs({
-      scope,
+    setPrefs(({ scope: oldScope, ...oldPrefs }) => {
+      if (scope === 'local' && oldScope === 'global') {
+        return {
+          ...oldPrefs,
+          scope,
+        };
+      }
+
+      return {
+        scope,
+      };
     });
   });
 });

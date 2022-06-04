@@ -107,55 +107,54 @@ async function storeGlobalPrefs(prefs) {
 
 // setPrefs updates the preferences in storage
 // and dispatch this update to all subscribers
-// newPrefs - has the shape of defaultPrefs
+// prefs - has the shape of defaultPrefs
 // or a call back that returns that shape
 // but you only need to pass the actual fields
 // you want to update.
-async function setPrefs(newPrefs) {
+async function setPrefs(prefs) {
   // grab the current prefs
   const localPrefs = await retrieveLocalPrefs();
   let globalPrefs = await retriveGlobalPrefs();
   const origin = await getOrigin();
 
-  // if newPrefs contains 'scope' update so 'global|local'
-  // it must not be a function cause the function form of
-  // newPrefs requires "us" to pass the current prefs
-  // but we don't know that yet if the scope is change.
-  // anyway. if its a 'scope' update then make sure to
-  // update the localprefs cause local prefs will decide
-  // if the scope is 'local', or 'global'
-  // for example: if user decides that stackoverflow.com
-  // should use global or local preferences. that preference is
-  // inherently local, thus; scope update should be a local prefs
-  // change
-  if (typeof newPrefs !== 'function' && newPrefs.scope) {
-    localPrefs[origin] = { ...localPrefs[origin], scope: newPrefs.scope };
+  let currentScope = localPrefs[origin].scope;
+  // if prefs is a function, pass in the current
+  // prefs based on the scope
+  // and newPrefs will be the return val of the function
+  // otherwise the newPrefs will just be the prefs
+  const newPrefs = typeof prefs === 'function'
+    ? prefs(currentScope === 'local'
+      ? localPrefs[origin]
+      : globalPrefs)
+    : prefs;
+
+  if (newPrefs.scope) {
+    currentScope = newPrefs.scope;
   }
 
-  // Update the prefs based on the local scope
-  // and pass the "current" prefs if newPrefs is
-  // a function form.
-  // the update is using the spread syntax
-  // so the user of this api doesn't have to pass the entire
-  // prefs object, to update. Only pass what
-  // needs to be updated
-  // dispatch that update and store the updated
-  // prefs back to storage
-  if (localPrefs[origin].scope === 'global') {
-    globalPrefs = {
-      ...globalPrefs,
-      ...(typeof newPrefs === 'function' ? newPrefs(globalPrefs) : newPrefs),
-    };
-    dispatchPrefsUpdate(globalPrefs);
-  } else {
+  if (currentScope === 'local') {
     localPrefs[origin] = {
       ...localPrefs[origin],
-      ...(typeof newPrefs === 'function'
-        ? newPrefs(localPrefs[origin])
-        : newPrefs),
+      ...newPrefs,
     };
-    dispatchPrefsUpdate(localPrefs[origin]);
+  } else {
+    globalPrefs = {
+      ...globalPrefs,
+      ...newPrefs,
+    };
   }
+
+  // we only really care
+  // about the scope of local
+  // cause thats how we decide
+  // if the site wants local or
+  // global scope
+  localPrefs[origin].scope = currentScope;
+  globalPrefs.scope = currentScope;
+
+  dispatchPrefsUpdate(currentScope === 'local'
+    ? localPrefs[origin]
+    : globalPrefs);
 
   storeLocalPrefs(localPrefs);
   storeGlobalPrefs(globalPrefs);
