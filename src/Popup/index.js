@@ -26,11 +26,17 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
   }),
   subscribe: (prefs) => {
     onSaccadesInterval(prefs.saccadesInterval);
-    onReadingModeToggled(prefs.enabled);
     onFixationStrength(prefs.fixationStrength);
     onLineHeight(prefs.lineHeight);
     onScopePreference(prefs.scope);
     onPageLoadToggled(prefs.onPageLoad);
+  },
+  onStartup: (prefs) => {
+    if (prefs.onPageLoad) {
+      // only toggle reading mode on startup
+      // if onpage load is true
+      onReadingModeToggled(true);
+    }
   },
 });
 
@@ -76,28 +82,6 @@ function onPageLoadToggled(enabled) {
   }
 }
 
-function onReadingModeToggled(enabled) {
-  if (enabled) {
-    readingModeToggleBtn.classList.add('selected');
-    readingModeToggleBtn.textContent = 'Reading Mode';
-  } else {
-    readingModeToggleBtn.classList.remove('selected');
-    readingModeToggleBtn.textContent = 'Enable Reading Mode';
-  }
-
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(
-      tab.id,
-      { type: 'setReadingMode', data: enabled },
-      () => {
-        if (chrome.runtime.lastError) {
-          // no-op
-        }
-      },
-    );
-  });
-}
-
 function onLineHeight(height) {
   if (height) {
     lineHeightLabel.textContent = `Line Height ${parseInt(height * 100, 10)}%`;
@@ -133,22 +117,8 @@ fixationStrengthSlider.addEventListener('change', (event) => {
 });
 
 onPageLoadBtn.addEventListener('click', (event) => {
-  setPrefs(({ onPageLoad, enabled }) => ({
+  setPrefs(({ onPageLoad }) => ({
     onPageLoad: !onPageLoad,
-    // if page load was toggled to true,
-    // use that value, otherwise, use
-    // just reuse the current enabled value
-    enabled: !onPageLoad || enabled,
-  }));
-});
-
-readingModeToggleBtn.addEventListener('click', (event) => {
-  setPrefs(({ enabled, onPageLoad }) => ({
-    enabled: !enabled,
-    // if enabled was toggled to false,
-    // use that false value to disable page load too
-    // if not, then dont touch the pageload toggle
-    onPageLoad: !enabled && onPageLoad,
   }));
 });
 
@@ -187,6 +157,33 @@ resetDefaultsBtn.addEventListener('click', () => {
       });
     });
   });
+});
+
+function onReadingModeToggled(enabled) {
+  if (enabled) {
+    readingModeToggleBtn.classList.add('selected');
+    readingModeToggleBtn.textContent = 'Reading Mode';
+  } else {
+    readingModeToggleBtn.classList.remove('selected');
+    readingModeToggleBtn.textContent = 'Enable Reading Mode';
+  }
+
+  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+    chrome.tabs.sendMessage(
+      tab.id,
+      { type: 'setReadingMode', data: enabled },
+      () => {
+        if (chrome.runtime.lastError) {
+          // no-op
+        }
+      },
+    );
+  });
+}
+
+readingModeToggleBtn.addEventListener('click', (event) => {
+  const isOn = readingModeToggleBtn.classList.contains('selected');
+  onReadingModeToggled(!isOn);
 });
 
 start();

@@ -4,7 +4,6 @@
 // so new preferences should be
 // added here
 const defaultPrefs = {
-  enabled: false,
   saccadesInterval: 0,
   lineHeight: 1,
   fixationStrength: 2,
@@ -18,6 +17,7 @@ const defaultPrefs = {
 // or on startup
 // Populated via init config.
 const subscribers = [];
+const startupSubscribers = [];
 // getOrigin is a call back
 // that should return the origin of the page.
 // Depending on the context, whether it be
@@ -45,6 +45,9 @@ function init(config) {
   // to expose another api to add
   // to subscriber if needed
   subscribers.push(config.subscribe);
+  if (config.onStartup) {
+    startupSubscribers.push(config.onStartup);
+  }
   // necessary to get the origin
   // which is used to 'local' AKA per-site prefs
   getOrigin = config.getOrigin;
@@ -181,18 +184,26 @@ async function start() {
 
   if (localPrefs[origin].scope === 'global') {
     dispatchPrefsUpdate(globalPrefs);
+    dispatchPrefsUpdate(globalPrefs, startupSubscribers);
   } else {
     dispatchPrefsUpdate(localPrefs[origin]);
+    dispatchPrefsUpdate(localPrefs[origin], startupSubscribers);
   }
 }
 
 // calls all subscriber call back
 // and pass them the preference via prefs
 // params
-function dispatchPrefsUpdate(prefs) {
-  subscribers.forEach((cb) => {
-    cb(prefs);
-  });
+function dispatchPrefsUpdate(prefs, cbs) {
+  if (Array.isArray(cbs)) {
+    cbs.forEach((cb) => {
+      cb(prefs);
+    });
+  } else {
+    subscribers.forEach((cb) => {
+      cb(prefs);
+    });
+  }
 }
 
 export default {

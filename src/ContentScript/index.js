@@ -235,8 +235,8 @@ docReady(async () => {
       if (!prefs.onPageLoad) {
         return;
       }
+      setReadingMode(prefs.onPageLoad);
       setSaccadesIntervalInDOM(prefs.saccadesInterval);
-      setReadingMode(prefs.enabled);
       setFixationStrength(prefs.fixationStrength);
       setLineHeight(prefs.lineHeight);
     },
