@@ -36,6 +36,19 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
       // only toggle reading mode on startup
       // if onpage load is true
       onReadingModeToggled(true);
+    } else {
+      // if page load is not true
+      // its possible we still have reading mode active on the current
+      // if the user didnt reload the page, and just reloaded the
+      // popup script
+      // tab so as a last resort, make sure to check the view
+      // this is necessary cause we don't store the preference
+      // for reading mode
+      chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+        chrome.tabs.sendMessage(tab.id, { type: 'getReadingMode' }, (res) => {
+          onReadingModeToggled(res.data);
+        });
+      });
     }
   },
 });

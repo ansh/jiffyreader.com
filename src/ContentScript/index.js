@@ -151,6 +151,11 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       sendResponse({ data: window.location.origin });
       break;
     }
+    case 'getReadingMode': {
+      sendResponse({ data: document.body.classList.contains('br-bold') });
+      break;
+    }
+
     default:
       break;
   }
