@@ -79,13 +79,13 @@ const setReadingMode = (enableReading) => {
       // setReadingMode(true) is called, consecutively
       if (boldedElements.length < 1) {
         addStyles();
-        [...document.body.children].forEach(parseNode);
       }
       /**
        * add .br-bold if it was not present or if enableReading is true
        * enableReading = true means add .br-bold to document.body when a page loads
        */
       document.body.classList.add('br-bold');
+      [...document.body.children].forEach(parseNode);
 
       /** make an observer if one does not exist and .br-bold is present on body/active */
       if (!observer) {
