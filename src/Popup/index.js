@@ -133,14 +133,22 @@ fixationStrengthSlider.addEventListener('change', (event) => {
 });
 
 onPageLoadBtn.addEventListener('click', (event) => {
-  setPrefs((currentPrefs) => ({
-    onPageLoad: !currentPrefs.onPageLoad,
+  setPrefs(({ onPageLoad, enabled }) => ({
+    onPageLoad: !onPageLoad,
+    // if page load was toggled to true,
+    // use that value, otherwise, use
+    // just reuse the current enabled value
+    enabled: !onPageLoad || enabled,
   }));
 });
 
 readingModeToggleBtn.addEventListener('click', (event) => {
-  setPrefs((currentPrefs) => ({
-    enabled: !currentPrefs.enabled,
+  setPrefs(({ enabled, onPageLoad }) => ({
+    enabled: !enabled,
+    // if enabled was toggled to false,
+    // use that false value to disable page load too
+    // if not, then dont touch the pageload toggle
+    onPageLoad: !enabled && onPageLoad,
   }));
 });
 
