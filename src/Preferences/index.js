@@ -150,7 +150,7 @@ async function setPrefs(prefs) {
   // if the site wants local or
   // global scope
   localPrefs[origin].scope = currentScope;
-  globalPrefs.scope = currentScope;
+  globalPrefs.scope = 'global';
 
   dispatchPrefsUpdate(currentScope === 'local'
     ? localPrefs[origin]
