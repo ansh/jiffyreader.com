@@ -59,7 +59,53 @@ function parseNode(/** @type Element */ node) {
 
       if (brSpan.childElementCount === 0) return;
 
-      node.parentElement.replaceChild(brSpan, node);
+      // to avoid duplicates of brSpan, check it if 
+      // this current textNode has a left sibling of br span
+      // we know that is possible because
+      // we will specifically insert the br-span
+      // on the left of a text node, and keep
+      // the text node alive later. so if we get to
+      // this text node again. that means that the 
+      // text node was updated and the br span is now stale
+      // so remove that if exist
+      if (node.previousSibling?.tagName === 'BR-SPAN') {
+        node.parentElement.removeChild(node.previousSibling);
+      }
+
+      // dont replace for now, cause we're keeping it alive
+      // below
+      // node.parentElement.replaceChild(brSpan, node);
+
+      // keep the textNode alive in the dom, but
+      // empty it's contents
+      // and insert the brSpan just before it
+      // we need the text node alive because
+      // youtube has some reference for it internally
+      // and we want to listen to it when it changes
+      node.parentElement.insertBefore(brSpan, node);
+      node.textContent = '';
+
+      // for some reason the root observer doesn't
+      // detect the text content changes, regardless of the
+      // config OPTIONS I pass, but having the nodeObserver
+      // here allows us to listen to textContent changes
+      // for this specific text node
+      const config = {
+        characterData: true,
+      };
+      const obs = new NodeObserver(node, config, ((records) => {
+        records.forEach(({ type, target }) => {
+          // if textContent has a value,
+          // it means that its value was updated
+          // from the empty string we set just before
+          // so lets parse that node
+          if (target.textContent) {
+            parseNode(node);
+            obs.destroy();
+          }
+        });
+      }));
+      obs.observe();
     } catch (error) {
       // no-op
     }
