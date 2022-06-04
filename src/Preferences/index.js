@@ -7,7 +7,7 @@ const defaultPrefs = {
   enabled: false,
   saccadesInterval: 0,
   lineHeight: 1,
-  fixationStrength: 1,
+  fixationStrength: 2,
   scope: 'global',
   // onPageLoad apply prefs on page load
   onPageLoad: false,
