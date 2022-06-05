@@ -8,6 +8,7 @@ const FIXATION_BREAK_RATIO = 0.33;
 const FIXATION_LOWER_BOUND = 0;
 const DEFAULT_SACCADES_INTERVAL = 0;
 const DEFAULT_FIXATION_STRENGTH = 3;
+const BR_WORD_STEP_PERCENTAGE = 0.60;
 
 // which tag's content should be ignored from bolded
 const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'SVG'];
@@ -21,10 +22,10 @@ function highlightText(sentenceText) {
   return sentenceText
     .replace(/\p{L}+/gu, (word) => {
       const { length } = word;
-      let midPoint = 1;
-      if (length > 3) midPoint = Math.round(length / 2);
-      const firstHalf = word.slice(0, midPoint);
-      const secondHalf = word.slice(midPoint);
+      let brWordStemWidth = 1;
+      if (length > 3) brWordStemWidth = Math.round(length * BR_WORD_STEP_PERCENTAGE);
+      const firstHalf = word.slice(0, brWordStemWidth);
+      const secondHalf = word.slice(brWordStemWidth);
       const htmlWord = `<br-bold class="br-bold">${makeFixations(firstHalf)}</br-bold>${secondHalf}`;
       return htmlWord;
     });

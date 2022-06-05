@@ -25,6 +25,14 @@
     }
   ],
   "permissions": ["storage", "activeTab"],
-  "__dev__name": "jiffy-reader-dev"
+  "__dev__name": "jiffy-reader-dev",
+  "commands": {
+    "toggle-bionic": {
+      "suggested_key": {
+        "default": "Alt+B"
+      },
+      "description": "Toggle bionic reading mode"
+    }
+  }
   
 }
