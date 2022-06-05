@@ -1,7 +1,7 @@
 import TabHelper from '../TabHelper';
 import Logger from '../Logger';
 import Preferences from '../Preferences';
-import storage from '../Storage';
+import Storage from '../Storage';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
@@ -12,11 +12,11 @@ const { getPrefs } = Preferences.init({
 const listener = (request, sender, sendResponse) => {
   switch (request.message) {
     case 'storePrefs': {
-      sendResponse(storage.storePrefs(request.action, request.data));
+      sendResponse(Storage.storePrefs(request.action, request.data));
       break;
     }
     case 'retrievePrefs': {
-      sendResponse(storage.retrievePrefs(request.action));
+      sendResponse(Storage.retrievePrefs(request.action));
       break;
     }
     default:
