@@ -44,7 +44,9 @@ function init(config) {
   // subscribers but it be easy
   // to expose another api to add
   // to subscriber if needed
-  subscribers.push(config.subscribe);
+  if (config.subscribe) {
+    subscribers.push(config.subscribe);
+  }
   if (config.onStartup) {
     startupSubscribers.push(config.onStartup);
   }
@@ -55,6 +57,7 @@ function init(config) {
   return {
     start,
     setPrefs,
+    getPrefs,
     defaultPrefs: () => defaultPrefs,
   };
 }
@@ -103,6 +106,32 @@ async function storeLocalPrefs(prefs) {
 // Store global preferences into storage
 async function storeGlobalPrefs(prefs) {
   return storePrefs(prefs, 'global');
+}
+
+// get the current Preferences based on the current
+// scope so if the user current setting is global
+// it will return the global prefs, otherwise
+// return local scope to this origin
+async function getPrefs() {
+  // grab the current prefs
+  let localPrefs = await retrieveLocalPrefs();
+  let globalPrefs = await retriveGlobalPrefs();
+  const origin = await getOrigin();
+
+  if (localPrefs == null) {
+    localPrefs = {};
+  }
+
+  // just in case their missing a default prefs
+  // be sure to pepper the default prefs
+  localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
+  globalPrefs = { ...defaultPrefs, ...globalPrefs };
+
+  const currentScope = localPrefs[origin].scope;
+
+  return (currentScope === 'local'
+    ? localPrefs[origin]
+    : globalPrefs);
 }
 
 // setPrefs updates the preferences in storage
