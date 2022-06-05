@@ -44,7 +44,6 @@ const commandListener = async (command) => {
 
     // set prefs to global if local is not present or local[scope] == 'global'
     const prefs = await getPrefs();
-    console.log(prefs);
 
     const intentedTabBrMode = !tabBrMode;
     chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode });
