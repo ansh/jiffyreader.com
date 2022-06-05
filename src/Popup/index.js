@@ -15,7 +15,7 @@ const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
-  getOrigin: async () => TabHelper.getActiveTab(TabHelper.getOrigin),
+  getOrigin: async () => TabHelper.getActiveTab().then(TabHelper.getTabOrigin),
   subscribe: (prefs) => {
     onSaccadesInterval(prefs.saccadesInterval);
     onFixationStrength(prefs.fixationStrength);

@@ -1,7 +1,7 @@
 import TabHelper from '../TabHelper';
 import Logger from '../Logger';
 import Preferences from '../Preferences';
-import Storage from '../Storage';
+import StorageHelper from '../StorageHelper';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
@@ -12,11 +12,11 @@ const { getPrefs } = Preferences.init({
 const listener = (request, sender, sendResponse) => {
   switch (request.message) {
     case 'storePrefs': {
-      sendResponse(Storage.storePrefs(request.action, request.data));
+      sendResponse(StorageHelper.storePrefs(request.action, request.data));
       break;
     }
     case 'retrievePrefs': {
-      sendResponse(Storage.retrievePrefs(request.action));
+      sendResponse(StorageHelper.retrievePrefs(request.action));
       break;
     }
     default:
@@ -44,6 +44,7 @@ const commandListener = async (command) => {
 
     // set prefs to global if local is not present or local[scope] == 'global'
     const prefs = await getPrefs();
+    console.log(prefs);
 
     const intentedTabBrMode = !tabBrMode;
     chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode });

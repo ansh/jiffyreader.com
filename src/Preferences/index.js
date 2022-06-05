@@ -1,4 +1,4 @@
-import Storage from '../Storage';
+import StorageHelper from '../StorageHelper';
 // default preferences
 // and source of truth
 // for both global and local prefs
@@ -81,7 +81,7 @@ const isBackgroundScript = () => {
 async function retrievePrefs(action) {
   return new Promise((resolve, reject) => {
     if (isBackgroundScript()) {
-      const response = Storage.retrievePrefs(action);
+      const response = StorageHelper.retrievePrefs(action);
       resolve(response?.data);
     } else {
       chrome.runtime.sendMessage(
@@ -99,7 +99,7 @@ async function retrievePrefs(action) {
 function storePrefs(prefs, action) {
   return new Promise((resolve, reject) => {
     if (isBackgroundScript()) {
-      Storage.storePrefs(action, prefs);
+      StorageHelper.storePrefs(action, prefs);
       resolve(true);
     } else {
       chrome.runtime.sendMessage(
