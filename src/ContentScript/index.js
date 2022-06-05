@@ -162,8 +162,6 @@ function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
 }
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-
-      console.log(message);
   switch (message.type) {
     case 'setFixationStrength': {
       setFixationStrength(message.data);
