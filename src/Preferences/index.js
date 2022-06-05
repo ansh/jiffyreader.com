@@ -1,3 +1,4 @@
+import storage from '../Storage';
 // default preferences
 // and source of truth
 // for both global and local prefs
@@ -68,14 +69,19 @@ function init(config) {
 // to know the context so it can work properly based on the context
 
 // we know we are on background script if getBackgroundPage === window
-const isBackgroundScript = () => chrome?.extension?.getBackgroundPage() === window;
+const isBackgroundScript = () => {
+  if (typeof chrome?.extension?.getBackgroundPage === 'function') {
+    return chrome.extension.getBackgroundPage() === window;
+  }
+  return false;
+};
 
 // Retrieves preferences from storage, specify if
 // its 'global' or 'local' with the action parameter
 async function retrievePrefs(action) {
   return new Promise((resolve, reject) => {
     if (isBackgroundScript()) {
-      const response = retrievePrefs(action);
+      const response = storage.retrievePrefs(action);
       resolve(response?.data);
     } else {
       chrome.runtime.sendMessage(
@@ -93,7 +99,7 @@ async function retrievePrefs(action) {
 function storePrefs(prefs, action) {
   return new Promise((resolve, reject) => {
     if (isBackgroundScript()) {
-      storePrefs(action, prefs);
+      storage.storePrefs(action, prefs);
       resolve(true);
     } else {
       chrome.runtime.sendMessage(
@@ -146,6 +152,7 @@ async function getPrefs() {
   globalPrefs = { ...defaultPrefs, ...globalPrefs };
 
   const currentScope = localPrefs[origin].scope;
+
 
   return (currentScope === 'local'
     ? localPrefs[origin]

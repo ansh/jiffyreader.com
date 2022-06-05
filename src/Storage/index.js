@@ -1,4 +1,3 @@
-
 function storePrefs(action, data) {
   try {
     const key = `preferences_${action}`;
@@ -21,7 +20,7 @@ function retrievePrefs(action) {
   }
 }
 
-export {
+export default {
   storePrefs,
   retrievePrefs,
 };

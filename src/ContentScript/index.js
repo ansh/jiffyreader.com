@@ -162,6 +162,8 @@ function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
 }
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
+
+      console.log(message);
   switch (message.type) {
     case 'setFixationStrength': {
       setFixationStrength(message.data);
@@ -176,7 +178,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       setSaccadesIntervalInDOM(message.data);
       break;
     }
-    case 'setlineHeight': {
+    case 'setLineHeight': {
       setLineHeight(message.data);
       break;
     }
