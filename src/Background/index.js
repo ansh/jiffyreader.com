@@ -1,7 +1,12 @@
 import TabHelper from '../TabHelper';
 import Logger from '../Logger';
+import Preferences from '../Preferences';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
+
+const { getPrefs } = Preferences.init({
+  getOrigin: async () => TabHelper.getActiveTab().then(TabHelper.getTabOrigin),
+});
 
 const listener = (request, sender, sendResponse) => {
   switch (request.message) {
@@ -50,11 +55,8 @@ const commandListener = async (command) => {
 
     if (getReadingModeError) throw Logger.logError(getReadingModeError);
 
-    const origin = await TabHelper.getActiveTab().then(TabHelper.getTabOrigin);
-    const localPrefs = JSON.parse(localStorage.getItem('preferences_local'))[origin];
-
     // set prefs to global if local is not present or local[scope] == 'global'
-    const prefs = localPrefs?.scope === 'local' ? localPrefs : JSON.parse(localStorage.getItem('preferences_global'));
+    const prefs = await getPrefs();
 
     const intentedTabBrMode = !tabBrMode;
     chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode });

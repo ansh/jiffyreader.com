@@ -69,7 +69,7 @@ async function retrievePrefs(action) {
     chrome.runtime.sendMessage(
       { message: 'retrievePrefs', action },
       async (response) => {
-        resolve(response.data);
+        resolve(response?.data);
       },
     );
   });
