@@ -114,9 +114,18 @@ async function storeGlobalPrefs(prefs) {
 // return local scope to this origin
 async function getPrefs() {
   // grab the current prefs
-  const localPrefs = await retrieveLocalPrefs();
-  const globalPrefs = await retriveGlobalPrefs();
+  let localPrefs = await retrieveLocalPrefs();
+  let globalPrefs = await retriveGlobalPrefs();
   const origin = await getOrigin();
+
+  if (localPrefs == null) {
+    localPrefs = {};
+  }
+
+  // just in case their missing a default prefs
+  // be sure to pepper the default prefs
+  localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
+  globalPrefs = { ...defaultPrefs, ...globalPrefs };
 
   const currentScope = localPrefs[origin].scope;
 
