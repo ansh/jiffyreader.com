@@ -11,7 +11,7 @@ const DEFAULT_FIXATION_STRENGTH = 3;
 
 // which tag's content should be ignored from bolded
 const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'SVG'];
-const IGNORE_MUTATION_TYPES = ['childList', 'characterData'];
+const MUTATION_TYPES = ['childList', 'characterData'];
 
 /** @type {NodeObserver} */
 let observer;
@@ -147,7 +147,7 @@ const setLineHeight = (lineHeight) => {
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   Logger.logInfo('mutationCallback fired ', mutationRecords.length);
   mutationRecords.forEach(({ type, addedNodes, target }) => {
-    if (!IGNORE_MUTATION_TYPES.includes(type)) {
+    if (!MUTATION_TYPES.includes(type)) {
       return;
     }
 
