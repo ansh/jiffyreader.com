@@ -1,3 +1,4 @@
+import TabHelper from '../TabHelper';
 import Logger from '../Logger';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
@@ -35,16 +36,9 @@ const commandListener = async (command) => {
   Logger.logInfo('commmand fired', command);
 
   if (command === 'toggle-bionic') {
-    const [activeTab, activeTabError] = await new Promise((res, _) => {
-      chrome.tabs.query({ active: true }, ([tab]) => {
-        if (Number.isNaN(tab?.id)) throw new Error('Error: tab is undefined');
-        res([tab, chrome.rumetime?.lastError]);
-      });
-    });
+    const activeTab = await TabHelper.getActiveTab();
 
-    if (activeTabError) throw Logger.logError(activeTabError);
-
-    const [{ data }, getReadingModeError] = await new Promise((res, _) => {
+    const [{ data: tabBrMode }, getReadingModeError] = await new Promise((res, _) => {
       chrome.tabs.sendMessage(
         activeTab.id,
         { type: 'getReadingMode' },
@@ -56,7 +50,20 @@ const commandListener = async (command) => {
 
     if (getReadingModeError) throw Logger.logError(getReadingModeError);
 
-    chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: !data });
+    const origin = await TabHelper.getActiveTab().then(TabHelper.getTabOrigin);
+    const localPrefs = JSON.parse(localStorage.getItem('preferences_local'))[origin];
+
+    // set prefs to global if local is not present or local[scope] == 'global'
+    const prefs = localPrefs?.scope === 'local' ? localPrefs : JSON.parse(localStorage.getItem('preferences_global'));
+
+    const intentedTabBrMode = !tabBrMode;
+    chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode });
+
+    if (intentedTabBrMode) {
+      chrome.tabs.sendMessage(activeTab.id, { type: 'setSaccadesIntervalInDOM', data: prefs.saccadesInterval });
+      chrome.tabs.sendMessage(activeTab.id, { type: 'setLineHeight', data: prefs.lineHeight });
+      chrome.tabs.sendMessage(activeTab.id, { type: 'setFixationStrength', data: prefs.fixationStrength });
+    }
   }
 };
 

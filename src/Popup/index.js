@@ -1,4 +1,5 @@
 import Preferences from '../Preferences';
+import TabHelper from '../TabHelper';
 
 const readingModeToggleBtn = document.getElementById('readingModeToggleBtn');
 const saccadesIntervalSlider = document.getElementById('saccadesSlider');
@@ -14,16 +15,7 @@ const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
-  getOrigin: async () => new Promise((resolve, _) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      chrome.tabs.sendMessage(tab.id, { type: 'getOrigin' }, (res) => {
-        const origin = res.data;
-        if (origin) {
-          resolve(origin);
-        }
-      });
-    });
-  }),
+  getOrigin: async () => TabHelper.getActiveTab(TabHelper.getOrigin),
   subscribe: (prefs) => {
     onSaccadesInterval(prefs.saccadesInterval);
     onFixationStrength(prefs.fixationStrength);

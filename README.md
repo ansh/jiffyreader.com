@@ -16,7 +16,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 
 # Table of Contents
-- [bionic-reading](#bionic-reading)
+- [Jiffy Reader](#jiffy-reader)
 - [How it works](#how-it-works)
 - [Table of Contents](#table-of-contents)
 - [Installation Instructions](#installation-instructions)
@@ -24,9 +24,11 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Firefox](#firefox)
   - [Opera](#opera)
   - [Edge](#edge)
+- [Customizations](#customizations)
+  - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
-- [How to Contribution](#how-to-contribution)
+- [How to Contribute](#how-to-contribute)
   - [Development](#development)
   - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
   - [Release a new version](#release-a-new-version)
@@ -76,6 +78,15 @@ The best way to install this extension is to follow the instructions below. Howe
 ## Edge
 
   - Please follow the steps for [chrome](#chrome) above
+
+
+# Customizations
+
+## Shortcut
+- `Alt+B` is the default toggle shortcut to turn `on or off` the extension
+- If prefered you may customize the extension shortcut with the help of the resources below
+- [Chrome, Firefox and Edge](https://www.makeuseof.com/open-browser-extensions-keyboard-shortcut/)
+- Opera: open the extension management tab and click the `Keyboard shortcuts` link to access the page for customizing opera shortcuts
 
 
 
