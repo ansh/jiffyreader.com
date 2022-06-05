@@ -1,5 +1,5 @@
 export default class NodeObserver {
-  #DEFAULT_MUTATION_OPTIONS = { childList: true, subtree: true };
+  #DEFAULT_MUTATION_OPTIONS = { childList: true, subtree: true, characterData: true };
 
   /** @type MutationObserver */
   #observer;

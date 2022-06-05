@@ -10,7 +10,8 @@ const DEFAULT_SACCADES_INTERVAL = 0;
 const DEFAULT_FIXATION_STRENGTH = 3;
 
 // which tag's content should be ignored from bolded
-const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD'];
+const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'SVG'];
+const IGNORE_MUTATION_TYPES = ['childList', 'characterData'];
 
 /** @type {NodeObserver} */
 let observer;
@@ -59,13 +60,13 @@ function parseNode(/** @type Element */ node) {
 
       if (brSpan.childElementCount === 0) return;
 
-      // to avoid duplicates of brSpan, check it if 
+      // to avoid duplicates of brSpan, check it if
       // this current textNode has a left sibling of br span
       // we know that is possible because
       // we will specifically insert the br-span
       // on the left of a text node, and keep
       // the text node alive later. so if we get to
-      // this text node again. that means that the 
+      // this text node again. that means that the
       // text node was updated and the br span is now stale
       // so remove that if exist
       if (node.previousSibling?.tagName === 'BR-SPAN') {
@@ -84,28 +85,6 @@ function parseNode(/** @type Element */ node) {
       // and we want to listen to it when it changes
       node.parentElement.insertBefore(brSpan, node);
       node.textContent = '';
-
-      // for some reason the root observer doesn't
-      // detect the text content changes, regardless of the
-      // config OPTIONS I pass, but having the nodeObserver
-      // here allows us to listen to textContent changes
-      // for this specific text node
-      const config = {
-        characterData: true,
-      };
-      const obs = new NodeObserver(node, config, ((records) => {
-        records.forEach(({ type, target }) => {
-          // if textContent has a value,
-          // it means that its value was updated
-          // from the empty string we set just before
-          // so lets parse that node
-          if (target.textContent) {
-            parseNode(node);
-            obs.destroy();
-          }
-        });
-      }));
-      obs.observe();
     } catch (error) {
       // no-op
     }
@@ -167,10 +146,17 @@ const setLineHeight = (lineHeight) => {
 
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   Logger.logInfo('mutationCallback fired ', mutationRecords.length);
-  mutationRecords.forEach(({ type, addedNodes }) => {
-    if (type !== 'childList') return;
+  mutationRecords.forEach(({ type, addedNodes, target }) => {
+    if (!IGNORE_MUTATION_TYPES.includes(type)) {
+      return;
+    }
 
     addedNodes?.forEach(parseNode);
+    // Some changes don't add nodes
+    // but values are changed
+    // To account for that,
+    // recursively parse the target node as well
+    parseNode(target);
   });
 }
 
