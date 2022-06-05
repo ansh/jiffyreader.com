@@ -62,16 +62,29 @@ function init(config) {
   };
 }
 
+// https://stackoverflow.com/questions/16267668/can-js-code-in-chrome-extension-detect-that-its-executed-as-content-script
+// detect where code is running from, is it content script, popup or background?
+// thats important to know if all 3 context call the same functions, that shared function has
+// to know the context so it can work properly based on the context
+
+// we know we are on background script if getBackgroundPage === window
+const isBackgroundScript = () => chrome?.extension?.getBackgroundPage() === window;
+
 // Retrieves preferences from storage, specify if
 // its 'global' or 'local' with the action parameter
 async function retrievePrefs(action) {
   return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(
-      { message: 'retrievePrefs', action },
-      async (response) => {
-        resolve(response?.data);
-      },
-    );
+    if (isBackgroundScript()) {
+      const response = retrievePrefs(action);
+      resolve(response?.data);
+    } else {
+      chrome.runtime.sendMessage(
+        { message: 'retrievePrefs', action },
+        async (response) => {
+          resolve(response?.data);
+        },
+      );
+    }
   });
 }
 
@@ -79,12 +92,17 @@ async function retrievePrefs(action) {
 // if its 'global' or 'local' with the action parameter
 function storePrefs(prefs, action) {
   return new Promise((resolve, reject) => {
-    chrome.runtime.sendMessage(
-      { message: 'storePrefs', data: prefs, action },
-      async (_) => {
-        resolve(true);
-      },
-    );
+    if (isBackgroundScript()) {
+      storePrefs(action, prefs);
+      resolve(true);
+    } else {
+      chrome.runtime.sendMessage(
+        { message: 'storePrefs', data: prefs, action },
+        async (_) => {
+          resolve(true);
+        },
+      );
+    }
   });
 }
 
