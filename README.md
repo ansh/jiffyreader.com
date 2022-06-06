@@ -16,7 +16,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 
 # Table of Contents
-- [bionic-reading](#bionic-reading)
+- [Jiffy Reader](#jiffy-reader)
 - [How it works](#how-it-works)
 - [Table of Contents](#table-of-contents)
 - [Installation Instructions](#installation-instructions)
@@ -25,9 +25,11 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Opera](#opera)
   - [Edge](#edge)
   - [Bookmarklet](#bookmarklet)
+- [Customizations](#customizations)
+  - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
-- [How to Contribution](#how-to-contribution)
+- [How to Contribute](#how-to-contribute)
   - [Development](#development)
   - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
   - [Release a new version](#release-a-new-version)
@@ -91,6 +93,15 @@ The best way to install this extension is to follow the instructions below. Howe
 ```js
 javascript:{function highlightText(t){return t.split(" ").map((t=>{if(t.includes("-"))return t.split("-").map((t=>highlightText(t))).join("-");if(/\d/.test(t))return t;const{length:e}=t;let n=1;return e>3&&(n=Math.round(e/2)),`<br-bold>${t.slice(0,n)}</br-bold>${t.slice(n)}`})).join(" ")}function main(){const t=document.getElementsByTagName("br-bold");if(document.body.classList.toggle("br-bold"),t.length)return;const e=document.createElement("style");e.textContent=".br-bold br-bold { font-weight: bold !important; display: inline; line-height: var(--br-line-height,initial); }",document.head.appendChild(e);const n=new DOMParser;["p","font","span","li"].forEach((t=>{for(const e of document.getElementsByTagName(t)){const t=n.parseFromString(e.innerHTML,"text/html"),o=Array.from(t.body.childNodes).map((t=>t.nodeType===Node.TEXT_NODE?highlightText(t.nodeValue):t.outerHTML));e.innerHTML=o.join(" ")}}))}main();}
 ```
+
+
+# Customizations
+
+## Shortcut
+- `Alt+B` is the default toggle shortcut to turn `on or off` the extension
+- If prefered you may customize the extension shortcut with the help of the resources below
+- [Chrome, Firefox and Edge](https://www.makeuseof.com/open-browser-extensions-keyboard-shortcut/)
+- Opera: open the extension management tab and click the `Keyboard shortcuts` link to access the page for customizing opera shortcuts
 
 
 

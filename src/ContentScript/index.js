@@ -1,22 +1,31 @@
+import Preferences from '../Preferences';
+import Logger from '../Logger';
+import NodeObserver from './observer';
+
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const FIXATION_BREAK_RATIO = 0.33;
 const FIXATION_LOWER_BOUND = 0;
 const DEFAULT_SACCADES_INTERVAL = 0;
 const DEFAULT_FIXATION_STRENGTH = 3;
+const BR_WORD_STEM_PERCENTAGE = 0.6;
 
 // which tag's content should be ignored from bolded
-const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT'];
+const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'SVG'];
+const MUTATION_TYPES = ['childList', 'characterData'];
+
+/** @type {NodeObserver} */
+let observer;
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
   return sentenceText
     .replace(/\p{L}+/gu, (word) => {
       const { length } = word;
-      let midPoint = 1;
-      if (length > 3) midPoint = Math.round(length / 2);
-      const firstHalf = word.slice(0, midPoint);
-      const secondHalf = word.slice(midPoint);
+      let brWordStemWidth = 1;
+      if (length > 3) brWordStemWidth = Math.round(length * BR_WORD_STEM_PERCENTAGE);
+      const firstHalf = word.slice(0, brWordStemWidth);
+      const secondHalf = word.slice(brWordStemWidth);
       const htmlWord = `<br-bold class="br-bold">${makeFixations(firstHalf)}</br-bold>${secondHalf}`;
       return htmlWord;
     });
@@ -40,7 +49,7 @@ function makeFixations(/** @type string */ textContent) {
 
 function parseNode(/** @type Element */ node) {
   // some websites add <style>, <script> tags in the <body>, ignore these tags
-  if (IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
+  if (!node?.parentElement?.tagName || IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
     return;
   }
 
@@ -52,7 +61,31 @@ function parseNode(/** @type Element */ node) {
 
       if (brSpan.childElementCount === 0) return;
 
-      node.parentElement.replaceChild(brSpan, node);
+      // to avoid duplicates of brSpan, check it if
+      // this current textNode has a left sibling of br span
+      // we know that is possible because
+      // we will specifically insert the br-span
+      // on the left of a text node, and keep
+      // the text node alive later. so if we get to
+      // this text node again. that means that the
+      // text node was updated and the br span is now stale
+      // so remove that if exist
+      if (node.previousSibling?.tagName === 'BR-SPAN') {
+        node.parentElement.removeChild(node.previousSibling);
+      }
+
+      // dont replace for now, cause we're keeping it alive
+      // below
+      // node.parentElement.replaceChild(brSpan, node);
+
+      // keep the textNode alive in the dom, but
+      // empty it's contents
+      // and insert the brSpan just before it
+      // we need the text node alive because
+      // youtube has some reference for it internally
+      // and we want to listen to it when it changes
+      node.parentElement.insertBefore(brSpan, node);
+      node.textContent = '';
     } catch (error) {
       // no-op
     }
@@ -62,86 +95,100 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const ToggleReading = (enableReading) => {
-  console.time('ToggleReading-Time');
-  const boldedElements = document.getElementsByTagName('br-bold');
+const setReadingMode = (enableReading) => {
+  const endTimer = Logger.logTime('ToggleReading-Time');
+  try {
+    if (enableReading) {
+      const boldedElements = document.getElementsByTagName('br-bold');
 
-  if (boldedElements.length < 1) {
-    addStyles();
-    [...document.body.children].forEach(parseNode);
+      // makes sure to only run once regadless of how many times
+      // setReadingMode(true) is called, consecutively
+      if (boldedElements.length < 1) {
+        addStyles();
+      }
+      /**
+       * add .br-bold if it was not present or if enableReading is true
+       * enableReading = true means add .br-bold to document.body when a page loads
+       */
+      document.body.classList.add('br-bold');
+      [...document.body.children].forEach(parseNode);
+
+      /** make an observer if one does not exist and .br-bold is present on body/active */
+      if (!observer) {
+        observer = new NodeObserver(document.body, null, mutationCallback);
+        observer.observe();
+      }
+    } else {
+      document.body.classList.remove('br-bold');
+      if (observer) {
+        observer.destroy();
+        observer = null;
+      }
+    }
+  } catch (error) {
+    Logger.logError(error);
+  } finally {
+    endTimer();
   }
-
-  if (document.body.classList.contains('br-bold') || enableReading === false) {
-    document.body.classList.remove('br-bold');
-    console.timeEnd('ToggleReading-Time');
-    return;
-  }
-
-  if (!document.body.classList.contains('br-bold')) {
-    document.body.classList.add('br-bold');
-  }
-
-  if (enableReading) document.body.classList.add('br-bold');
-
-  console.timeEnd('ToggleReading-Time');
 };
+
+const setSaccadesIntervalInDOM = (data) => {
+  const saccadesInterval = data == null ? 0 : data;
+  document.body.setAttribute('saccades-interval', saccadesInterval);
+};
+
+const setFixationStrength = (data) => {
+  document.body.setAttribute('fixation-strength', data);
+};
+
+const setLineHeight = (lineHeight) => {
+  document.body.style.setProperty('--br-line-height', lineHeight);
+};
+
+function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
+  Logger.logInfo('mutationCallback fired ', mutationRecords.length);
+  mutationRecords.forEach(({ type, addedNodes, target }) => {
+    if (!MUTATION_TYPES.includes(type)) {
+      return;
+    }
+
+    addedNodes?.forEach(parseNode);
+    // Some changes don't add nodes
+    // but values are changed
+    // To account for that,
+    // recursively parse the target node as well
+    parseNode(target);
+  });
+}
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
-    case 'getBrMode':
-      sendResponse({ data: document.body.classList.contains('br-bold') });
-      break;
-    case 'toggleReadingMode': {
-      ToggleReading();
-      break;
-    }
-    case 'getFixationStrength': {
-      sendResponse({ data: document.body.getAttribute('fixation-strength') });
-      break;
-    }
     case 'setFixationStrength': {
-      document.body.setAttribute('fixation-strength', message.data);
+      setFixationStrength(message.data);
       sendResponse({ success: true });
       break;
     }
     case 'setReadingMode': {
-      ToggleReading(message.data);
+      setReadingMode(message.data);
       break;
     }
     case 'setSaccadesIntervalInDOM': {
-      const saccadesInterval = message.data == null ? 0 : message.data;
-      document.body.setAttribute('saccades-interval', saccadesInterval);
+      setSaccadesIntervalInDOM(message.data);
       break;
     }
     case 'setlineHeight': {
-      const { action } = message;
-      const { step } = message;
-      const LINE_HEIGHT_KEY = '--br-line-height';
-      let currentHeight = document.body.style.getPropertyValue(LINE_HEIGHT_KEY);
-      switch (action) {
-        case 'lineHeightdecrease':
-          currentHeight = /\d+/.test(currentHeight) && currentHeight > 1 ? Number(currentHeight) - step : currentHeight;
-          break;
-
-        case 'lineHeightIncrease':
-          currentHeight = /\d+/.test(currentHeight) ? Number(currentHeight) : 1;
-          currentHeight += step;
-          break;
-
-        case 'lineHeightReset':
-          currentHeight = '';
-          break;
-
-        default:
-          break;
-      }
-      if (/\d+/.test(currentHeight)) {
-        document.body.style.setProperty(LINE_HEIGHT_KEY, currentHeight);
-      } else {
-        document.body.style.removeProperty(LINE_HEIGHT_KEY);
-      }
+      setLineHeight(message.data);
       break;
     }
+    case 'getOrigin': {
+      sendResponse({ data: window.location.origin });
+      break;
+    }
+    case 'getReadingMode': {
+      sendResponse({ data: document.body.classList.contains('br-bold') });
+      break;
+    }
+
     default:
       break;
   }
@@ -218,28 +265,20 @@ function addStyles() {
 docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-  chrome.runtime.sendMessage(
-    { message: 'getToggleOnDefault' },
-    (response) => {
-      if (!['true', true].includes(response.data)) return;
-      ToggleReading(response.data === 'true');
+  const { start } = Preferences.init({
+    getOrigin: async () => new Promise((resolve, _) => {
+      resolve(window.location.origin);
+    }),
+    subscribe: (prefs) => {
+      if (!prefs.onPageLoad) {
+        return;
+      }
+      setReadingMode(prefs.onPageLoad);
+      setSaccadesIntervalInDOM(prefs.saccadesInterval);
+      setFixationStrength(prefs.fixationStrength);
+      setLineHeight(prefs.lineHeight);
     },
-  );
-  chrome.runtime.sendMessage(
-    { message: 'getSaccadesInterval' },
-    (response) => {
-      const saccadesInterval = response === undefined || response.data == null
-        ? DEFAULT_SACCADES_INTERVAL : response.data;
-      document.body.setAttribute('saccades-interval', saccadesInterval);
-    },
-  );
+  });
 
-  chrome.runtime.sendMessage(
-    { message: 'getFixationStrength' },
-    (response) => {
-      const fixationStrength = response === undefined || response.data == null
-        ? DEFAULT_FIXATION_STRENGTH : response.data;
-      document.body.setAttribute('fixation-strength', fixationStrength);
-    },
-  );
+  start();
 });
