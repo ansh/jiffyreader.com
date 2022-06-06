@@ -20,6 +20,5 @@ build({
       <p>Drag the link above onto your bookmark bar to save it as a bookmarklet which works on any site just like the full extension</p>
   `,
     );
-    // fs.writeFileSync('./output/Bookmark.md', `[Toggle JiffyReader](javascript:${outputText})`);
   })
   .catch(() => process.exit(1));

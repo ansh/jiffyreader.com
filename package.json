@@ -15,13 +15,13 @@
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "webpack": "^5.72.1",
     "wext-manifest-loader": "^2.3.0",
+    "esbuild": "^0.14.42",
+    "esbuild-sass-plugin": "^2.2.6",
     "wext-manifest-webpack-plugin": "^1.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
     "css-loader": "^6.7.1",
-    "esbuild": "^0.14.42",
-    "esbuild-sass-plugin": "^2.2.6",
     "eslint": "^8.16.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",

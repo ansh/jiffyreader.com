@@ -153,7 +153,6 @@ async function getPrefs() {
 
   const currentScope = localPrefs[origin].scope;
 
-
   return (currentScope === 'local'
     ? localPrefs[origin]
     : globalPrefs);
