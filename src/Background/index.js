@@ -1,6 +1,7 @@
 import TabHelper from '../TabHelper';
 import Logger from '../Logger';
 import Preferences from '../Preferences';
+import StorageHelper from '../StorageHelper';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
@@ -11,25 +12,11 @@ const { getPrefs } = Preferences.init({
 const listener = (request, sender, sendResponse) => {
   switch (request.message) {
     case 'storePrefs': {
-      try {
-        const key = `preferences_${request.action}`;
-        const prefsJSONStr = JSON.stringify(request.data);
-        localStorage.setItem(key, prefsJSONStr);
-        sendResponse({ success: true });
-      } catch (err) {
-        sendResponse({ success: false, error: err });
-      }
+      sendResponse(StorageHelper.storePrefs(request.action, request.data));
       break;
     }
     case 'retrievePrefs': {
-      const key = `preferences_${request.action}`;
-      const prefsJSONStr = localStorage.getItem(key);
-      try {
-        const prefs = JSON.parse(prefsJSONStr);
-        sendResponse({ data: prefs });
-      } catch (err) {
-        sendResponse({ data: null, error: err });
-      }
+      sendResponse(StorageHelper.retrievePrefs(request.action));
       break;
     }
     default:

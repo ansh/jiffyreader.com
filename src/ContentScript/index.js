@@ -176,7 +176,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       setSaccadesIntervalInDOM(message.data);
       break;
     }
-    case 'setlineHeight': {
+    case 'setLineHeight': {
       setLineHeight(message.data);
       break;
     }
