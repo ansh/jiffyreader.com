@@ -15,7 +15,7 @@ const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
-  getOrigin: async () => TabHelper.getActiveTab(TabHelper.getOrigin),
+  getOrigin: async () => TabHelper.getActiveTab().then(TabHelper.getTabOrigin),
   subscribe: (prefs) => {
     onSaccadesInterval(prefs.saccadesInterval);
     onFixationStrength(prefs.fixationStrength);
@@ -94,7 +94,7 @@ function onLineHeight(height) {
   chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
     chrome.tabs.sendMessage(
       tab.id,
-      { type: 'setlineHeight', data: height },
+      { type: 'setLineHeight', data: height },
     );
   });
 }
