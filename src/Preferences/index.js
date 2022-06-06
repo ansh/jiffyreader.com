@@ -3,7 +3,7 @@
 // for both global and local prefs
 // so new preferences should be
 // added here
-const defaultPrefs = {
+export const defaultPrefs = {
   saccadesInterval: 0,
   lineHeight: 1,
   fixationStrength: 2,

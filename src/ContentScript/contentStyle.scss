@@ -1,0 +1,28 @@
+@mixin makeFixation($fixationStrength, $saccadesColor) {
+	$fixationsAllowed: $fixationStrength;
+
+	@for $fixationsAllowed from 1 through $fixationStrength {
+		[fixation-strength="#{$fixationsAllowed}"] {
+			display: inline;
+			font-weight: bold !important;
+			color: $saccadesColor;
+			line-height: var(--br-line-height, initial);
+		}
+	}
+}
+
+@mixin makeSaccades($fixationStrength) {
+	@for $saccadesIndex from 0 through 4 {
+		&[saccades-interval="#{$saccadesIndex}"][fixation-strength="#{$fixationStrength}"] br-bold:nth-of-type(#{$saccadesIndex + 1}n + 1) {
+			@include makeFixation($fixationStrength, var(--saccadesColor-#{$saccadesIndex}));
+		}
+	}
+}
+
+
+
+.br-bold {
+	@for $fixationStrength from 1 through 3 {
+		@include makeSaccades($fixationStrength);
+	}
+}
