@@ -8,4 +8,4 @@ document.body.setAttribute('fixation-strength', fixationStrength);
 
 document.body.classList.toggle('br-bold');
 
-documentParser.setReadingMode(document.body.classList.contains('br-bold'));
+documentParser.setReadingMode(document.body.classList.contains('br-bold'), document);
