@@ -14,6 +14,7 @@ const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
+const onPageLoadLabel = document.getElementById('onPageLoadLabel');
 
 /** @returns {HTMLInputElement[]} */
 const getColorCheckBoxes = () => document.getElementsByName('color');
@@ -90,6 +91,7 @@ function onPageLoadToggled(enabled) {
   } else {
     onPageLoadBtn.classList.remove('selected');
   }
+  onPageLoadLabel.textContent = enabled ? 'On' : 'Off';
 }
 
 async function onLineHeight(height) {
