@@ -16,6 +16,10 @@ const setLineHeight = (lineHeight) => {
   document.body.style.setProperty('--br-line-height', lineHeight);
 };
 
+const setSaccadesColor = (color = '') => {
+  document.body.setAttribute('saccades-color', color);
+};
+
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
     case 'setFixationStrength': {
@@ -41,6 +45,15 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
     }
     case 'getReadingMode': {
       sendResponse({ data: document.body.classList.contains('br-bold') });
+      break;
+    }
+    case 'getSaccadesColor': {
+      sendResponse({ data: document.body.getAttribute('saccades-color') });
+      break;
+    }
+    case 'setSaccadesColor': {
+      setSaccadesColor(message.data);
+      sendResponse({ success: true });
       break;
     }
 
@@ -73,10 +86,11 @@ docReady(async () => {
       if (!prefs.onPageLoad) {
         return;
       }
-      setReadingMode(prefs.onPageLoad);
+      documentParser.setReadingMode(prefs.onPageLoad, document);
       setSaccadesIntervalInDOM(prefs.saccadesInterval);
       setFixationStrength(prefs.fixationStrength);
       setLineHeight(prefs.lineHeight);
+      setSaccadesColor(prefs.saccadesColor);
     },
   });
 

@@ -11,6 +11,7 @@ export const defaultPrefs = {
   scope: 'global',
   // onPageLoad apply prefs on page load
   onPageLoad: false,
+  saccadesColor: '',
 };
 
 // subscribers holds list of callbacks that will be

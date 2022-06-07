@@ -24,7 +24,7 @@ function highlightText(sentenceText) {
       if (length > 3) brWordStemWidth = Math.round(length * BR_WORD_STEM_PERCENTAGE);
       const firstHalf = word.slice(0, brWordStemWidth);
       const secondHalf = word.slice(brWordStemWidth);
-      const htmlWord = `<br-bold class="br-bold">${makeFixations(firstHalf)}</br-bold>${secondHalf}`;
+      const htmlWord = `<br-bold>${makeFixations(firstHalf)}</br-bold>${secondHalf}`;
       return htmlWord;
     });
 }
