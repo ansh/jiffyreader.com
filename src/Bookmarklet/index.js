@@ -20,31 +20,21 @@ function toggleReadingMode() {
 }
 
 const stateTransitions = {
-  'fixation-strength': [
-    [null, 1],
-    ['', 1],
-    [1, 2],
-    [2, 3],
-    [3, 1],
-  ],
-  'saccades-interval': [
-    [null, 1],
-    ['', 1],
-    [0, 1],
-    [1, 2],
-    [2, 3],
-    [3, 4],
-    [4, 0],
-  ],
+  'fixation-strength': [[null, 1], ['', 1], [1, 2], [2, 3], [3, 1]],
+  'saccades-interval': [[null, 1], ['', 1], [0, 1], [1, 2], [2, 3], [3, 4], [4, 0]],
   'saccades-color': [
-    [null, 'light'],
-    ['', 'light'],
-    ['light', 'light-100'],
-    ['light-100', 'dark'],
-    ['dark', 'dark-100'],
-    ['dark-100', ''],
-  ],
+    [null, 'light'], ['', 'light'], ['light', 'light-100'], ['light-100', 'dark'], ['dark', 'dark-100'], ['dark-100', '']],
 };
+
+/**
+ * @param {string} stateTransitionKey
+ * @param {string|null} currentActiveState
+ * @returns {[targetState,nextState]}
+ */
+function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
+  return stateTransitions[stateTransitionKey]
+    .find(([state]) => `${state}` === currentActiveState);
+}
 
 function toggleStateEngine(stateTransitionKey) {
   const currentActiveState = document.body.getAttribute(stateTransitionKey);
@@ -57,7 +47,7 @@ function toggleStateEngine(stateTransitionKey) {
   if (!document.body.classList.contains('br-bold')) toggleReadingMode();
 }
 
-const actions = {
+const callableActions = {
   fireReadingToggle: toggleReadingMode,
   fireFixationStrengthTransition: () => toggleStateEngine('fixation-strength'),
   fireSaccadesIntervalTransition: () => toggleStateEngine('saccades-interval'),
@@ -66,16 +56,6 @@ const actions = {
 
 const actionToFire = 'ACTION_TO_FIRE';
 
-Logger.logInfo('actionToFire', actionToFire, actions);
+Logger.logInfo('actionToFire', actionToFire, callableActions);
 
-/**
- * @param {string} stateTransitionKey
- * @param {string|null} currentActiveState
- * @returns {[targetState,nextState]}
- */
-function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
-  return stateTransitions[stateTransitionKey]
-    .find(([state]) => `${state}` === currentActiveState);
-}
-
-actions[actionToFire]();
+callableActions[actionToFire]();
