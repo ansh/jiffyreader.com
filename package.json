@@ -52,5 +52,8 @@
   "bugs": {
     "url": "https://github.com/ansh/bionic-reading/issues"
   },
-  "homepage": "https://github.com/ansh/bionic-reading#readme"
+  "homepage": "https://github.com/ansh/bionic-reading#readme",
+  "engines": {
+    "node": ">=16.13.2"
+  }
 }
