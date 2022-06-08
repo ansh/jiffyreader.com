@@ -45,6 +45,36 @@
     </div>
   </div>
 
+  <div class="w-100 flex flex-column gap-1">
+    <span class="text-dark">Color Saccades</span>
+    
+    <div class="w-100">
+      <label for="colorOriginal">Original
+        <input type="radio" name="color" id="colorOriginal" value="">
+      </label>
+    </div>
+
+    <div class="w-100">
+
+      <label for="colorLight" class="w-50">Light
+        <input type="radio" name="color" id="colorLight" value="light">
+      </label>
+      <label for="colorLight100" class="w-50">Light-100
+        <input type="radio" name="color" id="colorLight100" value="light-100">
+      </label>
+    </div>
+
+
+    <div class="w-100">
+      <label for="colorDark" class="w-50">Dark
+        <input type="radio" name="color" id="colorDark" value="dark">
+      </label>
+      <label for="colorDark100" class="w-50">Dark-100
+        <input type="radio" name="color" id="colorDark100" value="dark-100">
+      </label>
+    </div>
+  </div>
+
   <div class="w-100">
     <label class="block" id="lineHeightLabel">Line Height</label>
     <div class="w-100 flex justify-center">
@@ -60,7 +90,8 @@
   </div>
 
   <button id="onPageLoadBtn" class="w-100 flex flex-column align-items-center">
-    On PageLoad
+    <span class="text-bold">Always <span id="onPageLoadLabel"></span></span>
+    <span class="text-sm pt-sm">Default Toggle Preference</span>
   </button>
 
   <button id="resetDefaultsBtn" class="w-100 flex flex-column align-items-center">

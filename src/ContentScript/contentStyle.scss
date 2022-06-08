@@ -1,0 +1,64 @@
+$maxFixations: 3;
+$maxSaccadesInterval: 4;
+
+//define colors for fixations
+$hue1: #3aa757ff;
+$hue2: #453823ff;
+$hue3: #561f37ff;
+$hue4: rgb(68, 155, 255);
+$delta: 8%;
+
+$saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
+
+/**
+	generate (3) fixation-strength variants
+*/
+@mixin makeFixation($fixationStrength, $saccadesColor) {
+	$fixationsAllowed: $fixationStrength;
+
+	@for $fixationsAllowed from 1 through $fixationStrength {
+		[fixation-strength="#{$fixationsAllowed}"] {
+			display: inline;
+			font-weight: bold !important;
+			line-height: var(--br-line-height, initial);
+			color: #{$saccadesColor};
+		}
+	}
+}
+
+// generate all saccades-interval variants
+@mixin makeSaccades($fixationStrength) {
+	@for $saccadesIndex from 0 through $maxSaccadesInterval {
+		&[saccades-interval="#{$saccadesIndex}"][fixation-strength="#{$fixationStrength}"] br-bold:nth-of-type(#{$saccadesIndex + 1}n + 1) {
+			//for each saccade variant, make 3 fixation-strength variants
+			// fixation-strength variants are applied inclusively from 1 through 3
+			@include makeFixation($fixationStrength, var(--saccadesColor));
+		}
+	}
+}
+
+@mixin makeColorVariants($color, $id, $delta, $label) {
+	&[saccades-color="#{$label}"] {
+		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
+			--saccadesColor: #{adjust-color($color, $lightness: $delta )};
+		}
+	}
+
+	&[saccades-color="#{$label}-100"] {
+		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
+			--saccadesColor: #{adjust-color($color, $lightness: $delta * 2.7)};
+		}
+	}
+}
+
+.br-bold {
+	@for $fixationStrength from 1 through $maxFixations {
+		@include makeSaccades($fixationStrength);
+	}
+
+	@each $id, $color in $saccadesColorsBase {
+		@include makeColorVariants($color, $id, $delta, "light");
+
+		@include makeColorVariants($color, $id, -$delta, "dark");
+	}
+}

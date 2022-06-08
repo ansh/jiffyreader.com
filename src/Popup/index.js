@@ -1,3 +1,4 @@
+import Logger from '../Logger';
 import Preferences from '../Preferences';
 import TabHelper from '../TabHelper';
 
@@ -13,6 +14,10 @@ const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
+const onPageLoadLabel = document.getElementById('onPageLoadLabel');
+
+/** @returns {HTMLInputElement[]} */
+const getColorCheckBoxes = () => document.getElementsByName('color');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
   getOrigin: async () => TabHelper.getActiveTab().then(TabHelper.getTabOrigin),
@@ -22,8 +27,9 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
     onLineHeight(prefs.lineHeight);
     onScopePreference(prefs.scope);
     onPageLoadToggled(prefs.onPageLoad);
+    onSaccadesColor(prefs.saccadesColor);
   },
-  onStartup: (prefs) => {
+  onStartup: async (prefs) => {
     if (prefs.onPageLoad) {
       // only toggle reading mode on startup
       // if onpage load is true
@@ -36,16 +42,16 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
       // tab so as a last resort, make sure to check the view
       // this is necessary cause we don't store the preference
       // for reading mode
-      chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-        chrome.tabs.sendMessage(tab.id, { type: 'getReadingMode' }, (res) => {
-          onReadingModeToggled(res.data);
-        });
+      const tab = await TabHelper.getActiveTab();
+
+      chrome.tabs.sendMessage(tab.id, { type: 'getReadingMode' }, (res) => {
+        onReadingModeToggled(res.data);
       });
     }
   },
 });
 
-function onFixationStrength(value) {
+async function onFixationStrength(value) {
   fixationStrengthLabelValue.textContent = value;
   fixationStrengthSlider.value = value;
   const payload = {
@@ -53,30 +59,30 @@ function onFixationStrength(value) {
     type: 'setFixationStrength',
     data: value,
   };
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(tab.id, payload, (response) => {
-      if (chrome.runtime.lastError) {
-        // no-op
-      }
-    });
+  const tab = await TabHelper.getActiveTab();
+
+  chrome.tabs.sendMessage(tab.id, payload, (response) => {
+    if (chrome.runtime.lastError) {
+      // no-op
+    }
   });
 }
 
-function onSaccadesInterval(value) {
+async function onSaccadesInterval(value) {
   const saccadesInterval = Number(value);
   saccadesLabelValue.textContent = saccadesInterval;
   saccadesIntervalSlider.value = saccadesInterval;
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(
-      tab.id,
-      { type: 'setSaccadesIntervalInDOM', data: saccadesInterval },
-      () => {
-        if (chrome.runtime.lastError) {
-          // no-op
-        }
-      },
-    );
-  });
+  const tab = await TabHelper.getActiveTab();
+
+  chrome.tabs.sendMessage(
+    tab.id,
+    { type: 'setSaccadesIntervalInDOM', data: saccadesInterval },
+    () => {
+      if (chrome.runtime.lastError) {
+        // no-op
+      }
+    },
+  );
 }
 
 function onPageLoadToggled(enabled) {
@@ -85,18 +91,19 @@ function onPageLoadToggled(enabled) {
   } else {
     onPageLoadBtn.classList.remove('selected');
   }
+  onPageLoadLabel.textContent = enabled ? 'On' : 'Off';
 }
 
-function onLineHeight(height) {
+async function onLineHeight(height) {
   if (height) {
     lineHeightLabel.textContent = `Line Height ${parseInt(height * 100, 10)}%`;
   }
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(
-      tab.id,
-      { type: 'setLineHeight', data: height },
-    );
-  });
+  const tab = await TabHelper.getActiveTab();
+
+  chrome.tabs.sendMessage(
+    tab.id,
+    { type: 'setLineHeight', data: height },
+  );
 }
 
 function onScopePreference(scope) {
@@ -108,6 +115,27 @@ function onScopePreference(scope) {
     }
   });
 }
+
+async function onSaccadesColor(color = '') {
+  const /** @type {HTMLInputElement} */colorInput = document.querySelector(`input[name="color"][value="${color}"]`);
+  if (!colorInput) return;
+
+  getColorCheckBoxes().forEach((colorCheckbox) => { colorCheckbox.checked = false; });
+  colorInput.checked = true;
+
+  const tab = await TabHelper.getActiveTab();
+  chrome.tabs.sendMessage(tab.id, {
+    type: 'setSaccadesColor',
+    data: color,
+  });
+}
+
+getColorCheckBoxes().forEach((colorCheckbox) => {
+  colorCheckbox.addEventListener('click', (event) => {
+    Logger.logInfo('radio button click', event.target);
+    setPrefs({ saccadesColor: event.target.value });
+  });
+});
 
 saccadesIntervalSlider.addEventListener('change', (event) => {
   setPrefs({
@@ -173,7 +201,7 @@ resetDefaultsBtn.addEventListener('click', () => {
   });
 });
 
-function onReadingModeToggled(enabled) {
+async function onReadingModeToggled(enabled) {
   if (enabled) {
     readingModeToggleBtn.classList.add('selected');
     readingModeToggleBtn.textContent = 'Reading Mode';
@@ -182,17 +210,17 @@ function onReadingModeToggled(enabled) {
     readingModeToggleBtn.textContent = 'Enable Reading Mode';
   }
 
-  chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-    chrome.tabs.sendMessage(
-      tab.id,
-      { type: 'setReadingMode', data: enabled },
-      () => {
-        if (chrome.runtime.lastError) {
-          // no-op
-        }
-      },
-    );
-  });
+  const tab = await TabHelper.getActiveTab();
+
+  chrome.tabs.sendMessage(
+    tab.id,
+    { type: 'setReadingMode', data: enabled },
+    () => {
+      if (chrome.runtime.lastError) {
+        // no-op
+      }
+    },
+  );
 }
 
 readingModeToggleBtn.addEventListener('click', (event) => {

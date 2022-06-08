@@ -1,3 +1,7 @@
+:root{
+  --gap: 0.6rem;
+}
+
 body {
   padding: 10px;
   min-width: 170px;
@@ -111,6 +115,33 @@ button:active {
 
 .w-100 {
   width: 100%;
+}
+.w-50 {
+  width: 50%;
+}
+
+.gap-1 {
+  gap: calc(var(--gap) *1)
+}
+
+
+.gap-2 {
+  gap: calc(var(--gap) *2)
+}
+
+
+.gap-3 {
+  gap: calc(var(--gap) *3)
+}
+
+
+.gap-4 {
+  gap: calc(var(--gap) *4)
+}
+
+
+.gap-5 {
+  gap: calc(var(--gap) *5)
 }
 
 .text-sm {

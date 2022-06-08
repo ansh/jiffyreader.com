@@ -96,12 +96,41 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(sa|sc|c)ss$/,
+        test: /\.(sa|c)ss$/,
         use: [
           {
             // It creates a CSS file per JS file which contains CSS
             loader: MiniCssExtractPlugin.loader,
           },
+          {
+            loader: 'css-loader', // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    'autoprefixer',
+                    {
+                      // Options
+                    },
+                  ],
+                ],
+              },
+            },
+          },
+          'resolve-url-loader', // Rewrites relative paths in url() statements
+          'sass-loader', // Takes the Sass/SCSS file and compiles to the CSS
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+
           {
             loader: 'css-loader', // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
             options: {

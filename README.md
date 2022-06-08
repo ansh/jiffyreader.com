@@ -24,6 +24,7 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Firefox](#firefox)
   - [Opera](#opera)
   - [Edge](#edge)
+  - [Bookmarklet](#bookmarklet)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
@@ -78,6 +79,11 @@ The best way to install this extension is to follow the instructions below. Howe
 ## Edge
 
   - Please follow the steps for [chrome](#chrome) above
+
+## Bookmarklet
+
+(Note: Bookmarklet is not in active support and may break when new updates are released)
+1. To install the bookmarklet, head over to this [link](https://github.com/ansh/bionic-reading/releases/latest/download/bookmarklet.html)
 
 
 # Customizations

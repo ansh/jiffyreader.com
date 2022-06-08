@@ -4,13 +4,14 @@ import StorageHelper from '../StorageHelper';
 // for both global and local prefs
 // so new preferences should be
 // added here
-const defaultPrefs = {
+export const defaultPrefs = {
   saccadesInterval: 0,
   lineHeight: 1,
   fixationStrength: 2,
   scope: 'global',
   // onPageLoad apply prefs on page load
   onPageLoad: false,
+  saccadesColor: '',
 };
 
 // subscribers holds list of callbacks that will be
@@ -152,7 +153,6 @@ async function getPrefs() {
   globalPrefs = { ...defaultPrefs, ...globalPrefs };
 
   const currentScope = localPrefs[origin].scope;
-
 
   return (currentScope === 'local'
     ? localPrefs[origin]

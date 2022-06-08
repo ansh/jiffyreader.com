@@ -1,6 +1,6 @@
 {
   "name": "jiffy-reader",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "jiffy reader",
   "main": "index.js",
   "dependencies": {
@@ -15,12 +15,21 @@
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "webpack": "^5.72.1",
     "wext-manifest-loader": "^2.3.0",
+    "esbuild": "^0.14.42",
+    "esbuild-sass-plugin": "^2.2.6",
     "wext-manifest-webpack-plugin": "^1.2.1"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "css-loader": "^6.7.1",
     "eslint": "^8.16.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "postcss-loader": "^7.0.0",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.52.2",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.1",
     "terser-webpack-plugin": "^5.3.1",
     "webpack-cli": "^4.9.2",
     "webpack-ext-reloader": "^1.1.9"
@@ -31,7 +40,8 @@
     "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
     "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
-    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera"
+    "build:bookmarklet": "node src/Bookmarklet/esbuild.js",
+    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet"
   },
   "repository": {
     "type": "git",
