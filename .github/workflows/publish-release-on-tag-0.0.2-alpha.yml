@@ -1,4 +1,4 @@
-name: Release and publish on tag 0.0.2-alpha
+name: Release and publish on tag
 on:
   workflow_dispatch:
   push:
