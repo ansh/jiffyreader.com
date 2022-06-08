@@ -2,15 +2,18 @@ name: Run tests
 
 on: [push, pull_request]
 
-jobs:  
+jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 16 ]
+    name: Node ${{ matrix.node }} sample
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: borales/actions-yarn@v2.3.0
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          cmd: install
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: build
+          node-version: ${{ matrix.node }}
+      - run: yarn install
+      - run: yarn build
