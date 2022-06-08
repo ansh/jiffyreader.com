@@ -6,10 +6,13 @@ const { saccadesInterval, fixationStrength, saccadesColor } = {
   ...defaultPrefs,
   fixationStrength: 3,
 };
+function writeAttributesToDom() {
+  document.body.setAttribute('saccades-interval', document.body.getAttribute('saccades-interval') ?? saccadesInterval);
+  document.body.setAttribute('fixation-strength', document.body.getAttribute('fixation-strength') ?? fixationStrength);
+  document.body.setAttribute('saccades-color', document.body.getAttribute('saccades-color') ?? saccadesColor);
+}
 
-document.body.setAttribute('saccades-interval', document.body.getAttribute('saccades-interval') ?? saccadesInterval);
-document.body.setAttribute('fixation-strength', document.body.getAttribute('fixation-strength') ?? fixationStrength);
-document.body.setAttribute('saccades-color', document.body.getAttribute('saccades-color') ?? saccadesColor);
+writeAttributesToDom();
 
 function toggleReadingMode() {
   Logger.logInfo('called');
@@ -47,8 +50,7 @@ function toggleStateEngine(stateTransitionKey) {
   const currentActiveState = document.body.getAttribute(stateTransitionKey);
   Logger.logInfo('stateTransitionKey', stateTransitionKey, 'currentActiveState', currentActiveState, stateTransitions[stateTransitionKey]);
 
-  const [, nextState] = stateTransitions[stateTransitionKey]
-    .find(([state]) => `${state}` === currentActiveState);
+  const [, nextState] = getStateTransitionEntry(stateTransitionKey, currentActiveState);
 
   document.body.setAttribute(stateTransitionKey, nextState);
 
@@ -65,5 +67,15 @@ const actions = {
 const actionToFire = 'ACTION_TO_FIRE';
 
 Logger.logInfo('actionToFire', actionToFire, actions);
+
+/**
+ * @param {string} stateTransitionKey
+ * @param {string|null} currentActiveState
+ * @returns {[targetState,nextState]}
+ */
+function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
+  return stateTransitions[stateTransitionKey]
+    .find(([state]) => `${state}` === currentActiveState);
+}
 
 actions[actionToFire]();
