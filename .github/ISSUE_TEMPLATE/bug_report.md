@@ -4,6 +4,8 @@ about: Create a report to help us improve
 title: '[BUG] Give a suitable title'
 labels: 'bug'
 assignees: ''
+extension_version: 'Provide the version of the extension'
+extension_source: 'Github or store(chrome/firefox)'
 
 ---
 
