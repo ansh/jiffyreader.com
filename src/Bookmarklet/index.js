@@ -22,7 +22,10 @@ function writeAttributesToDom() {
     document.body.getAttribute('saccades-color') ?? saccadesColor,
   );
 
-  document.body.setAttribute('fixation-stem-opacity', document.body.getAttribute('fixation-stem-opacity') ?? fixationStemOpacity);
+  document.body.setAttribute(
+    'fixation-stem-opacity',
+    document.body.getAttribute('fixation-stem-opacity') ?? fixationStemOpacity,
+  );
 }
 
 writeAttributesToDom();
@@ -58,13 +61,11 @@ const stateTransitions = {
     ['dark-100', ''],
   ],
   'fixation-stem-opacity': [
-    [null, '20'],
-    [0, 20],
-    [20, 40],
-    [40, 60],
-    [60, 80],
-    [80, 100],
-    [100, 0],
+    [null, '100'],
+    [0, 100],
+    [100, 80],
+    [80, 40],
+    [40, 0],
   ],
 };
 

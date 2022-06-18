@@ -9,29 +9,28 @@ const { getPrefs, defaultPrefs } = Preferences.init({
   getOrigin: async () => TabHelper.getTabOrigin(),
 });
 
-const listener = (request, sender) =>
-  new Promise((res, _) => {
-    switch (request.message) {
-      case 'storePrefs': {
-        res(StorageHelper.storePrefs(request.action, request.data));
-        break;
-      }
-      case 'retrievePrefs': {
-        res(StorageHelper.retrievePrefs(request.action));
-        break;
-      }
-      case 'setIconBadgeText': {
-        TabHelper.getActiveTab().then((tab) => {
-          chrome.browserAction.setBadgeText({ text: request.data, tabId: tab.id });
-          res(true);
-        });
-        break;
-      }
-      default:
-        res(false);
-        break;
+const listener = (request, sender) => new Promise((res, _) => {
+  switch (request.message) {
+    case 'storePrefs': {
+      res(StorageHelper.storePrefs(request.action, request.data));
+      break;
     }
-  });
+    case 'retrievePrefs': {
+      res(StorageHelper.retrievePrefs(request.action));
+      break;
+    }
+    case 'setIconBadgeText': {
+      TabHelper.getActiveTab().then((tab) => {
+        chrome.browserAction.setBadgeText({ text: request.data, tabId: tab.id });
+        res(true);
+      });
+      break;
+    }
+    default:
+      res(false);
+      break;
+  }
+});
 
 const commandListener = async (command) => {
   Logger.logInfo('commmand fired', command);
