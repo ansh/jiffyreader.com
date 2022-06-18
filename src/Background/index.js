@@ -6,7 +6,7 @@ import StorageHelper from '../StorageHelper';
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const { getPrefs } = Preferences.init({
-  getOrigin: async () => TabHelper.getActiveTab().then(TabHelper.getTabOrigin),
+  getOrigin: async () => TabHelper.getTabOrigin(),
 });
 
 const listener = (request, sender, sendResponse) => {

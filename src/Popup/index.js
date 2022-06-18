@@ -20,7 +20,7 @@ const onPageLoadLabel = document.getElementById('onPageLoadLabel');
 const getColorCheckBoxes = () => document.getElementsByName('color');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
-  getOrigin: async () => TabHelper.getActiveTab().then(TabHelper.getTabOrigin),
+  getOrigin: async () => TabHelper.getTabOrigin(),
   subscribe: (prefs) => {
     onSaccadesInterval(prefs.saccadesInterval);
     onFixationStrength(prefs.fixationStrength);
