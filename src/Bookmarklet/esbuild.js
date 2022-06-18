@@ -24,7 +24,7 @@ build({
       <a href='javascript:${outputScript.replace('ACTION_TO_FIRE', 'fireFixationStrengthTransition')};' aria-role="button" aria-description="toggle fixation strength">Toggle FixationStrength</a>
       <a href='javascript:${outputScript.replace('ACTION_TO_FIRE', 'fireSaccadesIntervalTransition')};' aria-role="button" aria-description="toggle saccades interval">Toggle SaccadesInterval</a>
       <a href='javascript:${outputScript.replace('ACTION_TO_FIRE', 'fireSaccadesColorTransition')};' aria-role="button" aria-description="toggle saccades color">Toggle SaccadesColor</a>
-      <br>
+      <a href='javascript:${outputScript.replace('ACTION_TO_FIRE', 'fireFixationStemOpacityTransition')};' aria-role="button" aria-description="toggle fixation stem opacity">Toggle FixationStemOpacity</a>
       <p>Drag any of the links above onto your bookmark bar to save it as a bookmarklet which works on any site just like the full extension</p>
       
   `,

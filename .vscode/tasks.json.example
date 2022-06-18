@@ -38,6 +38,24 @@
 				"instanceLimit": 1,
 				"runOn": "folderOpen"
 			}
+		},
+		{
+			"type": "npm",
+			"script": "eslint-fix",
+			"problemMatcher": [],
+			"label": "npm: eslint-fix",
+			"detail": "npx eslint --fix src/",
+			"presentation": {
+				"echo": true,
+				"reveal": "silent",
+				"focus": false,
+				"panel": "dedicated",
+				"showReuseMessage": true,
+				"clear": false
+			},
+			"runOptions": {
+				//"runOn": "folderOpen",
+			},
 		}
 	]
 }

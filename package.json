@@ -5,27 +5,30 @@
   "main": "index.js",
   "dependencies": {
     "@babel/core": "^7.18.0",
+    "@types/chrome": "^0.0.190",
     "babel-loader": "^8.2.5",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
+    "esbuild": "^0.14.42",
+    "esbuild-sass-plugin": "^2.2.6",
     "filemanager-webpack-plugin": "^7.0.0-beta.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
     "optimize-css-assets-webpack-plugin": "^6.0.1",
     "webpack": "^5.72.1",
     "wext-manifest-loader": "^2.3.0",
-    "esbuild": "^0.14.42",
-    "esbuild-sass-plugin": "^2.2.6",
     "wext-manifest-webpack-plugin": "^1.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.7",
     "css-loader": "^6.7.1",
-    "eslint": "^8.16.0",
+    "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "postcss-loader": "^7.0.0",
+    "prettier": "^2.7.1",
+    "prettier-eslint": "^15.0.1",
     "resolve-url-loader": "^5.0.0",
     "sass": "^1.52.2",
     "sass-loader": "^13.0.0",
@@ -41,7 +44,8 @@
     "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
     "build:bookmarklet": "node src/Bookmarklet/esbuild.js",
-    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet"
+    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet",
+    "eslint-fix": "npx eslint --fix src/"
   },
   "repository": {
     "type": "git",

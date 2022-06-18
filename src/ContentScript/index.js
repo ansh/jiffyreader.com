@@ -1,3 +1,4 @@
+import Logger from '../Logger';
 import Preferences from '../Preferences';
 import documentParser from './documentParser';
 
@@ -20,15 +21,33 @@ const setSaccadesColor = (color = '') => {
   document.body.setAttribute('saccades-color', color);
 };
 
-const onChromeRuntimeMessage = (message, sender, sendResponse) => {
+const setFixationStemOpacity = (opacity) => {
+  document.body.setAttribute('fixation-stem-opacity', opacity);
+};
+
+const setReadingMode = (
+  /** @type{ boolean } */ readingMode,
+  /** @type {HTMLDocument} */ document,
+) => {
+  documentParser.setReadingMode(readingMode, document);
+  chrome.runtime.sendMessage(
+    { message: 'setIconBadgeText', data: readingMode ? 'On' : 'Off' },
+    (response) => {
+      const { lastError } = chrome.runtime;
+      if (lastError) Logger.logError(lastError);
+    },
+  );
+};
+
+const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((res, _) => {
   switch (message.type) {
     case 'setFixationStrength': {
       setFixationStrength(message.data);
-      sendResponse({ success: true });
+      res({ success: true });
       break;
     }
     case 'setReadingMode': {
-      documentParser.setReadingMode(message.data, document);
+      setReadingMode(message.data, document);
       break;
     }
     case 'setSaccadesIntervalInDOM': {
@@ -40,34 +59,35 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       break;
     }
     case 'getOrigin': {
-      sendResponse({ data: window.location.origin });
+      res({ data: window.location.origin });
       break;
     }
     case 'getReadingMode': {
-      sendResponse({ data: document.body.classList.contains('br-bold') });
+      res({ data: document.body.classList.contains('br-bold') });
       break;
     }
     case 'getSaccadesColor': {
-      sendResponse({ data: document.body.getAttribute('saccades-color') });
+      res({ data: document.body.getAttribute('saccades-color') });
       break;
     }
     case 'setSaccadesColor': {
       setSaccadesColor(message.data);
-      sendResponse({ success: true });
+      res({ success: true });
+      break;
+    }
+    case 'setFixationStemOpacity': {
+      setFixationStemOpacity(message.data);
       break;
     }
 
     default:
       break;
   }
-};
+});
 
 function docReady(fn) {
   // see if DOM is already available
-  if (
-    document.readyState === 'complete'
-    || document.readyState === 'interactive'
-  ) {
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
     // call on next available tick
     setTimeout(fn, 1);
   } else {
@@ -78,7 +98,7 @@ function docReady(fn) {
 docReady(async () => {
   runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-  const { start } = Preferences.init({
+  const { start, defaultPrefs } = Preferences.init({
     getOrigin: async () => new Promise((resolve, _) => {
       resolve(window.location.origin);
     }),
@@ -86,11 +106,12 @@ docReady(async () => {
       if (!prefs.onPageLoad) {
         return;
       }
-      documentParser.setReadingMode(prefs.onPageLoad, document);
+      setReadingMode(prefs.onPageLoad, document);
       setSaccadesIntervalInDOM(prefs.saccadesInterval);
       setFixationStrength(prefs.fixationStrength);
       setLineHeight(prefs.lineHeight);
       setSaccadesColor(prefs.saccadesColor);
+      setFixationStemOpacity(prefs.fixationStemOpacity ?? defaultPrefs().fixationStemOpacity);
     },
   });
 
