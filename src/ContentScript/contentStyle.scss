@@ -81,7 +81,7 @@ $saccadesColorsBase: (
 				$edgeOpacity: 100;
 			}@else{
 				$stemOpacity:$opacity;
-				$edgeOpacity: 140 - $stemOpacity
+				$edgeOpacity: 130 - $stemOpacity
 			}
 
 			&[fixation-stem-opacity="#{$opacity}"] {
