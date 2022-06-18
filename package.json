@@ -45,7 +45,6 @@
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
     "build:bookmarklet": "node src/Bookmarklet/esbuild.js",
     "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet",
-    "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
     "eslint-fix": "npx eslint --fix src/"
   },
   "repository": {
