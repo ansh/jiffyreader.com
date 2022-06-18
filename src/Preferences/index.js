@@ -13,7 +13,7 @@ export const defaultPrefs = {
   // onPageLoad apply prefs on page load
   onPageLoad: false,
   saccadesColor: '',
-  fixationStemOpacity: 100,
+  fixationStemOpacity: 0,
   edgeOpacity: 70,
 };
 
