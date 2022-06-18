@@ -13,6 +13,8 @@ export const defaultPrefs = {
   // onPageLoad apply prefs on page load
   onPageLoad: false,
   saccadesColor: '',
+  fixationStemOpacity: 100,
+  edgeOpacity: 70,
 };
 
 /**
@@ -185,7 +187,7 @@ async function getPrefs() {
  * you want to update.
  *
  */
-async function setPrefs(/** @type {Function(prefs)|Prefs} */ prefs) {
+async function setPrefs(/** @type {(prefs:Prefs)=>{}|Prefs} */ prefs) {
   // grab the current prefs
   const localPrefs = await retrieveLocalPrefs();
   let globalPrefs = await retriveGlobalPrefs();
@@ -249,7 +251,7 @@ async function start() {
   storeLocalPrefs(localPrefs);
   storeGlobalPrefs(globalPrefs);
 
-  if (fireDispath && localPrefs[origin]?.scope === 'local') {
+  if (localPrefs[origin]?.scope === 'local') {
     dispatchPrefsUpdate(localPrefs[origin]);
     dispatchPrefsUpdate(localPrefs[origin], startupSubscribers);
   } else {

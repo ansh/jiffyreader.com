@@ -4,7 +4,7 @@
 
 body {
   padding: 10px;
-  min-width: 170px;
+  min-width: 230px;
   justify-content: center;
   gap: 14px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
@@ -65,6 +65,7 @@ button:active {
   background: #f44336;
 }
 
+/* || margin */
 .m-0 {
   margin: 0;
 }
@@ -93,6 +94,7 @@ button:active {
   margin-top: 12px;
 }
 
+/* || padding */
 .pt-sm {
   padding-top: 4px;
 }
@@ -113,6 +115,7 @@ button:active {
   padding-left: 6px;
 }
 
+/* || width */
 .w-100 {
   width: 100%;
 }
@@ -120,6 +123,7 @@ button:active {
   width: 50%;
 }
 
+/* || gap */
 .gap-1 {
   gap: calc(var(--gap) *1)
 }
@@ -144,8 +148,13 @@ button:active {
   gap: calc(var(--gap) *5)
 }
 
+/* || text */
 .text-sm {
   font-size: 75%;
+}
+
+.text-xs {
+  font-size: 50%;
 }
 
 .text-bold {
@@ -168,6 +177,10 @@ button:active {
   justify-content: center;
 }
 
+.justify-around {
+  justify-content: space-around;
+}
+
 .align-items-center {
   align-items: center;
 }
@@ -179,3 +192,11 @@ button:active {
 .inline-block {
   display: inline-block;
 }
+
+/* || component */
+
+datalist > option{
+  margin-right: -8px
+
+}
+

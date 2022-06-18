@@ -9,7 +9,7 @@ const DEFAULT_FIXATION_STRENGTH = 3;
 const BR_WORD_STEM_PERCENTAGE = 0.65;
 
 // which tag's content should be ignored from bolded
-const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'SVG'];
+const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'BR-EDGE', 'SVG'];
 const MUTATION_TYPES = ['childList', 'characterData'];
 
 /** @type {NodeObserver} */
@@ -26,7 +26,7 @@ function highlightText(sentenceText) {
 
       const firstHalf = word.slice(0, brWordStemWidth);
       const secondHalf = word.slice(brWordStemWidth);
-      const htmlWord = `<br-bold>${makeFixations(firstHalf)}</br-bold>${secondHalf}`;
+      const htmlWord = `<br-bold>${makeFixations(firstHalf)}</br-bold>${secondHalf.length ? `<br-edge>${secondHalf}</br-edge>` : ''}`;
       return htmlWord;
     });
 }

@@ -20,6 +20,11 @@ const setSaccadesColor = (color = '') => {
   document.body.setAttribute('saccades-color', color);
 };
 
+const setFixationStemOpacity = (opacity) => {
+  document.body.setAttribute('fixation-stem-opacity', opacity);
+  document.body.setAttribute('fixation-edge-opacity', 120 - Number(opacity));
+};
+
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
     case 'setFixationStrength': {
@@ -56,6 +61,10 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     }
+    case 'setFixationStemOpacity': {
+      setFixationStemOpacity(message.data);
+      break;
+    }
 
     default:
       break;
@@ -64,10 +73,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
 
 function docReady(fn) {
   // see if DOM is already available
-  if (
-    document.readyState === 'complete'
-    || document.readyState === 'interactive'
-  ) {
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
     // call on next available tick
     setTimeout(fn, 1);
   } else {
@@ -91,6 +97,7 @@ docReady(async () => {
       setFixationStrength(prefs.fixationStrength);
       setLineHeight(prefs.lineHeight);
       setSaccadesColor(prefs.saccadesColor);
+      setFixationStemOpacity(prefs.fixationStemOpacity);
     },
   });
 

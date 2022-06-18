@@ -8,18 +8,25 @@ $hue3: #561f37ff;
 $hue4: rgb(68, 155, 255);
 $delta: 8%;
 
-$saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
+$saccadesColorsBase: (
+	0,
+	$hue1),
+	(1, $hue2),
+	(2, $hue3),
+	(3, $hue4
+);
 
 /**
 	generate (3) fixation-strength variants
 */
-@mixin makeFixation($fixationStrength, $saccadesColor) {
+@mixin makeFixation($fixationStrength, $saccadesColor, $stemOpacity) {
 	$fixationsAllowed: $fixationStrength;
 
 	@for $fixationsAllowed from 1 through $fixationStrength {
 		[fixation-strength="#{$fixationsAllowed}"] {
+			--fixation-stem-opacity: #{$stemOpacity+"%"};
 			display: inline;
-			font-weight: bold !important;
+			font-weight: 600 ;
 			line-height: var(--br-line-height, initial);
 			color: #{$saccadesColor};
 		}
@@ -27,12 +34,21 @@ $saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
 }
 
 // generate all saccades-interval variants
-@mixin makeSaccades($fixationStrength) {
+@mixin makeSaccades($fixationStrength, $stemOpacity, $edgeOpacity) {
 	@for $saccadesIndex from 0 through $maxSaccadesInterval {
 		&[saccades-interval="#{$saccadesIndex}"][fixation-strength="#{$fixationStrength}"] br-bold:nth-of-type(#{$saccadesIndex + 1}n + 1) {
+
 			//for each saccade variant, make 3 fixation-strength variants
 			// fixation-strength variants are applied inclusively from 1 through 3
-			@include makeFixation($fixationStrength, var(--saccadesColor));
+			@include makeFixation($fixationStrength, var(--saccadesColor), $stemOpacity);
+		}
+
+		br-bold *, br-edge {
+			opacity: var(--fixation-stem-opacity);
+		}
+
+		br-span {
+			--fixation-stem-opacity: #{$edgeOpacity+"%"};
 		}
 	}
 }
@@ -53,12 +69,35 @@ $saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
 
 .br-bold {
 	@for $fixationStrength from 1 through $maxFixations {
-		@include makeSaccades($fixationStrength);
+		// make fixation-stem-opacity
+		$opacity: 0;
+		$stemOpacity:none;
+		$edgeOpacity: none;
+
+		@while $opacity <=100 {
+
+			@if $opacity < 20 {
+				$stemOpacity:100;
+				$edgeOpacity: 100;
+			}@else{
+				$stemOpacity:$opacity;
+				$edgeOpacity: 140 - $stemOpacity
+			}
+
+			&[fixation-stem-opacity="#{$opacity}"] {
+				@include makeSaccades($fixationStrength, $stemOpacity, $edgeOpacity);
+			}
+
+			$opacity: $opacity + 20;
+		}
+
 	}
 
-	@each $id, $color in $saccadesColorsBase {
+	@each $id,
+	$color in $saccadesColorsBase {
 		@include makeColorVariants($color, $id, $delta, "light");
 
 		@include makeColorVariants($color, $id, -$delta, "dark");
 	}
+
 }

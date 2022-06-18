@@ -7,6 +7,7 @@ const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 const saccadesLabelValue = document.getElementById('saccadesLabelValue');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
+const fixationStemOpacitySlider = document.getElementById('fixationStemOpacitySlider');
 const lineHeightIncrease = document.getElementById('lineHeightIncrease');
 const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
@@ -28,6 +29,7 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
     onScopePreference(prefs.scope);
     onPageLoadToggled(prefs.onPageLoad);
     onSaccadesColor(prefs.saccadesColor);
+    onFixationStemOpacitySlider(prefs.fixationStemOpacity);
   },
   onStartup: async (prefs) => {
     if (prefs.onPageLoad) {
@@ -100,10 +102,7 @@ async function onLineHeight(height) {
   }
   const tab = await TabHelper.getActiveTab();
 
-  chrome.tabs.sendMessage(
-    tab.id,
-    { type: 'setLineHeight', data: height },
-  );
+  chrome.tabs.sendMessage(tab.id, { type: 'setLineHeight', data: height });
 }
 
 function onScopePreference(scope) {
@@ -117,10 +116,14 @@ function onScopePreference(scope) {
 }
 
 async function onSaccadesColor(color = '') {
-  const /** @type {HTMLInputElement} */colorInput = document.querySelector(`input[name="color"][value="${color}"]`);
+  const /** @type {HTMLInputElement} */ colorInput = document.querySelector(
+    `input[name="color"][value="${color}"]`,
+  );
   if (!colorInput) return;
 
-  getColorCheckBoxes().forEach((colorCheckbox) => { colorCheckbox.checked = false; });
+  getColorCheckBoxes().forEach((colorCheckbox) => {
+    colorCheckbox.checked = false;
+  });
   colorInput.checked = true;
 
   const tab = await TabHelper.getActiveTab();
@@ -194,9 +197,9 @@ resetDefaultsBtn.addEventListener('click', () => {
       } else {
         lineHeight -= 0.5;
       }
-      return ({
+      return {
         lineHeight: Math.max(1, lineHeight),
-      });
+      };
     });
   });
 });
@@ -212,16 +215,25 @@ async function onReadingModeToggled(enabled) {
 
   const tab = await TabHelper.getActiveTab();
 
-  chrome.tabs.sendMessage(
-    tab.id,
-    { type: 'setReadingMode', data: enabled },
-    () => {
-      if (chrome.runtime.lastError) {
-        // no-op
-      }
-    },
-  );
+  chrome.tabs.sendMessage(tab.id, { type: 'setReadingMode', data: enabled }, () => {
+    if (chrome.runtime.lastError) {
+      // no-op
+    }
+  });
 }
+
+async function onFixationStemOpacitySlider(opacity) {
+  fixationStemOpacitySlider.value = opacity;
+
+  chrome.tabs.sendMessage((await TabHelper.getActiveTab()).id, { type: 'setFixationStemOpacity', data: opacity }, () => {
+    const { lastError } = chrome.runtime;
+    if (lastError) Logger.logError(lastError);
+  });
+}
+
+fixationStemOpacitySlider.addEventListener('change', (event) => {
+  setPrefs((oldPrefs) => ({ ...oldPrefs, fixationStemOpacity: event.target.value }));
+});
 
 readingModeToggleBtn.addEventListener('click', (event) => {
   const isOn = readingModeToggleBtn.classList.contains('selected');
