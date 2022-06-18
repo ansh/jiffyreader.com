@@ -100,7 +100,7 @@ const isBackgroundScript = () => {
   return false;
 };
 
-/** @returns {Promise<Prefs>} */
+/** @returns {Promise<Prefs[]>|Promise<Prefs>} */
 async function retrievePrefsFromStorage(/** @type {string} 'local'|'global' */ action) {
   return new Promise((resolve, reject) => {
     if (isBackgroundScript()) {
@@ -114,8 +114,6 @@ async function retrievePrefsFromStorage(/** @type {string} 'local'|'global' */ a
   });
 }
 
-// Stores preferences into storage, specify
-// if its 'global' or 'local' with the action parameter
 function storePrefsInStorage(
   /** @type {Prefs} */ prefs,
   /** @type {string} 'global'|'local' */ action,
@@ -132,12 +130,12 @@ function storePrefsInStorage(
   });
 }
 
-// Retrieves local preferences from storage
+/** @returns {Promise<Prefs[]>} */
 async function retrieveLocalPrefs() {
   return retrievePrefsFromStorage('local');
 }
 
-// Retrieves global preferences from storage
+/** @return {Promise<Prefs[]>} */
 async function retriveGlobalPrefs() {
   return retrievePrefsFromStorage('global');
 }
@@ -147,7 +145,6 @@ async function storeLocalPrefs(prefs) {
   return storePrefsInStorage(prefs, 'local');
 }
 
-// Store global preferences into storage
 async function storeGlobalPrefs(prefs) {
   return storePrefsInStorage(prefs, 'global');
 }
@@ -156,81 +153,85 @@ async function storeGlobalPrefs(prefs) {
 // scope so if the user current setting is global
 // it will return the global prefs, otherwise
 // return local scope to this origin
+/** @returns {Promise<Prefs>} */
 async function getPrefs() {
   // grab the current prefs
-  let localPrefs = await retrieveLocalPrefs();
-  let globalPrefs = await retriveGlobalPrefs();
-  const origin = await getOrigin();
+  // let localPrefs = await retrieveLocalPrefs();
+  // let globalPrefs = await retriveGlobalPrefs();
+  // const origin = await getOrigin();
 
-  if (localPrefs == null) {
-    localPrefs = {};
-  }
+  // if (localPrefs == null) {
+  //   localPrefs = {};
+  // }
 
-  // just in case their missing a default prefs
-  // be sure to pepper the default prefs
-  localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
-  globalPrefs = { ...defaultPrefs, ...globalPrefs };
+  // // just in case their missing a default prefs
+  // // be sure to pepper the default prefs
+  // localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
+  // globalPrefs = { ...defaultPrefs, ...globalPrefs };
 
-  const currentScope = localPrefs[origin].scope;
+  // const currentScope = localPrefs[origin].scope;
 
-  return currentScope === 'local' ? localPrefs[origin] : globalPrefs;
+  // return currentScope === 'local' ? localPrefs[origin] : globalPrefs;
+
+  return { ...((await retrieveLocalPrefs())[await getOrigin()] ?? (await retriveGlobalPrefs())) };
 }
 
-// setPrefs updates the preferences in storage
-// and dispatch this update to all subscribers
-// prefs - has the shape of defaultPrefs
-// or a call back that returns that shape
-// but you only need to pass the actual fields
-// you want to update.
-async function setPrefs(prefs) {
+/**
+ * setPrefs updates the preferences in storage
+ * and dispatch this update to all subscribers
+ * prefs - has the shape of defaultPrefs
+ * or a call back that returns that shape
+ * but you only need to pass the actual fields
+ * you want to update.
+ *
+ */
+async function setPrefs(/** @type {Function(prefs)|Prefs} */ prefs) {
   // grab the current prefs
   const localPrefs = await retrieveLocalPrefs();
   let globalPrefs = await retriveGlobalPrefs();
   const origin = await getOrigin();
 
-  let currentScope = localPrefs[origin].scope;
+  // if local
+  const currentPrefs = {
+    ...(localPrefs[origin]?.scope === 'local' ? localPrefs[origin] : globalPrefs),
+  };
+
   // if prefs is a function, pass in the current
   // prefs based on the scope
   // and newPrefs will be the return val of the function
   // otherwise the newPrefs will just be the prefs
-  const newPrefs = typeof prefs === 'function'
-    ? prefs(currentScope === 'local' ? localPrefs[origin] : globalPrefs)
-    : prefs;
 
-  if (newPrefs.scope) {
-    currentScope = newPrefs.scope;
-  }
+  const newPrefs = {
+    ...currentPrefs,
+    ...(typeof prefs === 'function' ? prefs(currentPrefs) : prefs),
+  };
 
-  if (currentScope === 'local') {
-    localPrefs[origin] = {
-      ...localPrefs[origin],
-      ...newPrefs,
-    };
-  } else {
+  if (newPrefs.scope === 'global') {
+    // write scope to global prefs
     globalPrefs = {
       ...globalPrefs,
-      ...newPrefs,
+      // write globalPrefs only if localPrefs[origin] has been removed prior
+      ...(!localPrefs[origin] ? newPrefs : null),
+      scope: newPrefs.scope,
     };
+
+    if (localPrefs[origin]) delete localPrefs[origin];
+  } else {
+    localPrefs[origin] = { ...localPrefs[origin], ...newPrefs };
   }
 
-  // we only really care
-  // about the scope of local
-  // cause thats how we decide
-  // if the site wants local or
-  // global scope
-  localPrefs[origin].scope = currentScope;
-  globalPrefs.scope = 'global';
-
-  dispatchPrefsUpdate(currentScope === 'local' ? localPrefs[origin] : globalPrefs);
+  dispatchPrefsUpdate(localPrefs[origin] ?? globalPrefs);
 
   storeLocalPrefs(localPrefs);
   storeGlobalPrefs(globalPrefs);
 }
 
-// start - kickstarts the retrieval of the current preference
-// and dispatch that prefs to subscribers
-// for example usage, see Preference.init on
-// Popup/index.js and ContentScript/index.js
+/**
+ * start - kickstarts the retrieval of the current preference
+ * and dispatch that prefs to subscribers
+ * for example usage, see Preference.init on
+ * Popup/index.js and ContentScript/index.js
+ */
 async function start() {
   let localPrefs = await retrieveLocalPrefs();
   let globalPrefs = await retriveGlobalPrefs();
@@ -248,19 +249,21 @@ async function start() {
   storeLocalPrefs(localPrefs);
   storeGlobalPrefs(globalPrefs);
 
-  if (localPrefs[origin].scope === 'global') {
-    dispatchPrefsUpdate(globalPrefs);
-    dispatchPrefsUpdate(globalPrefs, startupSubscribers);
-  } else {
+  if (fireDispath && localPrefs[origin]?.scope === 'local') {
     dispatchPrefsUpdate(localPrefs[origin]);
     dispatchPrefsUpdate(localPrefs[origin], startupSubscribers);
+  } else {
+    dispatchPrefsUpdate(globalPrefs);
+    dispatchPrefsUpdate(globalPrefs, startupSubscribers);
   }
 }
 
-// calls all subscriber call back
-// and pass them the preference via prefs
-// params
-function dispatchPrefsUpdate(prefs, /** @type {Function[]} */ cbs) {
+/**
+ * calls all subscriber call back
+ * and pass them the preference via prefs
+ * params
+ */
+function dispatchPrefsUpdate(/** @type Prefs */ prefs, /** @type {Function[]} */ cbs) {
   if (Array.isArray(cbs)) {
     cbs.forEach((cb) => {
       cb(prefs);

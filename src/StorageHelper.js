@@ -9,10 +9,11 @@ function storePrefs(action, data) {
   }
 }
 
-function retrievePrefs(action) {
+function retrievePrefs(/** @type {string} 'local'|'global' */ action) {
   const key = `preferences_${action}`;
   const prefsJSONStr = localStorage.getItem(key);
   try {
+    /** @type {Promise<Prefs[]>|Promise<Prefs>} */
     const prefs = JSON.parse(prefsJSONStr);
     return { data: prefs };
   } catch (err) {
