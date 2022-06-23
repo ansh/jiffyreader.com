@@ -53,6 +53,8 @@ const commandListener = async (command) => {
     chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode });
 
     if (intentedTabBrMode) {
+      Logger.logInfo(prefs);
+
       chrome.tabs.sendMessage(activeTab.id, {
         type: 'setSaccadesIntervalInDOM',
         data: prefs.saccadesInterval,
@@ -65,6 +67,10 @@ const commandListener = async (command) => {
       chrome.tabs.sendMessage(activeTab.id, {
         type: 'setFixationStemOpacity',
         data: prefs.fixationStemOpacity,
+      });
+      chrome.tabs.sendMessage(activeTab.id, {
+        type: 'setSaccadesStyle',
+        data: prefs.saccadesStyle,
       });
     }
   }
