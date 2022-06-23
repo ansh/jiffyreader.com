@@ -25,6 +25,22 @@ const setFixationStemOpacity = (opacity) => {
   document.body.setAttribute('fixation-stem-opacity', opacity);
 };
 
+const setSaccadesStyle = (style) => {
+  Logger.logInfo(style);
+
+  if (/bold/i.test(style)) {
+    const [, value] = style.split('-');
+    document.body.style.setProperty('--br-boldness', value);
+    document.body.style.setProperty('--br-line-style', '');
+  }
+
+  if (/line$/i.test(style)) {
+    const [value] = style.split('-');
+    document.body.style.setProperty('--br-line-style', value);
+    document.body.style.setProperty('--br-boldness', '');
+  }
+};
+
 const setReadingMode = (
   /** @type{ boolean } */ readingMode,
   /** @type {HTMLDocument} */ document,
@@ -39,11 +55,11 @@ const setReadingMode = (
   );
 };
 
-const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((res, _) => {
+const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
     case 'setFixationStrength': {
       setFixationStrength(message.data);
-      res({ success: true });
+      sendResponse({ success: true });
       break;
     }
     case 'setReadingMode': {
@@ -59,20 +75,25 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((r
       break;
     }
     case 'getOrigin': {
-      res({ data: window.location.origin });
+      sendResponse({ data: window.location.origin });
       break;
     }
     case 'getReadingMode': {
-      res({ data: document.body.classList.contains('br-bold') });
+      sendResponse({ data: document.body.getAttribute('br-mode') === 'on' });
       break;
     }
     case 'getSaccadesColor': {
-      res({ data: document.body.getAttribute('saccades-color') });
+      sendResponse({ data: document.body.getAttribute('saccades-color') });
       break;
     }
     case 'setSaccadesColor': {
       setSaccadesColor(message.data);
-      res({ success: true });
+      sendResponse({ success: true });
+      break;
+    }
+    case 'setSaccadesStyle': {
+      setSaccadesStyle(message.data);
+      sendResponse({ success: true });
       break;
     }
     case 'setFixationStemOpacity': {
@@ -83,7 +104,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((r
     default:
       break;
   }
-});
+};
 
 function docReady(fn) {
   // see if DOM is already available
@@ -111,6 +132,7 @@ docReady(async () => {
       setFixationStrength(prefs.fixationStrength);
       setLineHeight(prefs.lineHeight);
       setSaccadesColor(prefs.saccadesColor);
+      setSaccadesStyle(prefs.saccadesStyle);
       setFixationStemOpacity(prefs.fixationStemOpacity ?? defaultPrefs().fixationStemOpacity);
     },
   });

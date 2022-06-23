@@ -6,16 +6,15 @@ import StorageHelper from '../StorageHelper';
 // added here
 
 export const defaultPrefs = {
-  saccadesInterval: 0,
-  lineHeight: 1,
-  fixationStrength: 2,
-  scope: 'global',
-  // onPageLoad apply prefs on page load
   onPageLoad: false,
-  saccadesColor: '',
-  fixationStemOpacity: 0,
+  scope: 'global',
+  lineHeight: 1,
   edgeOpacity: 70,
-  saccadesStyle: 'bold',
+  saccadesColor: '',
+  saccadesStyle: 'bold-700',
+  saccadesInterval: 0,
+  fixationStrength: 2,
+  fixationStemOpacity: 0,
 };
 
 /**
@@ -152,30 +151,11 @@ async function storeGlobalPrefs(prefs) {
   return storePrefsInStorage(prefs, 'global');
 }
 
-// get the current Preferences based on the current
-// scope so if the user current setting is global
-// it will return the global prefs, otherwise
-// return local scope to this origin
-/** @returns {Promise<Prefs>} */
+/**
+ * Returns the prefs for the ogirin if available else returns global prefs
+ * @returns {Promise<Prefs>}
+ */
 async function getPrefs() {
-  // grab the current prefs
-  // let localPrefs = await retrieveLocalPrefs();
-  // let globalPrefs = await retriveGlobalPrefs();
-  // const origin = await getOrigin();
-
-  // if (localPrefs == null) {
-  //   localPrefs = {};
-  // }
-
-  // // just in case their missing a default prefs
-  // // be sure to pepper the default prefs
-  // localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
-  // globalPrefs = { ...defaultPrefs, ...globalPrefs };
-
-  // const currentScope = localPrefs[origin].scope;
-
-  // return currentScope === 'local' ? localPrefs[origin] : globalPrefs;
-
   return { ...((await retrieveLocalPrefs())[await getOrigin()] ?? (await retriveGlobalPrefs())) };
 }
 
