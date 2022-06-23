@@ -15,6 +15,7 @@ export const defaultPrefs = {
   saccadesColor: '',
   fixationStemOpacity: 0,
   edgeOpacity: 70,
+  saccadesStyle: 'bold',
 };
 
 /**

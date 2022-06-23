@@ -12,13 +12,11 @@ const lineHeightIncrease = document.getElementById('lineHeightIncrease');
 const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
 const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+const saccadesColorSelect = document.getElementById('saccadesColor');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
 const onPageLoadLabel = document.getElementById('onPageLoadLabel');
-
-/** @returns {HTMLInputElement[]} */
-const getColorCheckBoxes = () => document.getElementsByName('color');
 
 const { start, setPrefs, defaultPrefs } = Preferences.init({
   getOrigin: async () => TabHelper.getTabOrigin(),
@@ -116,15 +114,7 @@ function onScopePreference(scope) {
 }
 
 async function onSaccadesColor(color = '') {
-  const /** @type {HTMLInputElement} */ colorInput = document.querySelector(
-    `input[name="color"][value="${color}"]`,
-  );
-  if (!colorInput) return;
-
-  getColorCheckBoxes().forEach((colorCheckbox) => {
-    colorCheckbox.checked = false;
-  });
-  colorInput.checked = true;
+  saccadesColorSelect.value = color;
 
   const tab = await TabHelper.getActiveTab();
   chrome.tabs.sendMessage(tab.id, {
@@ -133,11 +123,9 @@ async function onSaccadesColor(color = '') {
   });
 }
 
-getColorCheckBoxes().forEach((colorCheckbox) => {
-  colorCheckbox.addEventListener('click', (event) => {
-    Logger.logInfo('radio button click', event.target);
-    setPrefs({ saccadesColor: event.target.value });
-  });
+saccadesColorSelect.addEventListener('change', (event) => {
+  Logger.logInfo('radio button click', event.target);
+  setPrefs({ saccadesColor: event.target.value });
 });
 
 saccadesIntervalSlider.addEventListener('change', (event) => {
