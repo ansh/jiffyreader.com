@@ -24,7 +24,7 @@
       "js": ["js/contentScript.bundle.js"]
     }
   ],
-  "permissions": ["storage", "activeTab"],
+  "permissions": ["activeTab"],
   "__dev__name": "jiffy-reader-dev",
   "commands": {
     "toggle-bionic": {
