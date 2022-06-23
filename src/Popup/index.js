@@ -22,6 +22,8 @@ const onPageLoadLabel = document.getElementById('onPageLoadLabel');
 const { start, setPrefs, defaultPrefs } = Preferences.init({
   getOrigin: async () => TabHelper.getTabOrigin(),
   subscribe: (prefs) => {
+    Logger.logInfo('popup subscribing to prefs', prefs);
+
     onSaccadesInterval(prefs.saccadesInterval);
     onFixationStrength(prefs.fixationStrength);
     onLineHeight(prefs.lineHeight);
@@ -230,10 +232,14 @@ async function onReadingModeToggled(enabled) {
 async function onFixationStemOpacitySlider(opacity) {
   fixationStemOpacitySlider.value = opacity;
 
-  chrome.tabs.sendMessage((await TabHelper.getActiveTab()).id, { type: 'setFixationStemOpacity', data: opacity }, () => {
-    const { lastError } = chrome.runtime;
-    if (lastError) Logger.logError(lastError);
-  });
+  chrome.tabs.sendMessage(
+    (await TabHelper.getActiveTab()).id,
+    { type: 'setFixationStemOpacity', data: opacity },
+    () => {
+      const { lastError } = chrome.runtime;
+      if (lastError) Logger.logError(lastError);
+    },
+  );
 }
 
 fixationStemOpacitySlider.addEventListener('change', (event) => {

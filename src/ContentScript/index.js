@@ -55,11 +55,11 @@ const setReadingMode = (
   );
 };
 
-const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((res, _) => {
+const onChromeRuntimeMessage = (message, sender, sendResponse) => {
   switch (message.type) {
     case 'setFixationStrength': {
       setFixationStrength(message.data);
-      res({ success: true });
+      sendResponse({ success: true });
       break;
     }
     case 'setReadingMode': {
@@ -75,25 +75,25 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((r
       break;
     }
     case 'getOrigin': {
-      res({ data: window.location.origin });
+      sendResponse({ data: window.location.origin });
       break;
     }
     case 'getReadingMode': {
-      res({ data: document.body.getAttribute('br-mode') === 'on' });
+      sendResponse({ data: document.body.getAttribute('br-mode') === 'on' });
       break;
     }
     case 'getSaccadesColor': {
-      res({ data: document.body.getAttribute('saccades-color') });
+      sendResponse({ data: document.body.getAttribute('saccades-color') });
       break;
     }
     case 'setSaccadesColor': {
       setSaccadesColor(message.data);
-      res({ success: true });
+      sendResponse({ success: true });
       break;
     }
     case 'setSaccadesStyle': {
       setSaccadesStyle(message.data);
-      res({ success: true });
+      sendResponse({ success: true });
       break;
     }
     case 'setFixationStemOpacity': {
@@ -104,7 +104,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((r
     default:
       break;
   }
-});
+};
 
 function docReady(fn) {
   // see if DOM is already available
