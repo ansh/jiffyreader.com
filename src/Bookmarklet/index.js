@@ -3,12 +3,11 @@ import Logger from '../Logger';
 import { defaultPrefs } from '../Preferences';
 
 const {
-  saccadesInterval, fixationStrength, saccadesColor, fixationStemOpacity,
+  saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationStemOpacity,
 } = {
   ...defaultPrefs,
-  fixationStrength: 3,
 };
-function writeAttributesToDom() {
+function writeInitialConfigsToDom() {
   document.body.setAttribute(
     'saccades-interval',
     document.body.getAttribute('saccades-interval') ?? saccadesInterval,
@@ -22,17 +21,30 @@ function writeAttributesToDom() {
     document.body.getAttribute('saccades-color') ?? saccadesColor,
   );
 
+  // console.log(saccadesStyle);
+  if (/bold/i.test(saccadesStyle)) {
+    const [, value] = saccadesStyle.split('-');
+    const oldValue = document.body.style.getPropertyValue('--br-boldness');
+    const nextValue = !Number.isNaN(oldValue) && oldValue !== '' ? oldValue : value;
+    document.body.style.setProperty('--br-boldness', nextValue);
+  }
+
+  if (/line/i.test(saccadesStyle)) {
+    const [value] = saccadesStyle.split('-');
+    const oldValue = document.body.style.getPropertyValue('--br-line-style');
+    const nextValue = !Number.isNaN(oldValue) && oldValue !== '' ? oldValue : value;
+    document.body.style.setProperty('--br-line-style', nextValue);
+  }
+
   document.body.setAttribute(
     'fixation-stem-opacity',
     document.body.getAttribute('fixation-stem-opacity') ?? fixationStemOpacity,
   );
 }
 
-writeAttributesToDom();
-
 function toggleReadingMode() {
   Logger.logInfo('called');
-  documentParser.setReadingMode(!document.body.classList.contains('br-bold'), document);
+  documentParser.setReadingMode(document.body.getAttribute('br-mode') !== 'on', document);
 }
 
 const stateTransitions = {
@@ -78,7 +90,7 @@ function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
   return stateTransitions[stateTransitionKey].find(([state]) => `${state}` === currentActiveState);
 }
 
-function toggleStateEngine(stateTransitionKey) {
+function toggleStateEngine(stateTransitionKey, /** @type {(property, value)} */ callback) {
   const currentActiveState = document.body.getAttribute(stateTransitionKey);
   Logger.logInfo(
     'stateTransitionKey',
@@ -88,11 +100,21 @@ function toggleStateEngine(stateTransitionKey) {
     stateTransitions[stateTransitionKey],
   );
 
+  let updateCallback;
+
+  if (!updateCallback) {
+    updateCallback = (attribute, value) => document.body.setAttribute(attribute, value);
+  } else {
+    updateCallback = callback;
+  }
+
   const [, nextState] = getStateTransitionEntry(stateTransitionKey, currentActiveState);
 
-  document.body.setAttribute(stateTransitionKey, nextState);
+  updateCallback(stateTransitionKey, nextState);
 
-  if (!document.body.classList.contains('br-bold')) toggleReadingMode();
+  if (document.body.getAttribute('br-mode') !== 'on') {
+    toggleReadingMode();
+  }
 }
 
 const callableActions = {
@@ -108,3 +130,9 @@ const actionToFire = 'ACTION_TO_FIRE';
 Logger.logInfo('actionToFire', actionToFire, callableActions);
 
 callableActions[actionToFire]();
+
+function init() {
+  writeInitialConfigsToDom();
+}
+
+init();

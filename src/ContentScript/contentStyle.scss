@@ -24,11 +24,12 @@ $saccadesColorsBase: (
 
 	@for $fixationsAllowed from 1 through $fixationStrength {
 		[fixation-strength="#{$fixationsAllowed}"] {
-			--fixation-stem-opacity: #{$stemOpacity+"%"};
 			display: inline;
-			font-weight: 600 ;
+			--fixation-stem-opacity: #{$stemOpacity+"%"};
+			font-weight: var(--br-boldness) ;
 			line-height: var(--br-line-height, initial);
 			color: #{$saccadesColor};
+			text-decoration: var(--br-line-style) underline 2px;
 		}
 	}
 }
@@ -67,7 +68,7 @@ $saccadesColorsBase: (
 	}
 }
 
-.br-bold {
+[br-mode=on] {
 	@for $fixationStrength from 1 through $maxFixations {
 		// make fixation-stem-opacity
 		$opacity: 0;

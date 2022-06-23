@@ -13,6 +13,7 @@ const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
 const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 const saccadesColorSelect = document.getElementById('saccadesColor');
+const saccadesStyleSelect = document.getElementById('saccadesStyle');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
@@ -21,12 +22,15 @@ const onPageLoadLabel = document.getElementById('onPageLoadLabel');
 const { start, setPrefs, defaultPrefs } = Preferences.init({
   getOrigin: async () => TabHelper.getTabOrigin(),
   subscribe: (prefs) => {
+    Logger.logInfo('popup subscribing to prefs', prefs);
+
     onSaccadesInterval(prefs.saccadesInterval);
     onFixationStrength(prefs.fixationStrength);
     onLineHeight(prefs.lineHeight);
     onScopePreference(prefs.scope);
     onPageLoadToggled(prefs.onPageLoad);
     onSaccadesColor(prefs.saccadesColor);
+    onSaccadesStyle(prefs.saccadesStyle);
     onFixationStemOpacitySlider(prefs.fixationStemOpacity);
   },
   onStartup: async (prefs) => {
@@ -123,9 +127,24 @@ async function onSaccadesColor(color = '') {
   });
 }
 
+async function onSaccadesStyle(style = '') {
+  saccadesStyleSelect.value = style;
+
+  const tab = await TabHelper.getActiveTab();
+  chrome.tabs.sendMessage(tab.id, {
+    type: 'setSaccadesStyle',
+    data: style,
+  });
+}
+
 saccadesColorSelect.addEventListener('change', (event) => {
   Logger.logInfo('radio button click', event.target);
   setPrefs({ saccadesColor: event.target.value });
+});
+
+saccadesStyleSelect.addEventListener('change', (event) => {
+  Logger.logInfo('radio button click', event.target);
+  setPrefs({ saccadesStyle: event.target.value });
 });
 
 saccadesIntervalSlider.addEventListener('change', (event) => {
@@ -213,10 +232,14 @@ async function onReadingModeToggled(enabled) {
 async function onFixationStemOpacitySlider(opacity) {
   fixationStemOpacitySlider.value = opacity;
 
-  chrome.tabs.sendMessage((await TabHelper.getActiveTab()).id, { type: 'setFixationStemOpacity', data: opacity }, () => {
-    const { lastError } = chrome.runtime;
-    if (lastError) Logger.logError(lastError);
-  });
+  chrome.tabs.sendMessage(
+    (await TabHelper.getActiveTab()).id,
+    { type: 'setFixationStemOpacity', data: opacity },
+    () => {
+      const { lastError } = chrome.runtime;
+      if (lastError) Logger.logError(lastError);
+    },
+  );
 }
 
 fixationStemOpacitySlider.addEventListener('change', (event) => {
