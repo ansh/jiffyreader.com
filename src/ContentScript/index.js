@@ -25,6 +25,22 @@ const setFixationStemOpacity = (opacity) => {
   document.body.setAttribute('fixation-stem-opacity', opacity);
 };
 
+const setSaccadesStyle = (style) => {
+  Logger.logInfo(style);
+
+  if (/bold/i.test(style)) {
+    const [, value] = style.split('-');
+    document.body.style.setProperty('--br-boldness', value);
+    document.body.style.setProperty('--br-line-style', '');
+  }
+
+  if (/line$/i.test(style)) {
+    const [value] = style.split('-');
+    document.body.style.setProperty('--br-line-style', value);
+    document.body.style.setProperty('--br-boldness', '');
+  }
+};
+
 const setReadingMode = (
   /** @type{ boolean } */ readingMode,
   /** @type {HTMLDocument} */ document,
@@ -63,7 +79,7 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((r
       break;
     }
     case 'getReadingMode': {
-      res({ data: document.body.classList.contains('br-bold') });
+      res({ data: document.body.getAttribute('br-mode') === 'on' });
       break;
     }
     case 'getSaccadesColor': {
@@ -72,6 +88,11 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => new Promise((r
     }
     case 'setSaccadesColor': {
       setSaccadesColor(message.data);
+      res({ success: true });
+      break;
+    }
+    case 'setSaccadesStyle': {
+      setSaccadesStyle(message.data);
       res({ success: true });
       break;
     }
@@ -111,6 +132,7 @@ docReady(async () => {
       setFixationStrength(prefs.fixationStrength);
       setLineHeight(prefs.lineHeight);
       setSaccadesColor(prefs.saccadesColor);
+      setSaccadesStyle(prefs.saccadesStyle);
       setFixationStemOpacity(prefs.fixationStemOpacity ?? defaultPrefs().fixationStemOpacity);
     },
   });

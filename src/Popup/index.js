@@ -13,6 +13,7 @@ const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
 const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
 const saccadesColorSelect = document.getElementById('saccadesColor');
+const saccadesStyleSelect = document.getElementById('saccadesStyle');
 const globalPrefsBtn = document.getElementById('globalPrefsBtn');
 const localPrefsBtn = document.getElementById('localPrefsBtn');
 const onPageLoadBtn = document.getElementById('onPageLoadBtn');
@@ -27,6 +28,7 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
     onScopePreference(prefs.scope);
     onPageLoadToggled(prefs.onPageLoad);
     onSaccadesColor(prefs.saccadesColor);
+    onSaccadesStyle(prefs.saccadesStyle);
     onFixationStemOpacitySlider(prefs.fixationStemOpacity);
   },
   onStartup: async (prefs) => {
@@ -123,9 +125,24 @@ async function onSaccadesColor(color = '') {
   });
 }
 
+async function onSaccadesStyle(style = '') {
+  saccadesStyleSelect.value = style;
+
+  const tab = await TabHelper.getActiveTab();
+  chrome.tabs.sendMessage(tab.id, {
+    type: 'setSaccadesStyle',
+    data: style,
+  });
+}
+
 saccadesColorSelect.addEventListener('change', (event) => {
   Logger.logInfo('radio button click', event.target);
   setPrefs({ saccadesColor: event.target.value });
+});
+
+saccadesStyleSelect.addEventListener('change', (event) => {
+  Logger.logInfo('radio button click', event.target);
+  setPrefs({ saccadesStyle: event.target.value });
 });
 
 saccadesIntervalSlider.addEventListener('change', (event) => {

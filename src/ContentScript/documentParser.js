@@ -17,32 +17,36 @@ let observer;
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
-  return sentenceText
-    .replace(/\p{L}+/gu, (word) => {
-      const { length } = word;
+  return sentenceText.replace(/\p{L}+/gu, (word) => {
+    const { length } = word;
 
-      const brWordStemWidth = length > 3
-        ? Math.round(length * BR_WORD_STEM_PERCENTAGE) : length;
+    const brWordStemWidth = length > 3 ? Math.round(length * BR_WORD_STEM_PERCENTAGE) : length;
 
-      const firstHalf = word.slice(0, brWordStemWidth);
-      const secondHalf = word.slice(brWordStemWidth);
-      const htmlWord = `<br-bold>${makeFixations(firstHalf)}</br-bold>${secondHalf.length ? `<br-edge>${secondHalf}</br-edge>` : ''}`;
-      return htmlWord;
-    });
+    const firstHalf = word.slice(0, brWordStemWidth);
+    const secondHalf = word.slice(brWordStemWidth);
+    const htmlWord = `<br-bold>${makeFixations(firstHalf)}</br-bold>${
+      secondHalf.length ? `<br-edge>${secondHalf}</br-edge>` : ''
+    }`;
+    return htmlWord;
+  });
 }
 
 function makeFixations(/** @type string */ textContent) {
   const fixationWidth = Math.round(textContent.length * FIXATION_BREAK_RATIO);
 
-  if (fixationWidth === FIXATION_LOWER_BOUND) return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`;
+  if (fixationWidth === FIXATION_LOWER_BOUND) { return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`; }
 
   const start = textContent.substring(0, fixationWidth);
-  const end = textContent.substring((textContent.length) - fixationWidth, textContent.length);
+  const end = textContent.substring(textContent.length - fixationWidth, textContent.length);
 
   const weakFixation = `<br-fixation fixation-strength="1">${start}</br-fixation>`;
   const strongFixation = `<br-fixation fixation-strength="3">${end}</br-fixation>`;
-  const mildFixation = ((textContent.length - (fixationWidth * 2)) > 0)
-    ? `<br-fixation fixation-strength="2">${textContent.substring(fixationWidth, (textContent.length) - fixationWidth)}</br-fixation>` : '';
+  const mildFixation = textContent.length - fixationWidth * 2 > 0
+    ? `<br-fixation fixation-strength="2">${textContent.substring(
+      fixationWidth,
+      textContent.length - fixationWidth,
+    )}</br-fixation>`
+    : '';
 
   return weakFixation + mildFixation + strongFixation;
 }
@@ -106,20 +110,17 @@ const setReadingMode = (enableReading, document) => {
       if (boldedElements.length < 1) {
         addStyles(contentStyle, document);
       }
-      /**
-       * add .br-bold if it was not present or if enableReading is true
-       * enableReading = true means add .br-bold to document.body when a page loads
-       */
-      document.body.classList.add('br-bold');
+
+      document.body.setAttribute('br-mode', 'on');
       [...document.body.children].forEach(parseNode);
 
-      /** make an observer if one does not exist and .br-bold is present on body/active */
+      /** make an observer if one does not exist and body[br-mode=on] */
       if (!observer) {
         observer = new NodeObserver(document.body, null, mutationCallback);
         observer.observe();
       }
     } else {
-      document.body.classList.remove('br-bold');
+      document.body.setAttribute('br-mode', 'off');
       if (observer) {
         observer.destroy();
         observer = null;
