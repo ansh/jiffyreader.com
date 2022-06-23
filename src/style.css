@@ -1,4 +1,4 @@
-:root{
+:root {
   --gap: 0.6rem;
 }
 
@@ -7,8 +7,8 @@ body {
   min-width: 230px;
   justify-content: center;
   gap: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans,
-    Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+    Helvetica Neue, sans-serif;
   font-weight: 200;
   color: #666;
   font-size: 1.1rem;
@@ -28,7 +28,8 @@ button {
   transition-property: background-color, transform, box-shadow;
   transition-duration: 200ms;
 }
-button:hover, button:focus {
+button:hover,
+button:focus {
   box-shadow: 0 0 0 3px #3aa75733;
 }
 button:active,
@@ -42,11 +43,17 @@ button:active {
   transform: scale(1.02);
 }
 
+select {
+  color: #3aa757;
+  background-color: #0000;
+  border-color: #3aa757;
+}
+
 .modeLabel {
   display: none;
 }
 
-:is([br-mode="on"] #onModeLabel, [br-mode="off"] #offModeLabel) {
+:is([br-mode='on'] #onModeLabel, [br-mode='off'] #offModeLabel) {
   display: initial;
 }
 
@@ -95,6 +102,23 @@ button:active {
 }
 
 /* || padding */
+.p-1,
+.p-2,
+.p-3,
+.p-4 {
+  padding: calc( 4px * var(--padding-n,1))
+}
+
+.p-2{
+  --padding-n: 2;
+}
+.p-3{
+  --padding-n: 3;
+}
+.p-4{
+  --padding-n: 4;
+}
+
 .pt-sm {
   padding-top: 4px;
 }
@@ -125,27 +149,23 @@ button:active {
 
 /* || gap */
 .gap-1 {
-  gap: calc(var(--gap) *1)
+  gap: calc(var(--gap) * 1);
 }
-
 
 .gap-2 {
-  gap: calc(var(--gap) *2)
+  gap: calc(var(--gap) * 2);
 }
-
 
 .gap-3 {
-  gap: calc(var(--gap) *3)
+  gap: calc(var(--gap) * 3);
 }
-
 
 .gap-4 {
-  gap: calc(var(--gap) *4)
+  gap: calc(var(--gap) * 4);
 }
 
-
 .gap-5 {
-  gap: calc(var(--gap) *5)
+  gap: calc(var(--gap) * 5);
 }
 
 /* || text */
@@ -195,8 +215,6 @@ button:active {
 
 /* || component */
 
-datalist > option{
-  margin-right: -8px
-
+datalist > option {
+  margin-right: -8px;
 }
-

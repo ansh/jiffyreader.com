@@ -6,7 +6,7 @@
 </head>
 
 <body class="flex flex-column" br-mode="">
-
+  
   <div class="flex flex-column">
     <span class="mb-md">Preference:</span>
     <div class="flex w-100 justify-between">
@@ -22,11 +22,11 @@
       </div>
     </div>
   </div>
-
+  
   <button id="readingModeToggleBtn" class="w-100 flex flex-column align-items-center">
     Enable Reading Mode
   </button>
-
+  
   <div class="w-100">
     <label class="block">
       Saccades interval: <span id="saccadesLabelValue"></span>
@@ -35,7 +35,7 @@
       <input type="range" min="0" max="4" value="" class="slider w-100" id="saccadesSlider" />
     </div>
   </div>
-
+  
   <div class="w-100">
     <label class="block" >
       Fixations strength: <span id="fixationStrengthLabelValue"></span>
@@ -44,8 +44,8 @@
       <input type="range" min="1" max="3" value="" class="slider w-100" id="fixationStrengthSlider" />
     </div>
   </div>
-
-
+  
+  
   <div class="w-100">
     <label class="block" >
       Fixations stem opacity %: <span id="fixationOpacityLabelValue"></span>
@@ -62,64 +62,36 @@
       </datalist>
     </div>
   </div>
-
+  
   <div class="w-100 flex flex-column gap-1">
-    <span class="text-dark">Color Saccades</span>
+    <span class="text-dark">Saccades Color</span>
     
-    <div class="w-100">
-      <label for="colorOriginal">Original
-        <input type="radio" name="color" id="colorOriginal" value="">
-      </label>
-    </div>
+    
+    <select name="saccadesColor" id="saccadesColor" class="p-2">
+      <option name="color" id="colorOriginal" value="">Original</option>
+      <option name="color" id="colorLight" value="light">Light</option>
+      <option name="color" id="colorLight100" value="light-100">Light-100</option>
+      <option name="color" id="colorDark" value="dark">Dark</option>
+      <option name="color" id="colorDark100" value="dark-100">Dark-100</option>
+    </select>
 
-    <div class="w-100">
-
-      <label for="colorLight" class="w-50">Light
-        <input type="radio" name="color" id="colorLight" value="light">
-      </label>
-      <label for="colorLight100" class="w-50">Light-100
-        <input type="radio" name="color" id="colorLight100" value="light-100">
-      </label>
-    </div>
-
-
-    <div class="w-100">
-      <label for="colorDark" class="w-50">Dark
-        <input type="radio" name="color" id="colorDark" value="dark">
-      </label>
-      <label for="colorDark100" class="w-50">Dark-100
-        <input type="radio" name="color" id="colorDark100" value="dark-100">
-      </label>
-    </div>
+  
+  
   </div>
-
+  
   <div class="w-100 flex flex-column gap-1">
-    <span class="text-dark">Style Saccades</span>
-
-    <div class="w-100">
-        <label for="styleSolidLine">Solid-line
-          <input type="radio" name="style" id="styleSolidLine" value="solid-line">
-        </label>
-    </div>
-    <div class="w-100">
-        <label for="styleDashLine">Dash-line
-          <input type="radio" name="style" id="styleDashLine" value="dash-line">
-        </label>
-    </div>
-
-    <div class="w-100">
-        <label for="styleDottedLine">Dotted-line
-            <input type="radio" name="style" id="styleDottedLine" value="dotted-line">
-        </label>
-    </div>
-
-    <div class="w-100">
-        <label for="styleStrickthroughLine">Strickthrough-line
-            <input type="radio" name="style" id="styleStrickthroughLine" value="strickthrough-line">
-        </label>
-    </div>
+    <label class="text-dark" for="style">Saccades Style</label>
+    
+    <select name="saccadesStyle" id="saccadesStyle" class="p-2">
+      <option name="style" id="styleBold" value="bold">Bold</option>
+      <option name="style" id="styleSolidLine" value="solid-line" disabled="true">Solid-line - coming soon</option>
+      <option name="style" id="styleDashLine" value="dash-line" disabled="true">Dash-line - coming soon</option>
+      <option name="style" id="styleDottedLine" value="dotted-line" disabled="true">Dotted-line - coming soon</option>
+      <option name="style" id="styleStrickthroughLine" value="strickthrough-line" disabled="true">Strickthrough-line - coming soon</option>
+    </select> 
+    
   </div>
-
+  
   <div class="w-100">
     <label class="block" id="lineHeightLabel">Line Height</label>
     <div class="w-100 flex justify-center">
@@ -133,16 +105,16 @@
       </button>
     </div>
   </div>
-
+  
   <button id="onPageLoadBtn" class="w-100 flex flex-column align-items-center">
     <span class="text-bold">Always <span id="onPageLoadLabel"></span></span>
     <span class="text-sm pt-sm">Default Toggle Preference</span>
   </button>
-
+  
   <button id="resetDefaultsBtn" class="w-100 flex flex-column align-items-center">
     Reset Defaults
   </button>
-
+  
 </body>
 
 </html>
