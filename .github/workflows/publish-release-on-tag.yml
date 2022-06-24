@@ -25,5 +25,5 @@ jobs:
       
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "extension/chrome.zip, extension/firefox.xpi, extension/opera.crx, extension/bookmarklet.html"
+          artifacts: "extension/jiffyReader-chrome.zip, extension/jiffyReader-firefox.xpi, extension/jiffyReader-opera.crx, extension/jiffyReader-bookmarklet.html"
           token: ${{ secrets.GITHUB_TOKEN }}
