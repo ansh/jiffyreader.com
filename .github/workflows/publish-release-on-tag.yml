@@ -20,9 +20,10 @@ jobs:
       - name: update manifest version to release version
         run: |
             ext_version_name=${{github.ref_name}}
+            echo $ext_version_name
             ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
-            sed -i 's/0.0.1/$ext_version_id/' src/manifest.json 
-            sed -i 's/VERSION_NAME/$ext_version_name/' src/manifest.json 
+            sed -i "s/0.0.1/$ext_version_id/" src/manifest.json
+            sed -i "s/VERSION_NAME/$ext_version_name/" src/manifest.json
       
       - name: Setup node
         uses: actions/setup-node@v3
