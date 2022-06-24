@@ -16,4 +16,4 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: yarn install
-      - run: yarn build
+      - run: yarn github-build
