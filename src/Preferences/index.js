@@ -226,7 +226,7 @@ async function start() {
 
   // just in case their missing a default prefs
   // be sure to pepper the default prefs
-  localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
+  // localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
   globalPrefs = { ...defaultPrefs, ...globalPrefs };
 
   storeLocalPrefs(localPrefs);

@@ -45,13 +45,11 @@ const setReadingMode = (
   /** @type{ boolean } */ readingMode,
   /** @type {HTMLDocument} */ document,
 ) => {
+  Logger.logInfo('reading-mode', readingMode);
   documentParser.setReadingMode(readingMode, document);
   chrome.runtime.sendMessage(
-    { message: 'setIconBadgeText', data: readingMode ? 'On' : 'Off' },
-    (response) => {
-      const { lastError } = chrome.runtime;
-      if (lastError) Logger.logError(lastError);
-    },
+    { message: 'setIconBadgeText', data: readingMode },
+    (response) => Logger.LogLastError(),
   );
 };
 
@@ -134,6 +132,9 @@ docReady(async () => {
       setSaccadesColor(prefs.saccadesColor);
       setSaccadesStyle(prefs.saccadesStyle);
       setFixationStemOpacity(prefs.fixationStemOpacity ?? defaultPrefs().fixationStemOpacity);
+    },
+    onStartup: (prefs) => {
+      chrome.runtime.sendMessage({ message: 'setIconBadgeText', data: prefs.onPageLoad }, () => Logger.LogLastError());
     },
   });
 

@@ -21,7 +21,7 @@ const listener = (request, sender, sendResponse) => {
     }
     case 'setIconBadgeText': {
       TabHelper.getActiveTab().then((tab) => {
-        chrome.browserAction.setBadgeText({ text: request.data, tabId: tab.id });
+        chrome.browserAction.setBadgeText({ text: request.data ? 'On' : 'Off', tabId: tab.id });
         sendResponse(true);
       });
       break;
