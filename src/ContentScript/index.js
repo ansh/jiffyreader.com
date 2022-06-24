@@ -5,28 +5,33 @@ import documentParser from './documentParser';
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const setSaccadesIntervalInDOM = (data) => {
+  Logger.logInfo('saccades-interval', data);
   const saccadesInterval = data == null ? 0 : data;
   document.body.setAttribute('saccades-interval', saccadesInterval);
 };
 
-const setFixationStrength = (data) => {
-  document.body.setAttribute('fixation-strength', data);
+const setFixationStrength = (strength) => {
+  Logger.logInfo('fixation-strength', strength);
+  document.body.setAttribute('fixation-strength', strength);
 };
 
 const setLineHeight = (lineHeight) => {
+  Logger.logInfo('lineHeight', lineHeight);
   document.body.style.setProperty('--br-line-height', lineHeight);
 };
 
 const setSaccadesColor = (color = '') => {
+  Logger.logInfo('saccades-color', color);
   document.body.setAttribute('saccades-color', color);
 };
 
 const setFixationStemOpacity = (opacity) => {
+  Logger.logInfo('fixation-stem-opacity', opacity);
   document.body.setAttribute('fixation-stem-opacity', opacity);
 };
 
 const setSaccadesStyle = (style) => {
-  Logger.logInfo(style);
+  Logger.logInfo('saccades-style', style);
 
   if (/bold/i.test(style)) {
     const [, value] = style.split('-');

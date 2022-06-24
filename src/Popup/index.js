@@ -144,12 +144,14 @@ saccadesStyleSelect.addEventListener('change', (event) => {
 });
 
 saccadesIntervalSlider.addEventListener('change', (event) => {
+  Logger.logInfo('event', event.target.value, event.target);
   setPrefs({
     saccadesInterval: event.target.value,
   });
 });
 
 fixationStrengthSlider.addEventListener('change', (event) => {
+  Logger.logInfo('fixation-strength', event.target.value);
   setPrefs({
     fixationStrength: event.target.value,
   });
