@@ -54,14 +54,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ansh/bionic-reading"
+    "url": "https://github.com/ansh/jiffyreader.com"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ansh/bionic-reading/issues"
+    "url": "https://github.com/ansh/jiffyreader.com/issues"
   },
-  "homepage": "https://github.com/ansh/bionic-reading#readme",
+  "homepage": "https://github.com/ansh/jiffyreader.com#readme",
   "engines": {
     "node": ">=16.13.2"
   }
