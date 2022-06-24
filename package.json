@@ -1,6 +1,6 @@
 {
   "name": "jiffy-reader",
-  "version": "1.0.7.1",
+  "version": "1.0.7.2",
   "description": "jiffy reader",
   "main": "index.js",
   "dependencies": {
@@ -40,23 +40,28 @@
   "scripts": {
     "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
     "dev:firefox": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch",
+    "dev:bookmarklet": "npx nodemon -x \"yarn build:bookmarklet\"",
     "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
     "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
     "build:bookmarklet": "node src/Bookmarklet/esbuild.js",
     "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet",
+    "gh:build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome USE_PACKAGE_JSON_VERSION=false webpack",
+    "gh:build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox USE_PACKAGE_JSON_VERSION=false webpack",
+    "gh:build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera USE_PACKAGE_JSON_VERSION=false webpack",
+    "gh:build": "yarn run gh:build:chrome && yarn run gh:build:firefox && yarn run gh:build:opera && yarn run build:bookmarklet",
     "eslint-fix": "npx eslint --fix src/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ansh/bionic-reading"
+    "url": "https://github.com/ansh/jiffyreader.com"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ansh/bionic-reading/issues"
+    "url": "https://github.com/ansh/jiffyreader.com/issues"
   },
-  "homepage": "https://github.com/ansh/bionic-reading#readme",
+  "homepage": "https://github.com/ansh/jiffyreader.com#readme",
   "engines": {
     "node": ">=16.13.2"
   }

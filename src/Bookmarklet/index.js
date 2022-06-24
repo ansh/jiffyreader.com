@@ -87,18 +87,12 @@ const stateTransitions = {
  * @returns {[targetState,nextState]}
  */
 function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
-  return stateTransitions[stateTransitionKey].find(([state]) => `${state}` === currentActiveState);
+  return stateTransitions[stateTransitionKey].find(([state]) => `${state}` === `${currentActiveState}`);
 }
 
 function toggleStateEngine(stateTransitionKey, /** @type {(property, value)} */ callback) {
   const currentActiveState = document.body.getAttribute(stateTransitionKey);
-  Logger.logInfo(
-    'stateTransitionKey',
-    stateTransitionKey,
-    'currentActiveState',
-    currentActiveState,
-    stateTransitions[stateTransitionKey],
-  );
+  Logger.logInfo('stateTransitionKey', stateTransitionKey, 'currentActiveState', currentActiveState, 'nextState', stateTransitions[stateTransitionKey]);
 
   let updateCallback;
 

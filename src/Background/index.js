@@ -21,7 +21,7 @@ const listener = (request, sender, sendResponse) => {
     }
     case 'setIconBadgeText': {
       TabHelper.getActiveTab().then((tab) => {
-        chrome.browserAction.setBadgeText({ text: request.data, tabId: tab.id });
+        chrome.browserAction.setBadgeText({ text: request.data ? 'On' : 'Off', tabId: tab.id });
         sendResponse(true);
       });
       break;
@@ -51,28 +51,44 @@ const commandListener = async (command) => {
     const prefs = await getPrefs();
 
     const intentedTabBrMode = !tabBrMode;
-    chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode });
+    chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode', data: intentedTabBrMode }, () => Logger.LogLastError());
 
     if (intentedTabBrMode) {
       Logger.logInfo(prefs);
 
-      chrome.tabs.sendMessage(activeTab.id, {
-        type: 'setSaccadesIntervalInDOM',
-        data: prefs.saccadesInterval,
-      });
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: 'setSaccadesIntervalInDOM',
+          data: prefs.saccadesInterval,
+        },
+        () => Logger.LogLastError(),
+      );
       chrome.tabs.sendMessage(activeTab.id, { type: 'setLineHeight', data: prefs.lineHeight });
-      chrome.tabs.sendMessage(activeTab.id, {
-        type: 'setFixationStrength',
-        data: prefs.fixationStrength,
-      });
-      chrome.tabs.sendMessage(activeTab.id, {
-        type: 'setFixationStemOpacity',
-        data: prefs.fixationStemOpacity,
-      });
-      chrome.tabs.sendMessage(activeTab.id, {
-        type: 'setSaccadesStyle',
-        data: prefs.saccadesStyle,
-      });
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: 'setFixationStrength',
+          data: prefs.fixationStrength,
+        },
+        () => Logger.LogLastError(),
+      );
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: 'setFixationStemOpacity',
+          data: prefs.fixationStemOpacity,
+        },
+        () => Logger.LogLastError(),
+      );
+      chrome.tabs.sendMessage(
+        activeTab.id,
+        {
+          type: 'setSaccadesStyle',
+          data: prefs.saccadesStyle,
+        },
+        () => Logger.LogLastError(),
+      );
     }
   }
 };

@@ -41,7 +41,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
   > Download via [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) or follow the instructions below
 
-  1. Click [here](https://github.com/ansh/bionic-reading/releases/latest/download/chrome.zip) to download the latest `chrome.zip` release
+  1. Click [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-chrome.zip) to download the latest `jiffyReader-chrome.zip` release
   2. Extract the file
   3. Open Chrome
   4. Enter `chrome://extensions`  in the address bar 
@@ -56,10 +56,10 @@ The best way to install this extension is to follow the instructions below. Howe
 
 > Download via the [Mozilla Firefox Plugin/Add-on Store](https://addons.mozilla.org/en-US/firefox/addon/jiffy-reader/) or follow the instructions below
 
-  1. Download `firefox.xpi` by right clicking [here](https://github.com/ansh/bionic-reading/releases/latest/download/firefox.xpi) and choose `Save link as` to download the latest `firefox.xpi `release
+  1. Download `jiffyReader-firefox.xpi` by right clicking [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-firefox.xpi) and choose `Save link as` to download the latest `jiffyReader-firefox.xpi `release
   2. Open Firefox
   3. Enter `about:debugging#/runtime/this-firefox`  in the address bar 
-  4. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `firefox.xpi` and select it to install it
+  4. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `jiffyReader-firefox.xpi` and select it to install it
 
 <strong>Firefox will remove the extension when the browser is closed. This will be solved once we provide a means to download the extension from the firefox store</strong>
 
@@ -67,7 +67,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 ## Opera
 
-  1. Download: Click [here](https://github.com/ansh/bionic-reading/releases/latest/download/opera.crx) to download the latest `opera.crx` release
+  1. Download: Click [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-opera.crx) to download the latest `jiffyReader-opera.crx` release
   2. Extract the file
   3. Open Opera
   4. Enter `opera://extensions`  in the address bar 
@@ -83,7 +83,7 @@ The best way to install this extension is to follow the instructions below. Howe
 ## Bookmarklet
 
 (Note: Bookmarklet is not in active support and may break when new updates are released)
-1. To install the bookmarklet, head over to this [link](https://github.com/ansh/bionic-reading/releases/latest/download/bookmarklet.html)
+1. To install the bookmarklet, head over to this [link](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-bookmarklet.html)
 
 
 # Customizations
@@ -101,12 +101,12 @@ Bionic Reading is a new method facilitating the reading process by guiding the e
 As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word.
 In a digital world dominated by shallow forms of reading, Bionic Reading aims to encourage a more in-depth reading and understanding of written content.
 
-Read more about [Bionic Reading](https://bionic-reading.com/about/).
+Read more about [Bionic Reading](https://jiffyreader.com.com/about/).
 
 
 
 # Reporting Issues, bugs and feature request
-  Visit the issues page to report, bugs or tell us about a feature you would like to see and hopefully we will get to you.
+  Visit the [issues page](https://github.com/ansh/jiffyreader.com/issues) to report, bugs or tell us about a feature you would like to see and hopefully we will get to you.
   Kindly allow for some time after submitting a issue for someone to get back to you.
   You can also see a list of open issues that you may contribute to by commenting to help out someone with a challenge or developing and opening a PR. [See contribution section](#how-to-contribution)
 
@@ -137,5 +137,5 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
 
 - Change `version` in `package.json`, eg. `"version": "1.0.0"`
 - Push a new tag to GitHub, eg. `git tag 1.0.0 && git push --tags`
-- The Workflow should be running [here](https://github.com/ansh/bionic-reading/actions)
-- Check the release version [here](https://github.com/ansh/bionic-reading/releases) and edit release notes.
+- The Workflow should be running [here](https://github.com/ansh/jiffyreader.com/actions)
+- Check the release version [here](https://github.com/ansh/jiffyreader.com/releases) and edit release notes.

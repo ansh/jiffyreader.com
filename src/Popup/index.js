@@ -65,11 +65,7 @@ async function onFixationStrength(value) {
   };
   const tab = await TabHelper.getActiveTab();
 
-  chrome.tabs.sendMessage(tab.id, payload, (response) => {
-    if (chrome.runtime.lastError) {
-      // no-op
-    }
-  });
+  chrome.tabs.sendMessage(tab.id, payload, () => Logger.LogLastError());
 }
 
 async function onSaccadesInterval(value) {
@@ -81,11 +77,7 @@ async function onSaccadesInterval(value) {
   chrome.tabs.sendMessage(
     tab.id,
     { type: 'setSaccadesIntervalInDOM', data: saccadesInterval },
-    () => {
-      if (chrome.runtime.lastError) {
-        // no-op
-      }
-    },
+    () => Logger.LogLastError(),
   );
 }
 
@@ -104,7 +96,7 @@ async function onLineHeight(height) {
   }
   const tab = await TabHelper.getActiveTab();
 
-  chrome.tabs.sendMessage(tab.id, { type: 'setLineHeight', data: height });
+  chrome.tabs.sendMessage(tab.id, { type: 'setLineHeight', data: height }, () => Logger.LogLastError());
 }
 
 function onScopePreference(scope) {
@@ -121,10 +113,14 @@ async function onSaccadesColor(color = '') {
   saccadesColorSelect.value = color;
 
   const tab = await TabHelper.getActiveTab();
-  chrome.tabs.sendMessage(tab.id, {
-    type: 'setSaccadesColor',
-    data: color,
-  });
+  chrome.tabs.sendMessage(
+    tab.id,
+    {
+      type: 'setSaccadesColor',
+      data: color,
+    },
+    () => Logger.LogLastError(),
+  );
 }
 
 async function onSaccadesStyle(style = '') {
@@ -148,12 +144,14 @@ saccadesStyleSelect.addEventListener('change', (event) => {
 });
 
 saccadesIntervalSlider.addEventListener('change', (event) => {
+  Logger.logInfo('event', event.target.value, event.target);
   setPrefs({
     saccadesInterval: event.target.value,
   });
 });
 
 fixationStrengthSlider.addEventListener('change', (event) => {
+  Logger.logInfo('fixation-strength', event.target.value);
   setPrefs({
     fixationStrength: event.target.value,
   });
@@ -222,11 +220,7 @@ async function onReadingModeToggled(enabled) {
 
   const tab = await TabHelper.getActiveTab();
 
-  chrome.tabs.sendMessage(tab.id, { type: 'setReadingMode', data: enabled }, () => {
-    if (chrome.runtime.lastError) {
-      // no-op
-    }
-  });
+  chrome.tabs.sendMessage(tab.id, { type: 'setReadingMode', data: enabled }, () => Logger.LogLastError());
 }
 
 async function onFixationStemOpacitySlider(opacity) {
@@ -235,10 +229,7 @@ async function onFixationStemOpacitySlider(opacity) {
   chrome.tabs.sendMessage(
     (await TabHelper.getActiveTab()).id,
     { type: 'setFixationStemOpacity', data: opacity },
-    () => {
-      const { lastError } = chrome.runtime;
-      if (lastError) Logger.logError(lastError);
-    },
+    () => Logger.LogLastError(),
   );
 }
 

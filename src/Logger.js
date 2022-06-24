@@ -4,37 +4,35 @@
  */
 
 /* eslint-disable no-console */
-export default class Logger {
-  static #isProductionEnv = () => process.env.NODE_ENV === 'production';
+const isProductionEnv = () => process.env.NODE_ENV === 'production';
 
-  static logError = (error) => {
-    if (this.#isProductionEnv()) return;
-    console.error(error);
-  };
+const makeError = (isProduction) => (isProduction ? () => {} : console.error);
 
-  /**
- *
- * @param  {...any} data
- * @returns {void}
- */
-  static logInfo = (...data) => {
-    if (this.#isProductionEnv()) return;
+const makeInfo = (isProduction) => (isProduction ? () => {} : console.log);
 
-    console.log(...data);
-  };
-
-  /**
+/**
  *
  * @param {String} label
  * @returns {Function} end and display time when called in non production environment
  */
-  static logTime = (label) => {
-    if (this.#isProductionEnv()) {
-      return () => {
+const logTime = (label) => {
+  if (isProductionEnv()) {
+    return () => {
       // no-op}
-      };
-    }
-    console.time(label);
-    return () => console.timeEnd(label);
-  };
-}
+    };
+  }
+  console.time(label);
+  return () => console.timeEnd(label);
+};
+
+const logInfo = makeInfo(isProductionEnv());
+const logError = makeError(isProductionEnv());
+const LogLastError = ({ lastError } = chrome.runtime) => (lastError ? logError(lastError) : null);
+const Logger = {
+  logTime,
+  logInfo,
+  logError,
+  LogLastError,
+};
+
+export default Logger;
