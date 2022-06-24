@@ -46,6 +46,10 @@
     "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
     "build:bookmarklet": "node src/Bookmarklet/esbuild.js",
     "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet",
+    "github-build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome USE_PACKAGE_JSON_VERSION=false webpack",
+    "github-build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox USE_PACKAGE_JSON_VERSION=false webpack",
+    "github-build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera USE_PACKAGE_JSON_VERSION=false webpack",
+    "github-build": "yarn run github-build:chrome && yarn run github-build:firefox && yarn run github-build:opera && yarn run build:bookmarklet",
     "eslint-fix": "npx eslint --fix src/"
   },
   "repository": {

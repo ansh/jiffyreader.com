@@ -9,7 +9,7 @@ const defaultConfigs = {
   plugins: [sassPlugin({ type: 'css-text' })],
 };
 
-const outputFile = './extension/bookmarklet.html';
+const outputFile = './extension/jiffyReader-bookmarklet.html';
 
 build({
   entryPoints: ['./src/Bookmarklet/index.js'],

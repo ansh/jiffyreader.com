@@ -17,6 +17,11 @@ const nodeEnv = process.env.NODE_ENV || 'development';
 const targetBrowser = process.env.TARGET_BROWSER;
 const targetPort = { chrome: 9090, firefox: 9091 }[targetBrowser ?? 'chrome'];
 
+const usePackageJSONVersion = Object.keys(process.env).includes('USE_PACKAGE_JSON_VERSION')
+  ? !(process.env.USE_PACKAGE_JSON_VERSION === 'false'
+    || process.env.USE_PACKAGE_JSON_VERSION === false)
+  : true;
+
 const extensionReloaderPlugin = nodeEnv === 'development'
   ? new ExtensionReloader({
     port: targetPort,
@@ -85,7 +90,7 @@ module.exports = {
           loader: 'wext-manifest-loader',
           options: {
             // set to false to not use package.json version for manifest
-            usePackageJSONVersion: true,
+            usePackageJSONVersion,
           },
         },
         exclude: /node_modules/,
@@ -130,7 +135,6 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-
           {
             loader: 'css-loader', // Takes the CSS files and returns the CSS with imports and url(...) for Webpack
             options: {
@@ -169,10 +173,10 @@ module.exports = {
     // delete previous build files
     new CleanWebpackPlugin({
       cleanOnceBeforeBuildPatterns: [
-        path.join(process.cwd(), `extension/${targetBrowser}`),
+        path.join(process.cwd(), `extension/jiffyReader-${targetBrowser}`),
         path.join(
           process.cwd(),
-          `extension/${targetBrowser}.${getExtensionFileType(targetBrowser)}`,
+          `extension/jiffyReader-${targetBrowser}.${getExtensionFileType(targetBrowser)}`,
         ),
       ],
       cleanStaleWebpackAssets: false,
@@ -233,7 +237,7 @@ module.exports = {
                   source: path.join(destPath, targetBrowser),
                   destination: `${path.join(
                     destPath,
-                    targetBrowser,
+                    `jiffyReader-${targetBrowser}`,
                   )}.${getExtensionFileType(targetBrowser)}`,
                   options: { zlib: { level: 6 } },
                 },
