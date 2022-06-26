@@ -24,7 +24,24 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Firefox](#firefox)
   - [Opera](#opera)
   - [Edge](#edge)
+  - [Android (kiwi Browser)](#android-kiwi-browser)
   - [Bookmarklet](#bookmarklet)
+  - [FAQ](#faq)
+    - [How to access the extension settings/popup ui](#how-to-access-the-extension-settingspopup-ui)
+      - [Desktop](#desktop)
+    - [Android (kiwi browser)](#android-kiwi-browser-1)
+    - [What are the functions of the buttons and sliders](#what-are-the-functions-of-the-buttons-and-sliders)
+      - [Global preferences button](#global-preferences-button)
+      - [Site preferences button](#site-preferences-button)
+      - [Enable reading mode button](#enable-reading-mode-button)
+      - [Saccades interval slider](#saccades-interval-slider)
+      - [Fixation strength slider](#fixation-strength-slider)
+      - [Fixation edge opacity](#fixation-edge-opacity)
+      - [Saccades colors](#saccades-colors)
+      - [Saccades styles](#saccades-styles)
+      - [Line height buttons](#line-height-buttons)
+      - [Always on/off button](#always-onoff-button)
+      - [Reset Defaults](#reset-defaults)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
@@ -49,6 +66,8 @@ The best way to install this extension is to follow the instructions below. Howe
   6. Click `load unpacked` on the left side of the page
   7. Find and select the extracted folder, this extension should now be installed
   8. To pin the extension, click the `puzzle icon` on the top right of Chrome, then `pin the extension`.
+  9. The extension is now turned on by defualt in version 1.0.7.5 and above
+  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `awlays on`
 
 
 
@@ -60,6 +79,8 @@ The best way to install this extension is to follow the instructions below. Howe
   2. Open Firefox
   3. Enter `about:debugging#/runtime/this-firefox`  in the address bar 
   4. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `jiffyReader-firefox.xpi` and select it to install it
+  5. The extension is now turned on by defualt in version 1.0.7.5 and above
+  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `awlays on`
 
 <strong>Firefox will remove the extension when the browser is closed. This will be solved once we provide a means to download the extension from the firefox store</strong>
 
@@ -75,16 +96,81 @@ The best way to install this extension is to follow the instructions below. Howe
   6. Click `load unpacked` on the left side of the page
   7. Find and select the extracted folder, this extension should now be installed and listed on the screen
   8. To pin the extension, click the `cube icon` on the top right of Chrome, then `pin the extension`.
+  9. The extension is now turned on by defualt in version 1.0.7.5 and above
+  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `awlays on`
 
 ## Edge
 
   - Please follow the steps for [chrome](#chrome) above
+
+## Android (kiwi Browser)
+  1. Download the kiwi browser if you do not already have it installed
+  2. Open kiwi browser
+  3. Navigate to the extension listing on  [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) and 
+  4. Click the `Add to Chrome` button to install the extension
+  5. The extension is now turned on by defualt in version 1.0.7.5 and above
+  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `awlays on`
 
 ## Bookmarklet
 
 (Note: Bookmarklet is not in active support and may break when new updates are released)
 1. To install the bookmarklet, head over to this [link](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-bookmarklet.html)
 
+
+
+## FAQ
+
+### How to access the extension settings/popup ui
+
+#### Desktop
+1. Click on the (on chrome: `puzzle icon` | on edge `puzzle icon` | on opera `cube icon` | on brave `puzzle icon`) 
+   - Note: Firefox will auto pin the extension
+2. Click on the pin icon next to jiffy reader to pin it next the address bar
+3. Click on the pinned icon to access the settings/popup menu
+
+### Android (kiwi browser)
+1. Click on the `more (3 vertical dots)` button and scroll down
+2. Click on `Jiffy Reader` to open the settings/popup ui
+
+### What are the functions of the buttons and sliders
+
+#### Global preferences button
+- clicking this button enters global mode where your preferences are saved and applied to applied to all other sites when you open them afterwards
+
+#### Site preferences button
+- Clicking this buttons activates and saves preferences only for the site you are presently on. 
+- Any changes you make with the other buttons and sliders persist for only this site.
+
+#### Enable reading mode button
+ - Click this button to turn on/off the emphasization(bionification) of the text on the page.
+ - Press `ALT + A` to achieve the same effect as clicking this button on chrome. see the [shortcut-section](#shortcut) for more info.
+
+#### Saccades interval slider
+- Use this slider to set how many words are left untouched/unbolded or un-emphasized after the first emphasized word or the first word.
+- 0 means there will not be a single or any untouched words, all words are emphasized.
+- 1 means exactly 1 word is left untouched before the next successive emphasized word.
+- 2 means 2 words are left untouched so does 3 and 4.
+
+#### Fixation strength slider
+- Use this to control how much or how little of each word is emphasized you your liking .
+
+#### Fixation edge opacity
+- Use this to control how faint(weakly visible) or strongly visible you want the edge(un-emphasized) part of words to appear.
+
+#### Saccades colors
+- Use this to select a means of emphasization using colors.
+
+#### Saccades styles
+- Use this to select a means of emphasization using bold variations or underline variations. 
+
+#### Line height buttons
+- Use these buttons to increase or decrease line height to strain and improve the confort of reading.
+
+#### Always on/off button
+- Use this button to controls the default behaviour which is if words on pages are or aren't emphasized when loaded by default.
+
+#### Reset Defaults
+- Resets preferences of the currently engaged preference mode.
 
 # Customizations
 
