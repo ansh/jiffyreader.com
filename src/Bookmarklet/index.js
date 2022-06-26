@@ -2,43 +2,32 @@ import documentParser from '../ContentScript/documentParser';
 import Logger from '../Logger';
 import { defaultPrefs } from '../Preferences';
 
-const {
-  saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationStemOpacity,
-} = {
+const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
   ...defaultPrefs,
 };
 function writeInitialConfigsToDom() {
-  document.body.setAttribute(
-    'saccades-interval',
-    document.body.getAttribute('saccades-interval') ?? saccadesInterval,
-  );
-  document.body.setAttribute(
-    'fixation-strength',
-    document.body.getAttribute('fixation-strength') ?? fixationStrength,
-  );
-  document.body.setAttribute(
-    'saccades-color',
-    document.body.getAttribute('saccades-color') ?? saccadesColor,
-  );
+  setAttribute('saccades-interval', getAttribute('saccades-interval') ?? saccadesInterval);
+  setAttribute('fixation-strength', getAttribute('fixation-strength') ?? fixationStrength);
+  setAttribute('saccades-color', getAttribute('saccades-color') ?? saccadesColor);
 
   // console.log(saccadesStyle);
   if (/bold/i.test(saccadesStyle)) {
     const [, value] = saccadesStyle.split('-');
-    const oldValue = document.body.style.getPropertyValue('--br-boldness');
+    const oldValue = getProperty('--br-boldness');
     const nextValue = !Number.isNaN(oldValue) && oldValue !== '' ? oldValue : value;
-    document.body.style.setProperty('--br-boldness', nextValue);
+    setProperty('--br-boldness', nextValue);
   }
 
   if (/line/i.test(saccadesStyle)) {
     const [value] = saccadesStyle.split('-');
-    const oldValue = document.body.style.getPropertyValue('--br-line-style');
+    const oldValue = getProperty('--br-line-style');
     const nextValue = !Number.isNaN(oldValue) && oldValue !== '' ? oldValue : value;
-    document.body.style.setProperty('--br-line-style', nextValue);
+    setProperty('--br-line-style', nextValue);
   }
 
-  document.body.setAttribute(
-    'fixation-stem-opacity',
-    document.body.getAttribute('fixation-stem-opacity') ?? fixationStemOpacity,
+  setProperty(
+    '--fixation-edge-opacity',
+    getProperty('--fixation-edge-opacity') ?? `${fixationEdgeOpacity}%`,
   );
 }
 
@@ -53,7 +42,8 @@ const stateTransitions = {
     ['', 1],
     [1, 2],
     [2, 3],
-    [3, 1],
+    [3, 4],
+    [4, 1],
   ],
   'saccades-interval': [
     [null, 1],
@@ -72,12 +62,14 @@ const stateTransitions = {
     ['dark', 'dark-100'],
     ['dark-100', ''],
   ],
-  'fixation-stem-opacity': [
-    [null, '100'],
-    [0, 100],
-    [100, 80],
-    [80, 40],
-    [40, 0],
+  '--fixation-edge-opacity': [
+    [null, '25%'],
+    ['', '25%'],
+    ['25%', '50%'],
+    ['50%', '75%'],
+    ['75%', '100%'],
+    ['80%', '25%'],
+    ['100%', '25%'],
   ],
 };
 
@@ -87,36 +79,51 @@ const stateTransitions = {
  * @returns {[targetState,nextState]}
  */
 function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
-  return stateTransitions[stateTransitionKey].find(([state]) => `${state}` === `${currentActiveState}`);
+  return stateTransitions[stateTransitionKey].find(
+    ([state]) => `${state}` === `${currentActiveState}`,
+  );
 }
 
-function toggleStateEngine(stateTransitionKey, /** @type {(property, value)} */ callback) {
-  const currentActiveState = document.body.getAttribute(stateTransitionKey);
-  Logger.logInfo('stateTransitionKey', stateTransitionKey, 'currentActiveState', currentActiveState, 'nextState', stateTransitions[stateTransitionKey]);
-
-  let updateCallback;
-
-  if (!updateCallback) {
-    updateCallback = (attribute, value) => document.body.setAttribute(attribute, value);
-  } else {
-    updateCallback = callback;
-  }
+function toggleStateEngine(
+  stateTransitionKey,
+  /** @type {(property, value)} */ callbackSetter = setAttribute,
+  /** @type {(identified) => string}  */ callbackGetter = getAttribute,
+) {
+  const currentActiveState = callbackGetter(stateTransitionKey);
 
   const [, nextState] = getStateTransitionEntry(stateTransitionKey, currentActiveState);
 
-  updateCallback(stateTransitionKey, nextState);
+  Logger.logInfo(
+    'stateTransitionKey',
+    stateTransitionKey,
+    'currentActiveState',
+    currentActiveState,
+    'nextState',
+    nextState,
+    stateTransitions[stateTransitionKey],
+  );
+  callbackSetter(stateTransitionKey, nextState);
 
   if (document.body.getAttribute('br-mode') !== 'on') {
     toggleReadingMode();
   }
 }
 
+const setProperty = (property, value) => {
+  Logger.logInfo({ setProperty, property, value });
+  document.body.style.setProperty(property, value);
+};
+const setAttribute = (attribute, value) => document.body.setAttribute(attribute, value);
+const getProperty = (property) => document.body.style.getPropertyValue(property);
+const getAttribute = (attribute) => document.body.getAttribute(attribute);
+
 const callableActions = {
   fireReadingToggle: toggleReadingMode,
   fireFixationStrengthTransition: () => toggleStateEngine('fixation-strength'),
   fireSaccadesIntervalTransition: () => toggleStateEngine('saccades-interval'),
   fireSaccadesColorTransition: () => toggleStateEngine('saccades-color'),
-  fireFixationStemOpacityTransition: () => toggleStateEngine('fixation-stem-opacity'),
+  firefixationEdgeOpacityTransition: () =>
+    toggleStateEngine('--fixation-edge-opacity', setProperty, getProperty),
 };
 
 const actionToFire = 'ACTION_TO_FIRE';

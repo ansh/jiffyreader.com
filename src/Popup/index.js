@@ -256,7 +256,7 @@ async function onfixationEdgeOpacitySlider(opacity) {
     () => Logger.LogLastError(),
   );
 
-  document.body.setAttribute('fixation-stem-opacity', opacity);
+  document.body.style.setProperty('--fixation-edge-opacity', `${opacity}%`);
 }
 
 fixationEdgeOpacitySlider.addEventListener('change', (event) => {
