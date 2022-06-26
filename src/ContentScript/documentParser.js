@@ -51,8 +51,6 @@ function makeFixations(/** @type string */ textContent) {
     )}</br-fixation>`;
   });
 
-  Logger.logInfo({ textContent, fixationsSplits });
-
   return fixationsSplits.join('');
 }
 

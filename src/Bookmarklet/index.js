@@ -2,7 +2,9 @@ import documentParser from '../ContentScript/documentParser';
 import Logger from '../Logger';
 import { defaultPrefs } from '../Preferences';
 
-const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
+const {
+  saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity,
+} = {
   ...defaultPrefs,
 };
 function writeInitialConfigsToDom() {
@@ -122,8 +124,7 @@ const callableActions = {
   fireFixationStrengthTransition: () => toggleStateEngine('fixation-strength'),
   fireSaccadesIntervalTransition: () => toggleStateEngine('saccades-interval'),
   fireSaccadesColorTransition: () => toggleStateEngine('saccades-color'),
-  firefixationEdgeOpacityTransition: () =>
-    toggleStateEngine('--fixation-edge-opacity', setProperty, getProperty),
+  firefixationEdgeOpacityTransition: () => toggleStateEngine('--fixation-edge-opacity', setProperty, getProperty),
 };
 
 const actionToFire = 'ACTION_TO_FIRE';
