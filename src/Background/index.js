@@ -76,8 +76,8 @@ const commandListener = async (command) => {
       chrome.tabs.sendMessage(
         activeTab.id,
         {
-          type: 'setFixationStemOpacity',
-          data: prefs.fixationStemOpacity,
+          type: 'setFixationEdgeOpacity',
+          data: prefs.fixationEdgeOpacity,
         },
         () => Logger.LogLastError(),
       );

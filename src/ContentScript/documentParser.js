@@ -1,12 +1,11 @@
 import Logger from '../Logger';
 import contentStyle from './contentStyle.scss';
 import NodeObserver from './observer';
+import { defaultPrefs } from '../Preferences';
 
-const FIXATION_BREAK_RATIO = 0.33;
-const FIXATION_LOWER_BOUND = 0;
-const DEFAULT_SACCADES_INTERVAL = 0;
-const DEFAULT_FIXATION_STRENGTH = 3;
-const BR_WORD_STEM_PERCENTAGE = 0.65;
+const {
+  MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE,
+} = defaultPrefs;
 
 // which tag's content should be ignored from bolded
 const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'BR-EDGE', 'SVG'];
@@ -32,23 +31,29 @@ function highlightText(sentenceText) {
 }
 
 function makeFixations(/** @type string */ textContent) {
-  const fixationWidth = Math.round(textContent.length * FIXATION_BREAK_RATIO);
+  const COMPUTED_MAX_FIXATION_PARTS = textContent.length >= MAX_FIXATION_PARTS
+    ? MAX_FIXATION_PARTS : textContent.length;
 
-  if (fixationWidth === FIXATION_LOWER_BOUND) { return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`; }
+  const fixationWidth = Math.ceil(textContent.length * (1 / COMPUTED_MAX_FIXATION_PARTS));
 
-  const start = textContent.substring(0, fixationWidth);
-  const end = textContent.substring(textContent.length - fixationWidth, textContent.length);
+  if (fixationWidth === FIXATION_LOWER_BOUND) {
+    return `<br-fixation fixation-strength="1">${textContent}</br-fixation>`;
+  }
 
-  const weakFixation = `<br-fixation fixation-strength="1">${start}</br-fixation>`;
-  const strongFixation = `<br-fixation fixation-strength="3">${end}</br-fixation>`;
-  const mildFixation = textContent.length - fixationWidth * 2 > 0
-    ? `<br-fixation fixation-strength="2">${textContent.substring(
-      fixationWidth,
-      textContent.length - fixationWidth,
-    )}</br-fixation>`
-    : '';
+  const fixationsSplits = new Array(COMPUTED_MAX_FIXATION_PARTS).fill(null).map((item, index) => {
+    const wordStartBoundary = index * fixationWidth;
+    const wordEndBoundary = wordStartBoundary + fixationWidth > textContent.length
+      ? textContent.length : wordStartBoundary + fixationWidth;
 
-  return weakFixation + mildFixation + strongFixation;
+    return `<br-fixation fixation-strength="${index + 1}">${textContent.slice(
+      wordStartBoundary,
+      wordEndBoundary,
+    )}</br-fixation>`;
+  });
+
+  Logger.logInfo({ textContent, fixationsSplits });
+
+  return fixationsSplits.join('');
 }
 
 function parseNode(/** @type Element */ node) {

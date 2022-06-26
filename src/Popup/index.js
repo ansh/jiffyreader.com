@@ -8,7 +8,7 @@ const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 const saccadesLabelValue = document.getElementById('saccadesLabelValue');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
-const fixationStemOpacitySlider = document.getElementById('fixationStemOpacitySlider');
+const fixationEdgeOpacitySlider = document.getElementById('fixationEdgeOpacitySlider');
 const lineHeightIncrease = document.getElementById('lineHeightIncrease');
 const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
@@ -32,7 +32,7 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
     onPageLoadToggled(prefs.onPageLoad);
     onSaccadesColor(prefs.saccadesColor);
     onSaccadesStyle(prefs.saccadesStyle);
-    onFixationStemOpacitySlider(prefs.fixationStemOpacity);
+    onfixationEdgeOpacitySlider(prefs.fixationEdgeOpacity);
   },
   onStartup: async (prefs) => {
     documentParser.setReadingMode(true, document);
@@ -247,20 +247,20 @@ async function onReadingModeToggled(enabled) {
   document.body.setAttribute('br-mode', enabled ? 'on' : 'off');
 }
 
-async function onFixationStemOpacitySlider(opacity) {
-  fixationStemOpacitySlider.value = opacity;
+async function onfixationEdgeOpacitySlider(opacity) {
+  fixationEdgeOpacitySlider.value = opacity;
 
   chrome.tabs.sendMessage(
     (await TabHelper.getActiveTab()).id,
-    { type: 'setFixationStemOpacity', data: opacity },
+    { type: 'setFixationEdgeOpacity', data: opacity },
     () => Logger.LogLastError(),
   );
 
   document.body.setAttribute('fixation-stem-opacity', opacity);
 }
 
-fixationStemOpacitySlider.addEventListener('change', (event) => {
-  setPrefs((oldPrefs) => ({ ...oldPrefs, fixationStemOpacity: event.target.value }));
+fixationEdgeOpacitySlider.addEventListener('change', (event) => {
+  setPrefs((oldPrefs) => ({ ...oldPrefs, fixationEdgeOpacity: event.target.value }));
 });
 
 readingModeToggleBtn.addEventListener('click', (event) => {

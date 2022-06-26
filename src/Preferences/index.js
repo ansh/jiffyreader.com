@@ -11,10 +11,13 @@ export const defaultPrefs = {
   lineHeight: 1,
   edgeOpacity: 70,
   saccadesColor: '',
-  saccadesStyle: 'bold-700',
+  saccadesStyle: 'bold-600',
   saccadesInterval: 0,
   fixationStrength: 2,
-  fixationStemOpacity: 0,
+  fixationEdgeOpacity: 80,
+  MAX_FIXATION_PARTS: 4,
+  FIXATION_LOWER_BOUND: 0,
+  BR_WORD_STEM_PERCENTAGE: 0.70,
 };
 
 /**
