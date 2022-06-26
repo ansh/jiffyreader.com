@@ -1,3 +1,4 @@
+import documentParser from '../ContentScript/documentParser';
 import Logger from '../Logger';
 import Preferences from '../Preferences';
 import TabHelper from '../TabHelper';
@@ -7,7 +8,7 @@ const saccadesIntervalSlider = document.getElementById('saccadesSlider');
 const saccadesLabelValue = document.getElementById('saccadesLabelValue');
 const fixationStrengthSlider = document.getElementById('fixationStrengthSlider');
 const fixationStrengthLabelValue = document.getElementById('fixationStrengthLabelValue');
-const fixationStemOpacitySlider = document.getElementById('fixationStemOpacitySlider');
+const fixationEdgeOpacitySlider = document.getElementById('fixationEdgeOpacitySlider');
 const lineHeightIncrease = document.getElementById('lineHeightIncrease');
 const lineHeightDecrease = document.getElementById('lineHeightDecrease');
 const lineHeightLabel = document.getElementById('lineHeightLabel');
@@ -31,9 +32,10 @@ const { start, setPrefs, defaultPrefs } = Preferences.init({
     onPageLoadToggled(prefs.onPageLoad);
     onSaccadesColor(prefs.saccadesColor);
     onSaccadesStyle(prefs.saccadesStyle);
-    onFixationStemOpacitySlider(prefs.fixationStemOpacity);
+    onfixationEdgeOpacitySlider(prefs.fixationEdgeOpacity);
   },
   onStartup: async (prefs) => {
+    documentParser.setReadingMode(true, document);
     if (prefs.onPageLoad) {
       // only toggle reading mode on startup
       // if onpage load is true
@@ -66,6 +68,8 @@ async function onFixationStrength(value) {
   const tab = await TabHelper.getActiveTab();
 
   chrome.tabs.sendMessage(tab.id, payload, () => Logger.LogLastError());
+
+  document.body.setAttribute('fixation-strength', value);
 }
 
 async function onSaccadesInterval(value) {
@@ -79,6 +83,8 @@ async function onSaccadesInterval(value) {
     { type: 'setSaccadesIntervalInDOM', data: saccadesInterval },
     () => Logger.LogLastError(),
   );
+
+  document.body.setAttribute('saccades-interval', value);
 }
 
 function onPageLoadToggled(enabled) {
@@ -97,6 +103,8 @@ async function onLineHeight(height) {
   const tab = await TabHelper.getActiveTab();
 
   chrome.tabs.sendMessage(tab.id, { type: 'setLineHeight', data: height }, () => Logger.LogLastError());
+
+  document.body.style.setProperty('--br-line-height', height);
 }
 
 function onScopePreference(scope) {
@@ -121,6 +129,8 @@ async function onSaccadesColor(color = '') {
     },
     () => Logger.LogLastError(),
   );
+
+  document.body.setAttribute('saccades-color', color);
 }
 
 async function onSaccadesStyle(style = '') {
@@ -131,6 +141,18 @@ async function onSaccadesStyle(style = '') {
     type: 'setSaccadesStyle',
     data: style,
   });
+
+  if (/bold/i.test(style)) {
+    const [, value] = style.split('-');
+    document.body.style.setProperty('--br-boldness', value);
+    document.body.style.setProperty('--br-line-style', '');
+  }
+
+  if (/line$/i.test(style)) {
+    const [value] = style.split('-');
+    document.body.style.setProperty('--br-line-style', value);
+    document.body.style.setProperty('--br-boldness', '');
+  }
 }
 
 saccadesColorSelect.addEventListener('change', (event) => {
@@ -221,20 +243,24 @@ async function onReadingModeToggled(enabled) {
   const tab = await TabHelper.getActiveTab();
 
   chrome.tabs.sendMessage(tab.id, { type: 'setReadingMode', data: enabled }, () => Logger.LogLastError());
+
+  document.body.setAttribute('br-mode', enabled ? 'on' : 'off');
 }
 
-async function onFixationStemOpacitySlider(opacity) {
-  fixationStemOpacitySlider.value = opacity;
+async function onfixationEdgeOpacitySlider(opacity) {
+  fixationEdgeOpacitySlider.value = opacity;
 
   chrome.tabs.sendMessage(
     (await TabHelper.getActiveTab()).id,
-    { type: 'setFixationStemOpacity', data: opacity },
+    { type: 'setFixationEdgeOpacity', data: opacity },
     () => Logger.LogLastError(),
   );
+
+  document.body.style.setProperty('--fixation-edge-opacity', `${opacity}%`);
 }
 
-fixationStemOpacitySlider.addEventListener('change', (event) => {
-  setPrefs((oldPrefs) => ({ ...oldPrefs, fixationStemOpacity: event.target.value }));
+fixationEdgeOpacitySlider.addEventListener('change', (event) => {
+  setPrefs((oldPrefs) => ({ ...oldPrefs, fixationEdgeOpacity: event.target.value }));
 });
 
 readingModeToggleBtn.addEventListener('click', (event) => {

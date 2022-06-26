@@ -43,18 +43,18 @@
       Fixations strength: <span id="fixationStrengthLabelValue"></span>
     </label>
     <div class="slidecontainer">
-      <input type="range" min="1" max="3" value="" class="slider w-100" id="fixationStrengthSlider" />
+      <input type="range" min="1" max="4" value="" class="slider w-100" id="fixationStrengthSlider" />
     </div>
   </div>
   
   
   <div class="w-100">
     <label class="block" >
-      Fixations stem opacity %: <span id="fixationOpacityLabelValue"></span>
+      Fixations  edge opacity %: <span id="fixationOpacityLabelValue"></span>
     </label>
     <div class="slidecontainer">
-      <input type="range" min="0" max="100" value="" class="slider w-100" id="fixationStemOpacitySlider" list="fixationStemOpacityList" step="20" />
-      <datalist id="fixationStemOpacityList" class="flex text-sm justify-between">
+      <input type="range" min="0" max="100" value="" class="slider w-100" id="fixationEdgeOpacitySlider" list="fixationEdgeOpacityList" step="20" />
+      <datalist id="fixationEdgeOpacityList" class="flex text-sm justify-between">
         <option value="0" label="off"></option>
         <option value="20" label="20"></option>
         <option value="40" label="40"></option>
@@ -85,9 +85,11 @@
     <label class="text-dark" for="style">Saccades Style</label>
     
     <select name="saccadesStyle" id="saccadesStyle" class="p-2">
-      <option name="style" id="styleBold" value="bold-300">Bold-300</option>
+      <option name="style" id="styleBold" value="bold-400">Bold-400</option>
       <option name="style" id="styleBold" value="bold-500">Bold-500</option>
+      <option name="style" id="styleBold" value="bold-600">Bold-600</option>
       <option name="style" id="styleBold" value="bold-700">Bold-700</option>
+      <option name="style" id="styleBold" value="bold-800">Bold-800</option>
       <option name="style" id="styleBold" value="bold-900">Bold-900</option>
       <option name="style" id="styleSolidLine" value="solid-line">Solid-line</option>
       <option name="style" id="styleDashLine" value="dashed-line">Dash-line</option>
@@ -97,7 +99,7 @@
   </div>
   
   <div class="w-100">
-    <label class="block" id="lineHeightLabel">Line Height</label>
+    <label class="block mb-sm" id="lineHeightLabel">Line Height</label>
     <div class="w-100 flex justify-center">
       <button id="lineHeightDecrease" data-op="decrease" class="mr-md w-100">
         <span class="block">Aa</span>
@@ -115,9 +117,16 @@
     <span class="text-sm pt-sm">Default Toggle Preference</span>
   </button>
   
-  <button id="resetDefaultsBtn" class="w-100 flex flex-column align-items-center">
+  <button id="resetDefaultsBtn" class="w-100 flex flex-column align-items-center" style="margin-bottom:25px">
     Reset Defaults
   </button>
+
+
+  <footer class="flex gap-1 text-center text-md text-bold">
+    <a class="text-white" href="https://www.jiffyreader.com/" target="_blank">About Us</a>
+    <a class="text-white" href="https://github.com/ansh/jiffyreader.com" target="_blank">Github</a>
+    <a class="text-white" href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request" target="_blank">Report Issue</a>
+  </footer>
   
 </body>
 

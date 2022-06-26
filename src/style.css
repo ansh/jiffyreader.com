@@ -169,6 +169,16 @@ select {
 }
 
 /* || text */
+
+.text-white {
+  color: white;
+}
+
+
+.text-md {
+  font-size: 85%;
+}
+
 .text-sm {
   font-size: 75%;
 }
@@ -218,3 +228,13 @@ select {
 datalist > option {
   margin-right: -8px;
 }
+
+footer {
+  position: sticky;
+  margin-top: auto;
+  bottom: 20px;
+  background: #3aa757;
+  box-shadow: 0 0 0 20px #3aa757;
+}
+
+@import url(ContentScript/contentStyle.scss);

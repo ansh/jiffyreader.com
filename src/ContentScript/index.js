@@ -25,9 +25,9 @@ const setSaccadesColor = (color = '') => {
   document.body.setAttribute('saccades-color', color);
 };
 
-const setFixationStemOpacity = (opacity) => {
-  Logger.logInfo('fixation-stem-opacity', opacity);
-  document.body.setAttribute('fixation-stem-opacity', opacity);
+const setFixationEdgeOpacity = (opacity) => {
+  Logger.logInfo('fixation-edge-opacity', `${opacity}%`);
+  document.body.style.setProperty('--fixation-edge-opacity', `${opacity}%`);
 };
 
 const setSaccadesStyle = (style) => {
@@ -52,10 +52,7 @@ const setReadingMode = (
 ) => {
   Logger.logInfo('reading-mode', readingMode);
   documentParser.setReadingMode(readingMode, document);
-  chrome.runtime.sendMessage(
-    { message: 'setIconBadgeText', data: readingMode },
-    (response) => Logger.LogLastError(),
-  );
+  chrome.runtime.sendMessage({ message: 'setIconBadgeText', data: readingMode }, (response) => Logger.LogLastError());
 };
 
 const onChromeRuntimeMessage = (message, sender, sendResponse) => {
@@ -99,8 +96,8 @@ const onChromeRuntimeMessage = (message, sender, sendResponse) => {
       sendResponse({ success: true });
       break;
     }
-    case 'setFixationStemOpacity': {
-      setFixationStemOpacity(message.data);
+    case 'setFixationEdgeOpacity': {
+      setFixationEdgeOpacity(message.data);
       break;
     }
 
@@ -136,7 +133,7 @@ docReady(async () => {
       setLineHeight(prefs.lineHeight);
       setSaccadesColor(prefs.saccadesColor);
       setSaccadesStyle(prefs.saccadesStyle);
-      setFixationStemOpacity(prefs.fixationStemOpacity ?? defaultPrefs().fixationStemOpacity);
+      setFixationEdgeOpacity(prefs.fixationEdgeOpacity ?? defaultPrefs().fixationEdgeOpacity);
     },
     onStartup: (prefs) => {
       chrome.runtime.sendMessage({ message: 'setIconBadgeText', data: prefs.onPageLoad }, () => Logger.LogLastError());
