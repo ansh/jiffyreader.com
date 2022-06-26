@@ -6,7 +6,7 @@ import StorageHelper from '../StorageHelper';
 // added here
 
 export const defaultPrefs = {
-  onPageLoad: false,
+  onPageLoad: true,
   scope: 'global',
   lineHeight: 1,
   edgeOpacity: 70,
