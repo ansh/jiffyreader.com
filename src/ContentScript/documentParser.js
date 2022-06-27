@@ -2,17 +2,31 @@ import Logger from '../Logger';
 import contentStyle from './contentStyle.scss';
 import NodeObserver from './observer';
 import { defaultPrefs } from '../Preferences';
+import { canExcludeNode, getElementExclusions } from './siteElementExclusions';
 
-const {
-  MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE,
-} = defaultPrefs;
+const { MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE } = defaultPrefs;
 
 // which tag's content should be ignored from bolded
-const IGNORE_NODE_TAGS = ['STYLE', 'SCRIPT', 'BR-SPAN', 'BR-FIXATION', 'BR-BOLD', 'BR-EDGE', 'SVG'];
+const IGNORE_NODE_TAGS = [
+  'STYLE',
+  'SCRIPT',
+  'BR-SPAN',
+  'BR-FIXATION',
+  'BR-BOLD',
+  'BR-EDGE',
+  'SVG',
+  'INPUT',
+  'TEXTAREA',
+];
 const MUTATION_TYPES = ['childList', 'characterData'];
+
+const IGNORE_MUTATIONS_ATTRIBUTES = ['br-ignore-on-mutation'];
 
 /** @type {NodeObserver} */
 let observer;
+
+/** @type {string} */
+let origin = '';
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
@@ -60,6 +74,19 @@ function parseNode(/** @type Element */ node) {
     return;
   }
 
+  const siteElementExclusionsItems = getElementExclusions(origin);
+  if (node?.parentElement?.closest('body') && siteElementExclusionsItems?.filter(canExcludeNode(node.parentElement))?.length
+  ) {
+    node.parentElement.setAttribute('br-ignore-on-mutation', 'true');
+    Logger.logInfo('found node to exclude', node, node.parentElement);
+    return;
+  }
+
+  if (ignoreOnMutation(node)) {
+    Logger.logInfo('found br-ignore-on-mutation', 'skipping');
+    return;
+  }
+
   if (node.nodeType === Node.TEXT_NODE && node.nodeValue.length) {
     try {
       const brSpan = document.createElement('br-span');
@@ -104,6 +131,8 @@ function parseNode(/** @type Element */ node) {
 
 const setReadingMode = (enableReading, document) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
+  origin = document?.URL ?? '';
+
   try {
     if (enableReading) {
       const boldedElements = document.getElementsByTagName('br-bold');
@@ -135,6 +164,10 @@ const setReadingMode = (enableReading, document) => {
     endTimer();
   }
 };
+
+function ignoreOnMutation(node) {
+  return node.parentElement.hasAttribute('br-ignore-on-mutation') || node.parentElement.closest('[br-ignore-on-mutation]');
+}
 
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   Logger.logInfo('mutationCallback fired ', mutationRecords.length);
