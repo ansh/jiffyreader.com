@@ -94,10 +94,10 @@ const commandListener = async (command) => {
 };
 
 chrome.runtime.onInstalled.addListener(
-  (/** @type {chrome.runtime.RuntimeInstalledEvent} */ event) => {
-    Logger.logInfo('install success');
+  (event) => {
+    Logger.logInfo('install success', event.reason);
 
-    if (process.env.NODE_ENV === 'production') { chrome.tabs.create({ active: true, url: 'https://github.com/ansh/jiffyreader.com#FAQ' }); }
+    if (event.reason === 'install' || process.env.NODE_ENV === 'production') { chrome.tabs.create({ active: true, url: 'https://github.com/ansh/jiffyreader.com#FAQ' }); }
   },
 );
 
