@@ -77,7 +77,8 @@ function parseNode(/** @type Element */ node) {
   }
 
   const siteElementExclusionsItems = getElementExclusions(origin);
-  if (node?.parentElement?.closest('body') && siteElementExclusionsItems?.filter(canExcludeNode(node.parentElement))?.length
+  if (
+    node?.parentElement?.closest('body') && siteElementExclusionsItems?.filter(canExcludeNode(node.parentElement))?.length
   ) {
     node.parentElement.setAttribute('br-ignore-on-mutation', 'true');
     Logger.logInfo('found node to exclude', node, node.parentElement);
@@ -168,22 +169,30 @@ const setReadingMode = (enableReading, document) => {
 };
 
 function ignoreOnMutation(node) {
-  return node.parentElement.hasAttribute('br-ignore-on-mutation') || node.parentElement.closest('[br-ignore-on-mutation]');
+  return (
+    node?.parentElement?.hasAttribute('br-ignore-on-mutation') || node?.parentElement?.closest('[br-ignore-on-mutation]')
+  );
 }
 
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
-  Logger.logInfo('mutationCallback fired ', mutationRecords.length);
+  const body = mutationRecords[0]?.target?.parentElement?.closest('body');
+  if (body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length) {
+    Logger.logInfo('focused or active input found, exiting mutationCallback');
+    return;
+  }
+
+  Logger.logInfo('mutationCallback fired ', mutationRecords.length, mutationRecords);
   mutationRecords.forEach(({ type, addedNodes, target }) => {
     if (!MUTATION_TYPES.includes(type)) {
       return;
     }
 
-    addedNodes?.forEach(parseNode);
     // Some changes don't add nodes
     // but values are changed
     // To account for that,
     // recursively parse the target node as well
-    parseNode(target);
+    // parseNode(target);
+    [...addedNodes, target]?.filter((node) => !ignoreOnMutation(node))?.forEach(parseNode);
   });
 }
 
