@@ -4,9 +4,7 @@ module.exports = {
     es2021: true,
     webextensions: true,
   },
-  extends: [
-    'airbnb-base',
-  ],
+  extends: ['airbnb-base'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -16,5 +14,16 @@ module.exports = {
     'no-plusplus': 'off',
     'no-restricted-syntax': 'off',
     'no-unused-vars': 'off',
+    'operator-linebreak': [
+      'error',
+      'none',
+      {
+        overrides: {
+          '?': 'before',
+          ':': 'before',
+          '=': 'after',
+        },
+      },
+    ],
   },
 };
