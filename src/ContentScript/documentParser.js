@@ -45,8 +45,8 @@ function highlightText(sentenceText) {
 }
 
 function makeFixations(/** @type string */ textContent) {
-  const COMPUTED_MAX_FIXATION_PARTS = textContent.length >= MAX_FIXATION_PARTS
-    ? MAX_FIXATION_PARTS : textContent.length;
+  const COMPUTED_MAX_FIXATION_PARTS =
+    textContent.length >= MAX_FIXATION_PARTS ? MAX_FIXATION_PARTS : textContent.length;
 
   const fixationWidth = Math.ceil(textContent.length * (1 / COMPUTED_MAX_FIXATION_PARTS));
 
@@ -56,8 +56,10 @@ function makeFixations(/** @type string */ textContent) {
 
   const fixationsSplits = new Array(COMPUTED_MAX_FIXATION_PARTS).fill(null).map((item, index) => {
     const wordStartBoundary = index * fixationWidth;
-    const wordEndBoundary = wordStartBoundary + fixationWidth > textContent.length
-      ? textContent.length : wordStartBoundary + fixationWidth;
+    const wordEndBoundary =
+      wordStartBoundary + fixationWidth > textContent.length
+        ? textContent.length
+        : wordStartBoundary + fixationWidth;
 
     return `<br-fixation fixation-strength="${index + 1}">${textContent.slice(
       wordStartBoundary,
