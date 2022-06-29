@@ -39,13 +39,9 @@ $saccadesColorsBase: (0,$hue1),(1, $hue2),(2, $hue3),(3, $hue4);
 			// fixation-strength variants are applied inclusively from 1 through 4
 			@include makeFixation($fixationStrength, var(--saccadesColor));
 		}
-
-		br-bold *,
-		br-edge {
-			opacity: var(--fixation-edge-opacity, $activeFixationOpacity);
-		}
-
+	
 	}
+	
 }
 
 @mixin makeColorVariants($color, $id, $delta, $label) {
@@ -63,6 +59,11 @@ $saccadesColorsBase: (0,$hue1),(1, $hue2),(2, $hue3),(3, $hue4);
 }
 
 [br-mode=on] {
+	br-bold *,
+	br-edge {
+		opacity: (var(--fixation-edge-opacity, $activeFixationOpacity));
+	}
+
 	@for $fixationStrength from 1 through $maxFixations {
 
 		@include makeSaccades($fixationStrength);
