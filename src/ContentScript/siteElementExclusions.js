@@ -4,6 +4,7 @@ import Logger from '../Logger';
 
 const siteElementExclusions = {
   'twitter.com': ['div.DraftEditor-root'],
+  'youtube.com': ['.ytd-commentbox', 'ytd-commentbox'],
 };
 
 /** @returns {Excluder} */
