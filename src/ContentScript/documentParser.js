@@ -2,7 +2,7 @@ import Logger from '../Logger';
 import contentStyle from './contentStyle.scss';
 import NodeObserver from './observer';
 import { defaultPrefs } from '../Preferences';
-import { canExcludeNode, getElementExclusions } from './siteElementExclusions';
+import { canExcludeNode, makeExcluder } from './siteElementExclusions';
 
 const { MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE } = defaultPrefs;
 
@@ -27,6 +27,9 @@ let observer;
 
 /** @type {string} */
 let origin = '';
+
+/** @type {import('./siteElementExclusions').Excluder} */
+let excludeByOrigin;
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
@@ -76,10 +79,7 @@ function parseNode(/** @type Element */ node) {
     return;
   }
 
-  const siteElementExclusionsItems = getElementExclusions(origin);
-  if (
-    node?.parentElement?.closest('body') && siteElementExclusionsItems?.filter(canExcludeNode(node.parentElement))?.length
-  ) {
+  if (node?.parentElement?.closest('body') && excludeByOrigin(node?.parentElement)) {
     node.parentElement.setAttribute('br-ignore-on-mutation', 'true');
     Logger.logInfo('found node to exclude', node, node.parentElement);
     return;
@@ -124,7 +124,7 @@ function parseNode(/** @type Element */ node) {
       node.parentElement.insertBefore(brSpan, node);
       node.textContent = '';
     } catch (error) {
-      // no-op
+      Logger.logError(error);
     }
     return;
   }
@@ -135,6 +135,7 @@ function parseNode(/** @type Element */ node) {
 const setReadingMode = (enableReading, document) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
   origin = document?.URL ?? '';
+  excludeByOrigin = makeExcluder(origin);
 
   try {
     if (enableReading) {
@@ -169,14 +170,14 @@ const setReadingMode = (enableReading, document) => {
 };
 
 function ignoreOnMutation(node) {
-  return (
-    node?.parentElement?.hasAttribute('br-ignore-on-mutation') || node?.parentElement?.closest('[br-ignore-on-mutation]')
-  );
+  return node?.parentElement?.closest('[br-ignore-on-mutation]');
 }
 
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   const body = mutationRecords[0]?.target?.parentElement?.closest('body');
-  if (body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length) {
+  if (
+    body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
+  ) {
     Logger.logInfo('focused or active input found, exiting mutationCallback');
     return;
   }
