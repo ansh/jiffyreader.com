@@ -2,7 +2,7 @@ import Logger from '../Logger';
 import contentStyle from './contentStyle.scss';
 import NodeObserver from './observer';
 import { defaultPrefs } from '../Preferences';
-import { canExcludeNode, makeExcluder } from './siteElementExclusions';
+import { makeExcluder } from './siteElementExclusions';
 
 const { MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE } = defaultPrefs;
 
