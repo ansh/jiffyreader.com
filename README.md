@@ -67,7 +67,7 @@ The best way to install this extension is to follow the instructions below. Howe
   7. Find and select the extracted folder, this extension should now be installed
   8. To pin the extension, click the `puzzle icon` on the top right of Chrome, then `pin the extension`.
   9. The extensions default reading mode is set to off when installed
-  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `always on`
+  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 
 
@@ -80,7 +80,7 @@ The best way to install this extension is to follow the instructions below. Howe
   3. Enter `about:debugging#/runtime/this-firefox`  in the address bar 
   4. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `jiffyReader-firefox.xpi` and select it to install it
   5. The extensions default reading mode is set to off when installed
-  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `always on`
+  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 <strong>Firefox will remove the extension when the browser is closed. This will be solved once we provide a means to download the extension from the firefox store</strong>
 
@@ -97,7 +97,7 @@ The best way to install this extension is to follow the instructions below. Howe
   7. Find and select the extracted folder, this extension should now be installed and listed on the screen
   8. To pin the extension, click the `cube icon` on the top right of Chrome, then `pin the extension`.
   9. The extensions default reading mode is set to off when installed
-  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `always on`
+  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 ## Edge
 
@@ -109,7 +109,7 @@ The best way to install this extension is to follow the instructions below. Howe
   3. Navigate to the extension listing on  [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) and 
   4. Click the `Add to Chrome` button to install the extension
   5. The extensions default reading mode is set to off when installed
-  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites `always on`
+  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 ## Bookmarklet
 
