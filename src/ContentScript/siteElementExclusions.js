@@ -1,32 +1,23 @@
-/** @typedef {{tag:string,attributes: {attribute:string,contains:string}[]}} ExclusionRule */
+/** @typedef {{(element: Element)=> boolean}} Excluder */
+
+import Logger from '../Logger';
 
 const siteElementExclusions = {
-  'twitter.com': [
-    {
-      tag: 'div',
-      attributes: [
-        {
-          attribute: 'class',
-          contains: 'DraftEditor-root',
-        },
-      ],
-    },
-  ],
+  'twitter.com': ['div.DraftEditor-root'],
+  'youtube.com': ['.ytd-commentbox', 'ytd-commentbox'],
 };
 
-export const getElementExclusions = (/** @type string */ origin) => {
-  const [, excludedElements] = Object.entries(siteElementExclusions).find(([domain]) => new RegExp(domain, 'i').test(origin)) ?? [null, []];
-  return excludedElements;
-};
+/** @returns {Excluder} */
+export const makeExcluder = (/** @type string */ origin) => {
+  Logger.logInfo('makeExcluder', origin);
 
-export const canExcludeNode =
-  (/** @type {Element} */ node) => (/** @type ExclusionRule */ exclusionRule) => {
-    const tagMatched = new RegExp(exclusionRule.tag, 'i').test(node.tagName);
-    const attributesMatched = exclusionRule.attributes.filter((atr) => new RegExp(node.getAttribute(atr.attribute)).test(atr.contains, 'i'));
-    return tagMatched && attributesMatched.length;
+  const [, exclusions] = Object.entries(siteElementExclusions).find(([domain]) => new RegExp(domain, 'i').test(origin)) ?? [null, []];
+  return (/** @type Element */ element) => {
+    const result = exclusions.filter((exclusion) => element.closest(exclusion));
+    return result.length;
   };
+};
 
 export default {
-  getElementExclusions,
-  canExcludeNode,
+  makeExcluder,
 };
