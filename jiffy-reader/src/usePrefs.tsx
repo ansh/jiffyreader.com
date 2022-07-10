@@ -5,18 +5,18 @@ import { useStorage } from '@plasmohq/storage';
 import Logger from '../../src/Logger';
 import { defaultPrefs } from '../../src/Preferences';
 
-const usePrefs = (getOrigin: () => Promise<string>) => {
+const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] => {
 	const [privateOrigin, setPrivateOrigin] = useState(null);
 
-	const initializePrefs = (initialPrefs) => {
-		const finalInitialPrefs =
-			!initialPrefs || !initialPrefs?.global ? { global: defaultPrefs, local: [] } : initialPrefs;
+	const initializePrefs = (initialPrefs: PrefStore | undefined) => {
+		const finalInitialPrefs = !initialPrefs || !initialPrefs?.global ? { global: defaultPrefs, local: [] } : initialPrefs;
+
 		Logger.logInfo('initializePrefs', { privateOrigin, initialPrefs, finalInitialPrefs });
 
 		return finalInitialPrefs;
 	};
 
-	const [prefs, setPrefs] = useStorage<PrefStore>({ key: 'prefs', area: 'local' }, initializePrefs);
+	const [prefStore, setPrefStore] = useStorage<PrefStore>({ key: 'prefStore', area: 'local' }, initializePrefs);
 
 	const setPrefsExternal = async (
 		getOrigin: () => Promise<string>,
@@ -26,7 +26,7 @@ const usePrefs = (getOrigin: () => Promise<string>) => {
 	) => {
 		if (!['global', 'local'].includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
 
-		let result = { ...prefs };
+		let result = { ...prefStore };
 
 		if (/global/i.test(scope)) {
 			result[scope] = newPrefs;
@@ -37,28 +37,32 @@ const usePrefs = (getOrigin: () => Promise<string>) => {
 		}
 
 		if (/local/i.test(scope)) {
-			result[scope][await getOrigin] = newPrefs;
+			result[scope][await getOrigin()] = newPrefs;
 		}
 
-		return setPrefs(result);
+		return setPrefStore(result);
 	};
 
 	useEffect(() => {
 		(async () => {
 			Logger.logInfo('watching orign', getOrigin, !getOrigin);
 			if (!getOrigin) {
-				Logger.logError('Error: getOrigin invalid', getOrigin);
+				// Logger.logError('Error: getOrigin invalid', getOrigin);
+				return;
 			}
 
 			const newOrigin = await getOrigin();
-			// .then((newOrigin) => {
-			// });
-			Logger.logInfo({ newOrigin });
+
+			Logger.logInfo('usePrefs.useEffect', { newOrigin });
 			setPrivateOrigin(newOrigin);
 		})();
 	}, []);
 
-	return [prefs?.['local']?.[privateOrigin] ?? prefs?.['global'], setPrefsExternal];
+	useEffect(() => {
+		Logger.logInfo('usePrefs.effect', { prefStore, privateOrigin });
+	}, [prefStore, privateOrigin]);
+
+	return [privateOrigin ? prefStore?.['local']?.[privateOrigin] ?? prefStore?.['global'] : null, setPrefsExternal];
 };
 
 export default usePrefs;
