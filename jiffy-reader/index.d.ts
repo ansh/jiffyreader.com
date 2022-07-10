@@ -1,24 +1,33 @@
 interface Prefs {
-	onPageLoad: boolean
-	scope: string //"global" | "local"
-	lineHeight: number
-	edgeOpacity: number
-	saccadesColor: string
-	saccadesStyle: string
-	saccadesInterval: number
-	fixationStrength: number
-	fixationEdgeOpacity: number
-	MAX_FIXATION_PARTS: number
-	FIXATION_LOWER_BOUND: number
-	BR_WORD_STEM_PERCENTAGE: number
+	onPageLoad: boolean;
+	scope: string; //"global" | "local"
+	lineHeight: number;
+	edgeOpacity: number;
+	saccadesColor: string;
+	saccadesStyle: string;
+	saccadesInterval: number;
+	fixationStrength: number;
+	fixationEdgeOpacity: number;
+	MAX_FIXATION_PARTS: number;
+	FIXATION_LOWER_BOUND: number;
+	BR_WORD_STEM_PERCENTAGE: number;
 }
 
 interface PrefStore {
-	global: Prefs
-	local: Prefs[]
+	global: Prefs;
+	local: Prefs[];
 }
 
 interface TabSession {
-	brMode: boolean,
-	origin: string
+	brMode: boolean;
+	origin: string;
 }
+
+type UpdateCallback = (tabSessions: TabSession[]) => TabSession[];
+
+type SetPrefsExternal = (
+	getOrigin: () => Promise<string>,
+	scope: string,
+	newPrefs: Prefs,
+	deleteOldLocal?: boolean
+) => Promise<void>;
