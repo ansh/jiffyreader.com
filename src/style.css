@@ -1,3 +1,6 @@
+
+@import url(ContentScript/contentStyle.scss);
+
 :root {
   --gap: 0.6rem;
 }
@@ -236,5 +239,3 @@ footer {
   background: #3aa757;
   box-shadow: 0 0 0 20px #3aa757;
 }
-
-@import url(ContentScript/contentStyle.scss);

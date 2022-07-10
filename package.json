@@ -50,7 +50,7 @@
     "gh:build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox USE_PACKAGE_JSON_VERSION=false webpack",
     "gh:build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera USE_PACKAGE_JSON_VERSION=false webpack",
     "gh:build": "yarn run gh:build:chrome && yarn run gh:build:firefox && yarn run gh:build:opera && yarn run build:bookmarklet",
-    "eslint-fix": "npx eslint --fix src/"
+    "eslint-fix": "npx nodemon -x \"npx eslint --fix src/\"  -w src/ -d 10"
   },
   "repository": {
     "type": "git",

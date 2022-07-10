@@ -1,3 +1,4 @@
+import Logger from '../Logger';
 import StorageHelper from '../StorageHelper';
 // default preferences
 // and source of truth
@@ -17,7 +18,7 @@ export const defaultPrefs = {
   fixationEdgeOpacity: 80,
   MAX_FIXATION_PARTS: 4,
   FIXATION_LOWER_BOUND: 0,
-  BR_WORD_STEM_PERCENTAGE: 0.70,
+  BR_WORD_STEM_PERCENTAGE: 0.7,
 };
 
 /**
@@ -109,8 +110,7 @@ const isBackgroundScript = () => {
 async function retrievePrefsFromStorage(/** @type {string} 'local'|'global' */ action) {
   return new Promise((resolve, reject) => {
     if (isBackgroundScript()) {
-      const response = StorageHelper.retrievePrefs(action);
-      resolve(response?.data);
+      StorageHelper.retrievePrefs(action).then((response) => resolve(response?.data));
     } else {
       chrome.runtime.sendMessage({ message: 'retrievePrefs', action }, async (response) => {
         resolve(response?.data);
@@ -159,7 +159,14 @@ async function storeGlobalPrefs(prefs) {
  * @returns {Promise<Prefs>}
  */
 async function getPrefs() {
-  return { ...((await retrieveLocalPrefs())[await getOrigin()] ?? (await retriveGlobalPrefs())) };
+  let result;
+
+  try {
+    result = (await retrieveLocalPrefs())[await getOrigin()];
+  } catch (error) {
+    result = await retriveGlobalPrefs();
+  }
+  return result;
 }
 
 /**
@@ -219,6 +226,8 @@ async function setPrefs(/** @type {(prefs:Prefs)=>{}|Prefs} */ prefs) {
  * Popup/index.js and ContentScript/index.js
  */
 async function start() {
+  debugger;
+  Logger.logInfo('start fired prefs');
   let localPrefs = await retrieveLocalPrefs();
   let globalPrefs = await retriveGlobalPrefs();
   const origin = await getOrigin();
@@ -231,9 +240,11 @@ async function start() {
   // be sure to pepper the default prefs
   // localPrefs[origin] = { ...defaultPrefs, ...localPrefs[origin] };
   globalPrefs = { ...defaultPrefs, ...globalPrefs };
+  Logger.logInfo('set globalPrefs', { globalPrefs, origin });
 
   storeLocalPrefs(localPrefs);
   storeGlobalPrefs(globalPrefs);
+  Logger.logInfo('start.storePrefs', { globalPrefs, localPrefs });
 
   if (localPrefs[origin]?.scope === 'local') {
     dispatchPrefsUpdate(localPrefs[origin]);
