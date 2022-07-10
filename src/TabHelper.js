@@ -1,16 +1,17 @@
 import Logger from './Logger';
 
 /** @returns {Promise<chrome.tabs.Tab>} */
-const getActiveTab = () => new Promise((res, rej) => {
-  try {
-    chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-      Logger.logInfo(activeTab);
-      res(activeTab);
-    });
-  } catch (err) {
-    rej(err);
-  }
-});
+const getActiveTab = () =>
+  new Promise((res, rej) => {
+    try {
+      chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+        Logger.logInfo(activeTab);
+        res(activeTab);
+      });
+    } catch (err) {
+      rej(err);
+    }
+  });
 
 /**
  * @params {chrome.tabs.Tab} [tab = getActiveTab()]
@@ -19,22 +20,28 @@ const getActiveTab = () => new Promise((res, rej) => {
  */
 const getTabOrigin = async (tab) => {
   const tempTab = tab ?? (await getActiveTab());
-  return new Promise((res, rej) => {
-    try {
-      chrome.tabs.sendMessage(
-        tempTab.id,
-        { type: 'getOrigin' },
-        (/** @type {{data: string}} */ { data }) => {
-          const originError = chrome.runtime?.lastError;
-          if (originError) throw originError;
+  const [host, path] = tempTab.url.split('//');
+  const [originPartial] = path.split('/');
 
-          res(data);
-        },
-      );
-    } catch (err) {
-      rej(err);
-    }
-  });
+  const origin = [host, originPartial].join('//');
+  Logger.logInfo('getTabOrigin', { origin });
+  return origin;
+  // return new Promise((res, rej) => {
+  //   try {
+  //     chrome.tabs.sendMessage(
+  //       tempTab.id,
+  //       { type: 'getOrigin' },
+  //       (/** @type {{data: string}} */ { data }) => {
+  //         const originError = chrome.runtime?.lastError;
+  //         if (originError) throw originError;
+
+  //         res(data);
+  //       },
+  //     );
+  //   } catch (err) {
+  //     rej(err);
+  //   }
+  // });
 };
 
 export default { getActiveTab, getTabOrigin };
