@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import { useStorage } from '@plasmohq/storage';
 
@@ -24,15 +24,7 @@ const { start, setPrefs, getPrefs } = Preferences.init({
 });
 
 function IndexPopup() {
-	const [prefs, setPrefs] = usePrefs(
-		async () => await TabHelper.getTabOrigin()
-			// new Promise((res, rej) => {
-			// 	TabHelper.getTabOrigin().then((origin) => {
-			// 		Logger.logInfo('popup origin callback obtained origin', origin);
-			// 		res(origin);
-			// 	});
-			// })
-	);
+	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin());
 	const [tabSession, setTabSession] = useTabSession(async () => await TabHelper.getTabOrigin(), prefs);
 
 	const [openCount] = useStorage({ key: 'open-count' });
@@ -55,17 +47,23 @@ function IndexPopup() {
 		Logger.logInfo('popup running', tabSession);
 	}, [tabSession]);
 
+	const makeUpdateChangeEventHandler =
+		(field: string) =>
+		(event, customValue = null) =>
+			updateConfig(field, customValue ?? event.target.value);
+
 	const updateConfig = (key: string, value: any, configLocal = config) => {
 		const newConfig = { ...configLocal, [key]: value };
 		setConfig(newConfig);
-		setPrefs((oldPrefs) => ({ ...oldPrefs, ...newConfig }));
+		// setPrefs((oldPrefs) => ({ ...oldPrefs, ...newConfig }));
+		setPrefs(async () => TabHelper.getTabOrigin(), newConfig.scope, newConfig);
 	};
 
 	const handleToggle = (brMode: string) => {
 		const nextMode = { on: 'off', off: 'on' }[brMode];
 		// updateConfig("brMode", nextMode)
 		setBrMode(nextMode);
-		setTabSession({ ...tabSession, brMode });
+		setTabSession({ ...tabSession, brMode: !brMode });
 	};
 
 	const handleFixationStrengthChange = (event) => {
@@ -152,7 +150,7 @@ function IndexPopup() {
 						min="0"
 						max="4"
 						value={config.saccadesInterval}
-						onChange={handleSaccadesIntervalChange}
+						onChange={makeUpdateChangeEventHandler('saccadesInterval')}
 						className="slider w-100"
 						id="saccadesSlider"
 					/>
@@ -169,7 +167,7 @@ function IndexPopup() {
 						min="1"
 						max="4"
 						value={config.fixationStrength}
-						onChange={handleFixationStrengthChange}
+						onChange={makeUpdateChangeEventHandler('fixationStrength')}
 						className="slider w-100"
 						id="fixationStrengthSlider"
 					/>
@@ -206,7 +204,12 @@ function IndexPopup() {
 			<div className="w-100 flex flex-column gap-1">
 				<span className="text-dark">Saccades Color</span>
 
-				<select name="saccadesColor" id="saccadesColor" className="p-2">
+				<select
+					name="saccadesColor"
+					id="saccadesColor"
+					className="p-2"
+					onChange={(event) => makeUpdateChangeEventHandler('saccadesColor')}
+					value={config.saccadesColor}>
 					<option id="colorOriginal" value="">
 						Original
 					</option>
@@ -230,7 +233,12 @@ function IndexPopup() {
 					Saccades Style
 				</label>
 
-				<select name="saccadesStyle" id="saccadesStyle" className="p-2">
+				<select
+					name="saccadesStyle"
+					id="saccadesStyle"
+					className="p-2"
+					onChange={makeUpdateChangeEventHandler('saccadesStyle')}
+					value={config.saccadesStyle}>
 					<option id="styleBold" value="bold-400">
 						Bold-400
 					</option>
@@ -279,18 +287,15 @@ function IndexPopup() {
 
 			<button
 				id="onPageLoadBtn"
-				className="w-100 flex flex-column align-items-center"
-				onClick={handleOnPageLoadDefaultChange}>
+				className={`w-100 flex flex-column align-items-center ${config.onPageLoad ? 'selected' : ''}`}
+				onClick={() => updateConfig('onPageLoad', !config.onPageLoad)}>
 				<span className="text-bold">
-					Always <span id="onPageLoadLabel"> {{ true: 'On', false: 'Off' }[config.onPageLoad]}</span>
+					Turn {config.onPageLoad ? 'Off' : 'On'} Always<span id="onPageLoadLabel"></span>
 				</span>
 				<span className="text-sm pt-sm">Default Toggle Preference</span>
 			</button>
 
-			<button
-				id="resetDefaultsBtn"
-				className="w-100 flex flex-column align-items-center"
-				style={{ marginBottom: '25px' }}>
+			<button id="resetDefaultsBtn" className="w-100 flex flex-column align-items-center" style={{ marginBottom: '25px' }}>
 				Reset Defaults
 			</button>
 
