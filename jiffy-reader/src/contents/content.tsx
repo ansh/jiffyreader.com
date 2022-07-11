@@ -189,26 +189,16 @@ const PlasmoOverlay = () => {
 	);
 	const [prefs] = usePrefs(async () => origin);
 
-	const [tabSession, setTabSession] = useTabSession(
+	const [tabSession, setTabSession,removeTabSession] = useTabSession(
 		async () => origin,
-		() =>
-			new Promise((res, rej) => {
-				try {
-					runTimeHandler.runtime.sendMessage({ message: 'getActiveTab' }, ({ data }: { data: chrome.tabs.Tab }) => {
-						res(data);
-					});
-				} catch (error) {
-					rej(error);
-					Logger.logError(error);
-				}
-			}),
+		async () => await TabHelper.getActiveTab(),
 		prefs
 	);
 	const [checked] = useStorage<boolean>('checked');
 	const [serialNumber] = useStorage<string>('serial-number');
 
 	useEffect(() => {
-		if (!prefs|| tabSession) return;
+		if (!prefs || tabSession) return;
 		Logger.logInfo('content.tsx.useEffect', { prefs, tabSession });
 	}, [prefs, tabSession]);
 
@@ -217,17 +207,25 @@ const PlasmoOverlay = () => {
 			'register chrome|browser messageListener',
 			runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage)
 		);
+
+		return ()=> removeTabSession(async ()=> TabHelper.getActiveTab())
 	}, []);
 
 	return (
-		<span style={{ padding: 12, position: 'fixed', top: '20px', left: '20px', zIndex: '20' }}>
-			<h1>HELLO WORLD ROOT CONTAINER</h1>
-			<input type={'checkbox'} readOnly checked={checked} />
-			<p>
-				Open: {JSON.stringify(openCount)} {JSON.stringify(prefs)} {JSON.stringify(tabSession)}
-				<i>#{serialNumber}</i>
-			</p>
-			<p>TabSession {JSON.stringify(tabSession)}</p>
+		<span style={{ padding: 12, position: 'fixed', top: '40px', left: '20px', zIndex: '20' }}>
+			{ !prefs || !tabSession ? (
+				<div className="flex flex-column">Loading</div>
+			) : (
+				<>
+					<h1>HELLO WORLD ROOT CONTAINER</h1>
+					<input type={'checkbox'} readOnly checked={checked} />
+					<p>
+						Open: {JSON.stringify(openCount)} {JSON.stringify(prefs)} {JSON.stringify(tabSession)}
+						<i>#{serialNumber}</i>
+					</p>
+					<p>TabSession {JSON.stringify(tabSession)}</p>
+				</>
+			)}
 		</span>
 	);
 };

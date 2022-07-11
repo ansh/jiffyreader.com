@@ -9,7 +9,7 @@ const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] =
 	const [privateOrigin, setPrivateOrigin] = useState(null);
 
 	const initializePrefs = (initialPrefs: PrefStore | undefined) => {
-		const finalInitialPrefs = !initialPrefs || !initialPrefs?.global ? { global: defaultPrefs, local: [] } : initialPrefs;
+		const finalInitialPrefs = !initialPrefs || !initialPrefs?.global ? { global: defaultPrefs, local: {} } : initialPrefs;
 
 		Logger.logInfo('initializePrefs', { privateOrigin, initialPrefs, finalInitialPrefs });
 
@@ -24,15 +24,16 @@ const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] =
 		newPrefs: Prefs,
 		deleteOldLocal: boolean = true
 	) => {
-		if (!['global', 'local'].includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
+		if (!['global', 'local', 'reset'].includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
 
 		let result = { ...prefStore };
 
-		if (/global/i.test(scope)) {
-			result[scope] = newPrefs;
-
-			if (result['local']?.[await getOrigin()] && deleteOldLocal) {
+		if (/global|reset/i.test(scope)) {
+			if (/reset/i.test(scope) || (result['local']?.[await getOrigin()] && deleteOldLocal)) {
 				delete result['local'][await getOrigin()];
+				result['global'] = /reset/i.test(scope) ? defaultPrefs : result['global'];
+			} else {
+				result[scope] = newPrefs;
 			}
 		}
 

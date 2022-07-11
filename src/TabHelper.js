@@ -4,14 +4,27 @@ import Logger from './Logger';
 const getActiveTab = () =>
   new Promise((res, rej) => {
     try {
-      chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-        Logger.logInfo(activeTab);
-        res(activeTab);
-      });
-    } catch (err) {
-      rej(err);
+      chrome.runtime.sendMessage(
+        { message: 'getActiveTab' },
+        ({ /** @type {chrome.tabs.Tab} */ data }) => {
+          res(data);
+        },
+      );
+    } catch (error) {
+      rej(error);
+      Logger.logError(error);
     }
   });
+// new Promise((res, rej) => {
+//   try {
+//     chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+//       Logger.logInfo(activeTab);
+//       res(activeTab);
+//     });
+//   } catch (err) {
+//     rej(err);
+//   }
+// });
 
 /**
  * @params {chrome.tabs.Tab} [tab = getActiveTab()]

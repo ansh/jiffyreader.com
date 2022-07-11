@@ -36,7 +36,16 @@ const listener = (request, sender, sendResponse) => {
 		}
 
 		case 'getActiveTab': {
-			sendResponse({data: sender});
+            try {
+                    chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+                      Logger.logInfo(activeTab);
+                      sendResponse({data:activeTab});
+                    });
+                  } catch (err) {
+                    Logger.logError(err)
+                  }
+                
+            return true
 			break;
 		}
 		default:

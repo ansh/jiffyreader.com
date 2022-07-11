@@ -10,112 +10,67 @@ import Preferences, { Prefs, defaultPrefs } from '../../../src/Preferences/index
 import TabHelper from '../../../src/TabHelper';
 import '../../../src/style.css';
 
-const { start, setPrefs, getPrefs } = Preferences.init({
-	onStartup: (prefs) => {
-		Logger.logInfo('onstartup index.txs loginfo', prefs);
-		// setConfig({ ...config, ...prefs })
-	},
-	// subscribe: (prefs) => {
-	//   debugger
-	//   Logger.logInfo("subscribe setConfig")
-	//   setConfig({ ...config, ...prefs })
-	// },
-	getOrigin: async () => TabHelper.getTabOrigin()
-});
+// const { start, setPrefs, getPrefs } = Preferences.init({
+// 	onStartup: (prefs) => {
+// 		Logger.logInfo('onstartup index.txs loginfo', prefs);
+// 		// setConfig({ ...config, ...prefs })
+// 	},
+// 	// subscribe: (prefs) => {
+// 	//   debugger
+// 	//   Logger.logInfo("subscribe setConfig")
+// 	//   setConfig({ ...config, ...prefs })
+// 	// },
+// 	getOrigin: async () => TabHelper.getTabOrigin()
+// });
 
 function IndexPopup() {
 	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin());
-	const [tabSession, setTabSession] = useTabSession(async () => await TabHelper.getTabOrigin(), prefs);
-
-	const [openCount] = useStorage({ key: 'open-count' });
-	const [config, setConfig] = useState<Prefs | null>(defaultPrefs);
-	const [brMode, setBrMode] = useState('off');
+	const [tabSession, setTabSession] = useTabSession(
+		async () => await TabHelper.getTabOrigin(),
+		async () => await TabHelper.getActiveTab(),
+		prefs
+	);
 
 	useEffect(() => {
-		debugger;
-		// start()
-		//   .then(() => {
-		//     Logger.logInfo("popup start")
-		//     return getPrefs()
-		//   })
-
-		//   .then((prefs) => {
-		//     Logger.logInfo("useffect prefs", prefs)
-		//     setConfig(prefs)
-		//   })
-
-		Logger.logInfo('popup running', tabSession);
-	}, [tabSession]);
+		if (!tabSession || !prefs) return;
+		Logger.logInfo('popup running', { tabSession, prefs });
+	}, [tabSession, prefs]);
 
 	const makeUpdateChangeEventHandler =
 		(field: string) =>
 		(event, customValue = null) =>
 			updateConfig(field, customValue ?? event.target.value);
 
-	const updateConfig = (key: string, value: any, configLocal = config) => {
+	const updateConfig = (key: string, value: any, configLocal = prefs) => {
 		const newConfig = { ...configLocal, [key]: value };
-		setConfig(newConfig);
+
 		// setPrefs((oldPrefs) => ({ ...oldPrefs, ...newConfig }));
 		setPrefs(async () => TabHelper.getTabOrigin(), newConfig.scope, newConfig);
 	};
 
-	const handleToggle = (brMode: string) => {
-		const nextMode = { on: 'off', off: 'on' }[brMode];
-		// updateConfig("brMode", nextMode)
-		setBrMode(nextMode);
-		setTabSession({ ...tabSession, brMode: !brMode });
+	const handleToggle = (newBrMode: boolean) => {
+		// setTabSession({ ...tabSession, brMode: !brMode });
+		setTabSession((oldTabSession) => ({ ...oldTabSession, [tabSession.tabID]: { ...tabSession, brMode: newBrMode } }));
 	};
 
-	const handleFixationStrengthChange = (event) => {
-		updateConfig('fixationStrength', event.target.value);
-	};
-
-	const handleFixationEdgeOpacityChange = (event) => {
-		updateConfig('fixationEdgeOpacity', event.target.value);
-	};
-
-	const handleSaccadesIntervalChange = (event) => {
-		updateConfig('saccadesInterval', event.target.value);
-	};
-
-	const handleOnPageLoadDefaultChange = (scope) => {
-		setPrefs(({ scope: oldScope, ...oldPrefs }) => {
-			if (scope === 'local' && oldScope === 'global') {
-				return {
-					...oldPrefs,
-					scope
-				};
-			}
-
-			return {
-				scope
-			};
-		});
-		updateConfig('onPageLoad', scope);
-	};
-
-	const handleScopeChange = (event) => {
-		const { scope } = event.currentTarget.dataset;
-		Logger.logInfo('scopeChange to ', scope);
-		updateConfig('scope', scope);
-	};
-
-	return (
+	return !(prefs && tabSession) ? (
+		<div className="flex flex-column m-auto">Loading</div>
+	) : (
 		<div
 			className="popup-container flex flex-column  | gap-2 p-4"
-			br-mode={{ true: 'on', false: 'off' }[brMode]}
-			saccades-interval={config.saccadesInterval}
-			saccades-color={config.saccadesColor}
-			fixation-strength={config.fixationStrength}>
+			br-mode={tabSession.brMode ? 'On' : 'Off'}
+			saccades-interval={prefs.saccadesInterval}
+			saccades-color={prefs.saccadesColor}
+			fixation-strength={prefs.fixationStrength}>
 			<div className="flex flex-column">
-				<span className="mb-md">Preference: {openCount}</span>
+				<span className="mb-md">Preference: </span>
 				<div className="flex w-100 justify-between">
 					<div className="w-100 pr-mr">
 						<button
 							id="globalPrefsBtn"
 							data-scope="global"
-							className={`flex flex-column align-items-center w-100 ${/global/i.test(config.scope) ? 'selected' : ''}`}
-							onClick={handleScopeChange}>
+							className={`flex flex-column align-items-center w-100 ${/global/i.test(prefs.scope) ? 'selected' : ''}`}
+							onClick={(event) => updateConfig('scope', 'global')}>
 							Global
 							<span className="text-sm pt-sm">Default</span>
 						</button>
@@ -124,8 +79,8 @@ function IndexPopup() {
 						<button
 							id="localPrefsBtn"
 							data-scope="local"
-							className={`flex flex-column align-items-center w-100 ${/local/i.test(config.scope) ? 'selected' : ''}`}
-							onClick={handleScopeChange}>
+							className={`flex flex-column align-items-center w-100 ${/local/i.test(prefs.scope) ? 'selected' : ''}`}
+							onClick={(event) => updateConfig('scope', 'local')}>
 							Site
 							<span className="text-sm pt-sm">For this site</span>
 						</button>
@@ -136,20 +91,20 @@ function IndexPopup() {
 			<button
 				id="readingModeToggleBtn"
 				className={`w-100 flex flex-column align-items-center ${tabSession?.brMode ? 'selected' : ''}`}
-				onClick={() => handleToggle(tabSession?.brMode)}>
+				onClick={() => handleToggle(!tabSession?.brMode)}>
 				{tabSession?.brMode ? 'Disable' : 'Enable'} Reading Mode
 			</button>
 
 			<div className="w-100">
 				<label className="block">
-					Saccades interval: <span id="saccadesLabelValue">{config.saccadesInterval}</span>
+					Saccades interval: <span id="saccadesLabelValue">{prefs.saccadesInterval}</span>
 				</label>
 				<div className="slidecontainer">
 					<input
 						type="range"
 						min="0"
 						max="4"
-						value={config.saccadesInterval}
+						value={prefs.saccadesInterval}
 						onChange={makeUpdateChangeEventHandler('saccadesInterval')}
 						className="slider w-100"
 						id="saccadesSlider"
@@ -159,14 +114,14 @@ function IndexPopup() {
 
 			<div className="w-100">
 				<label className="block">
-					Fixations strength: <span id="fixationStrengthLabelValue">{config.fixationStrength}</span>
+					Fixations strength: <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span>
 				</label>
 				<div className="slidecontainer">
 					<input
 						type="range"
 						min="1"
 						max="4"
-						value={config.fixationStrength}
+						value={prefs.fixationStrength}
 						onChange={makeUpdateChangeEventHandler('fixationStrength')}
 						className="slider w-100"
 						id="fixationStrengthSlider"
@@ -176,15 +131,15 @@ function IndexPopup() {
 
 			<div className="w-100">
 				<label className="block">
-					Fixations edge opacity %: <span id="fixationOpacityLabelValue">{config.fixationEdgeOpacity}</span>
+					Fixations edge opacity %: <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}</span>
 				</label>
 				<div className="slidecontainer">
 					<input
 						type="range"
 						min="0"
 						max="100"
-						value={config.fixationEdgeOpacity}
-						onChange={handleFixationEdgeOpacityChange}
+						value={prefs.fixationEdgeOpacity}
+						onChange={makeUpdateChangeEventHandler('fixationEdgeOpacity')}
 						className="slider w-100"
 						id="fixationEdgeOpacitySlider"
 						list="fixationEdgeOpacityList"
@@ -208,8 +163,8 @@ function IndexPopup() {
 					name="saccadesColor"
 					id="saccadesColor"
 					className="p-2"
-					onChange={(event) => makeUpdateChangeEventHandler('saccadesColor')}
-					value={config.saccadesColor}>
+					onChange={makeUpdateChangeEventHandler('saccadesColor')}
+					value={prefs.saccadesColor}>
 					<option id="colorOriginal" value="">
 						Original
 					</option>
@@ -238,7 +193,7 @@ function IndexPopup() {
 					id="saccadesStyle"
 					className="p-2"
 					onChange={makeUpdateChangeEventHandler('saccadesStyle')}
-					value={config.saccadesStyle}>
+					value={prefs.saccadesStyle}>
 					<option id="styleBold" value="bold-400">
 						Bold-400
 					</option>
@@ -274,11 +229,19 @@ function IndexPopup() {
 					Line Height
 				</label>
 				<div className="w-100 flex justify-center">
-					<button id="lineHeightDecrease" data-op="decrease" className="mr-md w-100">
+					<button
+						id="lineHeightDecrease"
+						data-op="decrease"
+						className="mr-md w-100"
+						onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
 						<span className="block">Aa</span>
 						<span className="text-sm">Smaller</span>
 					</button>
-					<button id="lineHeightIncrease" data-op="increase" className="ml-md w-100">
+					<button
+						id="lineHeightIncrease"
+						data-op="increase"
+						className="ml-md w-100"
+						onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
 						<span className="block text-bold">Aa</span>
 						<span className="text-sm">Larger</span>
 					</button>
@@ -287,15 +250,19 @@ function IndexPopup() {
 
 			<button
 				id="onPageLoadBtn"
-				className={`w-100 flex flex-column align-items-center ${config.onPageLoad ? 'selected' : ''}`}
-				onClick={() => updateConfig('onPageLoad', !config.onPageLoad)}>
+				className={`w-100 flex flex-column align-items-center ${prefs.onPageLoad ? 'selected' : ''}`}
+				onClick={() => updateConfig('onPageLoad', !prefs.onPageLoad)}>
 				<span className="text-bold">
-					Turn {config.onPageLoad ? 'Off' : 'On'} Always<span id="onPageLoadLabel"></span>
+					Turn {prefs.onPageLoad ? 'Off' : 'On'} Always<span id="onPageLoadLabel"></span>
 				</span>
 				<span className="text-sm pt-sm">Default Toggle Preference</span>
 			</button>
 
-			<button id="resetDefaultsBtn" className="w-100 flex flex-column align-items-center" style={{ marginBottom: '25px' }}>
+			<button
+				id="resetDefaultsBtn"
+				className="w-100 flex flex-column align-items-center"
+				style={{ marginBottom: '25px' }}
+				onClick={() => updateConfig('scope', 'reset')}>
 				Reset Defaults
 			</button>
 

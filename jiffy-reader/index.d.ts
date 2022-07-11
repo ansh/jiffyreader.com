@@ -13,17 +13,20 @@ interface Prefs {
 	BR_WORD_STEM_PERCENTAGE: number;
 }
 
+type PrefRecords = Record<string, Pref>;
+
 interface PrefStore {
 	global: Prefs;
-	local: Prefs[];
+	local: PrefRecords;
 }
 
 interface TabSession {
 	brMode: boolean;
 	origin: string;
+	tabID;
 }
 
-type UpdateCallback = (tabSessions: TabSession[]) => TabSession[];
+type UpdateCallback = (tabSessions: PrefRecords) => PrefRecords;
 
 type SetPrefsExternal = (
 	getOrigin: () => Promise<string>,
@@ -31,3 +34,5 @@ type SetPrefsExternal = (
 	newPrefs: Prefs,
 	deleteOldLocal?: boolean
 ) => Promise<void>;
+
+type removeTabSession = (getTab: () => Promise<chrome.tabs.Tab>) => Promise<void>;
