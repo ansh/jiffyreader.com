@@ -1,4 +1,3 @@
-import type { PlasmoContentScript } from 'plasmo';
 import { useEffect } from 'react';
 
 import { useStorage } from '@plasmohq/storage';
@@ -6,9 +5,7 @@ import { useStorage } from '@plasmohq/storage';
 import usePrefs from '~usePrefs';
 import useTabSession from '~useTabSession';
 
-import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../../../src/Logger';
-import Preferences from '../../../src/Preferences';
 import TabHelper from '../../../src/TabHelper';
 
 const init = () => {
@@ -42,59 +39,28 @@ function docReady(fn) {
 }
 
 docReady(async () => {
-	runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
-
-	//   const { start, defaultPrefs } = Preferences.init({
-	//     getOrigin: async () =>
-	//       new Promise((resolve, _) => {
-	//         resolve(window.location.origin)
-	//       }),
-	//     subscribe: (prefs) => {
-	//       if (!prefs.onPageLoad) {
-	//         return
-	//       }
-	//       setReadingMode(prefs.onPageLoad, document)
-	//       setSaccadesIntervalInDOM(prefs.saccadesInterval)
-	//       setFixationStrength(prefs.fixationStrength)
-	//       setLineHeight(prefs.lineHeight)
-	//       setSaccadesColor(prefs.saccadesColor)
-	//       setSaccadesStyle(prefs.saccadesStyle)
-	//       setFixationEdgeOpacity(
-	//         prefs.fixationEdgeOpacity ?? defaultPrefs().fixationEdgeOpacity
-	//       )
-	//     },
-	//     onStartup: (prefs) => {
-	//       chrome.runtime.sendMessage(
-	//         { message: "setIconBadgeText", data: prefs.onPageLoad },
-	//         () => Logger.LogLastError()
-	//       )
-	//     }
-	//   })
-
-	//   start()
+	
 });
 
 window.addEventListener('load', () => {
-	console.log('content script loaded');
+	Logger.logInfo('content script loaded');
+	runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
 
-	init();
 });
 
 // Idea for an UI API, for popup, notification badge, or mounting UI
 // Idea for static mount
 // Idea for styling injection support (inline or with custom emotion cache)
 
-let child = document.createElement('div');
-child.setAttribute('br-mount-point', '');
-// child.style.setProperty('position','fixed')
-// child.style.setProperty('left','20px')
-// child.style.setProperty('top','20px')
-document.querySelector('body').appendChild(child);
 export const getRootContainer = () => {
+	let child = document.createElement('div');
+	child.setAttribute('br-mount-point', '');
+	
+	document.querySelector('body').appendChild(child);
 	return document.querySelector('[br-mount-point]');
 };
 
-// const origin = window.location.origin;
+
 
 const PlasmoOverlay = () => {
 	const [openCount] = useStorage({ key: 'open-count', area: 'managed' }, async (openCount) =>
@@ -111,10 +77,10 @@ const PlasmoOverlay = () => {
 	const [serialNumber] = useStorage<string>('serial-number');
 
 	useEffect(() => {
-		if (!prefs || tabSession) return;
+		if (!prefs || !tabSession) return;
 		Logger.logInfo('content.tsx.useEffect', { prefs, tabSession });
 
-		runTimeHandler.runtime.sendMessage({ message: 'setIconBadgeText', data: prefs.onPageLoad }, () => Logger.LogLastError());
+		runTimeHandler.runtime.sendMessage({ message: 'setIconBadgeText', data: tabSession.brMode,tabID: tabSession.tabID }, () => Logger.LogLastError());
 	}, [prefs, tabSession]);
 
 	useEffect(() => {

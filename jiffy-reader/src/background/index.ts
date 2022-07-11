@@ -13,7 +13,7 @@ const { getPrefs, defaultPrefs, start } = Preferences.init({
 });
 
 const listener = (request, sender, sendResponse) => {
-	Logger.logInfo('background listener called');
+	Logger.logInfo('background listener called', { request });
 	switch (request.message) {
 		case 'storePrefs': {
 			sendResponse(StorageHelper.storePrefs(request.action, request.data));
@@ -25,27 +25,29 @@ const listener = (request, sender, sendResponse) => {
 			break;
 		}
 		case 'setIconBadgeText': {
-			TabHelper.getActiveTab().then((tab) => {
-				chrome.browserAction.setBadgeText({
+			(async () => {
+				const tabID = request?.tabID ?? (await TabHelper.getActiveTab()).id;
+				Logger.logInfo('setIconBadgeText', { tabID });
+				chrome.action.setBadgeText({
 					text: request.data ? 'On' : 'Off',
-					tabId: tab.id
+					tabId: tabID
 				});
-				sendResponse();
-			});
+			})();
+			sendResponse({ data: true });
 			break;
 		}
 
 		case 'getActiveTab': {
-            try {
-                    chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-                      Logger.logInfo(activeTab);
-                      sendResponse({data:activeTab});
-                    });
-                  } catch (err) {
-                    Logger.logError(err)
-                  }
-                
-            return true
+			try {
+				chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+					Logger.logInfo(activeTab);
+					sendResponse({ data: activeTab });
+				});
+			} catch (err) {
+				Logger.logError(err);
+			}
+
+			return true;
 			break;
 		}
 		default:

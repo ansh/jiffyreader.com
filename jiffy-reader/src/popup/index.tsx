@@ -1,27 +1,13 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { useStorage } from '@plasmohq/storage';
 
 import usePrefs from '~usePrefs';
 import useTabSession from '~useTabSession';
 
 import Logger from '../../../src/Logger';
-import Preferences, { Prefs, defaultPrefs } from '../../../src/Preferences/index';
-import TabHelper from '../../../src/TabHelper';
 import '../../../src/style.css';
+import TabHelper from '../../../src/TabHelper';
 
-// const { start, setPrefs, getPrefs } = Preferences.init({
-// 	onStartup: (prefs) => {
-// 		Logger.logInfo('onstartup index.txs loginfo', prefs);
-// 		// setConfig({ ...config, ...prefs })
-// 	},
-// 	// subscribe: (prefs) => {
-// 	//   debugger
-// 	//   Logger.logInfo("subscribe setConfig")
-// 	//   setConfig({ ...config, ...prefs })
-// 	// },
-// 	getOrigin: async () => TabHelper.getTabOrigin()
-// });
 
 function IndexPopup() {
 	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin());
@@ -49,7 +35,6 @@ function IndexPopup() {
 	};
 
 	const handleToggle = (newBrMode: boolean) => {
-		// setTabSession({ ...tabSession, brMode: !brMode });
 		setTabSession((oldTabSession) => ({ ...oldTabSession, [tabSession.tabID]: { ...tabSession, brMode: newBrMode } }));
 	};
 
@@ -109,6 +94,11 @@ function IndexPopup() {
 						className="slider w-100"
 						id="saccadesSlider"
 					/>
+					<datalist id="saccadesSlider" className="flex text-sm justify-between">
+						{new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
+							<option value={index + 1} label={'' + (index )}></option>
+						))}
+					</datalist>
 				</div>
 			</div>
 
@@ -120,12 +110,17 @@ function IndexPopup() {
 					<input
 						type="range"
 						min="1"
-						max="4"
+						max={prefs.MAX_FIXATION_PARTS}
 						value={prefs.fixationStrength}
 						onChange={makeUpdateChangeEventHandler('fixationStrength')}
 						className="slider w-100"
 						id="fixationStrengthSlider"
 					/>
+					<datalist id="fixationStrengthSlider" className="flex text-sm justify-between">
+						{new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
+							<option value={index + 1} label={'' + (index + 1)}></option>
+						))}
+					</datalist>
 				</div>
 			</div>
 

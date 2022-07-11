@@ -1,30 +1,40 @@
 import Logger from './Logger';
 
+const isBackgroundScript = () => {
+  if (typeof chrome?.extension?.getBackgroundPage === 'function') {
+    // https://stackoverflow.com/questions/16267668/can-js-code-in-chrome-extension-detect-that-its-executed-as-content-script
+    // detect where code is running from, is it content script, popup or background?
+    // thats important to know if all 3 context call the same functions, that shared function has
+    // to know the context so it can work properly based on the context
+
+    // we know we are on background script if getBackgroundPage === window
+    return chrome.extension.getBackgroundPage() === window;
+  }
+  return false;
+};
+
 /** @returns {Promise<chrome.tabs.Tab>} */
 const getActiveTab = () =>
   new Promise((res, rej) => {
     try {
-      chrome.runtime.sendMessage(
-        { message: 'getActiveTab' },
-        ({ /** @type {chrome.tabs.Tab} */ data }) => {
-          res(data);
-        },
-      );
+      if (!isBackgroundScript()) {
+        chrome.runtime.sendMessage(
+          { message: 'getActiveTab' },
+          ({ /** @type {chrome.tabs.Tab} */ data }) => {
+            res(data);
+          },
+        );
+      } else {
+        chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+          Logger.logInfo(activeTab);
+          res(activeTab);
+        });
+      }
     } catch (error) {
       rej(error);
       Logger.logError(error);
     }
   });
-// new Promise((res, rej) => {
-//   try {
-//     chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-//       Logger.logInfo(activeTab);
-//       res(activeTab);
-//     });
-//   } catch (err) {
-//     rej(err);
-//   }
-// });
 
 /**
  * @params {chrome.tabs.Tab} [tab = getActiveTab()]
@@ -57,4 +67,4 @@ const getTabOrigin = async (tab) => {
   // });
 };
 
-export default { getActiveTab, getTabOrigin };
+export default { getActiveTab, getTabOrigin, isBackgroundScript };
