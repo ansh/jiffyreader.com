@@ -17,101 +17,14 @@ const init = () => {
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
-const setSaccadesIntervalInDOM = (data) => {
-	Logger.logInfo('saccades-interval', data);
-	const saccadesInterval = data == null ? 0 : data;
-	document.body.setAttribute('saccades-interval', saccadesInterval);
-};
-
-const setFixationStrength = (strength) => {
-	Logger.logInfo('fixation-strength', strength);
-	document.body.setAttribute('fixation-strength', strength);
-};
-
-const setLineHeight = (lineHeight) => {
-	Logger.logInfo('lineHeight', lineHeight);
-	document.body.style.setProperty('--br-line-height', lineHeight);
-};
-
-const setSaccadesColor = (color = '') => {
-	Logger.logInfo('saccades-color', color);
-	document.body.setAttribute('saccades-color', color);
-};
-
-const setFixationEdgeOpacity = (opacity) => {
-	Logger.logInfo('fixation-edge-opacity', `${opacity}%`);
-	document.body.style.setProperty('--fixation-edge-opacity', `${opacity}%`);
-};
-
-const setSaccadesStyle = (style) => {
-	Logger.logInfo('saccades-style', style);
-
-	if (/bold/i.test(style)) {
-		const [, value] = style.split('-');
-		document.body.style.setProperty('--br-boldness', value);
-		document.body.style.setProperty('--br-line-style', '');
-	}
-
-	if (/line$/i.test(style)) {
-		const [value] = style.split('-');
-		document.body.style.setProperty('--br-line-style', value);
-		document.body.style.setProperty('--br-boldness', '');
-	}
-};
-
-const setReadingMode = (/** @type{ boolean } */ readingMode, /** @type {HTMLDocument} */ document) => {
-	Logger.logInfo('reading-mode', readingMode);
-	documentParser.setReadingMode(readingMode, document);
-	chrome.runtime.sendMessage({ message: 'setIconBadgeText', data: readingMode }, (response) => Logger.LogLastError());
-};
-
 const onChromeRuntimeMessage = (message /**sender, sendResponse*/) =>
 	new Promise((sendResponse, rej) => {
 		switch (message.type) {
-			// case "setFixationStrength": {
-			//   setFixationStrength(message.data)
-			//   sendResponse({ success: true })
-			//   break
-			// }
-			// case "setReadingMode": {
-			//   setReadingMode(message.data, document)
-			//   break
-			// }
-			// case "setSaccadesIntervalInDOM": {
-			//   setSaccadesIntervalInDOM(message.data)
-			//   break
-			// }
-			// case "setLineHeight": {
-			//   setLineHeight(message.data)
-			//   break
-			// }
 			case 'getOrigin': {
 				Logger.logInfo('reply to origin request');
 				sendResponse({ data: window.location.origin });
 				break;
 			}
-			// case "getReadingMode": {
-			//   sendResponse({ data: document.body.getAttribute("br-mode") === "on" })
-			//   break
-			// }
-			// case "getSaccadesColor": {
-			//   sendResponse({ data: document.body.getAttribute("saccades-color") })
-			//   break
-			// }
-			// case "setSaccadesColor": {
-			//   setSaccadesColor(message.data)
-			//   sendResponse({ success: true })
-			//   break
-			// }
-			// case "setSaccadesStyle": {
-			//   setSaccadesStyle(message.data)
-			//   sendResponse({ success: true })
-			//   break
-			// }
-			// case "setFixationEdgeOpacity": {
-			//   setFixationEdgeOpacity(message.data)
-			//   break
-			// }
 
 			default:
 				break;
@@ -189,10 +102,11 @@ const PlasmoOverlay = () => {
 	);
 	const [prefs] = usePrefs(async () => origin);
 
-	const [tabSession, setTabSession,removeTabSession] = useTabSession(
+	const [tabSession, setTabSession, removeTabSession] = useTabSession(
 		async () => origin,
 		async () => await TabHelper.getActiveTab(),
-		prefs
+		prefs,
+		'content.tsx'
 	);
 	const [checked] = useStorage<boolean>('checked');
 	const [serialNumber] = useStorage<string>('serial-number');
@@ -200,6 +114,8 @@ const PlasmoOverlay = () => {
 	useEffect(() => {
 		if (!prefs || tabSession) return;
 		Logger.logInfo('content.tsx.useEffect', { prefs, tabSession });
+
+		runTimeHandler.runtime.sendMessage({ message: 'setIconBadgeText', data: prefs.onPageLoad }, () => Logger.LogLastError());
 	}, [prefs, tabSession]);
 
 	useEffect(() => {
@@ -208,12 +124,15 @@ const PlasmoOverlay = () => {
 			runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage)
 		);
 
-		return ()=> removeTabSession(async ()=> TabHelper.getActiveTab())
+		return () => {
+			alert('closing context');
+			removeTabSession(async () => TabHelper.getActiveTab());
+		};
 	}, []);
 
 	return (
 		<span style={{ padding: 12, position: 'fixed', top: '40px', left: '20px', zIndex: '20' }}>
-			{ !prefs || !tabSession ? (
+			{!prefs || !tabSession ? (
 				<div className="flex flex-column">Loading</div>
 			) : (
 				<>
