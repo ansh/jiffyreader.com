@@ -52,10 +52,7 @@ export const getRootContainer = () => {
 	return document.querySelector('[br-mount-point]');
 };
 
-const PlasmoOverlay = () => {
-	const [openCount] = useStorage({ key: 'open-count', area: 'managed' }, async (openCount) =>
-		openCount === undefined ? 1 : openCount + 1
-	);
+const IndexContent = () => {
 	const [prefs] = usePrefs(async () => origin);
 
 	const [tabSession, setTabSession, removeTabSession] = useTabSession(
@@ -63,8 +60,6 @@ const PlasmoOverlay = () => {
 		async () => await TabHelper.getActiveTab(),
 		prefs
 	);
-	const [checked] = useStorage<boolean>('checked');
-	const [serialNumber] = useStorage<string>('serial-number');
 
 	const onChromeRuntimeMessage = (message /**sender, sendResponse*/) =>
 		new Promise((sendResponse, rej) => {
@@ -77,7 +72,7 @@ const PlasmoOverlay = () => {
 				case 'toggleReadingMode': {
 					(async () => {
 						const tab = await TabHelper.getActiveTab();
-						Logger.logInfo('toggleReadingMode.called');
+						Logger.logInfo('toggleReadingMode.called', tabSession);
 						setTabSession((oldTabSessions: PrefRecords) => {
 							let newTabSessions = { ...oldTabSessions };
 							newTabSessions[tab.id].brMode = !newTabSessions[tab.id].brMode;
@@ -108,8 +103,6 @@ const PlasmoOverlay = () => {
 		setAttribute('saccades-color', prefs.saccadesColor, document);
 		setAttribute('fixation-strength', prefs.fixationStrength);
 		setAttribute('saccades-interval', prefs.saccadesInterval, document);
-
-		
 	}, [prefs, tabSession]);
 
 	useEffect(() => {
@@ -123,22 +116,12 @@ const PlasmoOverlay = () => {
 	}, []);
 
 	return (
-		<span style={{ padding: 12, position: 'fixed', top: '40px', left: '20px', zIndex: '20' }}>
-			{!prefs || !tabSession ? (
-				<div className="flex flex-column">Loading</div>
-			) : (
-				<>
-					<h1>HELLO WORLD ROOT CONTAINER</h1>
-					<input type={'checkbox'} readOnly checked={checked} />
-					<p>
-						Open: {JSON.stringify(openCount)} {JSON.stringify(prefs)} {JSON.stringify(tabSession)}
-						<i>#{serialNumber}</i>
-					</p>
-					<p>TabSession {JSON.stringify(tabSession)}</p>
-				</>
-			)}
+		<span style={{ padding: 12, position: 'fixed', bottom: '10px', left: '20px', zIndex: '20' }}>
+			<div className="flex flex-column">
+				{!prefs || !tabSession ? 'Loading... or broken but probably loading' : 'JiffyReady to the moon'}
+			</div>
 		</span>
 	);
 };
 
-export default PlasmoOverlay;
+export default IndexContent;

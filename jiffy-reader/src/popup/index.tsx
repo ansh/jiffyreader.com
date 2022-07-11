@@ -1,13 +1,33 @@
 import { useEffect } from 'react';
 
-
 import usePrefs from '~usePrefs';
 import useTabSession from '~useTabSession';
 
+import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../../../src/Logger';
-import '../../../src/style.css';
 import TabHelper from '../../../src/TabHelper';
+import '../../../src/style.css';
 
+const setAttribute = (attribute, value, doc = document) => document.body.setAttribute(attribute, value);
+const getAttribute = (attribute, doc = document) => document.body.getAttribute(attribute);
+const setProperty = (property, value, doc = document) => document.body.style.setProperty(property, value);
+const getProperty = (property, doc = document) => document.body.style.getPropertyValue(property);
+
+const setSaccadesStyle = (style) => {
+	Logger.logInfo('saccades-style', style);
+
+	if (/bold/i.test(style)) {
+		const [, value] = style.split('-');
+		setProperty('--br-boldness', value);
+		setProperty('--br-line-style', '');
+	}
+
+	if (/line$/i.test(style)) {
+		const [value] = style.split('-');
+		setProperty('--br-line-style', value);
+		setProperty('--br-boldness', '');
+	}
+};
 
 function IndexPopup() {
 	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin());
@@ -20,6 +40,14 @@ function IndexPopup() {
 	useEffect(() => {
 		if (!tabSession || !prefs) return;
 		Logger.logInfo('popup running', { tabSession, prefs });
+
+		documentParser.setReadingMode(tabSession.brMode, document);
+		setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%'), document;
+		setProperty('--br-line-height', prefs.lineHeight);
+		setSaccadesStyle(prefs.saccadesStyle);
+		setAttribute('saccades-color', prefs.saccadesColor, document);
+		setAttribute('fixation-strength', prefs.fixationStrength);
+		setAttribute('saccades-interval', prefs.saccadesInterval, document);
 	}, [tabSession, prefs]);
 
 	const makeUpdateChangeEventHandler =
@@ -76,8 +104,8 @@ function IndexPopup() {
 			<button
 				id="readingModeToggleBtn"
 				className={`w-100 flex flex-column align-items-center ${tabSession?.brMode ? 'selected' : ''}`}
-				onClick={() => handleToggle(!tabSession?.brMode)}>
-				{tabSession?.brMode ? 'Disable' : 'Enable'} Reading Mode
+				onClick={() => handleToggle(!tabSession.brMode)}>
+				{tabSession.brMode ? 'Disable' : 'Enable'} Reading Mode
 			</button>
 
 			<div className="w-100">
@@ -96,7 +124,7 @@ function IndexPopup() {
 					/>
 					<datalist id="saccadesSlider" className="flex text-sm justify-between">
 						{new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
-							<option value={index + 1} label={'' + (index )}></option>
+							<option value={index + 1} label={'' + index}></option>
 						))}
 					</datalist>
 				</div>
