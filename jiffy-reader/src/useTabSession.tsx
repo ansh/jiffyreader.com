@@ -8,7 +8,7 @@ function useTabSession(
 	getOrigin: () => Promise<string>,
 	getTab: () => Promise<chrome.tabs.Tab>,
 	prefs: Prefs,
-	context: string = null
+	loadTabSessionFromStorage: boolean = false
 ): [TabSession, (UpdateCallback) => Promise<void>, removeTabSession] {
 	const [tabSessions, setTabSessionsPrivate] = useStorage<Record<string, TabSession>>(
 		{ key: 'tabSession', area: 'local' },
@@ -32,14 +32,14 @@ function useTabSession(
 
 			setTabId(newTabID);
 
+			const makeFreshTabSession = async () => ({
+				brMode: prefs.onPageLoad,
+				origin: await getOrigin(),
+				tabID: newTabID
+			});
+			
 			let newTabSessions = tabSessions;
-			newTabSessions[newTabID] = /content.tsx/i.test(context)
-				? {
-						brMode: prefs.onPageLoad,
-						origin: await getOrigin(),
-						tabID: newTabID
-				  }
-				: newTabSessions[newTabID];
+			newTabSessions[newTabID] = loadTabSessionFromStorage ? newTabSessions[newTabID] : await makeFreshTabSession();
 			setTabSessionsPrivate(newTabSessions);
 
 			Logger.logInfo('useTabsession.effect', await getOrigin(), { prefs, tabSessions, newTabID });

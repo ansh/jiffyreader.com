@@ -105,8 +105,7 @@ const PlasmoOverlay = () => {
 	const [tabSession, setTabSession, removeTabSession] = useTabSession(
 		async () => origin,
 		async () => await TabHelper.getActiveTab(),
-		prefs,
-		'content.tsx'
+		prefs
 	);
 	const [checked] = useStorage<boolean>('checked');
 	const [serialNumber] = useStorage<string>('serial-number');
