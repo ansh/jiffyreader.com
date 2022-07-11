@@ -14,27 +14,26 @@ const isBackgroundScript = () => {
 };
 
 /** @returns {Promise<chrome.tabs.Tab>} */
-const getActiveTab = () =>
-  new Promise((res, rej) => {
-    try {
-      if (!isBackgroundScript()) {
-        chrome.runtime.sendMessage(
-          { message: 'getActiveTab' },
-          ({ /** @type {chrome.tabs.Tab} */ data }) => {
-            res(data);
-          },
-        );
-      } else {
-        chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-          Logger.logInfo(activeTab);
-          res(activeTab);
-        });
-      }
-    } catch (error) {
-      rej(error);
-      Logger.logError(error);
+const getActiveTab = (isBgScript) => new Promise((res, rej) => {
+  try {
+    if (isBgScript) {
+      chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
+        Logger.logInfo(activeTab);
+        res(activeTab);
+      });
+    } else {
+      chrome.runtime.sendMessage(
+        { message: 'getActiveTab' },
+        ({ /** @type {chrome.tabs.Tab} */ data }) => {
+          res(data);
+        },
+      );
     }
-  });
+  } catch (error) {
+    rej(error);
+    Logger.logError(error);
+  }
+});
 
 /**
  * @params {chrome.tabs.Tab} [tab = getActiveTab()]
