@@ -8,15 +8,20 @@ import { defaultPrefs } from '../../src/Preferences';
 const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] => {
 	const [privateOrigin, setPrivateOrigin] = useState(null);
 
-	const initializePrefs = (initialPrefs: PrefStore | undefined) => {
-		const finalInitialPrefs = !initialPrefs || !initialPrefs?.global ? { global: defaultPrefs, local: {} } : initialPrefs;
+	const getActivePrefs = (originStr = privateOrigin, _prefStore = prefStore) => {
+		if (!originStr || !_prefStore) return;
+
+		return prefStore?.['local']?.[originStr] || prefStore['global'];
+	};
+	const initializePrefs = async (initialPrefs: PrefStore | undefined)=> {
+		const finalInitialPrefs = initialPrefs ?? { global: defaultPrefs, local: {} };
 
 		Logger.logInfo('initializePrefs', { privateOrigin, initialPrefs, finalInitialPrefs });
 
-		return finalInitialPrefs;
+		return finalInitialPrefs ;
 	};
 
-	const [prefStore, setPrefStore] = useStorage<PrefStore>({ key: 'prefStore', area: 'local' }, initializePrefs);
+	const [prefStore, setPrefStore] = useStorage({ key: 'prefStore', area: 'local' }, initializePrefs as any as PrefStore );
 
 	const setPrefsExternal = async (
 		getOrigin: () => Promise<string>,
@@ -59,11 +64,10 @@ const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] =
 		})();
 	}, []);
 
-	useEffect(() => {
-		Logger.logInfo('usePrefs.effect', { prefStore, privateOrigin });
-	}, [prefStore, privateOrigin]);
-
-	return [privateOrigin ? prefStore?.['local']?.[privateOrigin] ?? prefStore?.['global'] : null, setPrefsExternal];
+	const outPrefs = getActivePrefs();
+	Logger.logInfo('%cusePrefs.return', 'background-color:lime');
+	Logger.LogTable({ privateOrigin, outPrefs, prefStore });
+	return [outPrefs, setPrefsExternal];
 };
 
 export default usePrefs;

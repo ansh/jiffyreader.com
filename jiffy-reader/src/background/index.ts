@@ -1,16 +1,10 @@
 import Logger from '../../../src/Logger';
-import Preferences from '../../../src/Preferences';
 import StorageHelper from '../../../src/StorageHelper';
 import TabHelper from '../../../src/TabHelper';
 
 export {};
 
-Logger.logInfo('plasmo background');
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
-
-const { getPrefs, defaultPrefs, start } = Preferences.init({
-	getOrigin: async () => TabHelper.getTabOrigin()
-});
 
 const listener = (request, sender, sendResponse) => {
 	Logger.logInfo('background listener called', { request });
@@ -26,7 +20,7 @@ const listener = (request, sender, sendResponse) => {
 		}
 		case 'setIconBadgeText': {
 			(async () => {
-				const tabID = request?.tabID ?? (await TabHelper.getActiveTab()).id;
+				const tabID = request?.tabID ?? (await TabHelper.getActiveTab(true)).id;
 				Logger.logInfo('setIconBadgeText', { tabID });
 				chrome.action.setBadgeText({
 					text: request.data ? 'On' : 'Off',
@@ -40,7 +34,7 @@ const listener = (request, sender, sendResponse) => {
 		case 'getActiveTab': {
 			try {
 				chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
-					Logger.logInfo(activeTab);
+					Logger.LogTable({ activeTab });
 					sendResponse({ data: activeTab });
 				});
 				return true;
@@ -65,7 +59,7 @@ const commandListener = async (command) => {
 		chrome.tabs.query({ active: true, currentWindow: true }, ([activeTab]) => {
 			Logger.logInfo(activeTab);
 
-			chrome.tabs.sendMessage(activeTab.id, { type: 'toggleReadingMode' }, () => Logger.logError());
+			chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode' }, () => Logger.logError());
 		});
 	}
 };

@@ -1,14 +1,12 @@
-import { useEffect } from 'react';
-
-import { useStorage } from '@plasmohq/storage';
+import { useEffect, useState } from 'react';
 
 import usePrefs from '~usePrefs';
-import useTabSession from '~useTabSession';
 
 import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../../../src/Logger';
 import TabHelper from '../../../src/TabHelper';
 
+const contentLogStyle = 'background-color: pink';
 const init = () => {
 	Logger.logInfo('content working');
 };
@@ -53,43 +51,56 @@ export const getRootContainer = () => {
 };
 
 const IndexContent = () => {
-	const [prefs] = usePrefs(async () => origin);
+	const [prefs] = usePrefs(async () => TabHelper.getTabOrigin(await TabHelper.getActiveTab(false)));
 
-	const [tabSession, setTabSession, removeTabSession] = useTabSession(
-		async () => origin,
-		async () => await TabHelper.getActiveTab(),
-		prefs
-	);
+	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
-	const onChromeRuntimeMessage = (message /**sender, sendResponse*/) =>
-		new Promise((sendResponse, rej) => {
-			switch (message.type) {
-				case 'getOrigin': {
-					Logger.logInfo('reply to origin request');
-					sendResponse({ data: window.location.origin });
-					break;
-				}
-				case 'toggleReadingMode': {
-					(async () => {
-						const tab = await TabHelper.getActiveTab();
-						Logger.logInfo('toggleReadingMode.called', tabSession);
-						setTabSession((oldTabSessions: PrefRecords) => {
-							let newTabSessions = { ...oldTabSessions };
-							newTabSessions[tab.id].brMode = !newTabSessions[tab.id].brMode;
-							return newTabSessions;
-						});
-					})();
-					return true;
-					break;
-				}
+	const onChromeRuntimeMessage = (message, sender, sendResponse) => {
+		const tabSession: TabSession = JSON.parse(document.body.dataset.tabsession);
 
-				default:
-					break;
+		switch (message.type) {
+			case 'getOrigin': {
+				Logger.logInfo('reply to origin request');
+				sendResponse({ data: window.location.origin });
+				break;
 			}
-		});
+			case 'setReadingMode': {
+				tabSession.brMode = message?.data ?? !tabSession.brMode;
+				setTabSession(tabSession);
+				sendResponse({ data: tabSession });
+				return true;
+				break;
+			}
+			case 'getReadingMode': {
+				sendResponse({ data: tabSession.brMode });
+				return true;
+				break;
+			}
+			default:
+				break;
+		}
+	};
+	// );
 
 	useEffect(() => {
-		if (!prefs || !tabSession) return;
+		Logger.logInfo(
+			'%cTabSession same: %s   prefs same:%s',
+			contentLogStyle,
+			document.body.dataset.tabsession === JSON.stringify(tabSession),
+			document.body.dataset.prefs === JSON.stringify(prefs)
+		);
+
+		if (prefs && !tabSession) {
+			setTabSession({ brMode: prefs.onPageLoad });
+		}
+
+		if (
+			!prefs ||
+			!tabSession ||
+			(document.body.dataset.tabsession === JSON.stringify(tabSession) && document.body.dataset.prefs === JSON.stringify(prefs))
+		)
+			return;
+
 		Logger.logInfo('content.tsx.useEffect', { prefs, tabSession });
 
 		runTimeHandler.runtime.sendMessage({ message: 'setIconBadgeText', data: tabSession.brMode, tabID: tabSession.tabID }, () =>
@@ -103,25 +114,41 @@ const IndexContent = () => {
 		setAttribute('saccades-color', prefs.saccadesColor, document);
 		setAttribute('fixation-strength', prefs.fixationStrength);
 		setAttribute('saccades-interval', prefs.saccadesInterval, document);
+
+		document.body.dataset.tabsession = JSON.stringify(tabSession);
+		document.body.dataset.prefs = JSON.stringify(prefs);
+
+		runTimeHandler.runtime.sendMessage(
+			{
+				message: 'setIconBadgeText',
+				data: tabSession.brMode
+			},
+			() => Logger.LogLastError()
+		);
 	}, [prefs, tabSession]);
 
 	useEffect(() => {
 		Logger.logInfo('register chrome|browser messageListener');
 		runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
-
-		return () => {
-			alert('closing context');
-			removeTabSession(async () => TabHelper.getActiveTab());
-		};
 	}, []);
 
-	return (
-		<span style={{ padding: 12, position: 'fixed', bottom: '10px', left: '20px', zIndex: '20' }}>
-			<div className="flex flex-column">
-				{!prefs || !tabSession ? 'Loading... or broken but probably loading' : 'JiffyReady to the moon'}
+	const showDebugOverLay = (show) => {
+		if (!show) return;
+
+		return (
+			<div
+				className="[ br-overlay ]"
+				style={{ position: 'fixed', bottom: '40px', left: '40px', display: 'flex', flexDirection: 'column' }}>
+				<div className="flex flex-column">
+					{!prefs || !tabSession ? 'Loading... or broken but probably loading' : 'JiffyReady to the moon'}
+				</div>
+				<span>{JSON.stringify(tabSession)}</span>
+				<span>{JSON.stringify(prefs)}</span>
 			</div>
-		</span>
-	);
+		);
+	};
+
+	return showDebugOverLay(process.env.NODE_ENV !== 'production');
 };
 
 export default IndexContent;

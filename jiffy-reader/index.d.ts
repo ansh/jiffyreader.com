@@ -22,9 +22,11 @@ interface PrefStore {
 
 interface TabSession {
 	brMode: boolean;
-	origin: string;
-	tabID;
+	origin?: string;
+	tabID?;
 }
+
+type TabSessionStore = Record<string, TabSession>;
 
 type UpdateCallback = (tabSessions: PrefRecords) => PrefRecords;
 
