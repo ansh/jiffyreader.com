@@ -6,33 +6,34 @@
 /* eslint-disable no-console */
 const isProductionEnv = () => process.env.NODE_ENV === 'production';
 
-const makeError = (isProduction) => (isProduction ? () => {} : console.error);
+const nullCallback = () => {
+  /** no-op */
+};
 
-const makeInfo = (isProduction) => (isProduction ? () => {} : console.log);
+/**
+ * @template T
+ * @return {T}
+ */
+const maker = (/** @type {T} */ fn) => (isProductionEnv() && nullCallback) || fn;
 
 /**
  *
  * @param {String} label
  * @returns {Function} end and display time when called in non production environment
  */
-const logTime = (label) => {
-  if (isProductionEnv()) {
-    return () => {
-      // no-op}
-    };
-  }
+const logTime = maker((label) => {
   console.time(label);
   return () => console.timeEnd(label);
-};
+});
 
-const logInfo = makeInfo(isProductionEnv());
-const logError = makeError(isProductionEnv());
+const logInfo = maker(console.log);
+const logError = maker(console.trace);
 const LogLastError = ({ lastError } = chrome.runtime) => (lastError ? logError(lastError) : null);
-const Logger = {
+
+export default {
   logTime,
   logInfo,
   logError,
-  LogLastError,
+  LogLastError: maker(LogLastError),
+  LogTable: maker(console.table),
 };
-
-export default Logger;
