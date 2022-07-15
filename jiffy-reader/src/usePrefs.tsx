@@ -24,7 +24,7 @@ const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] =
 		return finalInitialPrefs ;
 	};
 
-	const [prefStore, setPrefStore] = useStorage({ key: 'prefStore', area: PREF_STORE_AREA }, initializePrefs as any as PrefStore );
+	const [prefStore, setPrefStore] = useStorage({ key: 'prefStore'}, initializePrefs as any as PrefStore );
 
 	const setPrefsExternal = async (
 		getOrigin: () => Promise<string>,
