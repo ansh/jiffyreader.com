@@ -1,4 +1,4 @@
-import Logger from '../../../src/Logger';
+import Logger from '../features/Logger';
 import StorageHelper from '../../../src/StorageHelper';
 import TabHelper from '../../../src/TabHelper';
 

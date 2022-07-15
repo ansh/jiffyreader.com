@@ -1,4 +1,4 @@
-import Logger from '../Logger';
+import Logger from '../../jiffy-reader/src/features/Logger';
 import contentStyle from './contentStyle.scss';
 import NodeObserver from './observer';
 import { defaultPrefs } from '../Preferences';
@@ -205,6 +205,40 @@ function addStyles(styleText, document) {
   document.head.appendChild(style);
 }
 
+const setAttribute = (documentRef) => (attribute, value) => {
+  documentRef.body.setAttribute(attribute, value);
+};
+const getAttribute = (documentRef) => (attribute) => documentRef.body.getAttribute(attribute);
+
+const setProperty = (documentRef) => (property, value) => {
+  documentRef.body.style.setProperty(property, value);
+};
+
+const getProperty = (documentRef) => (property) => documentRef.body.style.getPropertyValue(property);
+
+const setSaccadesStyle = (documentRef) => (style) => {
+  Logger.logInfo('saccades-style', style);
+
+  if (/bold/i.test(style)) {
+    const [, value] = style.split('-');
+    setProperty(documentRef)('--br-boldness', value);
+    setProperty(documentRef)('--br-line-style', '');
+  }
+
+  if (/line$/i.test(style)) {
+    const [value] = style.split('-');
+    setProperty(documentRef)('--br-line-style', value);
+    setProperty(documentRef)('--br-boldness', '');
+  }
+};
+
 export default {
   setReadingMode,
+  makeHandlers: (documentRef) => ({
+    setAttribute: setAttribute(documentRef),
+    getAttribute: getAttribute(documentRef),
+    setProperty: setProperty(documentRef),
+    getProperty: getProperty(documentRef),
+    setSaccadesStyle: setSaccadesStyle(documentRef),
+  }),
 };

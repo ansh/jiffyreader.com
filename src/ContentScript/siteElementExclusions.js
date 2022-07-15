@@ -1,6 +1,6 @@
 /** @typedef {{(element: Element)=> boolean}} Excluder */
 
-import Logger from '../Logger';
+import Logger from '../../jiffy-reader/src/features/Logger';
 
 const siteElementExclusions = {
   'twitter.com': ['div.DraftEditor-root'],

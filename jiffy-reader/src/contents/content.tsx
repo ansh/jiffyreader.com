@@ -3,44 +3,17 @@ import { useEffect, useState } from 'react';
 import usePrefs from '~usePrefs';
 
 import documentParser from '../../../src/ContentScript/documentParser';
-import Logger from '../../../src/Logger';
-import TabHelper from '../../../src/TabHelper';
+import Logger from '../features/Logger';
+
+const { setAttribute, setProperty, setSaccadesStyle } = documentParser.makeHandlers(document);
 
 const contentLogStyle = 'background-color: pink';
-const init = () => {
-	Logger.logInfo('content working');
-};
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 window.addEventListener('load', () => {
 	Logger.logInfo('content script loaded');
 });
-
-// Idea for an UI API, for popup, notification badge, or mounting UI
-// Idea for static mount
-// Idea for styling injection support (inline or with custom emotion cache)
-
-const setAttribute = (attribute, value, doc = document) => document.body.setAttribute(attribute, value);
-const getAttribute = (attribute, doc = document) => document.body.getAttribute(attribute);
-const setProperty = (property, value, doc = document) => document.body.style.setProperty(property, value);
-const getProperty = (property, doc = document) => document.body.style.getPropertyValue(property);
-
-const setSaccadesStyle = (style) => {
-	Logger.logInfo('saccades-style', style);
-
-	if (/bold/i.test(style)) {
-		const [, value] = style.split('-');
-		setProperty('--br-boldness', value);
-		setProperty('--br-line-style', '');
-	}
-
-	if (/line$/i.test(style)) {
-		const [value] = style.split('-');
-		setProperty('--br-line-style', value);
-		setProperty('--br-boldness', '');
-	}
-};
 
 export const getRootContainer = () => {
 	let child = document.createElement('div');
@@ -51,7 +24,7 @@ export const getRootContainer = () => {
 };
 
 const IndexContent = () => {
-	const [prefs] = usePrefs(async () => TabHelper.getTabOrigin(await TabHelper.getActiveTab(false)));
+	const [prefs] = usePrefs(async () => window.location.origin);
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
@@ -80,7 +53,6 @@ const IndexContent = () => {
 				break;
 		}
 	};
-	// );
 
 	useEffect(() => {
 		Logger.logInfo(
@@ -108,23 +80,16 @@ const IndexContent = () => {
 		);
 
 		documentParser.setReadingMode(tabSession.brMode, document);
-		setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%'), document;
+		setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
 		setProperty('--br-line-height', prefs.lineHeight);
 		setSaccadesStyle(prefs.saccadesStyle);
-		setAttribute('saccades-color', prefs.saccadesColor, document);
+		setAttribute('saccades-color', prefs.saccadesColor);
 		setAttribute('fixation-strength', prefs.fixationStrength);
-		setAttribute('saccades-interval', prefs.saccadesInterval, document);
+		setAttribute('saccades-interval', prefs.saccadesInterval);
 
 		document.body.dataset.tabsession = JSON.stringify(tabSession);
 		document.body.dataset.prefs = JSON.stringify(prefs);
 
-		runTimeHandler.runtime.sendMessage(
-			{
-				message: 'setIconBadgeText',
-				data: tabSession.brMode
-			},
-			() => Logger.LogLastError()
-		);
 	}, [prefs, tabSession]);
 
 	useEffect(() => {

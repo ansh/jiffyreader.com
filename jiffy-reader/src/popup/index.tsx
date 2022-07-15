@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import usePrefs from '~usePrefs';
 
 import documentParser from '../../../src/ContentScript/documentParser';
-import Logger from '../../../src/Logger';
+import Logger from '../features/Logger';
 import TabHelper from '../../../src/TabHelper';
 import '../../../src/style.css';
+
+const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
 
 const SACCADE_COLORS = [
 	['Original', ''],
@@ -32,27 +34,6 @@ const FIXATION_OPACITY_STOP_UNIT_SCALE = Math.floor(100 / FIXATION_OPACITY_STOPS
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
-const setAttribute = (attribute, value, doc = document) => document.body.setAttribute(attribute, value);
-const getAttribute = (attribute, doc = document) => document.body.getAttribute(attribute);
-const setProperty = (property, value, doc = document) => document.body.style.setProperty(property, value);
-const getProperty = (property, doc = document) => document.body.style.getPropertyValue(property);
-
-const setSaccadesStyle = (style) => {
-	Logger.logInfo('saccades-style', style);
-
-	if (/bold/i.test(style)) {
-		const [, value] = style.split('-');
-		setProperty('--br-boldness', value);
-		setProperty('--br-line-style', '');
-	}
-
-	if (/line$/i.test(style)) {
-		const [value] = style.split('-');
-		setProperty('--br-line-style', value);
-		setProperty('--br-boldness', '');
-	}
-};
-
 function IndexPopup() {
 	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)));
 
@@ -63,12 +44,12 @@ function IndexPopup() {
 		if (!tabSession || !prefs) return;
 
 		documentParser.setReadingMode(tabSession.brMode, document);
-		setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%'), document;
+		setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
 		setProperty('--br-line-height', prefs.lineHeight);
 		setSaccadesStyle(prefs.saccadesStyle);
-		setAttribute('saccades-color', prefs.saccadesColor, document);
+		setAttribute('saccades-color', prefs.saccadesColor);
 		setAttribute('fixation-strength', prefs.fixationStrength);
-		setAttribute('saccades-interval', prefs.saccadesInterval, document);
+		setAttribute('saccades-interval', prefs.saccadesInterval);
 	}, [tabSession, prefs]);
 
 	useEffect(() => {
@@ -107,7 +88,7 @@ function IndexPopup() {
 	const updateConfig = (key: string, value: any, configLocal = prefs) => {
 		const newConfig = { ...configLocal, [key]: value };
 
-		setPrefs(async () => TabHelper.getTabOrigin(), newConfig.scope, newConfig);
+		setPrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), newConfig.scope, newConfig);
 	};
 
 	const handleToggle = (newBrMode: boolean) => {
@@ -327,7 +308,7 @@ function IndexPopup() {
 							Reset Defaults
 						</button>
 
-						<footer className="flex justify-between text-center text-md text-bold">
+						<footer className="popup_footer flex justify-between text-center text-md text-bold">
 							<a className="text-white" href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
 								FAQ
 							</a>

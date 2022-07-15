@@ -1,4 +1,4 @@
-import Logger from './Logger';
+import Logger from '../jiffy-reader/src/features/Logger';
 
 const isBackgroundScript = () => {
   if (typeof chrome?.extension?.getBackgroundPage === 'function') {
@@ -40,30 +40,22 @@ const getActiveTab = (isBgScript) => new Promise((res, rej) => {
  * @returns {Promise<string>} -
  * the origin of the tab provided or the origin of the active tab if tab is null
  */
-const getTabOrigin = async (tab) => {
-  const tempTab = tab ?? (await getActiveTab());
-  const [host, path] = tempTab.url.split('//');
-  const [originPartial] = path.split('/');
+const getTabOrigin = async (/** @type {chrome.tabs.Tab} */ tab) => new Promise((res, rej) => {
+  try {
+    chrome.tabs.sendMessage(
+      tab.id,
+      { type: 'getOrigin' },
+      (/** @type {{data: string}} */ { data }) => {
+        const originError = chrome.runtime?.lastError;
+        if (originError) throw originError;
 
-  const origin = [host, originPartial].join('//');
-  Logger.logInfo('getTabOrigin', { origin });
-  return origin;
-  // return new Promise((res, rej) => {
-  //   try {
-  //     chrome.tabs.sendMessage(
-  //       tempTab.id,
-  //       { type: 'getOrigin' },
-  //       (/** @type {{data: string}} */ { data }) => {
-  //         const originError = chrome.runtime?.lastError;
-  //         if (originError) throw originError;
-
-  //         res(data);
-  //       },
-  //     );
-  //   } catch (err) {
-  //     rej(err);
-  //   }
-  // });
-};
+        res(data);
+      },
+    );
+  } catch (err) {
+    Logger.LogLastError(err);
+    rej(err);
+  }
+});
 
 export default { getActiveTab, getTabOrigin, isBackgroundScript };

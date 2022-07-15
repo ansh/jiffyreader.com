@@ -1706,6 +1706,11 @@
   "resolved" "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz"
   "version" "0.0.1"
 
+"console-browserify@^1.2.0":
+  "integrity" "sha512-ZMkYO/LkF17QvCPqM0gxw8yUzigAOZOSWSHg91FH6orS7vcEj5dVZTidN2fQ14yBSdg97RqhSNwLUXInd52OTA=="
+  "resolved" "https://registry.npmjs.org/console-browserify/-/console-browserify-1.2.0.tgz"
+  "version" "1.2.0"
+
 "constant-case@^3.0.4":
   "integrity" "sha512-I2hSBi7Vvs7BEuJDr5dDHfzb/Ruj3FyvFyh7KLilAjNQw3Be+xgqUBA2W6scVEcL0hL1dwPRtIqEPVUCKkSsyQ=="
   "resolved" "https://registry.npmjs.org/constant-case/-/constant-case-3.0.4.tgz"

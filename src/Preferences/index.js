@@ -1,4 +1,4 @@
-import Logger from '../Logger';
+import Logger from '../../jiffy-reader/src/features/Logger';
 import StorageHelper from '../StorageHelper';
 // default preferences
 // and source of truth

@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { useStorage } from '@plasmohq/storage';
 
-import Logger from '../../src/Logger';
+import Logger from './features/Logger';
 import { defaultPrefs } from '../../src/Preferences';
+
+const PREF_STORE_AREA = 'sync'
+const PREF_STORE_SCOPES = ['global', 'local', 'reset']
 
 const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] => {
 	const [privateOrigin, setPrivateOrigin] = useState(null);
@@ -21,7 +24,7 @@ const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] =
 		return finalInitialPrefs ;
 	};
 
-	const [prefStore, setPrefStore] = useStorage({ key: 'prefStore', area: 'local' }, initializePrefs as any as PrefStore );
+	const [prefStore, setPrefStore] = useStorage({ key: 'prefStore', area: PREF_STORE_AREA }, initializePrefs as any as PrefStore );
 
 	const setPrefsExternal = async (
 		getOrigin: () => Promise<string>,
@@ -29,7 +32,7 @@ const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] =
 		newPrefs: Prefs,
 		deleteOldLocal: boolean = true
 	) => {
-		if (!['global', 'local', 'reset'].includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
+		if (!PREF_STORE_SCOPES.includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
 
 		let result = { ...prefStore };
 

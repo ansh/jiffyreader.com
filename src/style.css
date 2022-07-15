@@ -5,7 +5,7 @@
   --gap: 0.6rem;
 }
 
-body {
+.popup_body {
   padding: 10px;
   min-width: 230px;
   justify-content: center;
@@ -232,7 +232,7 @@ datalist > option {
   margin-right: -8px;
 }
 
-footer {
+.popup_footer {
   position: sticky;
   margin-top: auto;
   bottom: 20px;
