@@ -42,5 +42,6 @@ type removeTabSession = (getTab: () => Promise<chrome.tabs.Tab>) => Promise<void
 declare namespace NodeJS {
 	interface ProcessEnv {
 		DEBUG: string
+		TARGET: string
 	}
 }
