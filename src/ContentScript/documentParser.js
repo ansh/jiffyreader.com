@@ -74,6 +74,8 @@ function makeFixations(/** @type string */ textContent) {
 }
 
 function parseNode(/** @type Element */ node) {
+  Logger.logInfo('parsingNode', node);
+
   // some websites add <style>, <script> tags in the <body>, ignore these tags
   if (!node?.parentElement?.tagName || IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
     return;
@@ -132,7 +134,7 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const setReadingMode = (enableReading, document) => {
+const setReadingMode = (enableReading, /** @type {Document} */ document) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
   origin = document?.URL ?? '';
   excludeByOrigin = makeExcluder(origin);
@@ -148,7 +150,7 @@ const setReadingMode = (enableReading, document) => {
       }
 
       document.body.setAttribute('br-mode', 'on');
-      [...document.body.children].forEach(parseNode);
+      [...document.getElementsByTagName('body')].flatMap((body) => [...body.childNodes]).forEach(parseNode);
 
       /** make an observer if one does not exist and body[br-mode=on] */
       if (!observer) {
@@ -176,7 +178,8 @@ function ignoreOnMutation(node) {
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   const body = mutationRecords[0]?.target?.parentElement?.closest('body');
   if (
-    body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
+    body &&
+    ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
   ) {
     Logger.logInfo('focused or active input found, exiting mutationCallback');
     return;
