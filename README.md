@@ -44,7 +44,7 @@ The best way to install this extension is to follow the instructions below. Howe
       - [Reset Defaults](#reset-defaults)
     - [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support)
       - [Upload Books (Epubs & PDFs)](#upload-books-epubs--pdfs)
-        - [PFD files not working with the extion](#pfd-files-not-working-with-the-extion)
+        - [PFD files not working](#pfd-files-not-working)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
@@ -188,8 +188,8 @@ The best way to install this extension is to follow the instructions below. Howe
 3. Select your epub or pdf file to complete the upload 
 4. Click on the uploaded file to open it in the Google Play Books web reader. Have fun.
 
-##### PFD files not working with the extion
-PDF files may still not work with the extension even after uploading to Google Play Books
+##### PFD files not working
+PDF files may still not work after uploading to Google Play Books
 Use steps in [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support) to 
 search for the book if you believe it is commercially/freely available in the [google play books](https://play.google.com/books) 
 
