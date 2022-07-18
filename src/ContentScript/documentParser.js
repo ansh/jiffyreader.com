@@ -74,8 +74,6 @@ function makeFixations(/** @type string */ textContent) {
 }
 
 function parseNode(/** @type Element */ node) {
-  Logger.logInfo('parsingNode', node);
-
   // some websites add <style>, <script> tags in the <body>, ignore these tags
   if (!node?.parentElement?.tagName || IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
     return;
@@ -150,7 +148,7 @@ const setReadingMode = (enableReading, /** @type {Document} */ document) => {
       }
 
       document.body.setAttribute('br-mode', 'on');
-      [...document.getElementsByTagName('body')].flatMap((body) => [...body.childNodes]).forEach(parseNode);
+      [...document.body.childNodes].forEach(parseNode);
 
       /** make an observer if one does not exist and body[br-mode=on] */
       if (!observer) {
@@ -178,8 +176,7 @@ function ignoreOnMutation(node) {
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   const body = mutationRecords[0]?.target?.parentElement?.closest('body');
   if (
-    body &&
-    ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
+    body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
   ) {
     Logger.logInfo('focused or active input found, exiting mutationCallback');
     return;
