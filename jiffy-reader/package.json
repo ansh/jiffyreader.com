@@ -15,16 +15,16 @@
   },
   "dependencies": {
     "@plasmohq/storage": "^0.8.1",
+    "@trivago/prettier-plugin-sort-imports": "3.3.0",
+    "@types/node": "18.0.6",
     "cross-env": "^7.0.3",
-    "plasmo": "0.48.0",
+    "plasmo": "0.48.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.6.2",
-    "@trivago/prettier-plugin-sort-imports": "3.2.0",
     "@types/chrome": "0.0.193",
-    "@types/node": "18.0.5",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "console-browserify": "^1.2.0",
