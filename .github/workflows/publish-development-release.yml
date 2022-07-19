@@ -1,10 +1,10 @@
-name: Release and publish on tag
+name: Release and publish development on tag
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - '*.*.*'
-    branches: [master]
+  # push:
+  #   tags:
+  #     - '*.*.*'
+  #   branches: [master]
 
 jobs:
   build:
