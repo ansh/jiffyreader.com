@@ -7,6 +7,7 @@ import Logger from '../features/Logger';
 
 
 import type { PlasmoContentScript } from "plasmo";
+import React = require('react');
 
 
 export const config: PlasmoContentScript = {
@@ -22,11 +23,11 @@ const contentLogStyle = 'background-color: pink';
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const OVERLAY_STYLE = {
-  position: 'fixed',
+  position: 'fixed' as 'fixed',
   bottom: '40px',
   left: '40px',
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'column' as 'row',
 };
 
 window.addEventListener('load', () => {

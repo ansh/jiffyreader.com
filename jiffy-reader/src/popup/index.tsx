@@ -8,6 +8,7 @@ import TabHelper from '../../../src/TabHelper';
 import '../../../src/style.css';
 import { useStorage } from '@plasmohq/storage';
 import { defaultPrefs } from '../../../src/Preferences';
+import React = require('react');
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
 
