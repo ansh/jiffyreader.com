@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - '(\d+[.]\d+[.]\d+[.]\d+[-])(\d|\w)+'
+      - '(\d+.\d+.\d+.\d+)[-])(\d|\w)+'
     branches: [master]
 
 jobs:
