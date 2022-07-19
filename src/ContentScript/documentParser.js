@@ -132,7 +132,7 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const setReadingMode = (enableReading, document) => {
+const setReadingMode = (enableReading, /** @type {Document} */ document) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
   origin = document?.URL ?? '';
   excludeByOrigin = makeExcluder(origin);
@@ -148,7 +148,7 @@ const setReadingMode = (enableReading, document) => {
       }
 
       document.body.setAttribute('br-mode', 'on');
-      [...document.body.children].forEach(parseNode);
+      [...document.body.childNodes].forEach(parseNode);
 
       /** make an observer if one does not exist and body[br-mode=on] */
       if (!observer) {

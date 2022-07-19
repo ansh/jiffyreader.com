@@ -42,6 +42,9 @@ The best way to install this extension is to follow the instructions below. Howe
       - [Line height buttons](#line-height-buttons)
       - [Always on/off button](#always-onoff-button)
       - [Reset Defaults](#reset-defaults)
+    - [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support)
+      - [Upload Books (Epubs & PDFs)](#upload-books-epubs--pdfs)
+        - [PFD files not working](#pfd-files-not-working)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
@@ -171,6 +174,24 @@ The best way to install this extension is to follow the instructions below. Howe
 
 #### Reset Defaults
 - Resets preferences of the currently engaged preference mode.
+
+### Google Play Books Native (Epub and PDF support)
+- This extension works with [google play books](https://play.google.com/books)
+1. Open or navigate to [google play books](https://play.google.com/books)
+2. Click on any book in your library to read it and turn on the extension if not on already
+3. You can search for new books (paid or free) and add to your library to start reading
+
+#### Upload Books (Epubs & PDFs)
+- Upload your ebooks to Google Play Books reads to be able to read it with JiffyReader.  
+1. Open [google play books](https://play.google.com/books)
+2. Click the upload button
+3. Select your epub or pdf file to complete the upload 
+4. Click on the uploaded file to open it in the Google Play Books web reader. Have fun.
+
+##### PFD files not working
+PDF files may still not work after uploading to Google Play Books
+Use steps in [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support) to 
+search for the book if you believe it is commercially/freely available in the [google play books](https://play.google.com/books) 
 
 # Customizations
 
