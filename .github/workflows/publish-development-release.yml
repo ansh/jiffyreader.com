@@ -22,7 +22,7 @@ jobs:
             ext_version_name=${{github.ref_name}}
             echo $ext_version_name
             ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
-            ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=])
+            ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
             sed -i "s/Jiffy Reader/Jiffy Reader $ext_tag/" src/manifest.json
             sed -i "s/0.0.1/$ext_version_id/" src/manifest.json
             sed -i "s/VERSION_NAME/$ext_version_name/" src/manifest.json
