@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - '(\d+.\d+.\d+.\d+)$'
+      - '[0-9]+.[0-9]+.[0-9]+.[0-9]+'
     branches: [master]
 
 jobs:
