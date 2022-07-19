@@ -1,10 +1,10 @@
 name: Release and publish development on tag
 on:
   workflow_dispatch:
-  # push:
-  #   tags:
-  #     - '*.*.*'
-  #   branches: [master]
+  push:
+    tags:
+      - '(\d+[.]\d+[.]\d+[.]\d+[-])(\d|\w)+'
+    branches: [master]
 
 jobs:
   build:
