@@ -6,6 +6,8 @@ import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../features/Logger';
 import TabHelper from '../../../src/TabHelper';
 import '../../../src/style.css';
+import { useStorage } from '@plasmohq/storage';
+import { defaultPrefs } from '../../../src/Preferences';
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
 
@@ -35,9 +37,13 @@ const FIXATION_OPACITY_STOP_UNIT_SCALE = Math.floor(100 / FIXATION_OPACITY_STOPS
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 function IndexPopup() {
-	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)));
+
+	const [prefs,setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)),  true);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
+
+	const PREF_STORE_SCOPES = ['reset','global','local']
+
 
 	useEffect(() => {
 		Logger.logInfo('popup running', { tabSession, prefs });
@@ -80,6 +86,10 @@ function IndexPopup() {
 		});
 	}, []);
 
+	useEffect(()=>{
+		Logger.logInfo('%cprefstore updated','background:red;color:white',prefs)
+	},[prefs])
+
 	const makeUpdateChangeEventHandler =
 		(field: string) =>
 		(event, customValue = null) =>
@@ -109,8 +119,9 @@ function IndexPopup() {
 
 		return (
 			<>
-				<span>{JSON.stringify(tabSession)}</span>
-				<span>{JSON.stringify(prefs)}</span>
+				<span>tabSession {JSON.stringify(tabSession)}</span>
+				<span>prefs: {JSON.stringify(prefs)}</span>
+				{/* <span>prefStore {JSON.stringify(prefStore)}</span> */}
 			</>
 		);
 	};

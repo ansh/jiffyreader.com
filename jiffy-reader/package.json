@@ -1,46 +1,49 @@
 {
-	"name": "jiffy-reader",
-	"displayName": "Jiffy reader",
-	"version": "0.0.1",
-	"description": "A basic Plasmo extension.",
-	"author": "linuxdev",
-	"packageManager": "yarn@1.22.18",
-	"scripts": {
-		"dev": "plasmo dev",
-		"build": "plasmo build"
-	},
-	"dependencies": {
-		"@plasmohq/storage": "^0.7.0",
-		"plasmo": "0.48.0",
-		"react": "18.2.0",
-		"react-dom": "18.2.0"
-	},
-	"devDependencies": {
-		"@parcel/transformer-sass": "2.6.2",
-		"@trivago/prettier-plugin-sort-imports": "3.2.0",
-		"@types/chrome": "0.0.191",
-		"@types/node": "18.0.1",
-		"@types/react": "18.0.14",
-		"@types/react-dom": "18.0.5",
-		"console-browserify": "^1.2.0",
-		"prettier": "2.7.1",
-		"process": "^0.11.10",
-		"typescript": "4.7.4"
-	},
-	"manifest": {
-		"host_permissions": [
-			"https://*/*"
-		],
-		"permissions": [
-			"activeTab"
-		],
-		"commands": {
-			"toggle-bionic": {
-				"suggested_key": {
-					"default": "Alt+B"
-				},
-				"description": "Toggle bionic reading mode"
-			}
-		}
-	}
+  "name": "jiffy-reader",
+  "displayName": "Jiffy reader",
+  "version": "0.0.1",
+  "description": "A basic Plasmo extension.",
+  "author": "linuxdev",
+  "packageManager": "yarn@1.22.18",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "dev:chrome": "cross-env TARGET=chrome DEBUG=TRUE plasmo dev --target=chrome-mv3",
+    "dev:firefox": "cross-env TARGET=firefox DEBUG=TRUE plasmo dev --target=firefox-mv2",
+    "build:chrome": "cross-env TARGET=chrome DEBUG=FALSE plasmo dev --target=chrome-mv3",
+    "build:firefox": "cross-env TARGET=firefox DEBUG=FALSE plasmo dev --target=firefox-mv2"
+  },
+  "dependencies": {
+    "@plasmohq/storage": "^0.8.1",
+    "cross-env": "^7.0.3",
+    "plasmo": "0.48.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "2.6.2",
+    "@trivago/prettier-plugin-sort-imports": "3.2.0",
+    "@types/chrome": "0.0.193",
+    "@types/node": "18.0.5",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "console-browserify": "^1.2.0",
+    "prettier": "2.7.1",
+    "process": "^0.11.10",
+    "typescript": "4.7.4"
+  },
+  "manifest": {
+    "version_name": "$TARGET",
+    "permissions": [
+      "activeTab"
+    ],
+    "commands": {
+      "toggle-bionic": {
+        "suggested_key": {
+          "default": "Alt+B"
+        },
+        "description": "Toggle bionic reading mode"
+      }
+    }
+  }
 }

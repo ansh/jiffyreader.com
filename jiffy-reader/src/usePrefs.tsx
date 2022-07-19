@@ -1,76 +1,111 @@
 import { useEffect, useState } from 'react';
 
-import { useStorage } from '@plasmohq/storage';
+import { Storage, useStorage } from '@plasmohq/storage';
 
-import Logger from './features/Logger';
 import { defaultPrefs } from '../../src/Preferences';
+import Logger from './features/Logger';
 
-const PREF_STORE_AREA = 'sync'
-const PREF_STORE_SCOPES = ['global', 'local', 'reset']
+const PREF_STORE_AREA = 'sync';
+const PREF_STORE_SCOPES = ['global', 'local', 'reset'];
+const PREF_LOG_STYLE = 'color: green; background: black;';
 
-const usePrefs = (getOrigin: () => Promise<string>): [Prefs, SetPrefsExternal] => {
-	const [privateOrigin, setPrivateOrigin] = useState(null);
+const usePrefs = (
+  getOrigin: () => Promise<string>,
+  initialize = false,
+  target = process.env.TARGET ?? 'chrome',
+): [Prefs, SetPrefsExternal] => {
+  const [privateOrigin, setPrivateOrigin] = useState(null);
 
-	const getActivePrefs = (originStr = privateOrigin, _prefStore = prefStore) => {
-		if (!originStr || !_prefStore) return;
+  const area = ((target as string).includes('firefox') && 'local') || 'sync';
 
-		return prefStore?.['local']?.[originStr] || prefStore['global'];
-	};
-	const initializePrefs = async (initialPrefs: PrefStore | undefined)=> {
-		const finalInitialPrefs = initialPrefs ?? { global: defaultPrefs, local: {} };
+  Logger.logInfo('%ctarget: %s , area: %s', PREF_LOG_STYLE, target, area);
 
-		Logger.logInfo('initializePrefs', { privateOrigin, initialPrefs, finalInitialPrefs });
+  const getActivePrefs = (originStr = privateOrigin, _prefStore = prefStore) => {
+    if (!originStr || !_prefStore) return;
 
-		return finalInitialPrefs ;
-	};
+    return prefStore?.['local']?.[originStr] || prefStore['global'];
+  };
+  const initializePrefs = async (initialPrefs: PrefStore | undefined) => {
 
-	const [prefStore, setPrefStore] = useStorage({ key: 'prefStore'}, initializePrefs as any as PrefStore );
+	 initialize && Logger.logInfo('%cinitializePrefs from popup',PREF_LOG_STYLE)
+	if (initialize && !initialPrefs){
+		return { global: defaultPrefs, local: {} }
+	}
 
-	const setPrefsExternal = async (
-		getOrigin: () => Promise<string>,
-		scope: string,
-		newPrefs: Prefs,
-		deleteOldLocal: boolean = true
-	) => {
-		if (!PREF_STORE_SCOPES.includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
+    const finalInitialPrefs = initialPrefs ;
 
-		let result = { ...prefStore };
+    Logger.logInfo('%cinitializePrefs', PREF_LOG_STYLE, {
+      privateOrigin,
+      initialPrefs,
+      finalInitialPrefs,
+    });
 
-		if (/global|reset/i.test(scope)) {
-			if (/reset/i.test(scope) || (result['local']?.[await getOrigin()] && deleteOldLocal)) {
-				delete result['local'][await getOrigin()];
-				result['global'] = /reset/i.test(scope) ? defaultPrefs : result['global'];
-			} else {
-				result[scope] = newPrefs;
-			}
-		}
+    return finalInitialPrefs;
+  };
 
-		if (/local/i.test(scope)) {
-			result[scope][await getOrigin()] = newPrefs;
-		}
+  const [prefStore, setPrefStore] = useStorage(
+    { key: 'prefStore', area } ,initializePrefs as any as PrefStore,
+  );
 
-		return setPrefStore(result);
-	};
+  const setPrefsExternal = async (
+    getOrigin: () => Promise<string>,
+    scope: string,
+    newPrefs: Prefs,
+    deleteOldLocal: boolean = true,
+  ) => {
+    if (!PREF_STORE_SCOPES.includes(scope)) throw Error(`Error: invalid scope value: ${scope}`);
 
-	useEffect(() => {
-		(async () => {
-			Logger.logInfo('watching orign', getOrigin, !getOrigin);
-			if (!getOrigin) {
-				// Logger.logError('Error: getOrigin invalid', getOrigin);
-				return;
-			}
+    let result = { ...prefStore };
 
-			const newOrigin = await getOrigin();
+    if (/global|reset/i.test(scope)) {
+      if (/reset/i.test(scope) || (result['local']?.[await getOrigin()] && deleteOldLocal)) {
+        delete result['local'][await getOrigin()];
+        result['global'] = /reset/i.test(scope) ? defaultPrefs : result['global'];
+      } else {
+        result[scope] = newPrefs;
+      }
+    }
 
-			Logger.logInfo('usePrefs.useEffect', { newOrigin });
-			setPrivateOrigin(newOrigin);
-		})();
-	}, []);
+    if (/local/i.test(scope)) {
+      result[scope][await getOrigin()] = newPrefs;
+    }
 
-	const outPrefs = getActivePrefs();
-	Logger.logInfo('%cusePrefs.return', 'background-color:lime');
-	Logger.LogTable({ privateOrigin, outPrefs, prefStore });
-	return [outPrefs, setPrefsExternal];
+    return setPrefStore(result);
+  };
+
+  useEffect(() => {
+    (async () => {
+      Logger.logInfo('watching orign', getOrigin, !getOrigin);
+      if (!getOrigin) {
+        // Logger.logError('Error: getOrigin invalid', getOrigin);
+        return;
+      }
+
+      const newOrigin = await getOrigin();
+
+      Logger.logInfo('usePrefs.useEffect', { newOrigin });
+      setPrivateOrigin(newOrigin);
+
+      new Storage({ area }).watch({
+        prefStore: (value) => {
+          Logger.logInfo('%sstorage watch', PREF_LOG_STYLE, { prefStore: value });
+        },
+      });
+    })();
+  }, []);
+
+//   useEffect(() => {
+//     if (!privateOrigin || !initialize || prefStore) return;
+
+//     setPrefStore({ global: defaultPrefs, local: {} });
+// 	Logger.logInfo('%cusePrefs.prefStoreInitialzed:',PREF_LOG_STYLE)
+
+//   }, [privateOrigin, initialize]);
+
+  const outPrefs = getActivePrefs();
+  Logger.logInfo('%cusePrefs.return', 'background-color:lime');
+  Logger.LogTable({ privateOrigin, outPrefs, prefStore, area });
+  return [outPrefs, setPrefsExternal];
 };
 
 export default usePrefs;

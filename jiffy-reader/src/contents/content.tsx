@@ -5,11 +5,29 @@ import usePrefs from '~usePrefs';
 import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../features/Logger';
 
+
+import type { PlasmoContentScript } from "plasmo";
+
+
+export const config: PlasmoContentScript = {
+  matches: ["<all_urls>"],
+  all_frames: true,
+ 
+}
+
 const { setAttribute, setProperty, setSaccadesStyle } = documentParser.makeHandlers(document);
 
 const contentLogStyle = 'background-color: pink';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
+
+const OVERLAY_STYLE = {
+  position: 'fixed',
+  bottom: '40px',
+  left: '40px',
+  display: 'flex',
+  flexDirection: 'column',
+};
 
 window.addEventListener('load', () => {
   Logger.logInfo('content script loaded');
@@ -24,12 +42,19 @@ export const getRootContainer = () => {
 };
 
 const IndexContent = () => {
-  const [prefs] = usePrefs(async () => window.location.origin);
+  const [prefs] = usePrefs(async () => window.location.origin, false);
 
   const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
   const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-    const tabSession: TabSession = JSON.parse(document.body.dataset.tabsession);
+    let tabSession: TabSession ;
+    
+    try {
+      
+     tabSession = JSON.parse(document.body.dataset?.tabsession );
+    } catch (error) {
+      tabSession = {brMode: false}
+    }
 
     switch (message.type) {
       case 'getOrigin': {
@@ -102,15 +127,7 @@ const IndexContent = () => {
     if (!show) return;
 
     return (
-      <div
-        className="[ br-overlay ]"
-        style={{
-          position: 'fixed',
-          bottom: '40px',
-          left: '40px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}>
+      <div className="[ br-overlay ]" style={OVERLAY_STYLE}>
         <span>Target {process.env.TARGET}</span>
         <div className="flex flex-column">
           {!prefs || !tabSession
@@ -127,3 +144,18 @@ const IndexContent = () => {
 };
 
 export default IndexContent;
+
+// export default () => {
+//   const [prefs, setPrefs] = usePrefs(async () => window.location.origin);
+
+//   useEffect(()=>{
+//     console.log(prefs)
+//   },[])
+
+//   return (
+//     <div style={OVERLAY_STYLE}>
+//       <h1>test overlay</h1>
+//       <p>prefs {prefs}</p>
+//     </div>
+//   );
+// };
