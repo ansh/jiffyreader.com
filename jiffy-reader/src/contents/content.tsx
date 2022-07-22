@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import type { PlasmoContentScript } from 'plasmo';
+import React, { useEffect, useState } from 'react';
 
 import usePrefs from '~usePrefs';
 
@@ -6,17 +7,13 @@ import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../features/Logger';
 
 
-import type { PlasmoContentScript } from "plasmo";
-import React = require('react');
-
-
 export const config: PlasmoContentScript = {
-  matches: ["<all_urls>"],
+  matches: ['<all_urls>'],
   all_frames: true,
- 
-}
+};
 
-const { setAttribute, setProperty, setSaccadesStyle } = documentParser.makeHandlers(document);
+const { setAttribute, setProperty, setSaccadesStyle, getAttribute } =
+  documentParser.makeHandlers(document);
 
 const contentLogStyle = 'background-color: pink';
 
@@ -47,16 +44,8 @@ const IndexContent = () => {
 
   const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
-  const onChromeRuntimeMessage = (message, sender, sendResponse) => {
-    let tabSession: TabSession ;
-    
-    try {
-      
-     tabSession = JSON.parse(document.body.dataset?.tabsession );
-    } catch (error) {
-      tabSession = {brMode: false}
-    }
-
+  const chromeRuntimeMessageHandler = (message, sender, sendResponse) => {
+    Logger.logInfo('%cchromeRuntimMessageHandler.fired', contentLogStyle);
     switch (message.type) {
       case 'getOrigin': {
         Logger.logInfo('reply to origin request');
@@ -64,20 +53,22 @@ const IndexContent = () => {
         break;
       }
       case 'setReadingMode': {
-        tabSession.brMode = message?.data ?? !tabSession.brMode;
-        setTabSession(tabSession);
-        sendResponse({ data: tabSession });
-        return true;
+        setTabSession((prevTabSession) => {
+          const newTabSession = { brMode: message?.data ?? !prevTabSession.brMode };
+          sendResponse({ data: newTabSession });
+          Logger.logInfo('%ctabsession', contentLogStyle, { prevTabSession, newTabSession });
+          return newTabSession;
+        });
         break;
       }
       case 'getReadingMode': {
-        sendResponse({ data: tabSession.brMode });
-        return true;
+        sendResponse({ data: getAttribute('br-mode') == 'on' });
         break;
       }
       default:
         break;
     }
+    return true;
   };
 
   useEffect(() => {
@@ -89,16 +80,14 @@ const IndexContent = () => {
     );
 
     if (prefs && !tabSession) {
-      setTabSession({ brMode: prefs.onPageLoad });
+      setTabSession((prevTabSession) => {
+        const newValue = prevTabSession || { brMode: prefs.onPageLoad };
+        Logger.logInfo('%cInitializeTabsession', contentLogStyle, { prevTabSession, newValue });
+        return newValue;
+      });
     }
 
-    if (
-      !prefs ||
-      !tabSession ||
-      (document.body.dataset.tabsession === JSON.stringify(tabSession) &&
-        document.body.dataset.prefs === JSON.stringify(prefs))
-    )
-      return;
+    if (!prefs || !tabSession) return;
 
     Logger.logInfo('content.tsx.useEffect', { prefs, tabSession });
 
@@ -114,14 +103,11 @@ const IndexContent = () => {
     setAttribute('saccades-color', prefs.saccadesColor);
     setAttribute('fixation-strength', prefs.fixationStrength);
     setAttribute('saccades-interval', prefs.saccadesInterval);
-
-    document.body.dataset.tabsession = JSON.stringify(tabSession);
-    document.body.dataset.prefs = JSON.stringify(prefs);
   }, [prefs, tabSession]);
 
   useEffect(() => {
-    Logger.logInfo('register chrome|browser messageListener');
-    runTimeHandler.runtime.onMessage.addListener(onChromeRuntimeMessage);
+    Logger.logInfo('%cregister chrome|browser messageListener', contentLogStyle, { tabSession });
+    runTimeHandler.runtime.onMessage.addListener(chromeRuntimeMessageHandler);
   }, []);
 
   const showDebugOverLay = (show) => {
@@ -145,18 +131,3 @@ const IndexContent = () => {
 };
 
 export default IndexContent;
-
-// export default () => {
-//   const [prefs, setPrefs] = usePrefs(async () => window.location.origin);
-
-//   useEffect(()=>{
-//     console.log(prefs)
-//   },[])
-
-//   return (
-//     <div style={OVERLAY_STYLE}>
-//       <h1>test overlay</h1>
-//       <p>prefs {prefs}</p>
-//     </div>
-//   );
-// };
