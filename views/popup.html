@@ -8,7 +8,16 @@
 <body class="flex flex-column" br-mode="">
   
   <div class="flex flex-column">
-    <span class="mb-md">Preference:</span>
+    <div class="header flex justify-between">
+      <span class="mb-md">Preference:</span>
+      <span class="tips flex flex-column show-hover">
+        <span class="select">Tips</span>
+        <ul class="flex hide flex-column pos-absolute ul-plain right-0 bg-primary gap-2 p-4 mt-3 text-white shadow transition" style="z-index:10">
+          <li>Shortcut: ALT + B</li>
+          <li><a class="text-white" href="https://play.google.com/books" target="_blank">Google Play Books</a> reading supported</li>
+        </ul>
+      </span>
+    </div>
     <div class="flex w-100 justify-between">
       <div class="w-100 pr-mr">
         <button id="globalPrefsBtn" data-scope="global" class="flex flex-column align-items-center w-100">
