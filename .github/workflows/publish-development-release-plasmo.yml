@@ -52,7 +52,9 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          rm -rf node_modules/ pnpm-lock.yaml
+          pnpm install
 
       - name: Build artifacts
         run: |
