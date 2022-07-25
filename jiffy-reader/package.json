@@ -35,7 +35,10 @@
     "typescript": "4.7.4"
   },
   "manifest": {
+    "name": "$NAME",
     "version_name": "$TARGET",
+    "version": "$VERSION",
+    "description": "An extension that allows for Bionic Reading on any webpage!",
     "permissions": [
       "activeTab"
     ],
@@ -47,5 +50,18 @@
         "description": "Toggle bionic reading mode"
       }
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ansh/jiffyreader.com"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ansh/jiffyreader.com/issues"
+  },
+  "homepage": "https://github.com/ansh/jiffyreader.com#readme",
+  "engines": {
+    "node": ">=16.13.2"
   }
 }
