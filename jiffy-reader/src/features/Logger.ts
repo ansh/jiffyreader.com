@@ -12,19 +12,12 @@ const debugStates = new Map([
 ]);
 
 /* eslint-disable no-console */
-const cantDebug = (debugState: string) => {
-  const result = debugStates.get(debugState);
-
-  !result && console.log(debugState, typeof debugState, {
-    cantDebug: result,
-    debugStates: [...debugStates],
-  });
-  return result;
+const cantDebug = (debugState: string = 'false') => {
+  const key = debugState.toLowerCase();
+  return debugStates.has(key) && debugStates.get(key);
 };
 
-const nullCallback = () => {
-  /** no-op */
-};
+const nullCallback = () => null;
 
 /**
  * @template T
