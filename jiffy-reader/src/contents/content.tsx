@@ -1,5 +1,5 @@
 import type { PlasmoContentScript } from 'plasmo';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import usePrefs from '~usePrefs';
 
