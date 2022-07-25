@@ -6,7 +6,6 @@ import usePrefs from '~usePrefs';
 import documentParser from '../../../src/ContentScript/documentParser';
 import Logger from '../features/Logger';
 
-
 export const config: PlasmoContentScript = {
   matches: ['<all_urls>'],
   all_frames: true,
@@ -24,13 +23,14 @@ const OVERLAY_STYLE = {
   bottom: '40px',
   left: '40px',
   display: 'flex',
+  background: 'white',
+  padding: '15px',
   flexDirection: 'column' as 'row',
 };
 
 window.addEventListener('load', () => {
   Logger.logInfo('content script loaded');
 });
-
 
 const IndexContent = () => {
   const [prefs] = usePrefs(async () => window.location.origin, false);
@@ -108,14 +108,26 @@ const IndexContent = () => {
 
     return (
       <div className="[ br-overlay ]" style={OVERLAY_STYLE}>
-        <span>Target {process.env.TARGET}</span>
+        <span>
+          <strong>Target {process.env.TARGET}</strong>
+        </span>
         <div className="flex flex-column">
           {!prefs || !tabSession
             ? 'Loading... or broken but probably loading'
             : 'JiffyReady to the moon'}
         </div>
         <span>{JSON.stringify(tabSession)}</span>
-        <span>{JSON.stringify(prefs)}</span>
+        <span>
+          {prefs &&
+            Object.entries(prefs).map(([key, val], index) => (
+              <p className="prefsEntry" id={'prefs_item' + index}>
+                <span className="prefsKey">{key}:: </span>
+                <span className="prefsValue">
+                  {typeof val == 'boolean' ? (val == true ? 'true' : 'false') : val}
+                </span>
+              </p>
+            ))}
+        </span>
       </div>
     );
   };
