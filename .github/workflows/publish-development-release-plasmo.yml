@@ -60,7 +60,7 @@ jobs:
 
       - name: Build artifacts
         run: |
-            pnpm gh:build:development
+            yarn gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
             
       
