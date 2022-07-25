@@ -121,7 +121,7 @@ const initializeStorage = async (target = process.env.TARGET)=>{
 	}catch(error){
 		Logger.logError(error)
 	}finally{
-		Logger.LogInfo('prefInitial value', await storage.get(PREF_STORE_KEY))
+		Logger.logInfo('prefInitial value', await storage.get(PREF_STORE_KEY))
 	}
 	
 
