@@ -67,7 +67,9 @@ jobs:
             ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
             echo "build jiffy-reader-development"
             printf "VERSION=$ext_version_id \nNAME=\"Jiffy Reader $ext_tag\" \nTARGET=chrome \nDEBUG=FALSE" > .env.production
-            
+
+            cat .env.production
+
             pnpm gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
             
