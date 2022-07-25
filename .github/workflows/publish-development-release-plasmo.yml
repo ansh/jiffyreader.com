@@ -1,0 +1,45 @@
+name: Release and publish development on tag for plasmo
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '*.*.*.*-*'
+    branches: [plasmo]
+
+jobs:
+  build:
+    # if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 16 ]
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v3
+      - name: update manifest version to release version
+        working-directory: ./jiffy-reader
+        run: |
+            cwd=jiffy-reader
+            ext_version_name=${{github.ref_name}}
+            echo $ext_version_name
+            ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
+            ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
+            echo "build jiffy-reader-development"
+            printf "VERSION=$ext_version_id \nNAME=\"Jiffy Reader $ext_tag\" \nTARGET=chrome \nDEBUG=FALSE" > .env.production
+                 
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - run: |
+            yarn install
+            pnpm gh:build:development
+            zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
+            
+      
+      - uses: ncipollo/release-action@v1
+        with:
+          # artifacts: "build/jiffyReader-chrome.zip, build/jiffyReader-firefox.xpi, build/jiffyReader-opera.crx, build/jiffyReader-bookmarklet.html"
+          artifacts: "build/jiffyReader-chrome-$ext_tag.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
