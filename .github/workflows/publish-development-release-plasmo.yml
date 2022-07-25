@@ -36,7 +36,8 @@ jobs:
         with:
           version: 7
           run_install: true
-          
+
+      - name: Build artifacts
       - run: |
             pnpm gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
