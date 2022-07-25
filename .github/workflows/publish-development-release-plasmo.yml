@@ -54,11 +54,11 @@ jobs:
       - name: Install dependencies
         run: |
           rm -rf node_modules/ pnpm-lock.yaml
-          yarn install
+          pnpm install
 
       - name: Build artifacts
         run: |
-            npm run gh:build:development
+            pnpm gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
             
       
