@@ -31,8 +31,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
+      - name: Setup pnpm
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+          run_install: true
+          
       - run: |
-            yarn install
             pnpm gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
             
