@@ -3,7 +3,7 @@
   "displayName": "Jiffy reader",
   "version": "0.0.1",
   "description": "jiffy reader",
-  "packageManager": "yarn@1.22.18",
+  "packageManager": "yarn@1.22.19",
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
