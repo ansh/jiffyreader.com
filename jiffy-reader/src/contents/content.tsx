@@ -31,13 +31,6 @@ window.addEventListener('load', () => {
   Logger.logInfo('content script loaded');
 });
 
-export const getRootContainer = () => {
-  let child = document.createElement('div');
-  child.setAttribute('br-mount-point', '');
-
-  document.querySelector('body').appendChild(child);
-  return document.querySelector('[br-mount-point]');
-};
 
 const IndexContent = () => {
   const [prefs] = usePrefs(async () => window.location.origin, false);
