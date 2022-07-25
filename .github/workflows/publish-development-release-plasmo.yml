@@ -74,10 +74,8 @@ jobs:
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
 
             ls -hl build/
-            
-      
       - uses: ncipollo/release-action@v1
         with:
           # artifacts: "build/jiffyReader-chrome.zip, build/jiffyReader-firefox.xpi, build/jiffyReader-opera.crx, build/jiffyReader-bookmarklet.html"
-          artifacts: "build/jiffyReader-chrome-`$ext_tag.zip`"
+          artifacts: "build/jiffyReader-chrome-${{ext_tag}}.zip"
           token: ${{ secrets.GITHUB_TOKEN }}
