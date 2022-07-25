@@ -1,16 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { useStorage } from '@plasmohq/storage';
 
 import usePrefs from '~usePrefs';
 
 import documentParser from '../../../src/ContentScript/documentParser';
-import { defaultPrefs } from '../../../src/Preferences';
-import TabHelper from '../../../src/TabHelper';
 import '../../../src/style.css';
+import TabHelper from '../../../src/TabHelper';
 import Logger from '../features/Logger';
 
-import React = require('react');
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
