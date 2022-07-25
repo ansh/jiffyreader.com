@@ -40,7 +40,7 @@ jobs:
             - args: [--global, gulp, prettier, typescript]
 
       - name: Build artifacts
-      - run: |
+        run: |
             pnpm gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
             
