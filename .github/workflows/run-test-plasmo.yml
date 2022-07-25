@@ -2,8 +2,8 @@ name: Plasmo test build
 on:
   workflow_dispatch:
   push:
-    tags-ignore:
-      - '*.*.*.*-*'
+    tags:
+      - '*'
     branches: [master,plasmo]
 
 jobs:

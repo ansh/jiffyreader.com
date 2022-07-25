@@ -1,4 +1,4 @@
-name: Release and publish development on tag for plasmo
+name: Plasmo development test build artifcats
 on:
   workflow_dispatch:
   push:
@@ -16,15 +16,6 @@ jobs:
     name: Node ${{ matrix.node }} sample
     steps:
       - uses: actions/checkout@v3
-      # - name: update manifest version to release version
-        # working-directory: ./jiffy-reader
-        # run: |
-        #     ext_version_name=${{github.ref_name}}
-        #     echo $ext_version_name
-        #     ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
-        #     ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
-        #     echo "build jiffy-reader-development"
-        #     printf "VERSION=$ext_version_id \nNAME=\"Jiffy Reader $ext_tag\" \nTARGET=chrome \nDEBUG=FALSE" > .env.production
                  
       - name: Setup node
         uses: actions/setup-node@v3
@@ -78,5 +69,6 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           # artifacts: "build/jiffyReader-chrome.zip, build/jiffyReader-firefox.xpi, build/jiffyReader-opera.crx, build/jiffyReader-bookmarklet.html"
-          artifacts: "jiffy-reader/build/jiffyReader-chrome-${{env.ext_tag}}.zip"
+          # artifacts: "jiffy-reader/build/jiffyReader-chrome-${{env.ext_tag}}.zip"
+          artifacts: "jiffy-reader/build/jiffyReader-*"
           token: ${{ secrets.GITHUB_TOKEN }}
