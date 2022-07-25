@@ -36,7 +36,7 @@ jobs:
           version: 7
           run_install: |
             - recursive: true
-              args: [--frozen-lockfile, --strict-peer-dependencies]
+              args: [--strict-peer-dependencies]
             - args: [--global, gulp, prettier, typescript]
 
       - name: Build artifacts
