@@ -19,7 +19,6 @@ jobs:
       - name: update manifest version to release version
         working-directory: ./jiffy-reader
         run: |
-            cwd=jiffy-reader
             ext_version_name=${{github.ref_name}}
             echo $ext_version_name
             ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
