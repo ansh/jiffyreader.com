@@ -59,8 +59,9 @@ jobs:
           pnpm install postcss@^8 webpack@^4.0.0
 
       - name: Build artifacts
+        working-directory: ./jiffy-reader
         run: |
-            yarn gh:build:development
+            pnpm gh:build:development
             zip build/jiffyReader-chrome-$ext_tag -j build/chrome-mv3-prod/*
             
       
