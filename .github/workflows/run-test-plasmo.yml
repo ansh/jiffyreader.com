@@ -1,0 +1,68 @@
+name: Plasmo test build
+on:
+  workflow_dispatch:
+  push:
+    tags-ignore:
+      - '*.*.*.*-*'
+    branches: [master,plasmo]
+
+jobs:
+  build:
+    # if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 16 ]
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v3
+                 
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - uses: pnpm/action-setup@v2.0.1
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        working-directory: ./jiffy-reader
+        run: |
+          rm -rf node_modules/ pnpm-lock.yaml
+          pnpm install
+          pnpm install postcss@^8 webpack@^4.0.0
+
+      - name: Build artifacts
+        working-directory: ./jiffy-reader
+        run: |
+            ext_version_name=${{github.ref_name}}
+            echo $ext_version_name
+            ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
+            ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
+            echo "build jiffy-reader-development"
+            printf "VERSION=$ext_version_id \nNAME=\"Jiffy Reader\" \nTARGET=chrome" > .env.production
+
+            cat .env.production
+
+            pnpm gh:build:chrome && pnpm gh:build:firefox
+
+            ls -hl build/
+            echo "ext_tag=$ext_tag" >> $GITHUB_ENV
+      
