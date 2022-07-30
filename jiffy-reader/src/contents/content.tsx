@@ -36,6 +36,7 @@ const IndexContent = () => {
   const [prefs] = usePrefs(async () => window.location.origin, false);
 
   const [tabSession, setTabSession] = useState<TabSession | null>(null);
+  const [expanded, setExpanded] = useState(true);
 
   const chromeRuntimeMessageHandler = (message, sender, sendResponse) => {
     Logger.logInfo('%cchromeRuntimMessageHandler.fired', contentLogStyle);
@@ -103,24 +104,34 @@ const IndexContent = () => {
     runTimeHandler.runtime.onMessage.addListener(chromeRuntimeMessageHandler);
   }, []);
 
+  const toggleExpandeHandler = () => setExpanded((oldExpanded) => !oldExpanded);
+
+  const getCollapseExpandBtn = () => (
+    <button onClick={toggleExpandeHandler}> {expanded ? 'Collapse' : 'Expand'}</button>
+  );
+
   const showDebugOverLay = (show) => {
     if (!show) return;
 
     return (
       <div className="[ br-overlay ]" style={OVERLAY_STYLE}>
         <span>
-          <strong>Target {process.env.TARGET}</strong>
+          <strong style={{ paddingRight: '15px' }}>Target {process.env.TARGET}</strong>
+          {getCollapseExpandBtn()}
         </span>
         <div className="flex flex-column">
-          {!prefs || !tabSession
-            ? 'Loading... or broken but probably loading'
-            : 'JiffyReady to the moon'}
+          <span>
+            {!prefs || !tabSession
+              ? 'Loading... or broken but probably loading'
+              : 'JiffyReady to the moon'}
+          </span>
         </div>
         <span>{JSON.stringify(tabSession)}</span>
         <span>
-          {prefs &&
+          {expanded &&
+            prefs &&
             Object.entries(prefs).map(([key, val], index) => (
-              <p className="prefsEntry" id={'prefs_item' + index}>
+              <p className="prefsEntry" key={'prefs_item' + index}>
                 <span className="prefsKey">{key}:: </span>
                 <span className="prefsValue">
                   {typeof val == 'boolean' ? (val == true ? 'true' : 'false') : val}
@@ -128,6 +139,7 @@ const IndexContent = () => {
               </p>
             ))}
         </span>
+        {getCollapseExpandBtn()}
       </div>
     );
   };
