@@ -169,6 +169,15 @@ function IndexPopup() {
                         </a>{' '}
                         reading supported
                       </li>
+                      <li>
+                        <a href="https://www.buymeacoffee.com/jiffyreader" target="_blank">
+                          <img
+                            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                            alt="Buy Me A Coffee"
+                            className='buymeacoffee'
+                          />
+                        </a>
+                      </li>
                     </ul>
                   </span>
                 </div>
