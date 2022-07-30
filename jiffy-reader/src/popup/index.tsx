@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-
 import usePrefs from '~usePrefs';
 
 import documentParser from '../../../src/ContentScript/documentParser';
+
 import '../../../src/style.css';
+
 import TabHelper from '../../../src/TabHelper';
 import Logger from '../features/Logger';
-
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
@@ -48,17 +48,22 @@ function IndexPopup() {
   const PREF_STORE_SCOPES = ['reset', 'global', 'local'];
 
   useEffect(() => {
-    Logger.logInfo('popup running', { tabSession, prefs });
-    if (!tabSession || !prefs) return;
+    if (!tabSession) return;
 
     documentParser.setReadingMode(tabSession.brMode, document);
+  }, [tabSession]);
+
+  useEffect(() => {
+    Logger.logInfo('%cprefstore updated', 'background:red;color:white', prefs);
+    if (!prefs) return;
+
     setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
     setProperty('--br-line-height', prefs.lineHeight);
     setSaccadesStyle(prefs.saccadesStyle);
     setAttribute('saccades-color', prefs.saccadesColor);
     setAttribute('fixation-strength', prefs.fixationStrength);
     setAttribute('saccades-interval', prefs.saccadesInterval);
-  }, [tabSession, prefs]);
+  }, [prefs]);
 
   useEffect(() => {
     (async () => {
@@ -87,10 +92,6 @@ function IndexPopup() {
       }
     });
   }, []);
-
-  useEffect(() => {
-    Logger.logInfo('%cprefstore updated', 'background:red;color:white', prefs);
-  }, [prefs]);
 
   const makeUpdateChangeEventHandler =
     (field: string) =>
@@ -157,7 +158,7 @@ function IndexPopup() {
                   <ul
                     className="flex hide flex-column pos-absolute ul-plain right-0 bg-primary gap-2 p-4 mt-3 text-white shadow transition"
                     style={{ zIndex: '10' }}>
-                    <li>Shortcut: ALT + B</li>
+                    <li>Turn of if jiffy reader interfers with data entry</li>
                     <li>
                       <a
                         className="text-white"
@@ -204,7 +205,9 @@ function IndexPopup() {
                 tabSession?.brMode ? 'selected' : ''
               }`}
               onClick={() => handleToggle(!tabSession.brMode)}>
-              {tabSession.brMode ? <span>Disable</span> : <span>Enable</span>} Reading Mode
+              {tabSession.brMode ? <span>Disable</span> : <span>Enable</span>}
+              <span>Reading Mode</span>
+              <span>Default Shortcut: {process.env.SHORTCUT}</span>
             </button>
 
             <div className="w-100">
