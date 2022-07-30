@@ -14,7 +14,8 @@
     "gh:build:chrome": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
     "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
     "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
-    "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3"
+    "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3",
+    "gh:build:bookmarklet": "cd .. && yarn --force && pwd && ls ./ && mkdir extension &&touch ./extension/jiffyReader-bookmarklet.html && npm run build:bookmarklet && pwd && cp extension/jiffyReader-bookmarklet.html jiffy-reader/build/jiffyReader-bookmarklet.html"
   },
   "dependencies": {
     "@plasmohq/storage": "^0.8.1",

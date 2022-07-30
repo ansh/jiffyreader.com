@@ -1,5 +1,6 @@
+import Logger from '../../jiffy-reader/src/features/Logger.ts';
 import documentParser from '../ContentScript/documentParser';
-import Logger from '../Logger';
+
 import { defaultPrefs } from '../Preferences';
 
 const {
