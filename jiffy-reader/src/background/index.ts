@@ -1,9 +1,3 @@
-// start()
-// const initializePrefs = async (initialPrefs: PrefStore | undefined)=> {
-// 	const finalInitialPrefs = initialPrefs ?? { global: defaultPrefs, local: {} };
-// 	Logger.logInfo('%cinitializePrefs', PREF_LOG_STYLE,{ privateOrigin, initialPrefs, finalInitialPrefs });
-// 	return finalInitialPrefs ;
-// };
 import { Storage } from '@plasmohq/storage';
 
 import { defaultPrefs } from '../../../src/Preferences';
