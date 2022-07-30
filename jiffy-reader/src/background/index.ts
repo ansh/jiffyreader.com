@@ -76,9 +76,17 @@ const showNotificationInstanceId = (browserLabel: string) => {
 const fireUpdateNotification = () => {
   const browserLabel = !!chrome?.action ? 'chrome' : 'firefox';
 
-  runTimeHandler.notifications
-    .create(UPDATE_NOTIFICATION_ID, getUpdateNotificationConfig(browserLabel))
-    .then(showNotificationInstanceId(browserLabel));
+  if (/chrome/i.test(browserLabel)) {
+    runTimeHandler.notifications.create(
+      UPDATE_NOTIFICATION_ID,
+      getUpdateNotificationConfig(browserLabel),
+      showNotificationInstanceId(browserLabel),
+    );
+  } else {
+    runTimeHandler.notifications
+      .create(UPDATE_NOTIFICATION_ID, getUpdateNotificationConfig(browserLabel))
+      .then(showNotificationInstanceId(browserLabel));
+  }
 };
 
 const initializeStorage = async (target = process.env.TARGET) => {
@@ -161,7 +169,6 @@ const commandListener = async (command) => {
 
       chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode' }, () => Logger.logError());
     });
-
   }
 };
 
