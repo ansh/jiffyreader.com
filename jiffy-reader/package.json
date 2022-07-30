@@ -41,7 +41,8 @@
     "version": "$VERSION",
     "description": "An extension that allows for Bionic Reading on any webpage!",
     "permissions": [
-      "activeTab"
+      "activeTab",
+      "notifications"
     ],
     "commands": {
       "toggle-bionic": {
@@ -50,7 +51,15 @@
         },
         "description": "Toggle bionic reading mode"
       }
-    }
+    },
+    "web_accessible_resources":[
+      {
+        "resources":[
+          "assets/icon512.png"
+        ],
+        "matches": ["<all_urls>"]
+      }
+    ]
   },
   "repository": {
     "type": "git",
