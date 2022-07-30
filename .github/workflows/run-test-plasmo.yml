@@ -1,4 +1,4 @@
-name: Plasmo test build
+name: Plasmo build test
 on:
   workflow_dispatch:
   push:

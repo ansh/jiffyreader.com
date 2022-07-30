@@ -1,4 +1,4 @@
-name: Plasmo development test build artifcats
+name: Plasmo build chrome development relase
 on:
   workflow_dispatch:
   push:
