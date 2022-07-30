@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    # if: github.ref_type == 'tag'
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     strategy:
       matrix:
