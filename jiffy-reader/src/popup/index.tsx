@@ -158,7 +158,7 @@ function IndexPopup() {
                   <ul
                     className="flex hide flex-column pos-absolute ul-plain right-0 bg-primary gap-2 p-4 mt-3 text-white shadow transition"
                     style={{ zIndex: '10' }}>
-                    <li>Turn of if jiffy reader interfers with data entry</li>
+                    <li>Turn off if jiffy reader interfers with data entry</li>
                     <li>
                       <a
                         className="text-white"
