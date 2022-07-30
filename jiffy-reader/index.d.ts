@@ -43,5 +43,8 @@ declare namespace NodeJS {
 	interface ProcessEnv {
 		DEBUG: string
 		TARGET: string
+		SHORTCUT: string
+		VERSION: string
+		NAME: string
 	}
 }

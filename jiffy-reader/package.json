@@ -7,14 +7,14 @@
   "scripts": {
     "dev": "plasmo dev",
     "build": "plasmo build",
-    "dev:chrome": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome DEBUG=TRUE plasmo dev --target=chrome-mv3",
-    "dev:firefox": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox DEBUG=TRUE plasmo dev --target=firefox-mv2",
-    "build:chrome": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome DEBUG=TRUE plasmo dev --target=chrome-mv3",
-    "build:firefox": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox DEBUG=TRUE plasmo dev --target=firefox-mv2",
-    "gh:build:chrome": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
+    "dev:chrome": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=TRUE plasmo dev --target=chrome-mv3",
+    "dev:firefox": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=TRUE plasmo dev --target=firefox-mv2",
+    "build:chrome": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=TRUE plasmo dev --target=chrome-mv3",
+    "build:firefox": "cross-env VERSION=0.0.0.1 NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=TRUE plasmo dev --target=firefox-mv2",
+    "gh:build:chrome": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
     "bundle:chrome-opera": "zip build/jiffyReader-chrome -j build/chrome-mv3-prod/* && zip build/jiffyReader-opera.crx -j build/chrome-mv3-prod/*",
-    "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG= TARGET=firefox plasmo build --target=firefox-mv2 && zip build/jiffyReader-firefox.xpi -j build/firefox-mv2-prod/*",
-    "gh:build:development": "cross-env DEBUG=FALSE plasmo build --target=chrome-mv3"
+    "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG= TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && zip build/jiffyReader-firefox.xpi -j build/firefox-mv2-prod/*",
+    "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3"
   },
   "dependencies": {
     "@plasmohq/storage": "^0.8.1",
@@ -46,7 +46,7 @@
     "commands": {
       "toggle-bionic": {
         "suggested_key": {
-          "default": "Alt+B"
+          "default": "$SHORTCUT"
         },
         "description": "Toggle bionic reading mode"
       }

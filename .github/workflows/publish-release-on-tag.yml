@@ -57,7 +57,7 @@ jobs:
             ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
             ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
             echo "build jiffy-reader-production"
-            printf "VERSION=$ext_version_id \nNAME=\"Jiffy Reader\" \nTARGET=chrome" > .env.production
+            printf "VERSION=$ext_version_id \nNAME=\"Jiffy Reader\" \nTARGET=chrome" \nSHORTCUT=\"Alt+B\" > .env.production
 
             cat .env.production
 
