@@ -162,7 +162,6 @@ const commandListener = async (command) => {
       chrome.tabs.sendMessage(activeTab.id, { type: 'setReadingMode' }, () => Logger.logError());
     });
 
-    fireUpdateNotification()
   }
 };
 
