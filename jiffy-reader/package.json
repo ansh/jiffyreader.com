@@ -12,8 +12,8 @@
     "build:chrome": "cross-env VERSION=0.0.0.1 VERSION_NAME=\"0.0.0.1-jiffy-reader-chrome-dev-build\" NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=FALSE plasmo build --target=chrome-mv3",
     "build:firefox": "cross-env VERSION=0.0.0.1 VERSION_NAME=\"0.0.0.1-jiffy-reader-firefox-dev-build\" NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=FALSE plasmo build --target=firefox-mv2",
     "gh:build:chrome": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
-    "bundle:chrome-opera": "zip build/jiffyReader-chrome -j build/chrome-mv3-prod/* && zip build/jiffyReader-opera.crx -j build/chrome-mv3-prod/*",
-    "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && zip build/jiffyReader-firefox.xpi -j build/firefox-mv2-prod/*",
+    "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
+    "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
     "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3"
   },
   "dependencies": {

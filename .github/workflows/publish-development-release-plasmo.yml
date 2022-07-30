@@ -62,9 +62,12 @@ jobs:
             cat .env.production
 
             pnpm gh:build:development
-            zip "build/jiffyReader-chrome-$ext_tag" -j build/chrome-mv3-prod/*
+            
+            cd build/chrome-mv3-prod/ && zip -r "../jiffyReader-chrome-$ext_tag" ./*
 
-            ls -hl build/
+            pwd
+
+            ls -hl ../../build/
             echo "ext_tag=$ext_tag" >> $GITHUB_ENV
       - uses: ncipollo/release-action@v1
         with:
