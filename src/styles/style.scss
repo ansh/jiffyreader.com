@@ -1,0 +1,325 @@
+:root {
+    --gap: 0.6rem;
+    --jr-hide: none;
+}
+
+.jr_wrapper_container {
+
+
+    .popup-body {
+        padding: 10px;
+        min-width: 230px;
+        justify-content: center;
+        gap: 14px;
+        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
+            Helvetica Neue, sans-serif;
+        font-weight: 200;
+        color: #666;
+        font-size: 1.1rem;
+        accent-color: #2a8241;
+    }
+
+    button {
+        padding: 9px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        background: transparent;
+        color: #3aa757;
+        outline: 1px solid #3aa757;
+        box-sizing: border-box;
+        transition-property: background-color, transform, box-shadow;
+        transition-duration: 200ms;
+    }
+
+    button:hover,
+    button:focus {
+        box-shadow: 0 0 0 3px #3aa75733;
+    }
+
+    button:active,
+    button.selected {
+        background: #3aa757;
+        outline: 1px solid transparent;
+        color: white;
+    }
+
+    .transition {
+        transition-property: background-color, transform, box-shadow;
+        transition-duration: 200ms;
+    }
+
+    .shadow {
+        box-shadow: 0 0 0 3px #3aa75733;
+    }
+
+    button:active {
+        transform: scale(1.02);
+    }
+
+    select {
+        color: #3aa757;
+        background-color: #0000;
+        border-color: #3aa757;
+    }
+
+    .modeLabel {
+        display: none;
+    }
+
+    :is([br-mode='on'] #onModeLabel, [br-mode='off'] #offModeLabel) {
+        display: initial;
+    }
+
+    #lineHeightLabel {
+        padding-bottom: 4px;
+    }
+
+    #checkboxContainer {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .bg-danger {
+        background: #f44336;
+    }
+
+    /* || margin */
+    .m-0 {
+        margin: 0;
+    }
+
+    .m-sm {
+        margin: 4px;
+    }
+
+    .mr-md {
+        margin-right: 4px;
+    }
+
+    .ml-md {
+        margin-left: 4px;
+    }
+
+    .m-md {
+        margin: 8px;
+    }
+
+    .mb-md {
+        margin-bottom: 8px;
+    }
+
+    .mt-lg {
+        margin-top: 12px;
+    }
+
+
+    .mt-1 {
+        margin-top: calc(var(--gap) * 1);
+    }
+
+    .mt-2 {
+        margin-top: calc(var(--gap) * 2);
+    }
+
+    .mt-3 {
+        margin-top: calc(var(--gap) * 3);
+    }
+
+    .mt-4 {
+        margin-top: calc(var(--gap) * 4);
+    }
+
+    .mt-5 {
+        margin-top: calc(var(--gap) * 5);
+    }
+
+    /* || padding */
+    .p-1,
+    .p-2,
+    .p-3,
+    .p-4 {
+        padding: calc(4px * var(--padding-n, 1))
+    }
+
+    .p-2 {
+        --padding-n: 2;
+    }
+
+    .p-3 {
+        --padding-n: 3;
+    }
+
+    .p-4 {
+        --padding-n: 4;
+    }
+
+    .pt-sm {
+        padding-top: 4px;
+    }
+
+    .pr-sm {
+        padding-right: 4px;
+    }
+
+    .pr-md {
+        padding-right: 6px;
+    }
+
+    .pl-sm {
+        padding-left: 4px;
+    }
+
+    .pl-md {
+        padding-left: 6px;
+    }
+
+    /* || width */
+    .w-100 {
+        width: 100%;
+    }
+
+    .w-50 {
+        width: 50%;
+    }
+
+    /* || gap */
+    .gap-1 {
+        gap: calc(var(--gap) * 1);
+    }
+
+    .gap-2 {
+        gap: calc(var(--gap) * 2);
+    }
+
+    .gap-3 {
+        gap: calc(var(--gap) * 3);
+    }
+
+    .gap-4 {
+        gap: calc(var(--gap) * 4);
+    }
+
+    .gap-5 {
+        gap: calc(var(--gap) * 5);
+    }
+
+    /* || text */
+
+    .text-white {
+        color: white;
+    }
+
+
+    .text-md {
+        font-size: 85%;
+    }
+
+    .text-sm {
+        font-size: 75%;
+    }
+
+    .text-xs {
+        font-size: 50%;
+    }
+
+    .text-bold {
+        font-weight: bold;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .flex-column {
+        flex-direction: column;
+    }
+
+    .justify-between {
+        justify-content: space-between;
+    }
+
+    .justify-center {
+        justify-content: center;
+    }
+
+    .justify-around {
+        justify-content: space-around;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .block {
+        display: block;
+    }
+
+    .inline-block {
+        display: inline-block;
+    }
+
+    /* || component */
+
+    datalist>option {
+        margin-right: -8px;
+    }
+
+    footer {
+        position: sticky;
+        margin-top: auto;
+        bottom: 20px;
+        background: #3aa757;
+        box-shadow: 0 0 0 20px #3aa757;
+    }
+
+    img.buymeacoffee {
+        height: 60px !important;
+        width: 217px !important;
+    }
+
+    /* || background */
+    .bg-primary {
+        background: #3aa757;
+    }
+
+    /* || position */
+    .pos-absolute {
+        position: absolute
+    }
+
+    .pos-relative {
+        position: relative;
+    }
+
+    .right-0 {
+        right: 0;
+    }
+
+    .inset-0 {
+        inset: 0;
+    }
+
+    /* || lists */
+    .ul-plain {
+        list-style: none;
+    }
+
+    /* visibility */
+    .show-hover:hover {
+        --visible: inherit;
+    }
+
+    .show-hover:hover .hide {
+        display: inherit;
+    }
+
+    .hide {
+        display: var(--jr-hide)
+    }
+
+
+}

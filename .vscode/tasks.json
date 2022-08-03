@@ -1,0 +1,95 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "dev:firefox",
+      "problemMatcher": [],
+      "label": "npm: dev:firefox",
+      "detail": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "type": "npm",
+      "script": "dev:chrome",
+      "problemMatcher": [],
+      "label": "npm: dev:chrome",
+      "detail": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      }
+    },
+    {
+      "type": "npm",
+      "script": "eslint-fix",
+      "problemMatcher": [],
+      "label": "npm: eslint-fix",
+      "detail": "npx eslint --fix src/",
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": false
+      },
+      "runOptions": {
+        // "runOn": "folderOpen"
+      }
+    },
+    {
+      "type": "shell",
+      "command": "cd jiffy-reader && pnpm dlx nodemon -x \"pnpm dev:chrome\" -w \"src/\"  -w .env -w package.json -d 1",
+      "problemMatcher": [],
+      "label": "npm: dev - jiffy-reader",
+      "detail": "plasmo dev",
+      "runOptions": {
+        "runOn": "folderOpen"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    },
+    {
+      "type": "shell",
+      "command": "cd jiffy-reader && pnpm dlx nodemon -x \"pnpm dev:firefox\" -w \"src/\" -w .env -w package.json  -d 1",
+      "problemMatcher": [],
+      "label": "npm: dev - jiffy-reader firefox",
+      "detail": "plasmo dev",
+      "runOptions": {
+        //"runOn": "folderOpen"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "dedicated",
+        "showReuseMessage": true,
+        "clear": false
+      }
+    }
+  ]
+}

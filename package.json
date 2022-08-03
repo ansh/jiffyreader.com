@@ -1,30 +1,70 @@
 {
   "name": "jiffy-reader",
-  "version": "1.0.7.2",
+  "displayName": "Jiffy reader",
+  "version": "0.0.1",
   "description": "jiffy reader",
-  "main": "index.js",
+  "packageManager": "yarn@1.22.19",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "dev:chrome": "cross-env VERSION=0.0.0.1 VERSION_NAME=\"jiffy-reader-chrome-dev\" NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=TRUE plasmo dev --target=chrome-mv3",
+    "dev:firefox": "cross-env VERSION=0.0.0.1 VERSION_NAME=\"jiffy-reader-firefox-dev\" NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=TRUE plasmo dev --target=firefox-mv2",
+    "build:chrome": "cross-env VERSION=0.0.0.1 VERSION_NAME=\"0.0.0.1-jiffy-reader-chrome-dev-build\" NAME=\"jiffy-reader-chrome-dev\" TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=FALSE plasmo build --target=chrome-mv3",
+    "build:firefox": "cross-env VERSION=0.0.0.1 VERSION_NAME=\"0.0.0.1-jiffy-reader-firefox-dev-build\" NAME=\"jiffy-reader-firefox-dev\" TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=FALSE plasmo build --target=firefox-mv2",
+    "gh:build:chrome": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
+    "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
+    "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
+    "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3",
+    "gh:build:bookmarklet": "cd .. && yarn --force && pwd && ls ./ && mkdir extension &&touch ./extension/jiffyReader-bookmarklet.html && npm run build:bookmarklet && pwd && cp extension/jiffyReader-bookmarklet.html jiffy-reader/build/jiffyReader-bookmarklet.html",
+    "gh:build:bookmarklet2": "node src/Bookmarklet/esbuild.js"
+
+  },
   "dependencies": {
+    "@plasmohq/storage": "^0.8.1",
+    "@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
+    "@types/node": "18.6.1",
+    "cross-env": "^7.0.3",
+    "plasmo": "0.48.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "esbuild": "^0.14.42",
     "esbuild-sass-plugin": "^2.2.6"
   },
   "devDependencies": {
-   
-    
+    "@parcel/transformer-sass": "2.6.2",
+    "@types/chrome": "0.0.193",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "console-browserify": "^1.2.0",
+    "prettier": "2.7.1",
+    "process": "^0.11.10",
+    "typescript": "4.7.4"
   },
-  "scripts": {
-    "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
-    "dev:firefox": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch",
-    "dev:bookmarklet": "npx nodemon -x \"yarn build:bookmarklet\"",
-    "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
-    "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
-    "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
-    "build:bookmarklet": "node src/Bookmarklet/esbuild.js",
-    "build": "yarn run build:chrome && yarn run build:firefox && yarn run build:opera && yarn run build:bookmarklet",
-    "gh:build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome USE_PACKAGE_JSON_VERSION=false webpack",
-    "gh:build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox USE_PACKAGE_JSON_VERSION=false webpack",
-    "gh:build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera USE_PACKAGE_JSON_VERSION=false webpack",
-    "gh:build": "yarn run gh:build:chrome && yarn run gh:build:firefox && yarn run gh:build:opera && yarn run build:bookmarklet",
-    "eslint-fix": "npx nodemon -x \"npx eslint --fix src/\"  -w src/ -d 10"
+  "manifest": {
+    "name": "$NAME",
+    "version_name": "$VERSION_NAME",
+    "version": "$VERSION",
+    "description": "An extension that allows for Bionic Reading on any webpage!",
+    "permissions": [
+      "activeTab",
+      "notifications"
+    ],
+    "commands": {
+      "toggle-bionic": {
+        "suggested_key": {
+          "default": "$SHORTCUT"
+        },
+        "description": "Toggle bionic reading mode"
+      }
+    },
+    "web_accessible_resources":[
+      {
+        "resources":[
+          "assets/icon512.png"
+        ],
+        "matches": ["<all_urls>"]
+      }
+    ]
   },
   "repository": {
     "type": "git",
@@ -35,8 +75,5 @@
   "bugs": {
     "url": "https://github.com/ansh/jiffyreader.com/issues"
   },
-  "homepage": "https://github.com/ansh/jiffyreader.com#readme",
-  "engines": {
-    "node": ">=16.13.2"
-  }
+  "homepage": "https://github.com/ansh/jiffyreader.com#readme"
 }
