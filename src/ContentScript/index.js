@@ -1,6 +1,6 @@
 import Logger from '../Logger';
-import Preferences from '../Preferences';
-import documentParser from './documentParser';
+import Preferences from '../../jiffy-reader/src/Preferences';
+import documentParser from '../../jiffy-reader/src/contents/documentParser';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 

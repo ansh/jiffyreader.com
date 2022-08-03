@@ -1,7 +1,7 @@
-import Logger from '../../jiffy-reader/src/features/Logger';
-import contentStyle from './contentStyle.scss';
-import NodeObserver from './observer';
 import { defaultPrefs } from '../Preferences';
+import Logger from '../services/Logger';
+import contentStyle from '../styles/contentStyle.scss';
+import NodeObserver from './observer';
 import { makeExcluder } from './siteElementExclusions';
 
 const { MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE } = defaultPrefs;
@@ -176,7 +176,8 @@ function ignoreOnMutation(node) {
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   const body = mutationRecords[0]?.target?.parentElement?.closest('body');
   if (
-    body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
+    body &&
+    ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
   ) {
     Logger.logInfo('focused or active input found, exiting mutationCallback');
     return;
@@ -214,7 +215,8 @@ const setProperty = (documentRef) => (property, value) => {
   documentRef.body.style.setProperty(property, value);
 };
 
-const getProperty = (documentRef) => (property) => documentRef.body.style.getPropertyValue(property);
+const getProperty = (documentRef) => (property) =>
+  documentRef.body.style.getPropertyValue(property);
 
 const setSaccadesStyle = (documentRef) => (style) => {
   Logger.logInfo('saccades-style', style);

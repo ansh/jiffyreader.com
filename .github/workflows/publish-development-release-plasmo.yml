@@ -71,7 +71,5 @@ jobs:
             echo "ext_tag=$ext_tag" >> $GITHUB_ENV
       - uses: ncipollo/release-action@v1
         with:
-          # artifacts: "build/jiffyReader-chrome.zip, build/jiffyReader-firefox.xpi, build/jiffyReader-opera.crx, build/jiffyReader-bookmarklet.html"
-          # artifacts: "jiffy-reader/build/jiffyReader-chrome-${{env.ext_tag}}.zip"
           artifacts: "jiffy-reader/build/jiffyReader-*"
           token: ${{ secrets.GITHUB_TOKEN }}

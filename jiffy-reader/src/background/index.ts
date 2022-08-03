@@ -1,11 +1,10 @@
 import { Storage } from '@plasmohq/storage';
 
-import { defaultPrefs } from '../../../src/Preferences';
-import StorageHelper from '../../../src/StorageHelper';
-import TabHelper from '../../../src/TabHelper';
-import Logger from '../features/Logger';
+import { defaultPrefs } from '../Preferences';
+import Logger from '../services/Logger';
+import TabHelper from '../services/TabHelper';
 
-export {};
+export { };
 
 const PREF_STORE_KEY = 'prefStore';
 
@@ -117,15 +116,6 @@ const initializeStorage = async (target = process.env.TARGET) => {
 const listener = (request, sender, sendResponse) => {
   Logger.logInfo('background listener called', { request });
   switch (request.message) {
-    case 'storePrefs': {
-      sendResponse(StorageHelper.storePrefs(request.action, request.data));
-      break;
-    }
-    case 'retrievePrefs': {
-      StorageHelper.retrievePrefs(request.action).then((res) => sendResponse(res));
-      return true;
-      break;
-    }
     case 'setIconBadgeText': {
       (async () => {
         const tabID = request?.tabID ?? (await TabHelper.getActiveTab(true)).id;

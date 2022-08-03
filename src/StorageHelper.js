@@ -1,4 +1,4 @@
-import Logger from '../jiffy-reader/src/features/Logger';
+import Logger from '../jiffy-reader/src/services/Logger';
 
 function storePrefs(action, data) {
   try {

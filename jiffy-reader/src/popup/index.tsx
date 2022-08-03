@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 
 import usePrefs from '~usePrefs';
 
-import documentParser from '../../../src/ContentScript/documentParser';
+import documentParser from '../contents/documentParser';
 
-import '../../../src/style.css';
+import '../styles/style.css';
 
-import TabHelper from '../../../src/TabHelper';
-import Logger from '../features/Logger';
+import TabHelper from '../services/TabHelper';
+import Logger from '../services/Logger';
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
@@ -174,7 +174,7 @@ function IndexPopup() {
                           <img
                             src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
                             alt="Buy Me A Coffee"
-                            className='buymeacoffee'
+                            className="buymeacoffee"
                           />
                         </a>
                       </li>

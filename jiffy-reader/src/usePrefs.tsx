@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Storage, useStorage } from '@plasmohq/storage';
 
-import { defaultPrefs } from '../../src/Preferences';
-import Logger from './features/Logger';
+import { defaultPrefs } from './Preferences';
+import Logger from './services/Logger';
 
 const PREF_STORE_AREA = 'sync';
 const PREF_STORE_SCOPES = ['global', 'local', 'reset'];

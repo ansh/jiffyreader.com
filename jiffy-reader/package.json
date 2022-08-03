@@ -15,7 +15,9 @@
     "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
     "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
     "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3",
-    "gh:build:bookmarklet": "cd .. && yarn --force && pwd && ls ./ && mkdir extension &&touch ./extension/jiffyReader-bookmarklet.html && npm run build:bookmarklet && pwd && cp extension/jiffyReader-bookmarklet.html jiffy-reader/build/jiffyReader-bookmarklet.html"
+    "gh:build:bookmarklet": "cd .. && yarn --force && pwd && ls ./ && mkdir extension &&touch ./extension/jiffyReader-bookmarklet.html && npm run build:bookmarklet && pwd && cp extension/jiffyReader-bookmarklet.html jiffy-reader/build/jiffyReader-bookmarklet.html",
+    "gh:build:bookmarklet2": "node src/Bookmarklet/esbuild.js"
+
   },
   "dependencies": {
     "@plasmohq/storage": "^0.8.1",
@@ -24,7 +26,9 @@
     "cross-env": "^7.0.3",
     "plasmo": "0.48.4",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "esbuild": "^0.14.42",
+    "esbuild-sass-plugin": "^2.2.6"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.6.2",

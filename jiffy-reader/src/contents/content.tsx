@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 
 import usePrefs from '~usePrefs';
 
-import documentParser from '../../../src/ContentScript/documentParser';
-import Logger from '../features/Logger';
+import documentParser from './documentParser';
+import Logger from '../services/Logger';
 
 export const config: PlasmoContentScript = {
   matches: ['<all_urls>'],

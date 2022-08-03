@@ -1,4 +1,4 @@
-import Logger from '../jiffy-reader/src/features/Logger';
+import Logger from './Logger';
 
 const isBackgroundScript = () => {
   if (typeof chrome?.extension?.getBackgroundPage === 'function') {

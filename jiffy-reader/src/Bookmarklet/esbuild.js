@@ -10,7 +10,7 @@ const /** @type {import('esbuild').BuildOptions} */ defaultConfigs = {
   define: { 'process.env.DEBUG': '"false"' },
 };
 
-const outputFile = './extension/jiffyReader-bookmarklet.html';
+const outputFile = './build/jiffyReader-bookmarklet3.html';
 
 build({
   entryPoints: ['./src/Bookmarklet/index.js'],

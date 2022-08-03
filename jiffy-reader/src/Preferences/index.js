@@ -1,5 +1,5 @@
-import Logger from '../../jiffy-reader/src/features/Logger';
-import StorageHelper from '../StorageHelper';
+import Logger from '../services/Logger';
+import StorageHelper from '../../../src/StorageHelper';
 // default preferences
 // and source of truth
 // for both global and local prefs
