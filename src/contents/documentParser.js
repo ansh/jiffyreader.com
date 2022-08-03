@@ -1,4 +1,4 @@
-import { defaultPrefs } from '../Preferences';
+import { defaultPrefs } from '../services/preferences';
 import Logger from '../services/Logger';
 import contentStyle from '../styles/contentStyle.scss';
 import NodeObserver from './observer';

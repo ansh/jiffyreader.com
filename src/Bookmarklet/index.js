@@ -1,6 +1,7 @@
 import documentParser from '../contents/documentParser';
-import { defaultPrefs } from '../Preferences';
+
 import Logger from '../services/Logger';
+import { defaultPrefs } from '../services/preferences';
 
 const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
   ...defaultPrefs,

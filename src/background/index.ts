@@ -1,6 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 
-import { defaultPrefs } from '../Preferences';
+import { defaultPrefs } from '../services/preferences';
 import Logger from '../services/Logger';
 import TabHelper from '../services/TabHelper';
 

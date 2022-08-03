@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { Storage, useStorage } from '@plasmohq/storage';
 
-import { defaultPrefs } from './Preferences';
+import { defaultPrefs } from './services/preferences';
 import Logger from './services/Logger';
 
 const PREF_STORE_AREA = 'sync';
