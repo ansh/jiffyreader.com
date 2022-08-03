@@ -1,8 +1,10 @@
-import Logger from '../Logger';
-import contentStyle from './contentStyle.scss';
+
+
+import Logger from '../services/Logger';
+import { defaultPrefs } from '../services/preferences';
 import NodeObserver from './observer';
-import { defaultPrefs } from '../Preferences';
 import { makeExcluder } from './siteElementExclusions';
+import siteOverrides from './siteOverrides';
 
 const { MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE } = defaultPrefs;
 
@@ -132,10 +134,11 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const setReadingMode = (enableReading, /** @type {Document} */ document) => {
+const setReadingMode = (enableReading, /** @type {Document} */ document, contentStyle) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
   origin = document?.URL ?? '';
   excludeByOrigin = makeExcluder(origin);
+
 
   try {
     if (enableReading) {
@@ -176,7 +179,8 @@ function ignoreOnMutation(node) {
 function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
   const body = mutationRecords[0]?.target?.parentElement?.closest('body');
   if (
-    body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
+    body &&
+    ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length
   ) {
     Logger.logInfo('focused or active input found, exiting mutationCallback');
     return;
@@ -200,11 +204,46 @@ function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
 function addStyles(styleText, document) {
   const style = document.createElement('style');
   style.setAttribute('br-style', '');
-  Logger.logInfo('contentStyle', styleText);
-  style.textContent = styleText;
+  style.textContent = styleText + siteOverrides.getSiteOverride(document?.URL);
+  Logger.logInfo('contentStyle', style.textContent);
   document.head.appendChild(style);
 }
 
+const setAttribute = (documentRef) => (attribute, value) => {
+  documentRef.body.setAttribute(attribute, value);
+};
+const getAttribute = (documentRef) => (attribute) => documentRef.body.getAttribute(attribute);
+
+const setProperty = (documentRef) => (property, value) => {
+  documentRef.body.style.setProperty(property, value);
+};
+
+const getProperty = (documentRef) => (property) =>
+  documentRef.body.style.getPropertyValue(property);
+
+const setSaccadesStyle = (documentRef) => (style) => {
+  Logger.logInfo('saccades-style', style);
+
+  if (/bold/i.test(style)) {
+    const [, value] = style.split('-');
+    setProperty(documentRef)('--br-boldness', value);
+    setProperty(documentRef)('--br-line-style', '');
+  }
+
+  if (/line$/i.test(style)) {
+    const [value] = style.split('-');
+    setProperty(documentRef)('--br-line-style', value);
+    setProperty(documentRef)('--br-boldness', '');
+  }
+};
+
 export default {
   setReadingMode,
+  makeHandlers: (documentRef) => ({
+    setAttribute: setAttribute(documentRef),
+    getAttribute: getAttribute(documentRef),
+    setProperty: setProperty(documentRef),
+    getProperty: getProperty(documentRef),
+    setSaccadesStyle: setSaccadesStyle(documentRef),
+  }),
 };

@@ -1,10 +1,10 @@
-name: Plasmo build release
+name: Plasmo build chrome development relase
 on:
   workflow_dispatch:
   push:
-    tags-ignore:
+    tags:
       - '*.*.*.*-*'
-    branches: [master,plasmo]
+    branches: [plasmo]
 
 jobs:
   build:
@@ -54,18 +54,20 @@ jobs:
             echo $ext_version_name
             ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
             ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
-            echo "build jiffy-reader-production"
-            printf "VERSION=$ext_version_id \nVERSION_NAME=$ext_version_name \nNAME=\"Jiffy Reader\" \nTARGET=chrome \nSHORTCUT=\"Alt+B\"" > .env.production
+            echo "build jiffy-reader-development"
+            printf "VERSION=$ext_version_id \nVERSION_NAME=$ext_version_name \nNAME=\"Jiffy Reader $ext_tag\" \nTARGET=chrome \nDEBUG=FALSE \nSHORTCUT=\"Alt+B\"" > .env.production
 
             cat .env.production
 
-            pnpm gh:build:chrome && pnpm gh:build:firefox && pnpm gh:build:bookmarklet
+            pnpm gh:build:development && pnpm gh:build:bookmarklet
+            
+            cd build/chrome-mv3-prod/ && zip -r "../jiffyReader-chrome-$ext_tag" ./*
 
-            ls -hl build/
+            pwd
+
+            ls -hl ../../build/
             echo "ext_tag=$ext_tag" >> $GITHUB_ENV
-
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/jiffyReader*"
+          artifacts: "build/jiffyReader-*"
           token: ${{ secrets.GITHUB_TOKEN }}
-

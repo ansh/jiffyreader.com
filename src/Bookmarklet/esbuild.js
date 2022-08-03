@@ -2,14 +2,15 @@ const { sassPlugin } = require('esbuild-sass-plugin');
 const { build } = require('esbuild');
 const fs = require('fs');
 
-const defaultConfigs = {
+const /** @type {import('esbuild').BuildOptions} */ defaultConfigs = {
   bundle: true,
   minify: true,
   write: false,
   plugins: [sassPlugin({ type: 'css-text' })],
+  define: { 'process.env.DEBUG': '"false"' },
 };
 
-const outputFile = './extension/jiffyReader-bookmarklet.html';
+const outputFile = './build/jiffyReader-bookmarklet.html';
 
 build({
   entryPoints: ['./src/Bookmarklet/index.js'],
@@ -30,4 +31,8 @@ build({
   `,
     );
   })
-  .catch(() => process.exit(1));
+  .catch((error) => {
+    console.error(error)
+    console.trace(error)
+    process.exit(1)
+  });

@@ -1,10 +1,9 @@
-import documentParser from '../ContentScript/documentParser';
-import Logger from '../Logger';
-import { defaultPrefs } from '../Preferences';
+import documentParser from '../contents/documentParser';
+import Logger from '../services/Logger';
+import { defaultPrefs } from '../services/preferences';
+import contentStyle from '../styles/contentStyle.scss';
 
-const {
-  saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity,
-} = {
+const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
   ...defaultPrefs,
 };
 function writeInitialConfigsToDom() {
@@ -35,7 +34,11 @@ function writeInitialConfigsToDom() {
 
 function toggleReadingMode() {
   Logger.logInfo('called');
-  documentParser.setReadingMode(document.body.getAttribute('br-mode') !== 'on', document);
+  documentParser.setReadingMode(
+    document.body.getAttribute('br-mode') !== 'on',
+    document,
+    contentStyle,
+  );
 }
 
 const stateTransitions = {
@@ -124,7 +127,8 @@ const callableActions = {
   fireFixationStrengthTransition: () => toggleStateEngine('fixation-strength'),
   fireSaccadesIntervalTransition: () => toggleStateEngine('saccades-interval'),
   fireSaccadesColorTransition: () => toggleStateEngine('saccades-color'),
-  firefixationEdgeOpacityTransition: () => toggleStateEngine('--fixation-edge-opacity', setProperty, getProperty),
+  firefixationEdgeOpacityTransition: () =>
+    toggleStateEngine('--fixation-edge-opacity', setProperty, getProperty),
 };
 
 const actionToFire = 'ACTION_TO_FIRE';
