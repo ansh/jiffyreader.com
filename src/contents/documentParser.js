@@ -1,4 +1,4 @@
-import contentStyle from 'data-text:../styles/contentStyle.scss';
+
 
 import Logger from '../services/Logger';
 import { defaultPrefs } from '../services/preferences';
@@ -134,10 +134,11 @@ function parseNode(/** @type Element */ node) {
   if (node.hasChildNodes()) [...node.childNodes].forEach(parseNode);
 }
 
-const setReadingMode = (enableReading, /** @type {Document} */ document) => {
+const setReadingMode = (enableReading, /** @type {Document} */ document, contentStyle) => {
   const endTimer = Logger.logTime('ToggleReading-Time');
   origin = document?.URL ?? '';
   excludeByOrigin = makeExcluder(origin);
+
 
   try {
     if (enableReading) {

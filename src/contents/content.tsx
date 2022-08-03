@@ -1,10 +1,11 @@
+import contentStyle from 'data-text:../styles/contentStyle.scss';
 import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
 import usePrefs from '~usePrefs';
 
-import documentParser from './documentParser';
 import Logger from '../services/Logger';
+import documentParser from './documentParser';
 
 export const config: PlasmoContentScript = {
   matches: ['<all_urls>'],
@@ -90,7 +91,7 @@ const IndexContent = () => {
       () => Logger.LogLastError(),
     );
 
-    documentParser.setReadingMode(tabSession.brMode, document);
+    documentParser.setReadingMode(tabSession.brMode, document, contentStyle);
     setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
     setProperty('--br-line-height', prefs.lineHeight);
     setSaccadesStyle(prefs.saccadesStyle);

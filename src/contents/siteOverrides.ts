@@ -5,7 +5,7 @@
 import Logger from '~services/Logger';
 
 const siteOverrides = {
-  'play.google.com': `[br-mode="on"] reader-rendered-page { overflow: auto !important; }`,
+  'play.google.com': `[br-mode=on] reader-rendered-page { overflow: auto !important; }`,
 };
 
 const getSiteOverride = (url: string) => {

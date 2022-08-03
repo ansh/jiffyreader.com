@@ -1,7 +1,7 @@
 import documentParser from '../contents/documentParser';
-
 import Logger from '../services/Logger';
 import { defaultPrefs } from '../services/preferences';
+import contentStyle from '../styles/contentStyle.scss';
 
 const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
   ...defaultPrefs,
@@ -34,7 +34,11 @@ function writeInitialConfigsToDom() {
 
 function toggleReadingMode() {
   Logger.logInfo('called');
-  documentParser.setReadingMode(document.body.getAttribute('br-mode') !== 'on', document);
+  documentParser.setReadingMode(
+    document.body.getAttribute('br-mode') !== 'on',
+    document,
+    contentStyle,
+  );
 }
 
 const stateTransitions = {
