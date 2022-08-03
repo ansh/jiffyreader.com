@@ -1,8 +1,10 @@
+import contentStyle from 'data-text:../styles/contentStyle.scss';
+
 import Logger from '../services/Logger';
 import { defaultPrefs } from '../services/preferences';
-import contentStyle from '../styles/contentStyle.scss';
 import NodeObserver from './observer';
 import { makeExcluder } from './siteElementExclusions';
+import siteOverrides from './siteOverrides';
 
 const { MAX_FIXATION_PARTS, FIXATION_LOWER_BOUND, BR_WORD_STEM_PERCENTAGE } = defaultPrefs;
 
@@ -201,8 +203,8 @@ function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
 function addStyles(styleText, document) {
   const style = document.createElement('style');
   style.setAttribute('br-style', '');
-  Logger.logInfo('contentStyle', styleText);
-  style.textContent = styleText;
+  style.textContent = styleText + siteOverrides.getSiteOverride(document?.URL);
+  Logger.logInfo('contentStyle', style.textContent);
   document.head.appendChild(style);
 }
 

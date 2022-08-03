@@ -6,6 +6,7 @@ const siteElementExclusions = {
   'youtube.com': ['.ytd-commentbox', 'ytd-commentbox'],
   'play.google.com': ['.mat-icon-button', 'mat-icon-button', '.scrubber-container', 'header>nav>a'],
   'app.grammarly.com': ['.editor-editorContainer'],
+  'notion.so': ['[data-content-editable-leaf="true"]','.notion-frame']
 };
 
 /** @returns {Excluder} */
