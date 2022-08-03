@@ -6,8 +6,8 @@ import documentParser from '../contents/documentParser';
 
 import '../styles/style.css';
 
-import TabHelper from '../services/TabHelper';
 import Logger from '../services/Logger';
+import TabHelper from '../services/TabHelper';
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
@@ -123,6 +123,23 @@ function IndexPopup() {
     );
   };
 
+  const getFooterLinks = (textColor = 'text-white') => (
+    <>
+      <a className={textColor} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
+        FAQ
+      </a>
+      <a
+        className={textColor}
+        href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
+        target="_blank">
+        Report Issue
+      </a>
+      <a className={textColor} href="https://www.jiffyreader.com/" target="_blank">
+        About Us
+      </a>
+    </>
+  );
+
   const showDebugInline = (environment = 'production') => {
     if (/production/i.test(environment)) return;
 
@@ -141,8 +158,10 @@ function IndexPopup() {
         <div className="popup-body flex flex-column">
           {showDebugInline(process.env.NODE_ENV)}
           {!prefs || !tabSession ? (
-            <div className="flex flex-column m-md">
-              <span>Loading... Hopefully not broken</span>
+            <div className="flex flex-column m-md gap-2">
+              <span>Tabs without a url may not work properly</span>
+              <span>Reload the tab with valid url and try again</span>
+              <span className="footer-links flex justify-between">{getFooterLinks('')}</span>
             </div>
           ) : (
             <div
@@ -373,21 +392,7 @@ function IndexPopup() {
               </button>
 
               <footer className="popup_footer flex justify-between text-center text-md text-bold">
-                <a
-                  className="text-white"
-                  href="https://github.com/ansh/jiffyreader.com#FAQ"
-                  target="_blank">
-                  FAQ
-                </a>
-                <a
-                  className="text-white"
-                  href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
-                  target="_blank">
-                  Report Issue
-                </a>
-                <a className="text-white" href="https://www.jiffyreader.com/" target="_blank">
-                  About Us
-                </a>
+                {getFooterLinks()}
               </footer>
             </div>
           )}
