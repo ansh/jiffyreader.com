@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react';
+
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
 import usePrefs from '~services/usePrefs';
+
 import './../styles/style.css';
-import { useEffect, useState } from 'react';
 
 import documentParser from '~contents/documentParser';
 

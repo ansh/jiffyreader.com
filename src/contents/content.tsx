@@ -1,8 +1,9 @@
-import Logger from '~services/Logger';
-import usePrefs from '~services/usePrefs';
 import contentStyle from 'data-text:./../styles/contentStyle.scss';
 import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
+
+import Logger from '~services/Logger';
+import usePrefs from '~services/usePrefs';
 
 import documentParser from './documentParser';
 
@@ -89,6 +90,7 @@ const IndexContent = () => {
     runTimeHandler.runtime.sendMessage(
       { message: 'setIconBadgeText', data: tabSession.brMode, tabID: tabSession.tabID },
       () => Logger.LogLastError(),
+    );
 
     documentParser.setReadingMode(tabSession.brMode, document, contentStyle);
     setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
