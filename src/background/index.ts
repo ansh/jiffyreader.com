@@ -16,10 +16,6 @@ const area = ((process.env.TARGET as string).includes('firefox') && 'local') || 
 
 const storage = new Storage({ area });
 
-const area = ((process.env.TARGET as string).includes('firefox') && 'local') || 'sync';
-
-const storage = new Storage({ area });
-
 const getAssetUrl = (rawUrl: string, runner = runTimeHandler) => {
   return runner.runtime.getURL(rawUrl) as string;
 };
