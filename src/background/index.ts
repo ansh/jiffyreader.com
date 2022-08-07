@@ -1,10 +1,10 @@
 import { Storage } from '@plasmohq/storage';
 
-import { defaultPrefs } from '../services/preferences';
-import Logger from '../services/Logger';
-import TabHelper from '../services/TabHelper';
+import Logger from '~services/Logger';
+import TabHelper from '~services/TabHelper';
+import defaultPrefs from '~services/preferences';
 
-export { };
+export {};
 
 const PREF_STORE_KEY = 'prefStore';
 
@@ -12,12 +12,9 @@ const BACKGROUND_LOG_STYLE = 'background: brown; color:white';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
-const UPDATE_NOTIFICATION_ID = 'jiffy-reader-updated';
+const area = ((process.env.TARGET as string).includes('firefox') && 'local') || 'sync';
 
-const NOTIFICATION_URLS = [
-  'https://github.com/ansh/jiffyreader.com#FAQ',
-  'https://jiffyreader.com',
-];
+const storage = new Storage({ area });
 
 const getAssetUrl = (rawUrl: string, runner = runTimeHandler) => {
   return runner.runtime.getURL(rawUrl) as string;
@@ -30,69 +27,18 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
   );
 };
 
-chrome.notifications.onButtonClicked.addListener((notificationId, buttonIndex) => {
-  Logger.logInfo('notifications.onButtonClicked', notificationId);
-
-  if (notificationId !== 'jiffy-reader-updated') {
+const fireUpdateNotification = async () => {
+  if (await storage.get(PREF_STORE_KEY)) {
     return;
   }
 
-  chrome.tabs.create({ active: true, url: NOTIFICATION_URLS[buttonIndex] });
-});
-
-const getUpdateNotificationConfig = (runner: string /**chrome or firefix */) => {
-  let config = {
-    title: 'Jiffy Reader: update installed',
-    iconUrl: getAssetUrl('assets/icon512.png'),
-    message: 'Pin the JiffyReader icon for quick access, click the icon to open the config panel',
-    type: 'basic',
-  };
-
-  if (/chrome/i.test(runner)) {
-    config['buttons'] = [
-      {
-        title: 'See FAQS and ReadMe',
-        iconUrl: getAssetUrl('assets/icon512.png'),
-      },
-      {
-        title: 'JiffyReader.com',
-        iconUrl: getAssetUrl('assets/icon512.png'),
-      },
-    ];
-  }
-
-  return config;
+  chrome.tabs.create({
+    active: true,
+    url: 'https://github.com/ansh/jiffyreader.com#first-installation-welcome',
+  });
 };
 
-const showNotificationInstanceId = (browserLabel: string) => {
-  return (notificationInstanceId) =>
-    Logger.logInfo(
-      `Update notification created for ${browserLabel} with id:`,
-      notificationInstanceId,
-    );
-};
-
-const fireUpdateNotification = () => {
-  const browserLabel = !!chrome?.action ? 'chrome' : 'firefox';
-
-  if (/chrome/i.test(browserLabel)) {
-    runTimeHandler.notifications.create(
-      UPDATE_NOTIFICATION_ID,
-      getUpdateNotificationConfig(browserLabel),
-      showNotificationInstanceId(browserLabel),
-    );
-  } else {
-    runTimeHandler.notifications
-      .create(UPDATE_NOTIFICATION_ID, getUpdateNotificationConfig(browserLabel))
-      .then(showNotificationInstanceId(browserLabel));
-  }
-};
-
-const initializeStorage = async (target = process.env.TARGET) => {
-  const area = ((target as string).includes('firefox') && 'local') || 'sync';
-
-  const storage = new Storage({ area });
-
+const initializeStorage = async () => {
   try {
     const prefStore = await storage.get(PREF_STORE_KEY);
     Logger.logInfo('background: prefStore install value', prefStore);

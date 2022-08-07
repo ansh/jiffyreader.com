@@ -1,10 +1,10 @@
-import contentStyle from 'data-text:../styles/contentStyle.scss';
+import contentStyle from 'data-text:./../styles/contentStyle.scss';
 import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
-import usePrefs from '~usePrefs';
+import Logger from '~services/Logger';
+import usePrefs from '~services/usePrefs';
 
-import Logger from '../services/Logger';
 import documentParser from './documentParser';
 
 export const config: PlasmoContentScript = {

@@ -8,12 +8,13 @@ const /** @type {import('esbuild').BuildOptions} */ defaultConfigs = {
   write: false,
   plugins: [sassPlugin({ type: 'css-text' })],
   define: { 'process.env.DEBUG': '"false"' },
+  tsconfig: './tsconfig.json',
 };
 
 const outputFile = './build/jiffyReader-bookmarklet.html';
 
 build({
-  entryPoints: ['./src/Bookmarklet/index.js'],
+  entryPoints: ['./src/Bookmarklet/index.ts'],
   ...defaultConfigs,
 })
   .then(({ outputFiles: [res] }) => {
@@ -32,7 +33,7 @@ build({
     );
   })
   .catch((error) => {
-    console.error(error)
-    console.trace(error)
-    process.exit(1)
+    console.error(error);
+    console.trace(error);
+    process.exit(1);
   });

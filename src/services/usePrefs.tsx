@@ -1,11 +1,9 @@
+import { Storage, useStorage } from '@plasmohq/storage';
 import { useEffect, useState } from 'react';
 
-import { Storage, useStorage } from '@plasmohq/storage';
+import Logger from './Logger';
+import defaultPrefs from './preferences';
 
-import { defaultPrefs } from './services/preferences';
-import Logger from './services/Logger';
-
-const PREF_STORE_AREA = 'sync';
 const PREF_STORE_SCOPES = ['global', 'local', 'reset'];
 const PREF_LOG_STYLE = 'color: green; background: black;';
 
@@ -26,13 +24,12 @@ const usePrefs = (
     return prefStore?.['local']?.[originStr] || prefStore['global'];
   };
   const initializePrefs = async (initialPrefs: PrefStore | undefined) => {
+    initialize && Logger.logInfo('%cinitializePrefs from popup', PREF_LOG_STYLE);
+    if (initialize && !initialPrefs) {
+      return { global: defaultPrefs, local: {} };
+    }
 
-	 initialize && Logger.logInfo('%cinitializePrefs from popup',PREF_LOG_STYLE)
-	if (initialize && !initialPrefs){
-		return { global: defaultPrefs, local: {} }
-	}
-
-    const finalInitialPrefs = initialPrefs ;
+    const finalInitialPrefs = initialPrefs;
 
     Logger.logInfo('%cinitializePrefs', PREF_LOG_STYLE, {
       privateOrigin,
@@ -44,7 +41,8 @@ const usePrefs = (
   };
 
   const [prefStore, setPrefStore] = useStorage(
-    { key: 'prefStore', area } ,initializePrefs as any as PrefStore,
+    { key: 'prefStore', area },
+    initializePrefs as any as PrefStore,
   );
 
   const setPrefsExternal = async (
@@ -93,14 +91,6 @@ const usePrefs = (
       });
     })();
   }, []);
-
-//   useEffect(() => {
-//     if (!privateOrigin || !initialize || prefStore) return;
-
-//     setPrefStore({ global: defaultPrefs, local: {} });
-// 	Logger.logInfo('%cusePrefs.prefStoreInitialzed:',PREF_LOG_STYLE)
-
-//   }, [privateOrigin, initialize]);
 
   const outPrefs = getActivePrefs();
   Logger.logInfo('%cusePrefs.return', 'background-color:lime');

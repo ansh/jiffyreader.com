@@ -1,7 +1,9 @@
-import documentParser from '../contents/documentParser';
-import Logger from '../services/Logger';
-import { defaultPrefs } from '../services/preferences';
-import contentStyle from '../styles/contentStyle.scss';
+import Logger from '~services/Logger';
+import defaultPrefs from '~services/preferences';
+
+import documentParser from '~contents/documentParser';
+
+import contentStyle from '~/styles/contentStyle.scss';
 
 const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
   ...defaultPrefs,

@@ -213,6 +213,9 @@
         color: white;
     }
 
+    .text-lg {
+        font-size: 125%;
+    }
 
     .text-md {
         font-size: 85%;
@@ -321,5 +324,13 @@
         display: var(--jr-hide)
     }
 
+
+    $width_breaks: 0, 25, 50, 75, 100;
+
+    @each $widht_break in $width_breaks {
+        .w-#{$widht_break} {
+            width: "#{$widht_break}%";
+        }
+    }
 
 }
