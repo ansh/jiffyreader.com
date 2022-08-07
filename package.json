@@ -14,13 +14,12 @@
     "gh:build:chrome": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
     "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
     "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
-    "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3",
+    "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && cross-env DEBUG=FALSE SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2",
     "gh:build:bookmarklet": "node src/Bookmarklet/esbuild.js"
   },
   "dependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
     "@plasmohq/storage": "^0.8.1",
-    "@types/node": "18.6.1",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.42",
     "esbuild-sass-plugin": "^2.2.6",
@@ -31,9 +30,11 @@
   "devDependencies": {
     "@parcel/transformer-sass": "2.6.2",
     "@types/chrome": "0.0.193",
+    "@types/node": "18.6.1",
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "console-browserify": "^1.2.0",
+    "eslint-config-airbnb-base-typescript-prettier": "^4.1.0",
     "prettier": "2.7.1",
     "process": "^0.11.10",
     "typescript": "4.7.4"
