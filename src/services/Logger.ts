@@ -19,11 +19,7 @@ const cantDebug = (debugState: string = 'false') => {
 
 const nullCallback = () => null;
 
-/**
- * @template T
- * @return {T}
- */
-const maker = (/** @type {T} */ fn) => (cantDebug(process.env.DEBUG) ? nullCallback : fn);
+const maker = <T>(fn: T): T => (cantDebug(process.env.DEBUG) ? nullCallback : fn) as T;
 
 /**
  *

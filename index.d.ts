@@ -48,3 +48,5 @@ declare namespace NodeJS {
 		NAME: string
 	}
 }
+
+declare module '*.scss';

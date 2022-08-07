@@ -1,13 +1,10 @@
+import Logger from '~services/Logger';
+import TabHelper from '~services/TabHelper';
+import usePrefs from '~services/usePrefs';
+import './../styles/style.css';
 import { useEffect, useState } from 'react';
 
-import usePrefs from '~usePrefs';
-
-import documentParser from '../contents/documentParser';
-
-import '../styles/style.css';
-
-import Logger from '../services/Logger';
-import TabHelper from '../services/TabHelper';
+import documentParser from '~contents/documentParser';
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
@@ -50,7 +47,7 @@ function IndexPopup() {
   useEffect(() => {
     if (!tabSession) return;
 
-    documentParser.setReadingMode(tabSession.brMode, document);
+    documentParser.setReadingMode(tabSession.brMode, document, '');
   }, [tabSession]);
 
   useEffect(() => {

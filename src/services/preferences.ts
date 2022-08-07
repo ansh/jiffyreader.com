@@ -1,12 +1,10 @@
-import Logger from './Logger';
-
 // default preferences
 // and source of truth
 // for both global and local prefs
 // so new preferences should be
 // added here
 
-export const defaultPrefs = {
+const defaultPrefs = {
   onPageLoad: false,
   scope: 'global',
   lineHeight: 1,
@@ -20,3 +18,5 @@ export const defaultPrefs = {
   FIXATION_LOWER_BOUND: 0,
   BR_WORD_STEM_PERCENTAGE: 0.7,
 };
+
+export default defaultPrefs;

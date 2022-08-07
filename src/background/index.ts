@@ -1,10 +1,9 @@
 import { Storage } from '@plasmohq/storage';
+import Logger from '~services/Logger';
+import TabHelper from '~services/TabHelper';
+import defaultPrefs from '~services/preferences';
 
-import { defaultPrefs } from '../services/preferences';
-import Logger from '../services/Logger';
-import TabHelper from '../services/TabHelper';
-
-export { };
+export {};
 
 const PREF_STORE_KEY = 'prefStore';
 
