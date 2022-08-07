@@ -1,7 +1,7 @@
 
+import Logger from '~services/Logger';
+import defaultPrefs from '~services/preferences';
 
-import Logger from '../services/Logger';
-import { defaultPrefs } from '../services/preferences';
 import NodeObserver from './observer';
 import { makeExcluder } from './siteElementExclusions';
 import siteOverrides from './siteOverrides';
@@ -138,7 +138,6 @@ const setReadingMode = (enableReading, /** @type {Document} */ document, content
   const endTimer = Logger.logTime('ToggleReading-Time');
   origin = document?.URL ?? '';
   excludeByOrigin = makeExcluder(origin);
-
 
   try {
     if (enableReading) {
