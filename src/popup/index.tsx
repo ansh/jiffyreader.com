@@ -124,18 +124,27 @@ function IndexPopup() {
 
   const getFooterLinks = (textColor = 'text-white') => (
     <>
-      <a className={textColor} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
-        FAQ
-      </a>
-      <a
-        className={textColor}
-        href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
-        target="_blank">
-        Report Issue
-      </a>
-      <a className={textColor} href="https://www.jiffyreader.com/" target="_blank">
-        About Us
-      </a>
+      <div className="flex justify-between || text-center text-md text-bold w-full">
+        <a className={textColor} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
+          FAQ
+        </a>
+        <a
+          className={textColor}
+          href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
+          target="_blank">
+          Report Issue
+        </a>
+        <a className={textColor} href="https://www.jiffyreader.com/" target="_blank">
+          About Us
+        </a>
+      </div>
+      {/* <div className={'text-bold ' + textColor}>
+        Help us complete this{' '}
+        <a href="" className={textColor}>
+          survey
+        </a>
+      </div> */}
+      <div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
     </>
   );
 
@@ -157,10 +166,10 @@ function IndexPopup() {
         <div className="popup-body flex flex-column">
           {showDebugInline(process.env.NODE_ENV)}
           {!prefs || !tabSession ? (
-            <div className="flex flex-column m-md gap-2">
+            <div className="flex flex-column m-md gap-1">
               <span>Tabs without a url may not work properly</span>
               <span>Reload the tab with valid url and try again</span>
-              <span className="footer-links flex justify-between">{getFooterLinks('')}</span>
+              {getFooterLinks('')}
             </div>
           ) : (
             <div
@@ -390,9 +399,7 @@ function IndexPopup() {
                 Reset Defaults
               </button>
 
-              <footer className="popup_footer flex justify-between text-center text-md text-bold">
-                {getFooterLinks()}
-              </footer>
+              <footer className="popup_footer || flex flex-column gap-1">{getFooterLinks()}</footer>
             </div>
           )}
         </div>

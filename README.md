@@ -27,7 +27,8 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Edge](#edge)
   - [Android (kiwi Browser)](#android-kiwi-browser)
   - [Bookmarklet](#bookmarklet)
-  - [FAQ](#faq)
+- [First Installation Welcome](#first-installation-welcome)
+- [FAQ](#faq)
     - [How to access the extension settings/popup ui](#how-to-access-the-extension-settingspopup-ui)
       - [Desktop](#desktop)
     - [Android (kiwi browser)](#android-kiwi-browser-1)
@@ -121,8 +122,11 @@ The best way to install this extension is to follow the instructions below. Howe
 1. To install the bookmarklet, head over to this [link](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-bookmarklet.html)
 
 
+# First Installation Welcome
+Thank you for installing JiffyReader. Your browser will navigate you here if this is the first time installing the extension. You can find important resources such as the FAQ, how to contribute and how to report issues on this page. You can always get to this page by clicking the FAQ link in the footer of the extension popup.
 
-## FAQ
+
+# FAQ
 
 ### How to access the extension settings/popup ui
 
@@ -147,7 +151,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 #### Enable reading mode button
  - Click this button to turn on/off the emphasization(bionification) of the text on the page.
- - Press `ALT + A` to achieve the same effect as clicking this button on chrome. see the [shortcut-section](#shortcut) for more info.
+ - Press `ALT + B` on chrome and `ALT + W` on firefox to achieve the same effect as clicking this button on chrome. see the [shortcut-section](#shortcut) for more info.
 
 #### Saccades interval slider
 - Use this slider to set how many words are left untouched/unbolded or un-emphasized after the first emphasized word or the first word.
