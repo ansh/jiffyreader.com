@@ -63,6 +63,9 @@ jobs:
             
             cd build/chrome-mv3-prod/ && zip -r "../jiffyReader-chrome-$ext_tag" ./*
 
+            cd ../firefox-mv2-prod/ && zip -r "../jiffyReader-firefox-$ext_tag.xpi" ./*
+
+
             pwd
 
             ls -hl ../../build/

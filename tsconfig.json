@@ -6,6 +6,7 @@
     "paths": {
       "~*": ["./src/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "target": "ES6"
   }
 }

@@ -10,6 +10,7 @@ import documentParser from './documentParser';
 export const config: PlasmoContentScript = {
   matches: ['<all_urls>'],
   all_frames: true,
+  run_at: 'document_end',
 };
 
 const { setAttribute, setProperty, setSaccadesStyle, getAttribute } =
