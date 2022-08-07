@@ -62,6 +62,8 @@ jobs:
             pnpm gh:build:development && pnpm gh:build:bookmarklet
             
             cd build/chrome-mv3-prod/ && zip -r "../jiffyReader-chrome-$ext_tag" ./*
+            cd build/firefox-mv2-prod/ && zip -r "../jiffyReader-firefox-$ext_tag" ./*
+
 
             pwd
 
