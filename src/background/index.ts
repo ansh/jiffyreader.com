@@ -12,12 +12,9 @@ const BACKGROUND_LOG_STYLE = 'background: brown; color:white';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
-const UPDATE_NOTIFICATION_ID = 'jiffy-reader-updated';
+const area = ((process.env.TARGET as string).includes('firefox') && 'local') || 'sync';
 
-const NOTIFICATION_URLS = [
-  'https://github.com/ansh/jiffyreader.com#FAQ',
-  'https://jiffyreader.com',
-];
+const storage = new Storage({ area });
 
 const area = ((process.env.TARGET as string).includes('firefox') && 'local') || 'sync';
 
@@ -32,38 +29,6 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
     chrome?.action?.setBadgeText(badgeTextDetails) ||
     browser.browserAction.setBadgeText(badgeTextDetails)
   );
-};
-
-const getUpdateNotificationConfig = (runner: string /**chrome or firefix */) => {
-  let config = {
-    title: 'Jiffy Reader: update installed',
-    iconUrl: getAssetUrl('assets/icon512.png'),
-    message: 'Pin the JiffyReader icon for quick access, click the icon to open the config panel',
-    type: 'basic',
-  };
-
-  if (/chrome/i.test(runner)) {
-    config['buttons'] = [
-      {
-        title: 'See FAQS and ReadMe',
-        iconUrl: getAssetUrl('assets/icon512.png'),
-      },
-      {
-        title: 'JiffyReader.com',
-        iconUrl: getAssetUrl('assets/icon512.png'),
-      },
-    ];
-  }
-
-  return config;
-};
-
-const showNotificationInstanceId = (browserLabel: string) => {
-  return (notificationInstanceId) =>
-    Logger.logInfo(
-      `Update notification created for ${browserLabel} with id:`,
-      notificationInstanceId,
-    );
 };
 
 const fireUpdateNotification = async () => {
