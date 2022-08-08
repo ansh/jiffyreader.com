@@ -7,6 +7,6 @@
       "~*": ["./src/*"]
     },
     "baseUrl": ".",
-    "target": "ES6"
+    "target": "ES2018"
   }
 }

@@ -1,7 +1,21 @@
 :root {
     --gap: 0.6rem;
     --jr-hide: none;
+    --color-orange-600: #3aa757;
+    --color-orange-900: #2a8241;
+    --color-orange-920: #0b170efa;
+    --accent-color: var(--color-orange-900);
+    --text-orange: var(--color-orange-600);
+    --text-primary: var(--text-orange);
+    --color-white-300: #ffffff;
+    --color-white-600: #414141eb;
+    --text-secondary: var(--color-white-300);
+    --text-alternate: #666;
+    --bg-primary: var(--color-white-300);
+    --bg-secondary: var(--color-orange-600)
 }
+
+
 
 .jr_wrapper_container {
 
@@ -14,35 +28,40 @@
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
             Helvetica Neue, sans-serif;
         font-weight: 200;
-        color: #666;
         font-size: 1.1rem;
-        accent-color: #2a8241;
+        accent-color: var(--accent-color);
+        background: var(--bg-primary);
     }
 
-    button {
+    button,
+    .button {
         padding: 9px 10px;
         border: none;
         border-radius: 4px;
         cursor: pointer;
 
         background: transparent;
-        color: #3aa757;
-        outline: 1px solid #3aa757;
+        color: var(--text-primary);
+        outline: 1px solid var(--color-orange-600);
         box-sizing: border-box;
         transition-property: background-color, transform, box-shadow;
         transition-duration: 200ms;
     }
 
-    button:hover,
-    button:focus {
+    :is(button, .button):hover,
+    :is(button, .button):focus {
         box-shadow: 0 0 0 3px #3aa75733;
     }
 
-    button:active,
-    button.selected {
-        background: #3aa757;
+    :is(button, .button):active,
+    :is(button, .button).selected {
+        background: var(--bg-secondary);
         outline: 1px solid transparent;
         color: white;
+    }
+
+    :is(button, .button):active {
+        transform: scale(1.02);
     }
 
     .transition {
@@ -54,14 +73,12 @@
         box-shadow: 0 0 0 3px #3aa75733;
     }
 
-    button:active {
-        transform: scale(1.02);
-    }
+
 
     select {
-        color: #3aa757;
+        color: var(--text-primary);
         background-color: #0000;
-        border-color: #3aa757;
+        border-color: var(--bg-secondary);
     }
 
     .modeLabel {
@@ -207,10 +224,32 @@
         gap: calc(var(--gap) * 5);
     }
 
+    /* || bg */
+    .bg-primary {
+        background: var(--bg-primary);
+    }
+
+    .bg-secondary {
+        background: var(--bg-secondary);
+    }
+
+
     /* || text */
 
     .text-white {
-        color: white;
+        color: var(--text-secondary);
+    }
+
+    .text-primary {
+        color: var(--text-primary);
+    }
+
+    .text-secondary {
+        color: var(--text-secondary);
+    }
+
+    .text-alternate {
+        color: var(--text-alternate)
     }
 
     .text-lg {
@@ -229,9 +268,19 @@
         font-size: 50%;
     }
 
+    .text-capitalize {
+        text-transform: capitalize;
+    }
+
     .text-bold {
         font-weight: bold;
     }
+
+    .text-wrap {
+        white-space: wrap;
+    }
+
+    /** || flex */
 
     .flex {
         display: flex;
@@ -272,11 +321,16 @@
     }
 
     footer {
+        --bg-color: var(--bg-secondary);
         position: sticky;
         margin-top: auto;
         bottom: 20px;
-        background: #3aa757;
-        box-shadow: 0 0 0 20px #3aa757;
+        background: var(--bg-color);
+        box-shadow: 0 0 0 20px var(--bg-color), 0 0 6px 20px var(--bg-shadow-color,var(--bg-color));
+    }
+
+    label {
+        color: var(--text-alternate)
     }
 
     img.buymeacoffee {
@@ -286,7 +340,7 @@
 
     /* || background */
     .bg-primary {
-        background: #3aa757;
+        background: var(--bg-secondary);
     }
 
     /* || position */
@@ -333,4 +387,43 @@
         }
     }
 
+    //defind dark modes
+    &.dark-mode {
+        // bg:dark,text-light
+        --bg-primary: var(--color-orange-920);
+        --bg-secondary: var(--color-orange-600);
+        --text-primary: var(--text-orange);
+        --text-secondary: var(--color-orange-600);
+        --text-alternate: #e9c3c3;
+
+
+        .tips>ul {
+            background-color: var(--color-orange-920);
+        }
+
+        footer {
+            --bg-color: var(--color-orange-920);
+            --bg-shadow-color: var(--color-white-600);
+        }
+
+
+        input[type=range] {
+            -webkit-appearance: none;
+            /* Hides the slider so that custom slider can be made */
+            width: 100%;
+            /* Specific width is required for Firefox. */
+            background: var(--color-orange-920);
+            /* Otherwise white in Chrome */
+        }
+
+    }
+
+
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: var(--color-orange-900);
+        --text-primary: var(--text-orange)
+    }
 }
