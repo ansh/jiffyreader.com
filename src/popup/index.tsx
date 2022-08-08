@@ -6,30 +6,22 @@ import usePrefs from '~services/usePrefs';
 
 import './../styles/style.css';
 
+import { useStorage } from '@plasmohq/storage';
+import darkToggle from 'url:~assets/moon-solid.svg';
+import lightToggle from 'url:~assets/sun-light-solid.svg';
+
 import documentParser from '~contents/documentParser';
+import {
+  APP_PREFS_STORE_KEY,
+  COLOR_MODE_STATE_TRANSITIONS,
+  DisplayColorMode,
+  SACCADE_COLORS,
+  SACCADE_STYLES,
+  STORAGE_AREA,
+} from '~services/config';
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
-
-const SACCADE_COLORS = [
-  ['Original', ''],
-  ['Light', 'light'],
-  ['Light-100', 'light-100'],
-  ['Dark', 'dark'],
-  ['Dark-100', 'dark-100'],
-] as [Label: string, value: string][];
-
-const SACCADE_STYLES = [
-  'Bold-400',
-  'Bold-500',
-  'Bold-600',
-  'Bold-700',
-  'Bold-800',
-  'Bold-900',
-  'Solid-line',
-  'Dash-line',
-  'Dotted-line',
-];
 
 const FIXATION_OPACITY_STOPS = 5;
 const FIXATION_OPACITY_STOP_UNIT_SCALE = Math.floor(100 / FIXATION_OPACITY_STOPS);
@@ -44,7 +36,10 @@ function IndexPopup() {
 
   const [tabSession, setTabSession] = useState<TabSession>(null);
 
-  const PREF_STORE_SCOPES = ['reset', 'global', 'local'];
+  const [appConfigPrefs, setAppConfigPrefs] = useStorage({
+    key: APP_PREFS_STORE_KEY,
+    area: STORAGE_AREA,
+  });
 
   useEffect(() => {
     if (!tabSession) return;
@@ -122,7 +117,24 @@ function IndexPopup() {
     );
   };
 
-  const getFooterLinks = (textColor = 'text-white') => (
+  const handleDisplayColorModeChange = async (currentDisplayColorMode) => {
+    console.log('handleDisplayColorModeChange', currentDisplayColorMode);
+    // updateConfig('displayColorMode', event.target.checked ? 'dark' : 'light');
+
+    if (![...Object.values(DisplayColorMode)].includes(currentDisplayColorMode)) {
+      alert('not allowed');
+      return;
+    }
+
+    const [, displayColorMode] = COLOR_MODE_STATE_TRANSITIONS.find(([key]) =>
+      new RegExp(currentDisplayColorMode, 'i').test(key),
+    );
+
+    await setAppConfigPrefs({ ...appConfigPrefs, displayColorMode });
+    console.log('handleDisplayColorModeChange', appConfigPrefs);
+  };
+
+  const getFooterLinks = (textColor = 'text-secondary') => (
     <>
       <div className="flex justify-between || text-center text-md text-bold w-full">
         <a className={textColor} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
@@ -138,13 +150,31 @@ function IndexPopup() {
           About Us
         </a>
       </div>
-      {/* <div className={'text-bold ' + textColor}>
-        Help us complete this{' '}
-        <a href="" className={textColor}>
-          survey
-        </a>
-      </div> */}
-      <div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
+
+      <div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
+        <div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
+
+        <div className="light-dark-container">
+          <button
+            type="button"
+            name="display_mode_switch"
+            id="display_mode_switch"
+            className="button text-capitalize"
+            value={`${
+              Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]
+            } mode toggle`}
+            onClick={() => handleDisplayColorModeChange(appConfigPrefs.displayColorMode)}
+            aria-description="light mode dark mode toggle">
+            <svg width="25" height="25">
+              <image
+                width="25"
+                height="25"
+                href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle}
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
     </>
   );
 
@@ -152,24 +182,24 @@ function IndexPopup() {
     if (/production/i.test(environment)) return;
 
     return (
-      <>
-        <span>tabSession {JSON.stringify(tabSession)}</span>
-        <span>prefs: {JSON.stringify(prefs)}</span>
-        {/* <span>prefStore {JSON.stringify(prefStore)}</span> */}
-      </>
+      <div className=" || flex flex-column || w-full text-wrap">
+        <span className="w-full">tabSession {JSON.stringify(tabSession)}</span>
+        <span className="w-full">prefs: {JSON.stringify(prefs)}</span>
+        <span className="w-full">appConfigPrefs: {JSON.stringify(appConfigPrefs)}</span>
+      </div>
     );
   };
 
   return (
     <>
-      <div className="jr_wrapper_container">
-        <div className="popup-body flex flex-column">
+      <div className={`jr_wrapper_container ${appConfigPrefs?.displayColorMode}-mode`}>
+        <div className="popup-body flex flex-column text-alternate">
           {showDebugInline(process.env.NODE_ENV)}
           {!prefs || !tabSession ? (
             <div className="flex flex-column m-md gap-1">
               <span>Tabs without a url may not work properly</span>
               <span>Reload the tab with valid url and try again</span>
-              {getFooterLinks('')}
+              {getFooterLinks('text-primary')}
             </div>
           ) : (
             <div
@@ -181,10 +211,11 @@ function IndexPopup() {
               <div className="flex flex-column">
                 <div className="header flex justify-between">
                   <span className="mb-md">Preference:</span>
+                  <div className="display_modes || || mb-md"></div>
                   <span className="tips flex flex-column show-hover">
-                    <span className="select">Tips</span>
+                    <span className="select button mb-md">Tips</span>
                     <ul
-                      className="flex hide flex-column pos-absolute ul-plain right-0 bg-primary gap-2 p-4 mt-3 text-white shadow transition"
+                      className="flex hide flex-column pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
                       style={{ zIndex: '10' }}>
                       <li>Turn off if jiffy reader interfers with data entry</li>
                       <li>
@@ -263,7 +294,10 @@ function IndexPopup() {
                   />
                   <datalist id="saccadesSlider" className="flex text-sm justify-between">
                     {new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
-                      <option value={index + 1} label={'' + index}></option>
+                      <option
+                        key={`saccades-interval-${index}`}
+                        value={index + 1}
+                        label={'' + index}></option>
                     ))}
                   </datalist>
                 </div>
@@ -286,7 +320,10 @@ function IndexPopup() {
                   />
                   <datalist id="fixationStrengthSlider" className="flex text-sm justify-between">
                     {new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
-                      <option value={index + 1} label={'' + (index + 1)}></option>
+                      <option
+                        key={`fixation-strength-${index}`}
+                        value={index + 1}
+                        label={'' + (index + 1)}></option>
                     ))}
                   </datalist>
                 </div>
@@ -399,7 +436,9 @@ function IndexPopup() {
                 Reset Defaults
               </button>
 
-              <footer className="popup_footer || flex flex-column gap-1">{getFooterLinks()}</footer>
+              <footer className="popup_footer || flex flex-column gap-1 p-2">
+                {getFooterLinks()}
+              </footer>
             </div>
           )}
         </div>

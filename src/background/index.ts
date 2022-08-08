@@ -3,18 +3,16 @@ import { Storage } from '@plasmohq/storage';
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
 import defaultPrefs from '~services/preferences';
+import { STORAGE_AREA, USER_PREF_STORE_KEY, APP_PREFS_STORE_KEY, DisplayColorMode } from '~services/config';
 
 export {};
-
-const PREF_STORE_KEY = 'prefStore';
 
 const BACKGROUND_LOG_STYLE = 'background: brown; color:white';
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
-const area = ((process.env.TARGET as string).includes('firefox') && 'local') || 'sync';
 
-const storage = new Storage({ area });
+const storage = new Storage({ area: STORAGE_AREA });
 
 const getAssetUrl = (rawUrl: string, runner = runTimeHandler) => {
   return runner.runtime.getURL(rawUrl) as string;
@@ -28,7 +26,7 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
 };
 
 const fireUpdateNotification = async () => {
-  if (await storage.get(PREF_STORE_KEY)) {
+  if (await storage.get(USER_PREF_STORE_KEY)) {
     return;
   }
 
@@ -38,16 +36,16 @@ const fireUpdateNotification = async () => {
   });
 };
 
-const initializeStorage = async () => {
+const initializeUserPrefStorage = async () => {
   try {
-    const prefStore = await storage.get(PREF_STORE_KEY);
+    const prefStore = await storage.get(USER_PREF_STORE_KEY);
     Logger.logInfo('background: prefStore install value', prefStore);
 
     if (!prefStore) {
-      await storage.set(PREF_STORE_KEY, { global: defaultPrefs, local: {} });
+      await storage.set(USER_PREF_STORE_KEY, { global: defaultPrefs, local: {} });
       Logger.logInfo(
         'background: prefStore initialization processed',
-        await storage.get(PREF_STORE_KEY),
+        await storage.get(USER_PREF_STORE_KEY),
       );
     } else {
       Logger.logInfo('background: prefStore initialization skipped', prefStore);
@@ -55,11 +53,23 @@ const initializeStorage = async () => {
   } catch (error) {
     Logger.logError(error);
   } finally {
-    Logger.logInfo('prefInitial value', await storage.get(PREF_STORE_KEY));
+    Logger.logInfo('prefInitial value', await storage.get(USER_PREF_STORE_KEY));
   }
 };
 
-const listener = (request, sender, sendResponse) => {
+const initializeAppPref = async () => {
+  const appPrefStore = await storage.get(APP_PREFS_STORE_KEY);
+
+  if (appPrefStore) {
+    return;
+  }
+
+  Logger.logInfo('%cbackground.initializeAppPref', BACKGROUND_LOG_STYLE)
+
+  return await storage.set(APP_PREFS_STORE_KEY, { displayColorMode: DisplayColorMode.LIGHT });
+};
+
+const messageListener = (request, sender, sendResponse) => {
   Logger.logInfo('background listener called', { request });
   switch (request.message) {
     case 'setIconBadgeText': {
@@ -108,10 +118,10 @@ const commandListener = async (command) => {
   }
 };
 
-chrome.runtime.onInstalled.addListener((event) => {
+function onInstallHandler(event: chrome.runtime.InstalledDetails) {
   const date = new Date(Date.now());
   Logger.logInfo('install success', event.reason, { install_timestamp: date.toISOString() });
-  initializeStorage();
+  initializeUserPrefStorage();
 
   chrome.storage.local.set({ install_timestamp: date.toISOString() }, () => {
     Logger.logInfo('background set time');
@@ -121,8 +131,14 @@ chrome.runtime.onInstalled.addListener((event) => {
   if (event.reason === 'install' || process.env.NODE_ENV === 'production') {
     fireUpdateNotification();
   }
-});
+
+  initializeAppPref()
+}
+
+// register and call functions below
+
+chrome.runtime.onInstalled.addListener(onInstallHandler);
 
 chrome?.commands?.onCommand?.addListener(commandListener);
 
-runTimeHandler.runtime.onMessage.addListener(listener);
+runTimeHandler.runtime.onMessage.addListener(messageListener);

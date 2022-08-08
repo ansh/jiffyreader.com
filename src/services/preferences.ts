@@ -17,6 +17,7 @@ const defaultPrefs = {
   MAX_FIXATION_PARTS: 4,
   FIXATION_LOWER_BOUND: 0,
   BR_WORD_STEM_PERCENTAGE: 0.7,
+  displayColorMode: 'light'
 };
 
 export default defaultPrefs;

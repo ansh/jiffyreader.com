@@ -1,9 +1,7 @@
+import contentStyle from '~/styles/contentStyle.scss';
+import documentParser from '~contents/documentParser';
 import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
-
-import documentParser from '~contents/documentParser';
-
-import contentStyle from '~/styles/contentStyle.scss';
 
 const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
   ...defaultPrefs,
@@ -85,10 +83,12 @@ const stateTransitions = {
  * @param {string|null} currentActiveState
  * @returns {[targetState,nextState]}
  */
-function getStateTransitionEntry(stateTransitionKey, currentActiveState) {
-  return stateTransitions[stateTransitionKey].find(
-    ([state]) => `${state}` === `${currentActiveState}`,
-  );
+function getStateTransitionEntry(
+  stateTransitionKey,
+  currentActiveState,
+  stateEntries = stateTransitions,
+) {
+  return stateEntries[stateTransitionKey].find(([state]) => `${state}` === `${currentActiveState}`);
 }
 
 function toggleStateEngine(
