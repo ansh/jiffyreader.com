@@ -58,7 +58,9 @@
     "web_accessible_resources": [
       {
         "resources": [
-          "assets/icon512.png"
+          "assets/icon512.png",
+          "assets/sun-light-solid.svg",
+          "assets/moon-solid.svg"
         ],
         "matches": [
           "<all_urls>"
