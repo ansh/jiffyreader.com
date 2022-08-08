@@ -7,8 +7,6 @@ import usePrefs from '~services/usePrefs';
 import './../styles/style.css';
 
 import { useStorage } from '@plasmohq/storage';
-import darkToggle from 'url:~assets/moon-solid.svg';
-import lightToggle from 'url:~assets/sun-light-solid.svg';
 
 import documentParser from '~contents/documentParser';
 import {
@@ -19,6 +17,9 @@ import {
   SACCADE_STYLES,
   STORAGE_AREA,
 } from '~services/config';
+
+const darkToggle = chrome.runtime.getURL('./assets/moon-solid.svg');
+const lightToggle = chrome.runtime.getURL('./assets/sun-light-solid.svg');
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } =
   documentParser.makeHandlers(document);
@@ -159,7 +160,7 @@ function IndexPopup() {
             type="button"
             name="display_mode_switch"
             id="display_mode_switch"
-            className="button text-capitalize"
+            className="button text-capitalize  text-alternate"
             value={`${
               Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]
             } mode toggle`}
@@ -172,6 +173,10 @@ function IndexPopup() {
                 href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle}
               />
             </svg>
+
+            {/* {`${
+              Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]
+            } mode`} */}
           </button>
         </div>
       </div>
