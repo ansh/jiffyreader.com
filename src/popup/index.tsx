@@ -7,6 +7,8 @@ import usePrefs from '~services/usePrefs';
 import './../styles/style.css';
 
 import { useStorage } from '@plasmohq/storage';
+import darkToggle from 'url:~assets/moon-solid.svg';
+import lightToggle from 'url:~assets/sun-light-solid.svg';
 
 import documentParser from '~contents/documentParser';
 import {
@@ -148,13 +150,31 @@ function IndexPopup() {
           About Us
         </a>
       </div>
-      {/* <div className={'text-bold ' + textColor}>
-        Help us complete this{' '}
-        <a href="" className={textColor}>
-          survey
-        </a>
-      </div> */}
-      <div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
+
+      <div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
+        <div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
+
+        <div className="light-dark-container">
+          <button
+            type="button"
+            name="display_mode_switch"
+            id="display_mode_switch"
+            className="button text-capitalize"
+            value={`${
+              Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]
+            } mode toggle`}
+            onClick={() => handleDisplayColorModeChange(appConfigPrefs.displayColorMode)}
+            aria-description="light mode dark mode toggle">
+            <svg width="25" height="25">
+              <image
+                width="25"
+                height="25"
+                href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle}
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
     </>
   );
 
@@ -191,21 +211,7 @@ function IndexPopup() {
               <div className="flex flex-column">
                 <div className="header flex justify-between">
                   <span className="mb-md">Preference:</span>
-                  <div className="display_modes || || mb-md">
-                    <input
-                      type="button"
-                      name="display_mode_switch"
-                      id="display_mode_switch"
-                      className="button text-capitalize"
-                      value={`${
-                        Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[
-                          appConfigPrefs?.displayColorMode
-                        ]
-                      } mode toggle`}
-                      onClick={() => handleDisplayColorModeChange(appConfigPrefs.displayColorMode)}
-                      aria-description="light mode dark mode toggle"
-                    />
-                  </div>
+                  <div className="display_modes || || mb-md"></div>
                   <span className="tips flex flex-column show-hover">
                     <span className="select button mb-md">Tips</span>
                     <ul
@@ -288,7 +294,10 @@ function IndexPopup() {
                   />
                   <datalist id="saccadesSlider" className="flex text-sm justify-between">
                     {new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
-                      <option key={`saccades-interval-${index}`} value={index + 1} label={'' + index}></option>
+                      <option
+                        key={`saccades-interval-${index}`}
+                        value={index + 1}
+                        label={'' + index}></option>
                     ))}
                   </datalist>
                 </div>
@@ -311,7 +320,10 @@ function IndexPopup() {
                   />
                   <datalist id="fixationStrengthSlider" className="flex text-sm justify-between">
                     {new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
-                      <option key={`fixation-strength-${index}`} value={index + 1} label={'' + (index + 1)}></option>
+                      <option
+                        key={`fixation-strength-${index}`}
+                        value={index + 1}
+                        label={'' + (index + 1)}></option>
                     ))}
                   </datalist>
                 </div>
@@ -424,7 +436,9 @@ function IndexPopup() {
                 Reset Defaults
               </button>
 
-              <footer className="popup_footer || flex flex-column gap-1 p-2">{getFooterLinks()}</footer>
+              <footer className="popup_footer || flex flex-column gap-1 p-2">
+                {getFooterLinks()}
+              </footer>
             </div>
           )}
         </div>

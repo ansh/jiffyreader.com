@@ -316,6 +316,12 @@
 
     /* || component */
 
+    .mode-toggle-icon {
+        width: 24px;
+        background: var(--bg-secondary);
+        mix-blend-mode: difference;
+    }
+
     datalist>option {
         margin-right: -8px;
     }
@@ -326,7 +332,11 @@
         margin-top: auto;
         bottom: 20px;
         background: var(--bg-color);
-        box-shadow: 0 0 0 20px var(--bg-color), 0 0 6px 20px var(--bg-shadow-color,var(--bg-color));
+        box-shadow: 0 0 0 20px var(--bg-color), 0 0 6px 20px var(--bg-shadow-color, var(--bg-color));
+
+        button, .button {
+            outline-color: var(--color-orange-920);
+        }
     }
 
     label {
@@ -404,6 +414,9 @@
         footer {
             --bg-color: var(--color-orange-920);
             --bg-shadow-color: var(--color-white-600);
+            button, .button {
+                outline-color: var(--color-orange-600);
+            }
         }
 
 
