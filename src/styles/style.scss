@@ -22,7 +22,7 @@
 
     .popup-body {
         padding: 10px;
-        min-width: 230px;
+        min-width: 260px;
         justify-content: center;
         gap: 14px;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell,
@@ -272,6 +272,11 @@
         text-transform: capitalize;
     }
 
+
+    .text-uppercase {
+        text-transform: uppercase;
+    }
+
     .text-bold {
         font-weight: bold;
     }
@@ -330,11 +335,12 @@
         --bg-color: var(--bg-secondary);
         position: sticky;
         margin-top: auto;
-        bottom: 20px;
+        bottom: -5px;
         background: var(--bg-color);
-        box-shadow: 0 0 0 20px var(--bg-color), 0 0 6px 20px var(--bg-shadow-color, var(--bg-color));
+        box-shadow: 0px 15px 0 20px var(--bg-color), 0 15px 6px 20px var(--bg-shadow-color, var(--bg-color));
 
-        button, .button {
+        button,
+        .button {
             outline-color: var(--color-orange-920);
         }
     }
@@ -414,7 +420,9 @@
         footer {
             --bg-color: var(--color-orange-920);
             --bg-shadow-color: var(--color-white-600);
-            button, .button {
+
+            button,
+            .button {
                 outline-color: var(--color-orange-600);
             }
         }

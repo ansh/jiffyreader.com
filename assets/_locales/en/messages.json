@@ -1,0 +1,134 @@
+{
+  "preferenceLabel": {
+    "message": "use preference",
+    "description": "label for (global or site preference button toggles"
+  },
+  "tipsPopupTriggerLabel": {
+    "message": "tips",
+    "description": "label for (global or site preference button toggles"
+  },
+  "globalPreferenceToggleBtnText": {
+    "message": "global",
+    "description": "main text for global preference toggle button"
+  },
+  "globalPreferenceToggleBtnSubText": {
+    "message": "default",
+    "description": "global preference button sub text"
+  },
+  "sitePreferenceToggleBtnText": {
+    "message": "site",
+    "description": "main text for site preference toggle button"
+  },
+  "sitePreferenceToggleBtnSubText": {
+    "message": "for this site",
+    "description": "global preference button sub text"
+  },
+  "onOffToggleBtnTextDisable": {
+    "message": "disable",
+    "description": "onOffToggleBtnTextDisable button text"
+  },
+  "onOffToggleBtnTextEnable": {
+    "message": "enable",
+    "description": "onOffToggleBtnTextEnable button text"
+  },
+  "onOffToggleBtnSubText": {
+    "message": "reading mode",
+    "description": "text for onOffToggleBtnSubText"
+  },
+  "defaultShortcutLabelText": {
+    "message": "default shortcut",
+    "description": "text for onOffToggleBtnShortCutText"
+  },
+  "defaultShortcutValueTextChrome": {
+    "message": "alt+b",
+    "description": "default shortcut for chrome"
+  },
+  "defaultShortcutValueTextFirefox": {
+    "message": "alt+w",
+    "description": "default shortcut for firefox"
+  },
+  "saccadesIntervalLabel": {
+    "message": "saccades interval",
+    "description": "label for saccades interval slider"
+  },
+  "fixationsStrengthLabel": {
+    "message": "fixations strength",
+    "description": "label for fixations strength slider"
+  },
+  "fixationsEdgeOpacityLabel": {
+    "message": "fixations edge opacity",
+    "description": "label for fixations edge opacity slider"
+  },
+  "saccadesColorLabel": {
+    "message": "saccades color",
+    "description": "label for saccade color dropdown"
+  },
+  "saccadesStyleLabel": {
+    "message": "saccades ",
+    "description": "label for saccade style dropdown"
+  },
+  "lineHeightTogglesLabel": {
+    "message": "saccades ",
+    "description": "label for smaller and larger line height buttons"
+  },
+  "smallerLineHieghtBtnText": {
+    "message": "aa-",
+    "description": "text for the button"
+  },
+  "smallerLineHieghtBtnSubText": {
+    "message": "smaller",
+    "description": "sub text for the button"
+  },
+  "largerLineHieghtBtnText": {
+    "message": "aa+",
+    "description": "text for the button"
+  },
+  "largerLineHieghtBtnSubText": {
+    "message": "larger",
+    "description": "sub text for the button"
+  },
+  "defaultBionicModeToggleBtnOffText": {
+    "message": "turn off always",
+    "description": "text for the button"
+  },
+  "defaultBionicModeToggleBtnOnText": {
+    "message": "turn on always",
+    "description": "text for the button"
+  },
+  "defaultBionicModeToggleBtnSubText": {
+    "message": "default toggle preference",
+    "description": "sub text for the button"
+  },
+  "resetBtnText": {
+    "message": "reset settings",
+    "description": "text for the button"
+  },
+  "faqLinkText": {
+    "message": "faq",
+    "description": "link text"
+  },
+  "reportIssueLinkText": {
+    "message": "report issue",
+    "description": "link text"
+  },
+  "aboutUsLinkText": {
+    "message": "website",
+    "description": "link text"
+  },
+  "dataEntryMessage": {
+    "message": "Turn off if jiffy reader interfers with data entry",
+    "description": "text"
+  },
+  "googlePlayLinkSecondaryText": {
+    "message": "reading supported",
+    "description": "text"
+  },
+  "urlPromptText": {
+    "message": "Tabs without a url may not work properly",
+    "description": "text"
+  },
+  "reloadPromptText": {
+    "message": "Reload the tab with valid url and try again",
+    "description": "text"
+  }
+}
