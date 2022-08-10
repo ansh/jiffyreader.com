@@ -47,6 +47,7 @@ The best way to install this extension is to follow the instructions below. Howe
     - [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support)
       - [Upload Books (Epubs & PDFs)](#upload-books-epubs--pdfs)
         - [PFD files not working](#pfd-files-not-working)
+    - [Google Docs support](#google-docs-support)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
@@ -201,6 +202,15 @@ Thank you for installing JiffyReader. Your browser will navigate you here if thi
 PDF files may still not work after uploading to Google Play Books
 Use steps in [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support) to 
 search for the book if you believe it is commercially/freely available in the [google play books](https://play.google.com/books) 
+
+### Google Docs support
+You can use JiffyReader with documents from Google docs with a catch. 
+1. Download the document as an html (prefered) or epub optional
+2. Enable JiffyReader to work with tabs that have file urls by right clicking on the JiffyReader icon
+3. Click manage extension
+4. Find and enable work with file urls
+5. Open the downloaded html with your browser and turn on JiffyReader reading mode. 
+
 
 # Customizations
 
