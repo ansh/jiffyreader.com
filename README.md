@@ -55,7 +55,7 @@ The best way to install this extension is to follow the instructions below. Howe
 - [Help with Translations](#help-with-translations)
   - [Working with the translation files.](#working-with-the-translation-files)
   - [Submitting your translations](#submitting-your-translations)
-  - [Thank you to these people for contributing various translations to this project.](#thank-you-to-these-people-for-contributing-various-translations-to-this-project)
+- [Supported languages](#supported-languages)
   - [Development](#development)
   - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
   - [Release a new version](#release-a-new-version)
@@ -263,8 +263,10 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
    - You can email the translated file or paste the entire translation as a new comment in the ticket you opened and we will take it from there.
    - Dont forget to indicate your name for attribution.
 
-  ## Thank you to these people for contributing various translations to this project.
-    - Name: language
+  # Supported languages
+  1. English: by JiffyReader maintainer
+  2. Spanish: by JiffyReader maintainer
+  3. Others coming soon: contributor name
 
   JiffyReader has been updated to support displaying information in multiple languages thanks to a strong interest and constant emails and enquiries about it.
   We have implemented the required mechanisms to support displaying the extension in the language of your choice. The challenge we have now is to get as many translations as possible.
