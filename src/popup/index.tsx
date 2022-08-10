@@ -50,10 +50,10 @@ function IndexPopup() {
 
   useEffect(() => {
     Logger.logInfo('%cprefstore updated', 'background:red;color:white', prefs);
+
     if (!prefs) return;
 
     setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
-    setProperty('--br-line-height', prefs.lineHeight);
     setSaccadesStyle(prefs.saccadesStyle);
     setAttribute('saccades-color', prefs.saccadesColor);
     setAttribute('fixation-strength', prefs.fixationStrength);
@@ -120,7 +120,6 @@ function IndexPopup() {
 
   const handleDisplayColorModeChange = async (currentDisplayColorMode) => {
     console.log('handleDisplayColorModeChange', currentDisplayColorMode);
-    // updateConfig('displayColorMode', event.target.checked ? 'dark' : 'light');
 
     if (![...Object.values(DisplayColorMode)].includes(currentDisplayColorMode)) {
       alert('not allowed');
