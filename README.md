@@ -52,6 +52,10 @@ The best way to install this extension is to follow the instructions below. Howe
 - [What is Bionic Reading?](#what-is-bionic-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
 - [How to Contribute](#how-to-contribute)
+- [Help with Translations](#help-with-translations)
+  - [Working with the translation files.](#working-with-the-translation-files)
+  - [Submitting your translations](#submitting-your-translations)
+  - [Thank you to these people for contributing various translations to this project.](#thank-you-to-these-people-for-contributing-various-translations-to-this-project)
   - [Development](#development)
   - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
   - [Release a new version](#release-a-new-version)
@@ -226,6 +230,42 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
 
 # How to Contribute
   Anyone is welcome to provide contributions to this project by submitting a PR (Pull Request) and it will be happily merged to provide features and fixes to the incredible people using the extension.
+
+# Help with Translations
+  JiffyReader is in need of translation help for what ever language you can.
+  To help: 
+  1. Copy either the english locale json  [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/es/messages.json) and translate into the language you can assist with using your prefered editor or even ms word. 
+  2. Open a issue ticket and add the `translation` label to it along with the. Use this [shortcut link](https://github.com/ansh/jiffyreader.com/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+Give+a+suitable+title)
+  3. Indicate the language you would like to help translate in the ticket title. This helps to eliminate duplicate work.
+  4. Please check that the language you would like to help with has not already been taken up by someone else by looking through both the open and closed tickets for translations.
+   
+   ## Working with the translation files.
+   The translation files are json formats. You only need to worry about translating the text associated with the message key.
+   ```
+    <!-- example -->
+    "exampleText":{
+      "message": "this is the text to translate",
+      "description": "it is not required to translate this text"
+    }
+
+
+    <!-- result after tranlsation into spanish -->
+    "exampleText":{
+      "message": "esto es el texto a traducir",
+      "description": "it is not required to translate this text"
+    }
+
+   ```
+
+   ## Submitting your translations
+   - You can email the translated file or paste the entire translation as a new comment in the ticket you opened and we will take it from there.
+   - Dont forget to indicate your name for attribution.
+
+  ## Thank you to these people for contributing various translations to this project.
+    - Name: language
+
+  JiffyReader has been updated to support displaying information in multiple languages thanks to a strong interest and constant emails and enquiries about it.
+  We have implemented the required mechanisms to support displaying the extension in the language of your choice. The challenge we have now is to get as many translations as possible.
 
 ## Development
    1. Clone the project

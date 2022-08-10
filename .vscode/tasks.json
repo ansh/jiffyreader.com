@@ -57,7 +57,7 @@
     },
     {
       "type": "shell",
-      "command": "cd jiffy-reader && pnpm dlx nodemon -x \"pnpm dev:chrome\" -w \"src/\"  -w .env -w package.json -d 1",
+      "command": "pnpm dlx nodemon -x \"pnpm dev:chrome\" -w .env -w package.json -d 1",
       "problemMatcher": [],
       "label": "npm: dev - jiffy-reader",
       "detail": "plasmo dev",
@@ -75,7 +75,7 @@
     },
     {
       "type": "shell",
-      "command": "cd jiffy-reader && pnpm dlx nodemon -x \"pnpm dev:firefox\" -w \"src/\" -w .env -w package.json  -d 1",
+      "command": "pnpm dlx nodemon -x \"pnpm dev:firefox\" -w .env -w package.json  -d 1",
       "problemMatcher": [],
       "label": "npm: dev - jiffy-reader firefox",
       "detail": "plasmo dev",
