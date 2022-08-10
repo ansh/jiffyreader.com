@@ -181,6 +181,14 @@ function IndexPopup() {
           </button>
         </div>
       </div>
+
+      <div className="translation_help_request">
+        <a
+          href="https://github.com/ansh/jiffyreader.com#help-with-translations"
+          className="text-capitalize text-secondary" target='_blank'>
+          {chrome.i18n.getMessage('translationHelpLinkText')}
+        </a>
+      </div>
     </>
   );
 

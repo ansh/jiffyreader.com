@@ -130,5 +130,9 @@
   "reloadPromptText": {
     "message": "Vuelva a cargar la pestaña con una URL válida y vuelva a intentarlo",
     "description": "text"
+  },
+  "translationHelpLinkText": {
+    "message": "ayuda nos con translaciones. aprender mas",
+    "description": "text"
   }
 }

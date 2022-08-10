@@ -130,5 +130,9 @@
   "reloadPromptText": {
     "message": "Reload the tab with valid url and try again",
     "description": "text"
+  },
+  "translationHelpLinkText": {
+    "message": "help us with tranlations. click to learn more",
+    "description": "text"
   }
 }
