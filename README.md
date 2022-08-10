@@ -234,10 +234,12 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
 # Help with Translations
   JiffyReader is in need of translation help for what ever language you can.
   To help: 
-  1. Copy either the english locale json  [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/es/messages.json) and translate into the language you can assist with using your prefered editor or even ms word. 
-  2. Open a issue ticket and add the `translation` label to it along with the. Use this [shortcut link](https://github.com/ansh/jiffyreader.com/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+Give+a+suitable+title)
-  3. Indicate the language you would like to help translate in the ticket title. This helps to eliminate duplicate work.
-  4. Please check that the language you would like to help with has not already been taken up by someone else by looking through both the open and closed tickets for translations.
+  1. Please check that the language you would like to help with has not already been taken up by someone else by looking through both the open and closed tickets for translations.
+  2. Open a issue ticket and add the `translation` label to it along with the name of the language you want to translate. Use this [shortcut link to open a new ticket](https://github.com/ansh/jiffyreader.com/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+Give+a+suitable+title)
+  3. Copy either the english locale json  [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/es/messages.json) translate into the language you can assist with using your prefered editor or even ms word. 
+  4. Indicate the language you would like to help translate in the ticket title. This helps to eliminate duplicate work.
+
+  - Attach any questions or updates to the ticket you are working on and someone will try and get to them within a day or two.
    
    ## Working with the translation files.
    The translation files are json formats. You only need to worry about translating the text associated with the message key.
