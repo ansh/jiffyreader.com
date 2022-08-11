@@ -28,6 +28,8 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Android (kiwi Browser)](#android-kiwi-browser)
   - [Bookmarklet](#bookmarklet)
 - [First Installation Welcome](#first-installation-welcome)
+  - [Notes on the extension](#notes-on-the-extension)
+  - [Notes on this page](#notes-on-this-page)
 - [FAQ](#faq)
     - [How to access the extension settings/popup ui](#how-to-access-the-extension-settingspopup-ui)
       - [Desktop](#desktop)
@@ -128,8 +130,18 @@ The best way to install this extension is to follow the instructions below. Howe
 
 
 # First Installation Welcome
-Thank you for installing JiffyReader. Your browser will navigate you here if this is the first time installing the extension. You can find important resources such as the FAQ, how to contribute and how to report issues on this page. You can always get to this page by clicking the FAQ link in the footer of the extension popup.
-
+- Thank you for installing JiffyReader. 
+- <strong>Read the 8 points bellow</strong> which will help you the most in getting you started with JiffyReader
+## Notes on the extension
+1. Why did the browser open this page? because this is the first time you installed JiffyReader.<br/>
+2. The extension is on the default settings and optimal for most websites.
+3. Changes to settings are saved instantly and can be restored to the default optimal settings by clicking the `Reset Settings` button at the bottom of the extension.
+4. If confused on how to use the buttons and sliders check out the section on [what are the functions of the buttons and sliders](#what-are-the-functions-of-the-buttons-and-sliders).
+## Notes on this page
+5. You can find important resources such as the [FAQ section](#faq), [how to contribute](#how-to-contribute) and [how to report issues](#reporting-issues-bugs-and-feature-request) on this page.<br/>
+6. You can always get to this page by clicking the FAQ link in the footer of the extension popup.
+7. For futher help on check the [table of contents](#table-of-contents) or open an issue ticket using the links at the very top of this page.
+8. You can close this page and return at anytime to find more help or clarification.
 
 # FAQ
 
