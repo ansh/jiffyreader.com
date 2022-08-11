@@ -285,8 +285,9 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
    1. Clone the project
    2. Open in VS Code or your favourite editor
    3. Run `yarn` or `npm i` to install dependencies
-   4. Run `yarn dev:chrome` or `npm run dev:chrome` to build the development version. Substitute chrome for firefox if that is your prefered browser.
-   5. Follow the installation version for your prefered browser but navigate to the `projectRootFolder/extensions/` and choose the folder that corresponds with your browser.
+   4. Install pnpm if you dont already have it, use `npm i -g pnpm`
+   5. Run `pnpm dev:chrome` or `pnpm run dev:chrome` to build the development version. Substitute chrome for firefox if that is your prefered browser.
+   6. Follow the installation version for your prefered browser but navigate to the `projectRootFolder/build/` and choose the folder that corresponds with your browser.
 
 
 
