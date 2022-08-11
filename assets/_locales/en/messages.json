@@ -64,11 +64,11 @@
     "description": "label for saccade color dropdown"
   },
   "saccadesStyleLabel": {
-    "message": "saccades ",
+    "message": "saccades styles",
     "description": "label for saccade style dropdown"
   },
   "lineHeightTogglesLabel": {
-    "message": "saccades ",
+    "message": "line height",
     "description": "label for smaller and larger line height buttons"
   },
   "smallerLineHieghtBtnText": {

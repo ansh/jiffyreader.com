@@ -31,6 +31,8 @@ export const SACCADE_COLORS = [
 ] as [Label: string, value: string][];
 
 export enum DisplayColorMode {
-    'LIGHT' = 'light',
-    'DARK' = 'dark',
-  }
+  'LIGHT' = 'light',
+  'DARK' = 'dark',
+}
+
+export const MaxSaccadesInterval = 4;
