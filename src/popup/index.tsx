@@ -13,6 +13,7 @@ import {
   APP_PREFS_STORE_KEY,
   COLOR_MODE_STATE_TRANSITIONS,
   DisplayColorMode,
+  MaxSaccadesInterval,
   SACCADE_COLORS,
   SACCADE_STYLES,
   STORAGE_AREA,
@@ -185,7 +186,8 @@ function IndexPopup() {
       <div className="translation_help_request">
         <a
           href="https://github.com/ansh/jiffyreader.com#help-with-translations"
-          className="text-capitalize text-secondary" target='_blank'>
+          className={'text-capitalize ' + textColor}
+          target="_blank">
           {chrome.i18n.getMessage('translationHelpLinkText')}
         </a>
       </div>
@@ -209,7 +211,7 @@ function IndexPopup() {
       <div className="flex flex-column m-md gap-1">
         <span>{chrome.i18n.getMessage('urlPromptText')}</span>
         <span>{chrome.i18n.getMessage('reloadPromptText')}</span>
-        {getFooterLinks('text-primary')}
+        {getFooterLinks('text-alternate')}
       </div>
     );
   };
@@ -324,7 +326,7 @@ function IndexPopup() {
                   <input
                     type="range"
                     min="0"
-                    max="4"
+                    max={MaxSaccadesInterval - 1}
                     value={prefs.saccadesInterval}
                     onChange={makeUpdateChangeEventHandler('saccadesInterval')}
                     className="slider w-100"
@@ -434,7 +436,7 @@ function IndexPopup() {
 
               <div className="w-100">
                 <label className="block text-capitalize mb-sm" id="lineHeightLabel">
-                  {chrome.i18n.getMessage('lineHeightLabel')}
+                  {chrome.i18n.getMessage('lineHeightTogglesLabel')}
                 </label>
                 <div className="w-100 flex justify-center">
                   <button
