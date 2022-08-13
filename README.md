@@ -282,9 +282,11 @@ Read more about [Bionic Reading](https://bionic-reading.com/about/).
       "message": "this is the text to translate",
       "description": "it is not required to translate this text"
     }
+    ```
 
-
-    <!-- result after tranlsation into spanish -->
+    - result after tranlsation into spanish
+    
+    ```
     "exampleText":{
       "message": "esto es el texto a traducir",
       "description": "it is not required to translate this text"
