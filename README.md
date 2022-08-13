@@ -23,6 +23,7 @@ The best way to install this extension is to follow the instructions below. Howe
 - [Installation Instructions](#installation-instructions)
   - [Chrome](#chrome)
   - [Firefox](#firefox)
+  - [Firefox Nightly / Fennec F-droid / Mull (Android)](#firefox-nightly--fennec-f-droid--mull-android)
   - [Opera](#opera)
   - [Edge](#edge)
   - [Android (kiwi Browser)](#android-kiwi-browser)
@@ -99,13 +100,14 @@ The best way to install this extension is to follow the instructions below. Howe
 ## Firefox Nightly / Fennec F-droid / Mull (Android)
 
 1. Go to settings
-2. Scroll to the bottom and select "About {browser name}"
+2. Scroll to the bottom and select `About {browser name}`
 3. Tap the browser logo five times
-4. Go back to settings and in the Advanced section, select "Custom Add-on collection"
-5. Type 17451592 as the collection owner (user ID) and "Accomodations" as the collection name. The browser will close to apply the settings.
-6. Go to Add-ons/Add-ons manager to install the add-on. 
+4. Go back to settings and in the Advanced section, select `Custom Add-on collection`
+5. Type `17432789` as the collection owner (user ID)
+6. Type `jiffyreader` as the collection name. The browser will close to apply the settings.
+7. Go to Add-ons/Add-ons manager to install the add-on. 
 
-<strong>You may want to check "Toggle on default" in the add-on's menu, since accesing that menu takes more effort than on the desktop.</strong>
+<strong>For convenience you may want to enable the extension by default by clicking on the `Turn On Always` button in the add-on's menu.</strong>
 
 ## Opera
 
