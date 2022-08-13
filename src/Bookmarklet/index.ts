@@ -1,5 +1,5 @@
 import contentStyle from '~/styles/contentStyle.scss';
-import documentParser from '~contents/documentParser';
+import documentParser from '~services/documentParser';
 import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
 
