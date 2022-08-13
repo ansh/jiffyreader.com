@@ -8,7 +8,6 @@ import './../styles/style.css';
 
 import { useStorage } from '@plasmohq/storage';
 
-import documentParser from '~contents/documentParser';
 import {
   APP_PREFS_STORE_KEY,
   COLOR_MODE_STATE_TRANSITIONS,
@@ -18,6 +17,7 @@ import {
   SACCADE_STYLES,
   STORAGE_AREA,
 } from '~services/config';
+import documentParser from '~services/documentParser';
 
 const darkToggle = chrome.runtime.getURL('./assets/moon-solid.svg');
 const lightToggle = chrome.runtime.getURL('./assets/sun-light-solid.svg');

@@ -1,11 +1,11 @@
+import { useStorage } from '@plasmohq/storage';
 import contentStyle from 'data-text:./../styles/contentStyle.scss';
 import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
+import documentParser from '~services/documentParser';
 import usePrefs from '~services/usePrefs';
-
-import documentParser from './documentParser';
 
 export const config: PlasmoContentScript = {
   matches: ['<all_urls>'],
@@ -38,7 +38,11 @@ const IndexContent = () => {
   const [prefs] = usePrefs(async () => window.location.origin, false);
 
   const [tabSession, setTabSession] = useState<TabSession | null>(null);
-  const [expanded, setExpanded] = useState(true);
+
+  const [isExpanded, setExpanded] = useStorage(
+    { area: 'local', key: 'show_debug_overlay' },
+    async (previous) => (typeof previous !== 'boolean' ? false : previous),
+  );
 
   const chromeRuntimeMessageHandler = (message, sender, sendResponse) => {
     Logger.logInfo('%cchromeRuntimMessageHandler.fired', contentLogStyle);
@@ -106,10 +110,10 @@ const IndexContent = () => {
     runTimeHandler.runtime.onMessage.addListener(chromeRuntimeMessageHandler);
   }, []);
 
-  const toggleExpandeHandler = () => setExpanded((oldExpanded) => !oldExpanded);
+  const toggleExpandeHandler = () => setExpanded(!isExpanded);
 
   const getCollapseExpandBtn = () => (
-    <button onClick={toggleExpandeHandler}> {expanded ? 'Collapse' : 'Expand'}</button>
+    <button onClick={toggleExpandeHandler}> {isExpanded ? 'Collapse' : 'Expand'}</button>
   );
 
   const showDebugOverLay = (show) => {
@@ -130,7 +134,7 @@ const IndexContent = () => {
         </div>
         <span>{JSON.stringify(tabSession)}</span>
         <span>
-          {expanded &&
+          {isExpanded &&
             prefs &&
             Object.entries(prefs).map(([key, val], index) => (
               <p className="prefsEntry" key={'prefs_item' + index}>
