@@ -23,6 +23,7 @@ The best way to install this extension is to follow the instructions below. Howe
 - [Installation Instructions](#installation-instructions)
   - [Chrome](#chrome)
   - [Firefox](#firefox)
+  - [Firefox Nightly / Fennec F-droid / Mull (Android)](#firefox-nightly--fennec-f-droid--mull-android)
   - [Opera](#opera)
   - [Edge](#edge)
   - [Android (kiwi Browser)](#android-kiwi-browser)
@@ -94,9 +95,19 @@ The best way to install this extension is to follow the instructions below. Howe
   5. The extensions default reading mode is set to off when installed
   6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
-<strong>Firefox will remove the extension when the browser is closed. This will be solved once we provide a means to download the extension from the firefox store</strong>
+<strong>Firefox will remove the extension when the browser is closed if the extension is not downloaded from the store.</strong>
 
+## Firefox Nightly / Fennec F-droid / Mull (Android)
 
+1. Go to settings
+2. Scroll to the bottom and select `About {browser name}`
+3. Tap the browser logo five times
+4. Go back to settings and in the Advanced section, select `Custom Add-on collection`
+5. Type `17432789` as the collection owner (user ID)
+6. Type `jiffyreader` as the collection name. The browser will close to apply the settings.
+7. Go to Add-ons/Add-ons manager to install the add-on. 
+
+<strong>For convenience you may want to enable the extension by default by clicking on the `Turn On Always` button in the add-on's menu.</strong>
 
 ## Opera
 
