@@ -7,6 +7,7 @@ const siteElementExclusions = {
   'play.google.com': ['.mat-icon-button', 'mat-icon-button', '.scrubber-container', 'header>nav>a'],
   'app.grammarly.com': ['.editor-editorContainer'],
   'notion.so': ['[data-content-editable-leaf=true]', '.notion-frame'],
+  'web.whatsapp.com.': ['[contenteditable]']
 };
 
 /** @returns {Excluder} */

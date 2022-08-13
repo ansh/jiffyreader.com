@@ -38,7 +38,7 @@ const IndexContent = () => {
   const [prefs] = usePrefs(async () => window.location.origin, false);
 
   const [tabSession, setTabSession] = useState<TabSession | null>(null);
-  
+
   const [isExpanded, setExpanded] = useStorage(
     { area: 'local', key: 'show_debug_overlay' },
     async (previous) => (typeof previous !== 'boolean' ? false : previous),
