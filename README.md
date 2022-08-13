@@ -94,9 +94,18 @@ The best way to install this extension is to follow the instructions below. Howe
   5. The extensions default reading mode is set to off when installed
   6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
-<strong>Firefox will remove the extension when the browser is closed. This will be solved once we provide a means to download the extension from the firefox store</strong>
+<strong>Firefox will remove the extension when the browser is closed if the extension is not downloaded from the store.</strong>
 
+## Firefox Nightly / Fennec F-droid / Mull (Android)
 
+1. Go to settings
+2. Scroll to the bottom and select "About {browser name}"
+3. Tap the browser logo five times
+4. Go back to settings and in the Advanced section, select "Custom Add-on collection"
+5. Type 17451592 as the collection owner (user ID) and "Accomodations" as the collection name. The browser will close to apply the settings.
+6. Go to Add-ons/Add-ons manager to install the add-on. 
+
+<strong>You may want to check "Toggle on default" in the add-on's menu, since accesing that menu takes more effort than on the desktop.</strong>
 
 ## Opera
 
