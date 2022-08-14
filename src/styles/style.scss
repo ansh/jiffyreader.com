@@ -333,28 +333,6 @@
         display: inherit;
         opacity: 100%;
         left: 0;
-        // animation:  3s  alternate ease-in-out 3s alternate-reverse underline-slide-in;
-        animation-name: underline-slide-in;
-        animation-delay: 0s;
-        animation-duration: 3s;
-        animation-direction: alternate-reverse;
-        animation-iteration-count: infinite;
-        animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-    }
-
-    @keyframes underline-slide-in {
-        0% {
-            text-underline-offset: 6px;
-        }
-
-        50% {
-
-            text-underline-offset: 3px;
-        }
-
-        100% {
-            text-underline-offset: 0px;
-        }
     }
 
     .mode-toggle-icon {
