@@ -321,6 +321,20 @@
 
     /* || component */
 
+    .animated-footer-link {
+        transition: all 3s cubic-bezier(0.075, 0.82, 0.165, 1);
+        left: -100%;
+        opacity: 0;
+    }
+
+    .animated-footer-link-show {
+        position: absolute;
+        top: 0;
+        display: inherit;
+        opacity: 100%;
+        left: 0;
+    }
+
     .mode-toggle-icon {
         width: 24px;
         background: var(--bg-secondary);

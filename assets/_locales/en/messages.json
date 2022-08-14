@@ -100,7 +100,7 @@
     "description": "sub text for the button"
   },
   "resetBtnText": {
-    "message": "reset settings",
+    "message": "reset to optimal settings",
     "description": "text for the button"
   },
   "faqLinkText": {
@@ -134,5 +134,42 @@
   "translationHelpLinkText": {
     "message": "help us with tranlations. click to learn more",
     "description": "text"
+  },
+  "reloadText": {
+    "message": "reload",
+    "description": "text"
+  },
+  "openPermissionPageBtnText": {
+    "message": "click here to open permissions page",
+    "description": "button text"
+  },
+  "missingPermissionHeaderText": {
+    "message": "File Url permission missing",
+    "description": "header text"
+  },
+  "missingPermissionHeaderSubText": {
+    "message": "complete steps below",
+    "description": "sub text"
+  },
+  "grantPermissionInstructionText": {
+    "message": "Grant File url permission",
+    "description": "text"
+  },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "Return and try opening the extension again",
+    "description": "text"
+  },
+  "pageNotSupportedHeaderText": {
+    "message": "This page is not supported",
+    "description": "text"
+  },
+  "pageNotDetectedText": {
+    "message": "Page not detected",
+    "description": "text"
+  },
+  "surveyPromptText": {
+    "message": "take short survey to help us improve JR",
+    "description": "text"
   }
+
 }
