@@ -18,6 +18,9 @@ import {
   STORAGE_AREA,
 } from '~services/config';
 import documentParser from '~services/documentParser';
+import defaultPrefs from '~services/preferences';
+
+const popupLogStyle = 'background:cyan;color:brown';
 
 const darkToggle = chrome.runtime.getURL('./assets/moon-solid.svg');
 const lightToggle = chrome.runtime.getURL('./assets/sun-light-solid.svg');
@@ -30,7 +33,14 @@ const FIXATION_OPACITY_STOP_UNIT_SCALE = Math.floor(100 / FIXATION_OPACITY_STOPS
 
 const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
+const SHOW_FOOTER_MESSAGE_DURATION = 12_000;
+const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
+const FIRST_FOOTER_MESSAGE_INDEX = 1
+
 function IndexPopup() {
+  const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
+  const [footerMessageIndex, setFooterMeessageIndex] = useState(undefined);
+
   const [prefs, setPrefs] = usePrefs(
     async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)),
     true,
@@ -50,7 +60,7 @@ function IndexPopup() {
   }, [tabSession]);
 
   useEffect(() => {
-    Logger.logInfo('%cprefstore updated', 'background:red;color:white', prefs);
+    Logger.logInfo('%cprefstore updated', popupLogStyle, prefs);
 
     if (!prefs) return;
 
@@ -63,13 +73,17 @@ function IndexPopup() {
 
   useEffect(() => {
     (async () => {
+      const _activeTab = await TabHelper.getActiveTab(true);
+      setActiveTab(_activeTab);
+      Logger.logInfo('%cactiveTab', popupLogStyle, _activeTab);
+
+      const origin = await TabHelper.getTabOrigin(_activeTab);
+
       const brMode = chrome.tabs.sendMessage(
-        (await TabHelper.getActiveTab(true)).id,
-        {
-          type: 'getReadingMode',
-        },
+        _activeTab.id,
+        { type: 'getReadingMode' },
         ({ data }) => {
-          setTabSession({ brMode: data });
+          setTabSession({ brMode: data, origin });
         },
       );
     })();
@@ -79,7 +93,7 @@ function IndexPopup() {
 
       switch (request.message) {
         case 'setIconBadgeText': {
-          setTabSession({ brMode: request.data });
+          setTabSession((oldTabSession) => ({ ...oldTabSession, brMode: request.data }));
           break;
         }
         default: {
@@ -87,6 +101,20 @@ function IndexPopup() {
         }
       }
     });
+
+    const footerMessagesLength = 2;
+    const nextMessageIndex = (oldFooterMessageIndex) =>
+      typeof oldFooterMessageIndex !== 'number'
+        ? FIRST_FOOTER_MESSAGE_INDEX
+        : (oldFooterMessageIndex + 1) % footerMessagesLength;
+
+    setTimeout(() => {
+      setFooterMeessageIndex(nextMessageIndex);
+
+      setInterval(() => {
+        setFooterMeessageIndex(nextMessageIndex);
+      }, SHOW_FOOTER_MESSAGE_DURATION);
+    }, FOOT_MESSAGAES_ANIMATION_DELAY);
   }, []);
 
   const makeUpdateChangeEventHandler =
@@ -111,7 +139,7 @@ function IndexPopup() {
       data: newBrMode,
     };
 
-    setTabSession({ brMode: newBrMode });
+    setTabSession({ ...tabSession, brMode: newBrMode });
     runTimeHandler.runtime.sendMessage(payload, () => Logger.LogLastError());
 
     TabHelper.getActiveTab(true).then((tab) =>
@@ -133,6 +161,17 @@ function IndexPopup() {
 
     await setAppConfigPrefs({ ...appConfigPrefs, displayColorMode });
     console.log('handleDisplayColorModeChange', appConfigPrefs);
+  };
+
+  const showOptimal = (key: string, value = undefined) => {
+    if (!prefs) return undefined;
+
+    if ((value ?? prefs?.[key]) == defaultPrefs?.[key])
+      return <span className="ml-auto text-sm">Optimal</span>;
+  };
+
+  const animateFooterMessageVisibility = (index, _footerMessageIndex = footerMessageIndex) => {
+    return 'animated-footer-link ' + (index === footerMessageIndex && ' animated-footer-link-show');
   };
 
   const getFooterLinks = (textColor = 'text-secondary') => (
@@ -183,12 +222,17 @@ function IndexPopup() {
         </div>
       </div>
 
-      <div className="translation_help_request">
+      <div className="translation_help_request pos-relative">
         <a
           href="https://github.com/ansh/jiffyreader.com#help-with-translations"
-          className={'text-capitalize ' + textColor}
+          className={'text-capitalize ' + textColor + ' ' + animateFooterMessageVisibility(0)}
           target="_blank">
           {chrome.i18n.getMessage('translationHelpLinkText')}
+        </a>
+        <a
+          className={'text-capitalize ' + textColor + ' ' + animateFooterMessageVisibility(1)}
+          href="https://docs.google.com/forms/d/e/1FAIpQLScPVRqk6nofBSX0cyb_UE2VlxsRKWFZacmKiU2OkGC3QA6YKQ/viewform?usp=pp_url">
+          {chrome.i18n.getMessage('surveyPromptText')}
         </a>
       </div>
     </>
@@ -202,15 +246,80 @@ function IndexPopup() {
         <span className="w-full">tabSession {JSON.stringify(tabSession)}</span>
         <span className="w-full">prefs: {JSON.stringify(prefs)}</span>
         <span className="w-full">appConfigPrefs: {JSON.stringify(appConfigPrefs)}</span>
+        <span className="w-full">footerMessageIndex: {footerMessageIndex}</span>
       </div>
+    );
+  };
+
+  const reloadActiveTab = async (_activeTab = activeTab) => {
+    await chrome.tabs.reload(_activeTab.id);
+    chrome.runtime.reload();
+  };
+
+  const openPermissionPage = () => {
+    chrome.tabs.create({ url: 'chrome://extensions/?id=jjjipoongdlfeenlicdoeadmabalokca' });
+  };
+
+  const showFileUrlPermissionRequestMessage = (
+    tabSession: TabSession,
+    prefs,
+    _activeTab = activeTab,
+  ) => {
+    if (
+      !/chrome/i.test(process.env.TARGET) ||
+      !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) ||
+      prefs
+    ) {
+      return undefined;
+    }
+
+    return (
+      <>
+        <h2>{chrome.i18n.getMessage('missingPermissionHeaderText')}</h2>
+        <span>{chrome.i18n.getMessage('missingPermissionHeaderSubText')}</span>
+        <ol className="|| flex flex-column || m-0 p-3">
+          <li>
+            <button className="text-capitalize" onClick={openPermissionPage}>
+              {chrome.i18n.getMessage('openPermissionPageBtnText')}
+            </button>
+          </li>
+          <li>{chrome.i18n.getMessage('grantPermissionInstructionText')}</li>
+          <li>{chrome.i18n.getMessage('reloadPageAndExtensionInstructionText')}</li>
+        </ol>
+      </>
+    );
+  };
+
+  const showUnsupportedPageErrorMessage = (_activeTab = activeTab) => {
+    if (!/chrome:\/\//i.test(_activeTab?.url)) return undefined;
+
+    return (
+      <>
+        <span>{chrome.i18n.getMessage('pageNotSupportedHeaderText')}</span>
+        <span>{chrome.i18n.getMessage('reloadPromptText')}</span>
+      </>
+    );
+  };
+
+  const showPageNotDetectedErrorMessage = () => {
+    return (
+      <>
+        <span>{chrome.i18n.getMessage('pageNotDetectedText')}</span>
+        <button className="text-capitalize" onClick={() => reloadActiveTab()}>
+          {chrome.i18n.getMessage('reloadText')}
+        </button>
+      </>
     );
   };
 
   const showErrorMessage = () => {
     return (
       <div className="flex flex-column m-md gap-1">
-        <span>{chrome.i18n.getMessage('urlPromptText')}</span>
-        <span>{chrome.i18n.getMessage('reloadPromptText')}</span>
+        <>
+          {showFileUrlPermissionRequestMessage(tabSession, prefs) ||
+            showUnsupportedPageErrorMessage() ||
+            showPageNotDetectedErrorMessage()}
+        </>
         {getFooterLinks('text-alternate')}
       </div>
     );
@@ -320,7 +429,8 @@ function IndexPopup() {
               <div className="w-100">
                 <label className="block text-capitalize">
                   {chrome.i18n.getMessage('saccadesIntervalLabel')}:{' '}
-                  <span id="saccadesLabelValue">{prefs.saccadesInterval}</span>
+                  <span id="saccadesLabelValue">{prefs.saccadesInterval}</span>{' '}
+                  {showOptimal('saccadesInterval')}
                 </label>
                 <div className="slidecontainer">
                   <input
@@ -346,7 +456,8 @@ function IndexPopup() {
               <div className="w-100">
                 <label className="block text-capitalize">
                   {chrome.i18n.getMessage('fixationsStrengthLabel')}:{' '}
-                  <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span>
+                  <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span>{' '}
+                  {showOptimal('fixationStrength')}
                 </label>
                 <div className="slidecontainer">
                   <input
@@ -372,7 +483,8 @@ function IndexPopup() {
               <div className="w-100">
                 <label className="block text-capitalize">
                   {chrome.i18n.getMessage('fixationsEdgeOpacityLabel')}:{' '}
-                  <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}%</span>
+                  <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}%</span>{' '}
+                  {showOptimal('fixationEdgeOpacity')}
                 </label>
                 <div className="slidecontainer">
                   <input
@@ -394,7 +506,7 @@ function IndexPopup() {
                         <option
                           key={`opacity-stop-${value}`}
                           value={value}
-                          label={value + ''}></option>
+                          label={'' + value}></option>
                       ))}
                   </datalist>
                 </div>
@@ -402,7 +514,7 @@ function IndexPopup() {
 
               <div className="w-100 flex flex-column gap-1">
                 <label className="text-dark text-capitalize" htmlFor="saccadesColor">
-                  {chrome.i18n.getMessage('saccadesColorLabel')}
+                  {chrome.i18n.getMessage('saccadesColorLabel')} {showOptimal('saccadesColor')}
                 </label>
 
                 <select
@@ -412,14 +524,20 @@ function IndexPopup() {
                   onChange={makeUpdateChangeEventHandler('saccadesColor')}
                   value={prefs.saccadesColor}>
                   {SACCADE_COLORS.map(([label, value]) => (
-                    <option key={label} value={value} label={label}></option>
+                    <option key={label} value={value}>
+                      {label}{' '}
+                      {showOptimal(
+                        'saccadesColor',
+                        label.toLowerCase() === 'original' ? '' : label.toLowerCase(),
+                      )}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div className="w-100 flex flex-column gap-1">
                 <label className="text-dark text-capitalize" htmlFor="saccadesStyle">
-                  {chrome.i18n.getMessage('saccadesStyleLabel')}
+                  {chrome.i18n.getMessage('saccadesStyleLabel')} {showOptimal('saccadesStyle')}
                 </label>
 
                 <select
@@ -429,7 +547,9 @@ function IndexPopup() {
                   onChange={makeUpdateChangeEventHandler('saccadesStyle')}
                   value={prefs.saccadesStyle}>
                   {SACCADE_STYLES.map((style) => (
-                    <option key={style} value={style.toLowerCase()} label={style}></option>
+                    <option key={style} value={style.toLowerCase()}>
+                      {style} {showOptimal('saccadesStyle', style.toLowerCase())}
+                    </option>
                   ))}
                 </select>
               </div>
