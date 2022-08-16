@@ -1,0 +1,126 @@
+{
+  "preferenceLabel": {
+    "message": "استفاده از ترجیح",
+    "description": "برچسب برای (جهانی یا سایت ترجیح دکمه toggles"
+  },
+  "tipsPopupTriggerLabel": {
+    "message": "راهنمایی",
+    "description": "برچسب برای (جهانی یا سایت ترجیح دکمه toggles"
+  },
+  "globalPreferenceToggleBtnText": {
+    "message": "جهانی",
+    "description": "متن اصلی برای دکمه تغییر ترجیح جهانی"
+  },
+  "globalPreferenceToggleBtnSubText": {
+    "message": "پیش فرض",
+    "description": "دکمه ترجیح جهانی زیر متن"
+  },
+  "sitePreferenceToggleBtnText": {
+    "message": "سایت",
+    "description": "متن اصلی برای ترجیح سایت را فشار دهید"
+  },
+  "sitePreferenceToggleBtnSubText": {
+    "message": "برای این سایت",
+    "description": "دکمه ترجیح جهانی زیر متن"
+  },
+  "onOffToggleBtnTextDisable": {
+    "message": "غیر فعال کردن",
+    "description": "onOffToggleBtnTextDisable button text"
+  },
+  "onOffToggleBtnTextEnable": {
+    "message": "فعال",
+    "description": "onOffToggleBtnTextEnable متن دکمه"
+  },
+  "onOffToggleBtnSubText": {
+    "message": "حالت خواندن",
+    "description": "متن برای onOffToggleBtnSubText"
+  },
+  "defaultShortcutLabelText": {
+    "message": "میانبر پیش فرض",
+    "description": "متن برای onOffToggleBtnShortCutText"
+  },
+  "defaultShortcutValueTextChrome": {
+    "message": "alt+b",
+    "description": "میانبر پیش فرض برای کروم"
+  },
+  "defaultShortcutValueTextFirefox": {
+    "message": "alt+w",
+    "description": "میانبر پیش فرض برای فایرفاکس"
+  },
+  "saccadesIntervalLabel": {
+    "message": "فاصله ساکاکدس",
+    "description": "برچسب برای لغزنده فاصله saccades"
+  },
+  "fixationsStrengthLabel": {
+    "message": "قدرت تثبیت",
+    "description": "برچسب برای تثبیت لغزنده قدرت"
+  },
+  "fixationsEdgeOpacityLabel": {
+    "message": "ثابت کردن opacity لبه",
+    "description": "برچسب برای تثبیت لبه لغزنده opacity"
+  },
+  "saccadesColorLabel": { "message": "رنگ ساکاکدس", "description": "برچسب برای کاهش رنگ saccade" },
+  "saccadesStyleLabel": { "message": "سبک ساکاکدس", "description": "برچسب برای کاهش سبک saccade" },
+  "lineHeightTogglesLabel": {
+    "message": "ارتفاع خط",
+    "description": "برچسب برای دکمه های کوچک تر و بزرگتر ارتفاع خط"
+  },
+  "smallerLineHieghtBtnText": { "message": "aa-", "description": "متن برای دکمه" },
+  "smallerLineHieghtBtnSubText": { "message": "کوچکتر", "description": "متن فرعی برای دکمه" },
+  "largerLineHieghtBtnText": { "message": "aa+", "description": "متن برای دکمه" },
+  "largerLineHieghtBtnSubText": { "message": "بزرگتر", "description": "متن فرعی برای دکمه" },
+  "defaultBionicModeToggleBtnOffText": {
+    "message": "خاموش کردن همیشه",
+    "description": "متن برای دکمه"
+  },
+  "defaultBionicModeToggleBtnOnText": {
+    "message": "روشن کردن همیشه",
+    "description": "متن برای دکمه"
+  },
+  "defaultBionicModeToggleBtnSubText": {
+    "message": "ترجیح به طور پیش فرض تغییر",
+    "description": "متن فرعی برای دکمه"
+  },
+  "resetBtnText": { "message": "تنظیم مجدد به تنظیمات مطلوب", "description": "متن برای دکمه" },
+  "faqLinkText": { "message": "سوالات متداول", "description": "متن پیوند" },
+  "reportIssueLinkText": { "message": "مسئله گزارش", "description": "متن پیوند" },
+  "aboutUsLinkText": { "message": "وب سایت", "description": "متن پیوند" },
+  "dataEntryMessage": {
+    "message": "خاموش کردن اگر خواننده jiffy تداخل با ورود داده ها",
+    "description": "پیامک"
+  },
+  "googlePlayLinkSecondaryText": { "message": "خواندن پشتیبانی", "description": "پیامک" },
+  "urlPromptText": {
+    "message": "زبانه های بدون آدرس ممکن است به درستی کار نمی کنند",
+    "description": "پیامک"
+  },
+  "reloadPromptText": {
+    "message": "برگه را با آدرس معتبر بارگذاری مجدد کنید و دوباره امتحان کنید",
+    "description": "پیامک"
+  },
+  "translationHelpLinkText": {
+    "message": "ما را در tranlations کمک کند. برای کسب اطلاعات بیشتر کلیک کنید",
+    "description": "پیامک"
+  },
+  "reloadText": { "message": "بارگذاری", "description": "پیامک" },
+  "openPermissionPageBtnText": {
+    "message": "برای باز کردن صفحه مجوزها اینجا را کلیک کنید",
+    "description": "متن دکمه"
+  },
+  "missingPermissionHeaderText": {
+    "message": "مجوز آدرس پرونده گم شده",
+    "description": "متن سرصفحه"
+  },
+  "missingPermissionHeaderSubText": { "message": "مراحل کامل زیر", "description": "متن فرعی" },
+  "grantPermissionInstructionText": { "message": "گرانت فایل اجازه آدرس", "description": "پیامک" },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "بازگشت و سعی کنید باز کردن پسوند دوباره",
+    "description": "پیامک"
+  },
+  "pageNotSupportedHeaderText": { "message": "این صفحه پشتیبانی نمی شود", "description": "پیامک" },
+  "pageNotDetectedText": { "message": "صفحه شناسایی نشده", "description": "پیامک" },
+  "surveyPromptText": {
+    "message": "نگاهی به بررسی کوتاه برای کمک به ما بهبود JR",
+    "description": "پیامک"
+  }
+}

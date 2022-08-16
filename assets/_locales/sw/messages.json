@@ -1,0 +1,150 @@
+{
+  "preferenceLabel": {
+    "message": "upendeleo wa matumizi",
+    "description": "lebo ya (kitufe cha upendeleo wa kimataifa au tovuti toggles"
+  },
+  "tipsPopupTriggerLabel": {
+    "message": "Tips",
+    "description": "lebo ya (kitufe cha upendeleo wa kimataifa au tovuti toggles"
+  },
+  "globalPreferenceToggleBtnText": {
+    "message": "Kimataifa",
+    "description": "maandishi kuu kwa kitufe cha kugeuza upendeleo wa kimataifa"
+  },
+  "globalPreferenceToggleBtnSubText": {
+    "message": "Kaida",
+    "description": "maandishi madogo ya kitufe cha upendeleo duniani"
+  },
+  "sitePreferenceToggleBtnText": {
+    "message": "Tovuti",
+    "description": "maandishi kuu kwa kitufe cha upendeleo wa tovuti"
+  },
+  "sitePreferenceToggleBtnSubText": {
+    "message": "kwa tovuti hii",
+    "description": "maandishi madogo ya kitufe cha upendeleo duniani"
+  },
+  "onOffToggleBtnTextDisable": {
+    "message": "Lemaza",
+    "description": "onOffToggleBtnTextDisable maandishi ya kitufe"
+  },
+  "onOffToggleBtnTextEnable": {
+    "message": "Wezesha",
+    "description": "onOffToggleBtnTextEnable maandishi ya kitufe"
+  },
+  "onOffToggleBtnSubText": {
+    "message": "hali ya kusoma",
+    "description": "maandishi ya onOffToggleBtnSubText"
+  },
+  "defaultShortcutLabelText": {
+    "message": "njia ya mkato chaguo-msingi",
+    "description": "maandishi ya onOffToggleBtnShortCutText"
+  },
+  "defaultShortcutValueTextChrome": {
+    "message": "alt+b",
+    "description": "njia ya mkato chaguo-msingi ya chrome"
+  },
+  "defaultShortcutValueTextFirefox": {
+    "message": "alt+w",
+    "description": "njia ya mkato chaguo-msingi ya firefox"
+  },
+  "saccadesIntervalLabel": {
+    "message": "muda wa saccades",
+    "description": "lebo ya saccades interval slider"
+  },
+  "fixationsStrengthLabel": {
+    "message": "nguvu ya marekebisho",
+    "description": "lebo ya fixations nguvu slider"
+  },
+  "fixationsEdgeOpacityLabel": {
+    "message": "fixations edge opacity",
+    "description": "lebo ya fixations edge opacity slider"
+  },
+  "saccadesColorLabel": {
+    "message": "rangi ya saccades",
+    "description": "lebo ya kushuka kwa rangi ya saccade"
+  },
+  "saccadesStyleLabel": {
+    "message": "mitindo ya saccades",
+    "description": "lebo ya kushuka kwa mtindo wa saccade"
+  },
+  "lineHeightTogglesLabel": {
+    "message": "urefu wa mstari",
+    "description": "lebo ya vifungo vidogo na vikubwa vya urefu wa mstari"
+  },
+  "smallerLineHieghtBtnText": { "message": "aa-", "description": "maandishi kwa kitufe" },
+  "smallerLineHieghtBtnSubText": {
+    "message": "Ndogo",
+    "description": "maandishi madogo kwa kitufe"
+  },
+  "largerLineHieghtBtnText": { "message": "aa+", "description": "maandishi kwa kitufe" },
+  "largerLineHieghtBtnSubText": {
+    "message": "Kubwa",
+    "description": "maandishi madogo kwa kitufe"
+  },
+  "defaultBionicModeToggleBtnOffText": {
+    "message": "zima daima",
+    "description": "maandishi kwa kitufe"
+  },
+  "defaultBionicModeToggleBtnOnText": {
+    "message": "washa daima",
+    "description": "maandishi kwa kitufe"
+  },
+  "defaultBionicModeToggleBtnSubText": {
+    "message": "upendeleo wa toggle chaguo-msingi",
+    "description": "maandishi madogo kwa kitufe"
+  },
+  "resetBtnText": {
+    "message": "weka upya kwa mipangilio bora",
+    "description": "maandishi kwa kitufe"
+  },
+  "faqLinkText": { "message": "Maswali", "description": "maandishi ya kiungo" },
+  "reportIssueLinkText": { "message": "Suala la ripoti", "description": "maandishi ya kiungo" },
+  "aboutUsLinkText": { "message": "Tovuti", "description": "maandishi ya kiungo" },
+  "dataEntryMessage": {
+    "message": "Zima ikiwa msomaji wa jiffy anaingilia kuingia kwa data",
+    "description": "Ujumbe"
+  },
+  "googlePlayLinkSecondaryText": { "message": "kusoma kuungwa mkono", "description": "Ujumbe" },
+  "urlPromptText": {
+    "message": "Tabo bila url haziwezi kufanya kazi vizuri",
+    "description": "Ujumbe"
+  },
+  "reloadPromptText": {
+    "message": "Pakia upya kichupo na url halali na jaribu tena",
+    "description": "Ujumbe"
+  },
+  "translationHelpLinkText": {
+    "message": "tusaidieni na tranlations. bonyeza kujifunza zaidi",
+    "description": "Ujumbe"
+  },
+  "reloadText": { "message": "Upya", "description": "Ujumbe" },
+  "openPermissionPageBtnText": {
+    "message": "bonyeza hapa kufungua ukurasa wa ruhusa",
+    "description": "maandishi ya kitufe"
+  },
+  "missingPermissionHeaderText": {
+    "message": "Ruhusa ya Url ya faili haipo",
+    "description": "maandishi ya kichwa"
+  },
+  "missingPermissionHeaderSubText": {
+    "message": "hatua kamili hapa chini",
+    "description": "maandishi madogo"
+  },
+  "grantPermissionInstructionText": {
+    "message": "Ruhusa ya url ya Faili",
+    "description": "Ujumbe"
+  },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "Rudi na jaribu kufungua ugani tena",
+    "description": "Ujumbe"
+  },
+  "pageNotSupportedHeaderText": {
+    "message": "Ukurasa huu hauungwi mkono",
+    "description": "Ujumbe"
+  },
+  "pageNotDetectedText": { "message": "Ukurasa haujagunduliwa", "description": "Ujumbe" },
+  "surveyPromptText": {
+    "message": "chukua utafiti mfupi kutusaidia kuboresha JR",
+    "description": "Ujumbe"
+  }
+}

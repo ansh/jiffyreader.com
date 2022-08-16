@@ -1,0 +1,123 @@
+{
+  "preferenceLabel": {
+    "message": "העדפת שימוש",
+    "description": "label for (מתגי לחצן 'כללי' או 'העדפת אתר'"
+  },
+  "tipsPopupTriggerLabel": {
+    "message": "טיפים",
+    "description": "label for (מתגי לחצן 'כללי' או 'העדפת אתר'"
+  },
+  "globalPreferenceToggleBtnText": {
+    "message": "הכללית",
+    "description": "טקסט ראשי עבור לחצן 'החלפת העדפות' כללי"
+  },
+  "globalPreferenceToggleBtnSubText": {
+    "message": "ברירת מחדל",
+    "description": "טקסט משנה של לחצן העדפה כללית"
+  },
+  "sitePreferenceToggleBtnText": {
+    "message": "אתר",
+    "description": "טקסט ראשי עבור לחצן 'החלפת מצבי' בהעדפת אתר"
+  },
+  "sitePreferenceToggleBtnSubText": {
+    "message": "עבור אתר זה",
+    "description": "טקסט משנה של לחצן העדפה כללית"
+  },
+  "onOffToggleBtnTextDisable": {
+    "message": "בטל",
+    "description": "onOffToggleBtnTextטקסטטקסטטקסט טקסט לחצן ניתן לזיהוי"
+  },
+  "onOffToggleBtnTextEnable": {
+    "message": "לאפשר",
+    "description": "onOffToggleBtnTextהטקסט טקסט לחצן ניתן לשינוי"
+  },
+  "onOffToggleBtnSubText": {
+    "message": "מצב קריאה",
+    "description": "text for onOffToggleBtnSubText"
+  },
+  "defaultShortcutLabelText": {
+    "message": "קיצור דרך ברירת מחדל",
+    "description": "text for onOffToggleBtnShortCutText"
+  },
+  "defaultShortcutValueTextChrome": {
+    "message": "alt+b",
+    "description": "קיצור דרך ברירת מחדל עבור Chrome"
+  },
+  "defaultShortcutValueTextFirefox": {
+    "message": "alt+w",
+    "description": "קיצור דרך ברירת מחדל עבור Firefox"
+  },
+  "saccadesIntervalLabel": {
+    "message": "מרווח סקאדות",
+    "description": "תווית עבור מחוון מרווח סקאדות"
+  },
+  "fixationsStrengthLabel": {
+    "message": "חוזק קיבועים",
+    "description": "תווית עבור מחוון חוזק קיבועים"
+  },
+  "fixationsEdgeOpacityLabel": {
+    "message": "קיבועים אטימות קצה",
+    "description": "תווית עבור מחוון אטימות קצה קיבועים"
+  },
+  "saccadesColorLabel": {
+    "message": "צבע saccades",
+    "description": "תווית עבור תפריט נפתח של צבע saccade"
+  },
+  "saccadesStyleLabel": {
+    "message": "סגנונות סקאדות",
+    "description": "תווית עבור תפריט נפתח של סגנון saccade"
+  },
+  "lineHeightTogglesLabel": {
+    "message": "גובה הקו",
+    "description": "תווית עבור לחצני גובה קו קטנים וגדולים יותר"
+  },
+  "smallerLineHieghtBtnText": { "message": "אאא-", "description": "טקסט עבור הלחצן" },
+  "smallerLineHieghtBtnSubText": { "message": "קטן", "description": "טקסט משנה עבור הלחצן" },
+  "largerLineHieghtBtnText": { "message": "aa+", "description": "טקסט עבור הלחצן" },
+  "largerLineHieghtBtnSubText": { "message": "גדול", "description": "טקסט משנה עבור הלחצן" },
+  "defaultBionicModeToggleBtnOffText": { "message": "כבה תמיד", "description": "טקסט עבור הלחצן" },
+  "defaultBionicModeToggleBtnOnText": { "message": "הפעל תמיד", "description": "טקסט עבור הלחצן" },
+  "defaultBionicModeToggleBtnSubText": {
+    "message": "העדפת החלפת מצבי ברירת מחדל",
+    "description": "טקסט משנה עבור הלחצן"
+  },
+  "resetBtnText": { "message": "איפוס להגדרות אופטימליות", "description": "טקסט עבור הלחצן" },
+  "faqLinkText": { "message": "שאלות נפוצות", "description": "טקסט קישור" },
+  "reportIssueLinkText": { "message": "סוגיית הדוח", "description": "טקסט קישור" },
+  "aboutUsLinkText": { "message": "אתר אינטרנט", "description": "טקסט קישור" },
+  "dataEntryMessage": { "message": "כבה אם קורא jiffy מפריע להזנת נתונים", "description": "טקסט" },
+  "googlePlayLinkSecondaryText": { "message": "קריאה נתמכת", "description": "טקסט" },
+  "urlPromptText": {
+    "message": "ייתכן שכרטיסיות ללא כתובת אתר לא יפעלו כראוי",
+    "description": "טקסט"
+  },
+  "reloadPromptText": {
+    "message": "טען מחדש את הכרטיסייה עם כתובת URL חוקית ונסה שוב",
+    "description": "טקסט"
+  },
+  "translationHelpLinkText": {
+    "message": "לעזור לנו עם tranlations. לחץ כדי ללמוד עוד",
+    "description": "טקסט"
+  },
+  "reloadText": { "message": "טען מחדש", "description": "טקסט" },
+  "openPermissionPageBtnText": {
+    "message": "לחץ כאן כדי לפתוח את דף ההרשאות",
+    "description": "טקסט לחצן"
+  },
+  "missingPermissionHeaderText": {
+    "message": "הרשאת כתובת URL של קובץ חסרה",
+    "description": "טקסט כותרת עליונה"
+  },
+  "missingPermissionHeaderSubText": { "message": "שלבים מלאים להלן", "description": "טקסט משנה" },
+  "grantPermissionInstructionText": {
+    "message": "הענקת הרשאת כתובת URL של קובץ",
+    "description": "טקסט"
+  },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "חזור ונסה לפתוח שוב את ההרחבה",
+    "description": "טקסט"
+  },
+  "pageNotSupportedHeaderText": { "message": "דף זה אינו נתמך", "description": "טקסט" },
+  "pageNotDetectedText": { "message": "הדף לא זוהה", "description": "טקסט" },
+  "surveyPromptText": { "message": "קח סקר קצר כדי לעזור לנו לשפר את JR", "description": "טקסט" }
+}

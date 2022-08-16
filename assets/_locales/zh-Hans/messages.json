@@ -1,0 +1,72 @@
+{
+  "preferenceLabel": { "message": "使用偏好", "description": "标签（全局或站点首选项按钮切换）" },
+  "tipsPopupTriggerLabel": { "message": "技巧", "description": "标签（全局或站点首选项按钮切换）" },
+  "globalPreferenceToggleBtnText": { "message": "全球", "description": "全局首选项切换按钮的正文" },
+  "globalPreferenceToggleBtnSubText": { "message": "违约", "description": "全局首选项按钮子文本" },
+  "sitePreferenceToggleBtnText": { "message": "网站", "description": "网站首选项切换按钮的正文" },
+  "sitePreferenceToggleBtnSubText": {
+    "message": "对于此站点",
+    "description": "全局首选项按钮子文本"
+  },
+  "onOffToggleBtnTextDisable": {
+    "message": "禁用",
+    "description": "onOffToggleBtnTextDisable button text"
+  },
+  "onOffToggleBtnTextEnable": {
+    "message": "使",
+    "description": "onOffToggleBtnTextEnable button text"
+  },
+  "onOffToggleBtnSubText": { "message": "阅读模式", "description": "文本 onOffToggleBtnSubText" },
+  "defaultShortcutLabelText": {
+    "message": "默认快捷键",
+    "description": "文本 onOffToggleBtnShortCutText"
+  },
+  "defaultShortcutValueTextChrome": { "message": "alt+b", "description": "镶边的默认快捷方式" },
+  "defaultShortcutValueTextFirefox": {
+    "message": "alt+w",
+    "description": "火狐浏览器的默认快捷方式"
+  },
+  "saccadesIntervalLabel": { "message": "扫视间隔", "description": "扫视间隔滑块的标签" },
+  "fixationsStrengthLabel": { "message": "固定强度", "description": "固定强度滑块标签" },
+  "fixationsEdgeOpacityLabel": {
+    "message": "固定边缘不透明度",
+    "description": "固定边缘不透明度滑块的标签"
+  },
+  "saccadesColorLabel": { "message": "扫视颜色", "description": "标记以扫视颜色下拉列表" },
+  "saccadesStyleLabel": { "message": "扫视样式", "description": "标记以扫视样式下拉列表" },
+  "lineHeightTogglesLabel": { "message": "行高", "description": "标签，用于较小和较大的行高按钮" },
+  "smallerLineHieghtBtnText": { "message": "aa-", "description": "按钮的文本" },
+  "smallerLineHieghtBtnSubText": { "message": "较小", "description": "按钮的子文本" },
+  "largerLineHieghtBtnText": { "message": "aa+", "description": "按钮的文本" },
+  "largerLineHieghtBtnSubText": { "message": "较大", "description": "按钮的子文本" },
+  "defaultBionicModeToggleBtnOffText": { "message": "始终关闭", "description": "按钮的文本" },
+  "defaultBionicModeToggleBtnOnText": { "message": "始终打开", "description": "按钮的文本" },
+  "defaultBionicModeToggleBtnSubText": {
+    "message": "默认切换首选项",
+    "description": "按钮的子文本"
+  },
+  "resetBtnText": { "message": "重置为最佳设置", "description": "按钮的文本" },
+  "faqLinkText": { "message": "常见问题", "description": "链接文本" },
+  "reportIssueLinkText": { "message": "报告问题", "description": "链接文本" },
+  "aboutUsLinkText": { "message": "网站", "description": "链接文本" },
+  "dataEntryMessage": { "message": "如果快速读取器干扰数据输入，请关闭", "description": "发短信" },
+  "googlePlayLinkSecondaryText": { "message": "支持阅读", "description": "发短信" },
+  "urlPromptText": { "message": "没有网址的标签页可能无法正常工作", "description": "发短信" },
+  "reloadPromptText": {
+    "message": "使用有效网址重新加载选项卡，然后重试",
+    "description": "发短信"
+  },
+  "translationHelpLinkText": { "message": "帮我们翻译。点击了解更多", "description": "发短信" },
+  "reloadText": { "message": "重新加载", "description": "发短信" },
+  "openPermissionPageBtnText": { "message": "单击此处打开权限页面", "description": "按钮文本" },
+  "missingPermissionHeaderText": { "message": "缺少文件网址权限", "description": "页眉文本" },
+  "missingPermissionHeaderSubText": { "message": "完成以下步骤", "description": "子文本" },
+  "grantPermissionInstructionText": { "message": "授予文件网址权限", "description": "发短信" },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "返回并尝试再次打开扩展程序",
+    "description": "发短信"
+  },
+  "pageNotSupportedHeaderText": { "message": "此页面不受支持", "description": "发短信" },
+  "pageNotDetectedText": { "message": "未检测到页面", "description": "发短信" },
+  "surveyPromptText": { "message": "进行简短的调查，以帮助我们改进JR", "description": "发短信" }
+}
