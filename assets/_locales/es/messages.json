@@ -1,138 +1,147 @@
 {
   "preferenceLabel": {
-    "message": "preferencia en uso",
-    "description": "label for (global or site preference button toggles"
+    "message": "preferencia de uso",
+    "description": "etiqueta para (el botón de preferencia global o de sitio alterna"
   },
   "tipsPopupTriggerLabel": {
-    "message": "consejos",
-    "description": "label for (global or site preference button toggles"
+    "message": "Consejos",
+    "description": "etiqueta para (el botón de preferencia global o de sitio alterna"
   },
   "globalPreferenceToggleBtnText": {
     "message": "global",
-    "description": "main text for global preference toggle button"
+    "description": "Texto principal para el botón de alternancia de preferencias globales"
   },
   "globalPreferenceToggleBtnSubText": {
-    "message": "por defecto",
-    "description": "global preference button sub text"
+    "message": "predeterminado",
+    "description": "subtexto del botón de preferencia global"
   },
   "sitePreferenceToggleBtnText": {
-    "message": "por sitio",
-    "description": "main text for site preference toggle button"
+    "message": "sitio",
+    "description": "Texto principal para el botón de alternancia de preferencias del sitio"
   },
   "sitePreferenceToggleBtnSubText": {
     "message": "para este sitio",
-    "description": "global preference button sub text"
+    "description": "subtexto del botón de preferencia global"
   },
   "onOffToggleBtnTextDisable": {
-    "message": "desactivar",
-    "description": "onOffToggleBtnTextDisable button text"
+    "message": "inutilizar",
+    "description": "OnOffToggleBtnTextDisable texto del botón"
   },
   "onOffToggleBtnTextEnable": {
-    "message": "activar",
-    "description": "onOffToggleBtnTextEnable button text"
+    "message": "habilitar",
+    "description": "onOffToggleBtnTextEnable texto del botón"
   },
   "onOffToggleBtnSubText": {
-    "message": "modo de leyendo",
-    "description": "text for onOffToggleBtnSubText"
+    "message": "modo de lectura",
+    "description": "texto para onOffToggleBtnSubText"
   },
   "defaultShortcutLabelText": {
-    "message": "tecla de acceso directo",
-    "description": "text for onOffToggleBtnShortCutText"
+    "message": "acceso directo predeterminado",
+    "description": "texto para onOffToggleBtnShortCutText"
   },
   "defaultShortcutValueTextChrome": {
-    "message": "alt+b",
-    "description": "default shortcut for chrome"
+    "message": "ALT+B",
+    "description": "acceso directo predeterminado para Chrome"
   },
   "defaultShortcutValueTextFirefox": {
-    "message": "alt+w",
-    "description": "default shortcut for firefox"
+    "message": "ALT+W",
+    "description": "acceso directo predeterminado para firefox"
   },
   "saccadesIntervalLabel": {
-    "message": "intervalo de movimientos sacádicos",
-    "description": "label for saccades interval slider"
+    "message": "intervalo de sacadas",
+    "description": "etiqueta para el control deslizante de intervalo de sacadas"
   },
   "fixationsStrengthLabel": {
-    "message": "fuerza de fijación",
-    "description": "label for fixations strength slider"
+    "message": "fuerza de las fijaciones",
+    "description": "etiqueta para el control deslizante de resistencia de fijaciones"
   },
   "fixationsEdgeOpacityLabel": {
-    "message": "opacidad de la mitad normal de la palabra",
-    "description": "label for fixations edge opacity slider"
+    "message": "opacidad de borde de fijaciones",
+    "description": "etiqueta para fijaciones control deslizante de opacidad de borde"
   },
   "saccadesColorLabel": {
-    "message": "color de sacádicos",
-    "description": "label for saccade color dropdown"
+    "message": "color de las sacadas",
+    "description": "etiqueta para el menú desplegable de color de sacada"
   },
   "saccadesStyleLabel": {
-    "message": "estilo de sacadas",
-    "description": "label for saccade style dropdown"
+    "message": "estilos saccades",
+    "description": "etiqueta para el menú desplegable estilo saccade"
   },
   "lineHeightTogglesLabel": {
-    "message": "espacio entre lineas",
-    "description": "label for smaller and larger line height buttons"
+    "message": "altura de línea",
+    "description": "para botones de altura de línea más pequeños y más grandes"
   },
-  "smallerLineHieghtBtnText": {
-    "message": "aa-",
-    "description": "text for the button"
-  },
-  "smallerLineHieghtBtnSubText": {
-    "message": "reducir",
-    "description": "sub text for the button"
-  },
-  "largerLineHieghtBtnText": {
-    "message": "aa+",
-    "description": "text for the button"
-  },
-  "largerLineHieghtBtnSubText": {
-    "message": "aumentar",
-    "description": "sub text for the button"
-  },
+  "smallerLineHieghtBtnText": { "message": "aa-", "description": "texto para el botón" },
+  "smallerLineHieghtBtnSubText": { "message": "menor", "description": "subtexto para el botón" },
+  "largerLineHieghtBtnText": { "message": "Gam", "description": "texto para el botón" },
+  "largerLineHieghtBtnSubText": { "message": "Mayor", "description": "subtexto para el botón" },
   "defaultBionicModeToggleBtnOffText": {
-    "message": "siempre apagar",
-    "description": "text for the button"
+    "message": "apagar siempre",
+    "description": "texto para el botón"
   },
   "defaultBionicModeToggleBtnOnText": {
-    "message": "siempre enciende",
-    "description": "text for the button"
+    "message": "encender siempre",
+    "description": "texto para el botón"
   },
   "defaultBionicModeToggleBtnSubText": {
     "message": "preferencia de alternancia predeterminada",
-    "description": "sub text for the button"
+    "description": "subtexto para el botón"
   },
   "resetBtnText": {
-    "message": "Reiniciar ajustes",
-    "description": "text for the button"
+    "message": "restablecer a la configuración óptima",
+    "description": "texto para el botón"
   },
-  "faqLinkText": {
-    "message": "Preguntas más frecuentes",
-    "description": "link text"
-  },
-  "reportIssueLinkText": {
-    "message": "Reportar una problema",
-    "description": "link text"
-  },
-  "aboutUsLinkText": {
-    "message": "sitio web",
-    "description": "link text"
-  },
+  "faqLinkText": { "message": "Preguntas más frecuentes", "description": "texto del enlace" },
+  "reportIssueLinkText": { "message": "problema del informe", "description": "texto del enlace" },
+  "aboutUsLinkText": { "message": "sitio web", "description": "texto del enlace" },
   "dataEntryMessage": {
-    "message": "Desactivar si JiffyReader interfiere con la entrada de datos",
-    "description": "text"
+    "message": "Apague si el lector de santiamén interfiere con la entrada de datos",
+    "description": "Mensaje de texto"
   },
   "googlePlayLinkSecondaryText": {
-    "message": "es compatible con JiffyReader",
-    "description": "text"
+    "message": "lectura admitida",
+    "description": "Mensaje de texto"
   },
   "urlPromptText": {
-    "message": "Las pestañas sin URL pueden no funcionar correctamente",
-    "description": "text"
+    "message": "Es posible que las pestañas sin una url no funcionen correctamente",
+    "description": "Mensaje de texto"
   },
   "reloadPromptText": {
-    "message": "Vuelva a cargar la pestaña con una URL válida y vuelva a intentarlo",
-    "description": "text"
+    "message": "Vuelva a cargar la pestaña con una URL válida e inténtelo de nuevo",
+    "description": "Mensaje de texto"
   },
   "translationHelpLinkText": {
-    "message": "ayuda nos con translaciones. aprender mas",
-    "description": "text"
+    "message": "ayúdanos con las tranlaciones. haga clic para obtener más información",
+    "description": "Mensaje de texto"
+  },
+  "reloadText": { "message": "recargar", "description": "Mensaje de texto" },
+  "openPermissionPageBtnText": {
+    "message": "haga clic aquí para abrir la página de permisos",
+    "description": "texto del botón"
+  },
+  "missingPermissionHeaderText": {
+    "message": "Falta el permiso url de archivo",
+    "description": "texto del encabezado"
+  },
+  "missingPermissionHeaderSubText": {
+    "message": "pasos completos a continuación",
+    "description": "subtexto"
+  },
+  "grantPermissionInstructionText": {
+    "message": "Conceder permiso de URL de archivo",
+    "description": "Mensaje de texto"
+  },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "Vuelve e intenta abrir la extensión de nuevo",
+    "description": "Mensaje de texto"
+  },
+  "pageNotSupportedHeaderText": {
+    "message": "Esta página no es compatible",
+    "description": "Mensaje de texto"
+  },
+  "pageNotDetectedText": { "message": "Página no detectada", "description": "Mensaje de texto" },
+  "surveyPromptText": {
+    "message": "realizar una breve encuesta para ayudarnos a mejorar JR",
+    "description": "Mensaje de texto"
   }
 }

@@ -1,0 +1,144 @@
+{
+  "preferenceLabel": {
+    "message": "préférence d’utilisation",
+    "description": "label for (bouton de préférence globale ou de site bascule)"
+  },
+  "tipsPopupTriggerLabel": {
+    "message": "Conseils",
+    "description": "label for (bouton de préférence globale ou de site bascule)"
+  },
+  "globalPreferenceToggleBtnText": {
+    "message": "global",
+    "description": "texte principal pour le bouton bascule de préférence globale"
+  },
+  "globalPreferenceToggleBtnSubText": {
+    "message": "faire défaut",
+    "description": "sous-texte du bouton de préférence globale"
+  },
+  "sitePreferenceToggleBtnText": {
+    "message": "site",
+    "description": "texte principal pour le bouton bascule de préférence du site"
+  },
+  "sitePreferenceToggleBtnSubText": {
+    "message": "pour ce site",
+    "description": "sous-texte du bouton de préférence globale"
+  },
+  "onOffToggleBtnTextDisable": {
+    "message": "désactiver",
+    "description": "texte du bouton onOffToggleBtnTextDisable"
+  },
+  "onOffToggleBtnTextEnable": {
+    "message": "Activer",
+    "description": "onOffToggleBtnTextEnable texte du bouton"
+  },
+  "onOffToggleBtnSubText": {
+    "message": "mode de lecture",
+    "description": "texte pour onOffToggleBtnSubText"
+  },
+  "defaultShortcutLabelText": {
+    "message": "raccourci par défaut",
+    "description": "texte pour onOffToggleBtnShortCutText"
+  },
+  "defaultShortcutValueTextChrome": {
+    "message": "alt+b",
+    "description": "raccourci par défaut pour Chrome"
+  },
+  "defaultShortcutValueTextFirefox": {
+    "message": "alt+w",
+    "description": "raccourci par défaut pour firefox"
+  },
+  "saccadesIntervalLabel": {
+    "message": "intervalle de saccades",
+    "description": "étiquette pour le curseur d’intervalle saccades"
+  },
+  "fixationsStrengthLabel": {
+    "message": "résistance des fixations",
+    "description": "étiquette pour le curseur de force de fixation"
+  },
+  "fixationsEdgeOpacityLabel": {
+    "message": "fixation de l’opacité des arêtes",
+    "description": "étiquette pour les fixations curseur d’opacité des bords"
+  },
+  "saccadesColorLabel": {
+    "message": "couleur des saccades",
+    "description": "étiquette pour la liste déroulante de couleur saccade"
+  },
+  "saccadesStyleLabel": {
+    "message": "styles de saccades",
+    "description": "étiquette pour la liste déroulante de style saccade"
+  },
+  "lineHeightTogglesLabel": {
+    "message": "hauteur de ligne",
+    "description": "étiquette pour les boutons de hauteur de ligne plus petits et plus grands"
+  },
+  "smallerLineHieghtBtnText": { "message": "aa-", "description": "texte du bouton" },
+  "smallerLineHieghtBtnSubText": { "message": "petite", "description": "sous-texte du bouton" },
+  "largerLineHieghtBtnText": { "message": "aa+", "description": "texte du bouton" },
+  "largerLineHieghtBtnSubText": { "message": "Grandes", "description": "sous-texte du bouton" },
+  "defaultBionicModeToggleBtnOffText": {
+    "message": "éteindre toujours",
+    "description": "texte du bouton"
+  },
+  "defaultBionicModeToggleBtnOnText": {
+    "message": "toujours activer",
+    "description": "texte du bouton"
+  },
+  "defaultBionicModeToggleBtnSubText": {
+    "message": "préférence de basculement par défaut",
+    "description": "sous-texte du bouton"
+  },
+  "resetBtnText": {
+    "message": "réinitialiser aux paramètres optimaux",
+    "description": "texte du bouton"
+  },
+  "faqLinkText": { "message": "FAQ", "description": "texte du lien" },
+  "reportIssueLinkText": { "message": "signaler un problème", "description": "texte du lien" },
+  "aboutUsLinkText": { "message": "site internet", "description": "texte du lien" },
+  "dataEntryMessage": {
+    "message": "Désactiver si le lecteur jiffy interfère avec la saisie de données",
+    "description": "SMS"
+  },
+  "googlePlayLinkSecondaryText": { "message": "lecture prise en charge", "description": "SMS" },
+  "urlPromptText": {
+    "message": "Les onglets sans URL peuvent ne pas fonctionner correctement",
+    "description": "SMS"
+  },
+  "reloadPromptText": {
+    "message": "Rechargez l’onglet avec une URL valide et réessayez",
+    "description": "SMS"
+  },
+  "translationHelpLinkText": {
+    "message": "aidez-nous avec les traductions. cliquez pour en savoir plus",
+    "description": "SMS"
+  },
+  "reloadText": { "message": "recharger", "description": "SMS" },
+  "openPermissionPageBtnText": {
+    "message": "cliquez ici pour ouvrir la page des autorisations",
+    "description": "texte du bouton"
+  },
+  "missingPermissionHeaderText": {
+    "message": "Autorisation d’URL de fichier manquante",
+    "description": "texte d’en-tête"
+  },
+  "missingPermissionHeaderSubText": {
+    "message": "suivre les étapes ci-dessous",
+    "description": "sous-texte"
+  },
+  "grantPermissionInstructionText": {
+    "message": "Accorder l’autorisation d’URL de fichier",
+    "description": "SMS"
+  },
+  "reloadPageAndExtensionInstructionText": {
+    "message": "Revenez et essayez d’ouvrir à nouveau l’extension",
+    "description": "SMS"
+  },
+  "pageNotSupportedHeaderText": {
+    "message": "Cette page n’est pas prise en charge",
+    "description": "SMS"
+  },
+  "pageNotDetectedText": { "message": "Page non détectée", "description": "SMS" },
+  "surveyPromptText": {
+    "message": "répondre à un court sondage pour nous aider à améliorer JR",
+    "description": "SMS"
+  }
+}

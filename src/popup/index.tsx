@@ -35,11 +35,11 @@ const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const SHOW_FOOTER_MESSAGE_DURATION = 12_000;
 const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
-const FIRST_FOOTER_MESSAGE_INDEX = 1
+const FIRST_FOOTER_MESSAGE_INDEX = 1;
 
 function IndexPopup() {
   const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
-  const [footerMessageIndex, setFooterMeessageIndex] = useState(undefined);
+  const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
 
   const [prefs, setPrefs] = usePrefs(
     async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)),
@@ -52,6 +52,12 @@ function IndexPopup() {
     key: APP_PREFS_STORE_KEY,
     area: STORAGE_AREA,
   });
+
+  const footerMessagesLength = 3;
+  const nextMessageIndex = (oldFooterMessageIndex) =>
+    typeof oldFooterMessageIndex !== 'number'
+      ? FIRST_FOOTER_MESSAGE_INDEX
+      : (oldFooterMessageIndex + 1) % footerMessagesLength;
 
   useEffect(() => {
     if (!tabSession) return;
@@ -102,19 +108,19 @@ function IndexPopup() {
       }
     });
 
-    const footerMessagesLength = 2;
-    const nextMessageIndex = (oldFooterMessageIndex) =>
-      typeof oldFooterMessageIndex !== 'number'
-        ? FIRST_FOOTER_MESSAGE_INDEX
-        : (oldFooterMessageIndex + 1) % footerMessagesLength;
+    let footerInterval;
 
     setTimeout(() => {
       setFooterMeessageIndex(nextMessageIndex);
 
-      setInterval(() => {
+      footerInterval = setInterval(() => {
         setFooterMeessageIndex(nextMessageIndex);
       }, SHOW_FOOTER_MESSAGE_DURATION);
     }, FOOT_MESSAGAES_ANIMATION_DELAY);
+
+    return () => {
+      clearInterval(footerInterval);
+    };
   }, []);
 
   const makeUpdateChangeEventHandler =
@@ -163,8 +169,8 @@ function IndexPopup() {
     console.log('handleDisplayColorModeChange', appConfigPrefs);
   };
 
-  const showOptimal = (key: string, value = undefined) => {
-    if (!prefs) return undefined;
+  const showOptimal = (key: string, value = null) => {
+    if (!prefs) return null;
 
     if ((value ?? prefs?.[key]) == defaultPrefs?.[key])
       return <span className="ml-auto text-sm">Optimal</span>;
@@ -234,6 +240,16 @@ function IndexPopup() {
           href="https://docs.google.com/forms/d/e/1FAIpQLScPVRqk6nofBSX0cyb_UE2VlxsRKWFZacmKiU2OkGC3QA6YKQ/viewform?usp=pp_url">
           {chrome.i18n.getMessage('surveyPromptText')}
         </a>
+        <a
+          href="https://www.buymeacoffee.com/jiffyreader"
+          target="_blank"
+          className={animateFooterMessageVisibility(2)}>
+          <img
+            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+            alt="Buy Me A Coffee"
+            className="buymeacoffee"
+          />
+        </a>
       </div>
     </>
   );
@@ -253,7 +269,6 @@ function IndexPopup() {
 
   const reloadActiveTab = async (_activeTab = activeTab) => {
     await chrome.tabs.reload(_activeTab.id);
-    chrome.runtime.reload();
   };
 
   const openPermissionPage = () => {
@@ -270,7 +285,7 @@ function IndexPopup() {
       !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) ||
       prefs
     ) {
-      return undefined;
+      return null;
     }
 
     return (
@@ -291,7 +306,7 @@ function IndexPopup() {
   };
 
   const showUnsupportedPageErrorMessage = (_activeTab = activeTab) => {
-    if (!/chrome:\/\//i.test(_activeTab?.url)) return undefined;
+    if (!/chrome:\/\//i.test(_activeTab?.url)) return null;
 
     return (
       <>
@@ -359,15 +374,6 @@ function IndexPopup() {
                           Google Play Books
                         </a>{' '}
                         {chrome.i18n.getMessage('googlePlayLinkSecondaryText')}
-                      </li>
-                      <li>
-                        <a href="https://www.buymeacoffee.com/jiffyreader" target="_blank">
-                          <img
-                            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-                            alt="Buy Me A Coffee"
-                            className="buymeacoffee"
-                          />
-                        </a>
                       </li>
                     </ul>
                   </span>

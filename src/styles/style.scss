@@ -325,14 +325,16 @@
         transition: all 3s cubic-bezier(0.075, 0.82, 0.165, 1);
         left: -100%;
         opacity: 0;
+        height: none;
+        position: absolute;
+        top: 0;
     }
 
     .animated-footer-link-show {
-        position: absolute;
-        top: 0;
         display: inherit;
         opacity: 100%;
         left: 0;
+        height: unset;
     }
 
     .mode-toggle-icon {
@@ -351,7 +353,10 @@
         margin-top: auto;
         bottom: -5px;
         background: var(--bg-color);
-        box-shadow: 0px 15px 0 20px var(--bg-color), 0 15px 6px 20px var(--bg-shadow-color, var(--bg-color));
+        box-shadow: 0px 15px 0 20px var(--bg-color), 
+        0 15px 6px 20px var(--bg-shadow-color, var(--bg-color)),
+        0px 35px 0 20px var(--bg-color)
+        ;
 
         button,
         .button {
@@ -366,6 +371,7 @@
     img.buymeacoffee {
         height: 60px !important;
         width: 217px !important;
+        transform: scale(50%);
     }
 
     /* || background */
@@ -439,6 +445,10 @@
             .button {
                 outline-color: var(--color-orange-600);
             }
+        }
+
+        .translation_help_request {
+            height: 50px;
         }
 
 
