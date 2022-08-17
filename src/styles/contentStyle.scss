@@ -9,7 +9,7 @@ $hue3: #561f37ff;
 $hue4: rgb(68, 155, 255);
 $delta: 8%;
 
-$saccadesColorsBase: (0,$hue1),(1, $hue2),(2, $hue3),(3, $hue4);
+$saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
 
 /**
 	generate (3) fixation-strength variants
@@ -18,7 +18,7 @@ $saccadesColorsBase: (0,$hue1),(1, $hue2),(2, $hue3),(3, $hue4);
 	$fixationsAllowed: $fixationStrength;
 
 	@for $fixationsAllowed from 1 through $fixationStrength {
-		[fixation-strength="#{$fixationsAllowed}"] {
+		[fixation-strength='#{$fixationsAllowed}'] {
 			display: inline;
 			--fixation-edge-opacity: $activeFixationOpacity;
 			font-weight: var(--br-boldness);
@@ -33,47 +33,41 @@ $saccadesColorsBase: (0,$hue1),(1, $hue2),(2, $hue3),(3, $hue4);
 // generate all saccades-interval variants
 @mixin makeSaccades($fixationStrength) {
 	@for $saccadesIndex from 0 through $maxSaccadesInterval {
-		&[saccades-interval="#{$saccadesIndex}"][fixation-strength="#{$fixationStrength}"] br-bold:nth-of-type(#{$saccadesIndex + 1}n + 1) {
-
+		&[saccades-interval='#{$saccadesIndex}'][fixation-strength='#{$fixationStrength}'] br-bold:nth-of-type(#{$saccadesIndex + 1}n + 1) {
 			//for each saccade variant, make 3 fixation-strength variants
 			// fixation-strength variants are applied inclusively from 1 through 4
 			@include makeFixation($fixationStrength, var(--saccadesColor));
 		}
-	
 	}
-	
 }
 
 @mixin makeColorVariants($color, $id, $delta, $label) {
-	&[saccades-color="#{$label}"] {
+	&[saccades-color='#{$label}'] {
 		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
-			--saccadesColor: #{adjust-color($color, $lightness: $delta )};
+			--saccadesColor: #{adjust-color($color, $lightness: $delta)};
 		}
 	}
 
-	&[saccades-color="#{$label}-100"] {
+	&[saccades-color='#{$label}-100'] {
 		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
 			--saccadesColor: #{adjust-color($color, $lightness: $delta * 2.7)};
 		}
 	}
 }
 
-[br-mode=on] {
+[br-mode='on'] {
 	br-bold *,
 	br-edge {
 		opacity: (var(--fixation-edge-opacity, $activeFixationOpacity));
 	}
 
 	@for $fixationStrength from 1 through $maxFixations {
-
 		@include makeSaccades($fixationStrength);
 	}
 
-	@each $id,
-	$color in $saccadesColorsBase {
-		@include makeColorVariants($color, $id, $delta, "light");
+	@each $id, $color in $saccadesColorsBase {
+		@include makeColorVariants($color, $id, $delta, 'light');
 
-		@include makeColorVariants($color, $id, -$delta, "dark");
+		@include makeColorVariants($color, $id, -$delta, 'dark');
 	}
-
 }
