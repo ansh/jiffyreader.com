@@ -15,7 +15,7 @@
     "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
     "gh:build:firefox": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
     "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && cross-env DEBUG=FALSE SHORTCUT=\"Alt+W\" TARGET=firefox plasmo build --target=firefox-mv2",
-    "gh:build:bookmarklet": "node src/Bookmarklet/esbuild.js"
+    "gh:build:bookmarklet": "node src/Bookmarklet/esbuild.mjs"
   },
   "dependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
