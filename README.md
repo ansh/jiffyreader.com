@@ -47,10 +47,12 @@ The best way to install this extension is to follow the instructions below. Howe
       - [Line height buttons](#line-height-buttons)
       - [Always on/off button](#always-onoff-button)
       - [Reset Defaults](#reset-defaults)
-    - [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support)
-      - [Upload Books (Epubs & PDFs)](#upload-books-epubs--pdfs)
-        - [PFD files not working](#pfd-files-not-working)
-    - [Google Docs support](#google-docs-support)
+    - [Google Play Books Native (Epub)](#google-play-books-native-epub)
+      - [Upload Epubs to Google PlayBooks (Epubs)](#upload-epubs-to-google-playbooks-epubs)
+      - [PFD Support (convert pdf files to epub or html)](#pfd-support-convert-pdf-files-to-epub-or-html)
+    - [Google Docs support (publish method)](#google-docs-support-publish-method)
+      - [Google Docs support (download method)](#google-docs-support-download-method)
+      - [Enable file url permissions (chrome)](#enable-file-url-permissions-chrome)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Bionic Reading?](#what-is-bionic-reading)
@@ -208,31 +210,51 @@ The best way to install this extension is to follow the instructions below. Howe
 #### Reset Defaults
 - Resets preferences of the currently engaged preference mode.
 
-### Google Play Books Native (Epub and PDF support)
+### Google Play Books Native (Epub)
 - This extension works with [google play books](https://play.google.com/books)
 1. Open or navigate to [google play books](https://play.google.com/books)
 2. Click on any book in your library to read it and turn on the extension if not on already
 3. You can search for new books (paid or free) and add to your library to start reading
 
-#### Upload Books (Epubs & PDFs)
-- Upload your ebooks to Google Play Books reads to be able to read it with JiffyReader.  
+#### Upload Epubs to Google PlayBooks (Epubs)
+- Upload your Epub ebooks to Google Play Books reads to be able to read it with JiffyReader.  
 1. Open [google play books](https://play.google.com/books)
 2. Click the upload button
-3. Select your epub or pdf file to complete the upload 
+3. Select your epub file to complete the upload 
 4. Click on the uploaded file to open it in the Google Play Books web reader. Have fun.
 
-##### PFD files not working
-PDF files may still not work after uploading to Google Play Books
-Use steps in [Google Play Books Native (Epub and PDF support)](#google-play-books-native-epub-and-pdf-support) to 
-search for the book if you believe it is commercially/freely available in the [google play books](https://play.google.com/books) 
+#### PFD Support (convert pdf files to epub or html)
+1. Open [cloud convert](https://cloudconvert.com) to 
+2. Upload your pdf file
+3. Select your output format (html or epub)
+4. Click convert to start the process
+5. Click download 
+6. Open your downloaded html file in your browser and turn on JiffyReader
 
-### Google Docs support
-You can use JiffyReader with documents from Google docs with a catch. 
-1. Download the document as an html (prefered) or epub optional
-2. Enable JiffyReader to work with tabs that have file urls by right clicking on the JiffyReader icon
-3. Click manage extension
-4. Find and enable work with file urls
-5. Open the downloaded html with your browser and turn on JiffyReader reading mode. 
+
+- For chrome persmission issues, follow the steps in [Enable file url permissions (Chrome)](#enable-file-url-permissions-chrome)
+- For epub files follow the steps in [Upload Epub to Google PlayBooks](#upload-epubs-to-google-playbooks-epubs)
+- JiffyReader does not collaborate with cloudconvert. Please consult their privacy policy for any privacy concerns.
+
+### Google Docs support (publish method)
+1. Open the google docs document in your browser
+2. Click File > click share > click publish to web
+3. Click publish and copy the published link. Alternatively you can replace `edit` in the address bar with `pub` to access the published document
+4. Open the published link in a new tab and turn on JiffyReader
+
+- Note: the document will be accessible to anyone on the internet as long as they have the correct link.
+If you want do not want to publish the document to the web then please follow the alternative steps in [Google Docs support (download method)](#google-docs-support-download-method)
+
+#### Google Docs support (download method) 
+1. Click on File > click download
+2. Download the document as an html (prefered) or epub optional [Google Play Books Native (Epub)](#google-play-books-native-epub-and-pdf-support)
+3. Open the downloaded html with your browser and turn on JiffyReader
+- You may be required to enable permissions to access `file urls` for chrome. To do so follow [Enable file permissions](#enable-file-url-permissions-chrome)
+
+#### Enable file url permissions (chrome)
+1. (Chrome) Enable JiffyReader to work with tabs that have file urls by right clicking on the JiffyReader icon
+2. Click manage extension
+3. Find and enable work with file urls
 
 
 # Customizations
