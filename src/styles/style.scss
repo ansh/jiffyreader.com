@@ -146,6 +146,24 @@
         margin-top: calc(var(--gap) * 5);
     }
 
+
+    /* || margin-autos */
+    .ml-auto {
+        margin-left: auto
+    }
+
+    .mr-auto {
+        margin-right: auto
+    }
+
+    .mt-auto {
+        margin-top: auto
+    }
+
+    .mb-auto {
+        margin-bottom: auto
+    }
+
     /* || padding */
     .p-1,
     .p-2,
@@ -353,6 +371,10 @@
         .button {
             outline-color: var(--color-orange-920);
         }
+
+        .footer-links {
+            background-color: var(--color-orange-900);
+        }
     }
 
     label {
@@ -362,7 +384,12 @@
     img.buymeacoffee {
         height: 60px !important;
         width: 217px !important;
-        transform: scale(50%);
+        // transform: scale(50%);
+    }
+
+    .buy_me_a_coffee_container:hover > a:hover {
+        width: unset !important;
+        overflow: visible !important;
     }
 
     /* || background */
@@ -434,6 +461,10 @@
             .button {
                 outline-color: var(--color-orange-600);
             }
+
+            .footer-links {
+                background-color: unset;
+            }
         }
 
         input[type='range'] {
@@ -444,6 +475,8 @@
             background: var(--color-orange-920);
             /* Otherwise white in Chrome */
         }
+
+
     }
 }
 
