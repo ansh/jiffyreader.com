@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
@@ -24,6 +24,7 @@ const popupLogStyle = 'background:cyan;color:brown';
 
 const darkToggle = chrome.runtime.getURL('./assets/moon-solid.svg');
 const lightToggle = chrome.runtime.getURL('./assets/sun-light-solid.svg');
+const jiffyLogo = chrome.runtime.getURL('./assets/icon512.png');
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
 
@@ -41,9 +42,13 @@ function IndexPopup() {
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
 	const [isDebugDataVisible, setIsDebugDataVisible] = useState(!/production/i.test(process.env.NODE_ENV));
 
-	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, process.env.TARGET);
+	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
+
+	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
+
+	const [tipsVisibility, setTipsVisibility] = useState<boolean>(false);
 
 	const [appConfigPrefs, setAppConfigPrefs] = useStorage({
 		key: APP_PREFS_STORE_KEY,
@@ -120,12 +125,12 @@ function IndexPopup() {
 	const makeUpdateChangeEventHandler =
 		(field: string) =>
 		(event, customValue = null) =>
-			updateConfig(field, customValue ?? event.target.value);
+			updateConfig(field as keyof Prefs, customValue ?? event.target.value);
 
-	const updateConfig = (key: string, value: any, configLocal = prefs) => {
+	const updateConfig = (key: keyof Prefs, value: any, configLocal = prefs) => {
 		const newConfig = { ...configLocal, [key]: value };
 
-		setPrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), newConfig.scope, newConfig);
+		setPrefs(getTabOriginfn, newConfig.scope, newConfig);
 	};
 
 	const handleToggle = (newBrMode: boolean) => {
@@ -167,27 +172,42 @@ function IndexPopup() {
 
 	const getFooterLinks = (textColor = 'text-secondary') => (
 		<>
-			<div className="flex justify-between || text-center text-md text-bold w-full gap-3">
-				<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
-					{chrome.i18n.getMessage('faqLinkText')}
-				</a>
+			<div className="footer-links-wrapper flex justify-between gap-3">
+				<div className="buy_me_a_coffee_container" style={{ width: '53px' }}>
+					<a
+						href="https://www.buymeacoffee.com/jiffyreader"
+						target="_blank"
+						style={{ position: 'absolute', width: '53px', borderRadius: '0 15px 15px 0', overflow: 'hidden', zIndex: 5 }}>
+						<img
+							src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+							alt="Buy Me A Coffee"
+							className="buymeacoffee"
+							style={{ objectPosition: '-5px 0' }}
+						/>
+					</a>
+				</div>
 
-				<a
-					className={`${textColor} text-capitalize`}
-					href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
-					target="_blank">
-					{chrome.i18n.getMessage('reportIssueLinkText')}
-				</a>
+				<div className="flex flex-column links_and_build_version">
+					<div className="footer-links || flex justify-between || text-center text-md text-bold w-full gap-3 p-1">
+						<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
+							{chrome.i18n.getMessage('faqLinkText')}
+						</a>
 
-				<a className={`${textColor} text-capitalize`} href="https://www.jiffyreader.com/" target="_blank">
-					{chrome.i18n.getMessage('aboutUsLinkText')}
-				</a>
-			</div>
+						<a
+							className={`${textColor} text-capitalize`}
+							href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
+							target="_blank">
+							{chrome.i18n.getMessage('reportIssueLinkText')}
+						</a>
 
-			<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-				<div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
+						<a className={`${textColor} text-capitalize`} href="https://www.jiffyreader.com/" target="_blank">
+							{chrome.i18n.getMessage('aboutUsLinkText')}
+						</a>
+					</div>
+					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
+						<div className={'|| text-left text-md ml-auto ' + textColor}>{process.env.VERSION_NAME}</div>
 
-				<div className="light-dark-container">
+						{/* <div className="light-dark-container">
 					<button
 						type="button"
 						name="display_mode_switch"
@@ -200,10 +220,12 @@ function IndexPopup() {
 							<image width="20" height="20" href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle} />
 						</svg>
 					</button>
+				</div> */}
+					</div>
 				</div>
 			</div>
 
-			<div className="translation_help_request pos-relative">
+			{/* <div className="translation_help_request pos-relative">
 				<a
 					href="https://github.com/ansh/jiffyreader.com#help-with-translations"
 					className={'text-capitalize ' + textColor + ' ' + animateFooterMessageVisibility(0)}
@@ -220,7 +242,7 @@ function IndexPopup() {
 				<a href="https://www.buymeacoffee.com/jiffyreader" target="_blank" className={animateFooterMessageVisibility(2)}>
 					<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" className="buymeacoffee" />
 				</a>
-			</div>
+			</div> */}
 		</>
 	);
 
@@ -254,7 +276,7 @@ function IndexPopup() {
 	};
 
 	const reloadActiveTab = async (_activeTab = activeTab) => {
-		await chrome.tabs.reload(_activeTab.id);
+		await chrome.tabs.reload(_activeTab.id).then(()=>window.close());
 	};
 
 	const openPermissionPage = () => {
@@ -319,22 +341,51 @@ function IndexPopup() {
 	return (
 		<>
 			<div className={`jr_wrapper_container ${appConfigPrefs?.displayColorMode}-mode text-capitalize`}>
-				<div className="popup-body flex flex-column text-alternate">
+				<div className="popup-body || flex flex-column || text-alternate">
+					<div className="toolbar || flex w-100 gap-2 || bg-primary" style={{ boxShadow: '0 0 0 10px var(--bg-secondary)' }}>
+						<span className="icon">
+							<img src={jiffyLogo} alt="logo" height={25} width={25} />
+						</span>
+						<div className="flex" style={{ color: 'white' }}>
+							keep JR Free. Take this survey
+						</div>
+					</div>
+
 					{showDebugInline(process.env.NODE_ENV)}
+
 					{!prefs || !tabSession ? (
 						showErrorMessage()
 					) : (
 						<div className="popup-container || flex flex-column  | gap-2 p-2" br-mode={tabSession.brMode ? 'On' : 'Off'}>
-							<div className="flex flex-column">
-								<div className="header || flex justify-between ||">
-									<span className="mb-md text-capitalize">{chrome.i18n.getMessage('preferenceLabel')}:</span>
+							<div className="header || flex justify-between align-items-center ||">
+								{/* <span className="mb-md text-capitalize">{chrome.i18n.getMessage('preferenceLabel')}:</span> */}
+								<div className="input-container flex">
+									<input
+										type="checkbox"
+										id="onOffToggleCheckbox"
+										checked={tabSession.brMode}
+										onChange={(event) => handleToggle(event.target.checked)}
+									/>
+									<label htmlFor="onOffToggleCheckbox">Turn on</label>
+								</div>
 
-									<div className="tips  || flex flex-column || show-hover text-capitalize">
-										<button className="select button mb-md text-capitalize">{chrome.i18n.getMessage('tipsPopupTriggerLabel')}</button>
+								<div className="tips  || flex flex-column || xshow-hover text-capitalize">
+									<button className="select button text-capitalize" onClick={() => setTipsVisibility(!tipsVisibility)}>
+										{chrome.i18n.getMessage('tipsPopupTriggerLabel')}
+									</button>
 
+									{tipsVisibility && (
 										<ul
-											className="|| flex flex-column || hide pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
+											className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
 											style={{ zIndex: '10' }}>
+											<li>
+												<span>
+													{chrome.i18n.getMessage('defaultShortcutLabelText')}:{' '}
+													{chrome.i18n.getMessage(
+														/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+													)}
+												</span>
+											</li>
 											<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
 											<li>
 												<a className="text-white" href="https://play.google.com/books" target="_blank">
@@ -343,10 +394,25 @@ function IndexPopup() {
 												{chrome.i18n.getMessage('googlePlayLinkSecondaryText')}
 											</li>
 										</ul>
-									</div>
+									)}
 								</div>
 
-								<div className="flex w-100 justify-between">
+								<div className="light-dark-container flex">
+									<button
+										type="button"
+										name="display_mode_switch"
+										id="display_mode_switch"
+										className="button text-capitalize  text-alternate"
+										value={`${Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]} mode toggle`}
+										onClick={() => handleDisplayColorModeChange(appConfigPrefs.displayColorMode)}
+										aria-description="light mode dark mode toggle">
+										<svg width="20" height="20">
+											<image width="20" height="20" href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle} />
+										</svg>
+									</button>
+								</div>
+
+								{/* <div className="flex w-100 justify-between">
 									<div className="w-100 pr-mr">
 										<button
 											id="globalPrefsBtn"
@@ -368,10 +434,41 @@ function IndexPopup() {
 											<span className="text-sm pt-sm">{chrome.i18n.getMessage('sitePreferenceToggleBtnSubText')}</span>
 										</button>
 									</div>
+								</div> */}
+							</div>
+
+							<div className="flex w-100 justify-between">
+								<div className="input-container w-50 flex">
+									<input
+										type="checkbox"
+										name=""
+										id="auto_activate"
+										checked={prefs.onPageLoad}
+										onChange={(event) => updateConfig('onPageLoad', event.target.checked)}
+									/>
+									<label htmlFor="auto_activate">Auto Turn on</label>
 								</div>
+
+								{/* <button
+									id="onPageLoadBtn"
+									className={`|| flex flex-column || w-100 align-items-center text-capitalize ${prefs.onPageLoad ? 'selected' : ''}`}
+									onClick={() => updateConfig('onPageLoad', !prefs.onPageLoad)}>
+									<span className="text-bold">
+										{chrome.i18n.getMessage(prefs.onPageLoad ? 'defaultBionicModeToggleBtnOffText' : 'defaultBionicModeToggleBtnOnText')}
+									</span>
+									<span className="text-sm pt-sm">{chrome.i18n.getMessage('defaultBionicModeToggleBtnSubText')}</span>
+								</button> */}
 							</div>
 
 							<button
+								id="resetDefaultsBtn"
+								className="|| flex flex-column || w-100 align-items-center text-capitalize"
+								style={{ marginBottom: '25px' }}
+								onClick={() => updateConfig('scope', 'reset')}>
+								{chrome.i18n.getMessage('resetBtnText')}
+							</button>
+
+							{/* <button
 								id="readingModeToggleBtn"
 								className={`|| flex flex-column || w-100 align-items-center text-capitalize ${tabSession?.brMode ? 'selected' : ''}`}
 								onClick={() => handleToggle(!tabSession.brMode)}>
@@ -383,7 +480,23 @@ function IndexPopup() {
 										/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}
 								</span>
-							</button>
+							</button> */}
+
+							<div className="flex || text-capitalize text-bold">Advanced Settings</div>
+
+							<div className="flex justify-between flex-column || w-100">
+								<div className="input-container flex">
+									<input
+										type="checkbox"
+										name=""
+										id="customizePrefsForSiteLocal"
+										checked={/local/i.test(prefs.scope)}
+										onChange={(event) => updateConfig('scope', event.target.checked ? 'local' : 'global')}
+									/>
+									<label htmlFor="customizePrefsForSiteLocal">Customize for only this size</label>
+								</div>
+								<span className="text-sm">{tabSession?.origin}</span>
+							</div>
 
 							<div className="w-100">
 								<label className="block text-capitalize">
@@ -395,7 +508,7 @@ function IndexPopup() {
 									<input
 										type="range"
 										min="0"
-										max={MaxSaccadesInterval - 1}
+										max={MaxSaccadesInterval}
 										value={prefs.saccadesInterval}
 										onChange={makeUpdateChangeEventHandler('saccadesInterval')}
 										className="slider w-100"
@@ -403,7 +516,7 @@ function IndexPopup() {
 									/>
 
 									<datalist id="saccadesSlider" className="|| flex justify-between || text-sm ">
-										{new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
+										{new Array(prefs.MAX_FIXATION_PARTS + 1).fill(null).map((_, index) => (
 											<option key={`saccades-interval-${index}`} value={index + 1} label={'' + index}></option>
 										))}
 									</datalist>
@@ -529,25 +642,7 @@ function IndexPopup() {
 								</div>
 							</div>
 
-							<button
-								id="onPageLoadBtn"
-								className={`|| flex flex-column || w-100 align-items-center text-capitalize ${prefs.onPageLoad ? 'selected' : ''}`}
-								onClick={() => updateConfig('onPageLoad', !prefs.onPageLoad)}>
-								<span className="text-bold">
-									{chrome.i18n.getMessage(prefs.onPageLoad ? 'defaultBionicModeToggleBtnOffText' : 'defaultBionicModeToggleBtnOnText')}
-								</span>
-								<span className="text-sm pt-sm">{chrome.i18n.getMessage('defaultBionicModeToggleBtnSubText')}</span>
-							</button>
-
-							<button
-								id="resetDefaultsBtn"
-								className="|| flex flex-column || w-100 align-items-center text-capitalize"
-								style={{ marginBottom: '25px' }}
-								onClick={() => updateConfig('scope', 'reset')}>
-								{chrome.i18n.getMessage('resetBtnText')}
-							</button>
-
-							<footer className="popup_footer || flex flex-column || gap-1 p-2">{getFooterLinks()}</footer>
+							<footer className="popup_footer || flex flex-column || gap-1 p-2 mt-3">{getFooterLinks()}</footer>
 						</div>
 					)}
 				</div>
