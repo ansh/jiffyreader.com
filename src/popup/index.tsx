@@ -276,7 +276,7 @@ function IndexPopup() {
 	};
 
 	const reloadActiveTab = async (_activeTab = activeTab) => {
-		await chrome.tabs.reload(_activeTab.id).then(()=>window.close());
+		await chrome.tabs.reload(_activeTab.id).then(() => window.close());
 	};
 
 	const openPermissionPage = () => {
@@ -342,7 +342,9 @@ function IndexPopup() {
 		<>
 			<div className={`jr_wrapper_container ${appConfigPrefs?.displayColorMode}-mode text-capitalize`}>
 				<div className="popup-body || flex flex-column || text-alternate">
-					<div className="toolbar || flex w-100 gap-2 || bg-primary" style={{ boxShadow: '0 0 0 10px var(--bg-secondary)' }}>
+					<div
+						className="toolbar || flex w-100 gap-2 || bg-primary"
+						style={{ boxShadow: '0 0 0 10px var(--bg-secondary)', position: 'sticky', top: '10px', zIndex: '1' }}>
 						<span className="icon">
 							<img src={jiffyLogo} alt="logo" height={25} width={25} />
 						</span>
