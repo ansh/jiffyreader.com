@@ -348,7 +348,7 @@ function IndexPopup() {
 						<span className="icon">
 							<img src={jiffyLogo} alt="logo" height={25} width={25} />
 						</span>
-						<div className="flex" style={{ color: 'white' }}>
+						<div className="flex text-capitalize" style={{ color: 'white' }}>
 							keep JR Free. Take this survey
 						</div>
 					</div>
