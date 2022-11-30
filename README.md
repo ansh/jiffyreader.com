@@ -23,6 +23,7 @@ The best way to install this extension is to follow the instructions below. Howe
 - [Installation Instructions](#installation-instructions)
   - [Chrome](#chrome)
   - [Firefox](#firefox)
+  - [Safari macOS & iOS](#safari)
   - [Firefox Nightly / Fennec F-droid / Mull (Android)](#firefox-nightly--fennec-f-droid--mull-android)
   - [Opera](#opera)
   - [Edge](#edge)
@@ -99,6 +100,16 @@ The best way to install this extension is to follow the instructions below. Howe
   6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 <strong>Firefox will remove the extension when the browser is closed if the extension is not downloaded from the store.</strong>
+
+## Safari
+
+> [Download via TestFlight here](https://testflight.apple.com/join/eFFlcXzz). This works for both macOS and iOS. We are working on getting it approved to download directly via the App Store. If you want to build the app yourself, follow the instructions below
+
+1. We will be [converting the web extension for Safari](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) usage. This will require a macOS computer and the latest version of XCode installed.
+2. Use `git clone` to clone the Jiffy Reader repo locally.
+3. Run `xcrun safari-web-extension-converter /path/to/extension --bundle-identifier com.jiffyreader.app` to convert the extension.
+4. Open the Safari app on your Mac and make sure to click `Develop` `->` `Allow Unsigned Extensions` in the top menu bar.
+5. Open the project in XCode and click run!
 
 ## Firefox Nightly / Fennec F-droid / Mull (Android)
 
