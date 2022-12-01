@@ -104,7 +104,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 ## Safari
 
-> [Download via TestFlight here](https://testflight.apple.com/join/eFFlcXzz). This works for both macOS and iOS. We are working on getting it approved to download directly via the App Store. If you want to build the app yourself, follow the instructions below
+> Downlaod via the [App Store here](https://apps.apple.com/in/app/jiffy-reader/id6444754311) or [TestFlight here](https://testflight.apple.com/join/eFFlcXzz). This works for both macOS and iOS. We are working on getting it approved to download directly via the App Store. If you want to build the app yourself, follow the instructions below
 
 1. We will be [converting the web extension for Safari](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) usage. This will require a macOS computer and the latest version of XCode installed.
 2. Use `git clone` to clone the Jiffy Reader repo locally.
