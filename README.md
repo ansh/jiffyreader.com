@@ -1,5 +1,5 @@
 # Jiffy Reader
-A Browser Extension for Bionic Reading on ANY website!
+A Browser Extension for [Bionic Reading](#what-is-bionic-reading) on ANY website!
 
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=347823&theme=light&period=daily" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-topic-badge.svg?post_id=347823&theme=light&period=weekly&topic=Productivity" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
@@ -287,7 +287,7 @@ Bionic Reading is a new method facilitating the reading process by guiding the e
 As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word.
 In a digital world dominated by shallow forms of reading, Bionic Reading aims to encourage a more in-depth reading and understanding of written content.
 
-Read more about [Bionic Reading](https://bionic-reading.com/about/).
+Read more about [Bionic Reading](https://bionic-reading.com/about/). This repository or extension is not directly associated with Bionic Reading in any manner. Bionic Reading is a name owned by [Bionic Reading AG](https://bionic-reading.com/patent-trademark-2/). This repository is simply a free and open source creation that is inspired by Bionic Reading but not affiliated with it in any way.
 
 
 
