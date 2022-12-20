@@ -287,7 +287,7 @@ Bionic Reading is a new method facilitating the reading process by guiding the e
 As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word.
 In a digital world dominated by shallow forms of reading, Bionic Reading aims to encourage a more in-depth reading and understanding of written content.
 
-Read more about [Bionic Reading](https://bionic-reading.com/about/). This repository or extension is not directly associated with Bionic Reading in any manner. Bionic Reading is a name owned by [Bionic Reading AG](https://bionic-reading.com/patent-trademark-2/). This repository is simply a free and open source creation that is inspired by Bionic Reading but not affiliated with it in any way.
+Read more about [Bionic Reading](https://bionic-reading.com/about/). This repository or extension is not directly associated with Bionic Reading in any manner. Bionic Reading is a name owned by [Bionic Reading AG](https://bionic-reading.com/patent-trademark-2/). This repository is simply a free and open source creation that may or may not share any similarities with Bionic Reading but it is absolutely not affiliated with it in any way.
 
 
 
