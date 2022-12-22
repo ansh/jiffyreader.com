@@ -1,5 +1,5 @@
 # Jiffy Reader
-A Browser Extension for [Bionic Reading](#what-is-bionic-reading) on ANY website!
+A Browser Extension for [Faster Reading](#what-is-faster-reading) on ANY website!
 
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=347823&theme=light&period=daily" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-topic-badge.svg?post_id=347823&theme=light&period=weekly&topic=Productivity" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
@@ -58,7 +58,7 @@ The best way to install this extension is to follow the instructions below. Howe
     - [Enable file url permissions (chrome html)](#enable-file-url-permissions-chrome-html)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
-- [What is Bionic Reading?](#what-is-bionic-reading)
+- [What is faster Reading?](#what-is-faster-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
 - [How to Contribute](#how-to-contribute)
 - [Help with Translations](#help-with-translations)
@@ -282,12 +282,10 @@ If you want do not want to publish the document to the web then please follow th
 
 
 
-# What is Bionic Reading?
-Bionic Reading is a new method facilitating the reading process by guiding the eyes through text with artficial fixation points.
-As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word.
-In a digital world dominated by shallow forms of reading, Bionic Reading aims to encourage a more in-depth reading and understanding of written content.
-
-Read more about [Bionic Reading](https://bionic-reading.com/about/). This repository or extension is not directly associated with Bionic Reading in any manner. Bionic Reading is a name owned by [Bionic Reading AG](https://bionic-reading.com/patent-trademark-2/). This repository is simply a free and open source creation that may or may not share any similarities with Bionic Reading but it is absolutely not affiliated with it in any way.
+# What is Faster Reading?
+This extension provides faster reading through facilitating the reading process by guiding the eyes through text with artficial fixation points.
+As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word. This allows you to read in supersonic speed.
+In a digital world dominated by shallow forms of reading, we aim to encourage a more in-depth reading and understanding of written content.
 
 
 
