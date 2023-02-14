@@ -1,1 +1,174 @@
-{"preferenceLabel":{"message":"Предпочтения использования","description":"label for (глобальные переключатели кнопок или переключатели предпочтений сайта)"},"tipsPopupTriggerLabel":{"message":"Советы","description":"label for (глобальные переключатели кнопок или переключатели предпочтений сайта)"},"globalPreferenceToggleBtnText":{"message":"глобальный","description":"основной текст для глобального переключателя предпочтений"},"globalPreferenceToggleBtnSubText":{"message":"по умолчанию","description":"глобальный подтекст кнопки предпочтения"},"sitePreferenceToggleBtnText":{"message":"место","description":"основной текст для переключателя предпочтений сайта"},"sitePreferenceToggleBtnSubText":{"message":"для этого сайта","description":"глобальный подтекст кнопки предпочтения"},"onOffToggleBtnTextDisable":{"message":"отключить","description":"onOffToggleBtnTextОтключимый текст кнопки"},"onOffToggleBtnTextEnable":{"message":"давать возможность","description":"onOffToggleBtnTextЗащищаемый текст кнопки"},"onOffToggleBtnSubText":{"message":"режим чтения","description":"текст для onOffToggleBtnSubText"},"defaultShortcutLabelText":{"message":"ярлык по умолчанию","description":"текст для onOffToggleBtnShortCutText"},"defaultShortcutValueTextChrome":{"message":"ALT+B","description":"ярлык по умолчанию для Chrome"},"defaultShortcutValueTextFirefox":{"message":"ALT+W","description":"ярлык по умолчанию для firefox"},"saccadesIntervalLabel":{"message":"интервал саккад","description":"метка для ползунка интервала саккад"},"fixationsStrengthLabel":{"message":"прочность фиксации","description":"этикетка для ползунка прочности фиксации"},"fixationsEdgeOpacityLabel":{"message":"фиксация непрозрачности края","description":"метка для фиксации кромки ползунка непрозрачности"},"saccadesColorLabel":{"message":"цвет саккад","description":"выпадающий список цветов метки для цвета саккады"},"saccadesStyleLabel":{"message":"стили саккад","description":"выпадающий список label для стиля саккады"},"lineHeightTogglesLabel":{"message":"высота линии","description":"метка для кнопок высоты строки меньшего и большего размера"},"smallerLineHieghtBtnText":{"message":"аа-","description":"текст для кнопки"},"smallerLineHieghtBtnSubText":{"message":"меньше","description":"подтекст для кнопки"},"largerLineHieghtBtnText":{"message":"аа+","description":"текст для кнопки"},"largerLineHieghtBtnSubText":{"message":"больше","description":"подтекст для кнопки"},"defaultBionicModeToggleBtnOffText":{"message":"Выключать всегда","description":"текст для кнопки"},"defaultBionicModeToggleBtnOnText":{"message":"Включайте всегда","description":"текст для кнопки"},"defaultBionicModeToggleBtnSubText":{"message":"Настройка переключения по умолчанию","description":"подтекст для кнопки"},"resetBtnText":{"message":"сброс до оптимальных настроек","description":"текст для кнопки"},"faqLinkText":{"message":"Вопросы и ответы","description":"текст ссылки"},"reportIssueLinkText":{"message":"Сообщить о проблеме","description":"текст ссылки"},"aboutUsLinkText":{"message":"сайт","description":"текст ссылки"},"dataEntryMessage":{"message":"Отключите, если считыватель jiffy мешает вводу данных","description":"СМС"},"googlePlayLinkSecondaryText":{"message":"Чтение поддерживается","description":"СМС"},"urlPromptText":{"message":"Вкладки без URL-адреса могут работать неправильно","description":"СМС"},"reloadPromptText":{"message":"Перезагрузите вкладку с допустимым URL-адресом и повторите попытку","description":"СМС"},"translationHelpLinkText":{"message":"помогите нам с трансляциями. нажмите, чтобы узнать больше","description":"СМС"},"reloadText":{"message":"перезаряжать","description":"СМС"},"openPermissionPageBtnText":{"message":"нажмите здесь, чтобы открыть страницу разрешений","description":"текст кнопки"},"missingPermissionHeaderText":{"message":"Отсутствует разрешение URL-адреса файла","description":"текст заголовка"},"missingPermissionHeaderSubText":{"message":"Выполните следующие действия","description":"подтекст"},"grantPermissionInstructionText":{"message":"Предоставить разрешение URL-адресу файла","description":"СМС"},"reloadPageAndExtensionInstructionText":{"message":"Вернитесь и попробуйте открыть расширение еще раз","description":"СМС"},"pageNotSupportedHeaderText":{"message":"Эта страница не поддерживается","description":"СМС"},"pageNotDetectedText":{"message":"Страница не обнаружена","description":"СМС"},"surveyPromptText":{"message":"пройдите короткий опрос, чтобы помочь нам улучшить JR","description":"СМС"}}
+{
+    "preferenceLabel": {
+        "message": "Настройки",
+        "description": "переключатель глобальных и локальных настроек"
+    },
+    "tipsPopupTriggerLabel": {
+        "message": "Советы",
+        "description": "текст кнопки советы"
+    },
+    "globalPreferenceToggleBtnText": {
+        "message": "глобальные",
+        "description": "основной текст для глобальной кнопки"
+    },
+    "globalPreferenceToggleBtnSubText": {
+        "message": "по умолчанию",
+        "description": "подпись глобальной кнопки"
+    },
+    "sitePreferenceToggleBtnText": {
+        "message": "локальные",
+        "description": "основной текст для локальной кнопки"
+    },
+    "sitePreferenceToggleBtnSubText": {
+        "message": "для этого сайта",
+        "description": "подпись локальной кнопки"
+    },
+    "onOffToggleBtnTextDisable": {
+        "message": "отключить",
+        "description": "текст для кнопки отключения"
+    },
+    "onOffToggleBtnTextEnable": {
+        "message": "включить",
+        "description": "текст для кнопки включения"
+    },
+    "onOffToggleBtnSubText": {
+        "message": "режим чтения",
+        "description": "подпись для кнопки включения и отключения"
+    },
+    "defaultShortcutLabelText": {
+        "message": "горячая клавиша по умолчанию",
+        "description": "текст для текстовки горячей клавиши"
+    },
+    "defaultShortcutValueTextChrome": {
+        "message": "ALT+B",
+        "description": "горячая клавиша по умолчанию для Chrome"
+    },
+    "defaultShortcutValueTextFirefox": {
+        "message": "ALT+W",
+        "description": "горячая клавиша по умолчанию для firefox"
+    },
+    "saccadesIntervalLabel": {
+        "message": "интервал выделения саккад",
+        "description": "метка для ползунка интервала саккад"
+    },
+    "fixationsStrengthLabel": {
+        "message": "сила выделения фиксаций",
+        "description": "этикетка для ползунка прочности фиксации"
+    },
+    "fixationsEdgeOpacityLabel": {
+        "message": "непрозрачность невыделенного текста",
+        "description": "метка для фиксации кромки ползунка непрозрачности"
+    },
+    "saccadesColorLabel": {
+        "message": "цвет веделения",
+        "description": "выпадающий список цветов метки для цвета саккады"
+    },
+    "saccadesStyleLabel": {
+        "message": "стиль выделения",
+        "description": "выпадающий список label для стиля саккады"
+    },
+    "lineHeightTogglesLabel": {
+        "message": "межстрочный интервал",
+        "description": "метка для кнопок высоты строки меньшего и большего размера"
+    },
+    "smallerLineHieghtBtnText": {
+        "message": "аа-",
+        "description": "текст для кнопки"
+    },
+    "smallerLineHieghtBtnSubText": {
+        "message": "меньше",
+        "description": "подтекст для кнопки"
+    },
+    "largerLineHieghtBtnText": {
+        "message": "аа+",
+        "description": "текст для кнопки"
+    },
+    "largerLineHieghtBtnSubText": {
+        "message": "больше",
+        "description": "подтекст для кнопки"
+    },
+    "defaultBionicModeToggleBtnOffText": {
+        "message": "включить по умолчанию",
+        "description": "текст для кнопки"
+    },
+    "defaultBionicModeToggleBtnOnText": {
+        "message": "выключить по умолчанию",
+        "description": "текст для кнопки"
+    },
+    "defaultBionicModeToggleBtnSubText": {
+        "message": "настройка работы по умолчанию",
+        "description": "подтекст для кнопки"
+    },
+    "resetBtnText": {
+        "message": "сброс до оптимальных настроек",
+        "description": "текст для кнопки"
+    },
+    "faqLinkText": {
+        "message": "вопросы и ответы",
+        "description": "текст ссылки"
+    },
+    "reportIssueLinkText": {
+        "message": "сообщить о проблеме",
+        "description": "текст ссылки"
+    },
+    "aboutUsLinkText": {
+        "message": "сайт",
+        "description": "текст ссылки"
+    },
+    "dataEntryMessage": {
+        "message": "Отключите, если jiffy reader мешает вводу данных",
+        "description": "текстовка"
+    },
+    "googlePlayLinkSecondaryText": {
+        "message": "также поддерживается",
+        "description": "текстовка"
+    },
+    "urlPromptText": {
+        "message": "Вкладки без URL-адреса могут работать неправильно",
+        "description": "текстовка"
+    },
+    "reloadPromptText": {
+        "message": "Перезагрузите вкладку с корректным URL-адресом и повторите попытку",
+        "description": "текстовка"
+    },
+    "translationHelpLinkText": {
+        "message": "помогите нам с переводом. нажмите, чтобы узнать больше",
+        "description": "текстовка"
+    },
+    "reloadText": {
+        "message": "перезагрузить",
+        "description": "текстовка"
+    },
+    "openPermissionPageBtnText": {
+        "message": "нажмите здесь, чтобы открыть страницу разрешений",
+        "description": "текст кнопки"
+    },
+    "missingPermissionHeaderText": {
+        "message": "Отсутствует разрешение на доступ к локальным файлам",
+        "description": "текст заголовка"
+    },
+    "missingPermissionHeaderSubText": {
+        "message": "Выполните следующие действия",
+        "description": "подтекст"
+    },
+    "grantPermissionInstructionText": {
+        "message": "Предоставьте права на доступ к локальным файлам",
+        "description": "текстовка"
+    },
+    "reloadPageAndExtensionInstructionText": {
+        "message": "Перезагрузите страницу и попробуйте открыть расширение еще раз",
+        "description": "текстовка"
+    },
+    "pageNotSupportedHeaderText": {
+        "message": "Эта страница не поддерживается",
+        "description": "текстовка"
+    },
+    "pageNotDetectedText": {
+        "message": "Страница не обнаружена",
+        "description": "текстовка"
+    },
+    "surveyPromptText": {
+        "message": "пройдите короткий опрос, чтобы помочь нам улучшить JR",
+        "description": "текстовка"
+    }
+}
