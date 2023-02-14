@@ -52,11 +52,11 @@
     "description": "label for saccades interval slider"
   },
   "fixationsStrengthLabel": {
-    "message": "fixations strength",
+    "message": "Focused half width",
     "description": "label for fixations strength slider"
   },
   "fixationsEdgeOpacityLabel": {
-    "message": "fixations edge opacity",
+    "message": "Unfocused half opacity",
     "description": "label for fixations edge opacity slider"
   },
   "saccadesColorLabel": {

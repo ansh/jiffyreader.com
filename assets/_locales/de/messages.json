@@ -1,1 +1,174 @@
-{"preferenceLabel":{"message":"Präferenz verwenden","description":"Beschriftung für (Schaltfläche \"Globale oder Site-Einstellung\" schaltet ein"},"tipsPopupTriggerLabel":{"message":"tipps","description":"Beschriftung für (Schaltfläche \"Globale oder Site-Einstellung\" schaltet ein"},"globalPreferenceToggleBtnText":{"message":"global","description":"Haupttext für globale Voreinstellungsschaltfläche"},"globalPreferenceToggleBtnSubText":{"message":"Vorgabe","description":"Untertext der Schaltfläche \"Globale Einstellungen\""},"sitePreferenceToggleBtnText":{"message":"Platz","description":"Haupttext für die Umschaltfläche \"Site-Einstellungen\""},"sitePreferenceToggleBtnSubText":{"message":"für diese Seite","description":"Untertext der Schaltfläche \"Globale Einstellungen\""},"onOffToggleBtnTextDisable":{"message":"abschalten","description":"onOffToggleBtnTextDisable Schaltflächentext"},"onOffToggleBtnTextEnable":{"message":"ermöglichen","description":"onOffToggleBtnTextButton-Text"},"onOffToggleBtnSubText":{"message":"Lesemodus","description":"Text für onOffToggleBtnSubText"},"defaultShortcutLabelText":{"message":"Standardverknüpfung","description":"Text für onOffToggleBtnShortCutText"},"defaultShortcutValueTextChrome":{"message":"alt+b","description":"Standardverknüpfung für Chrome"},"defaultShortcutValueTextFirefox":{"message":"ALT+W","description":"Standardverknüpfung für Firefox"},"saccadesIntervalLabel":{"message":"Sakkaden-Intervall","description":"Beschriftung für Sakkaden-Intervallschieberegler"},"fixationsStrengthLabel":{"message":"Fixationsstärke","description":"Etikett für Fixationsstärke-Schieberegler"},"fixationsEdgeOpacityLabel":{"message":"Kantentrübung der Fixierungen","description":"Beschriftung für Kanten-Deckkraft-Schieberegler für Fixierungen"},"saccadesColorLabel":{"message":"Sakkaden Farbe","description":"Etikett für Saccade Farb-Dropdown"},"saccadesStyleLabel":{"message":"Sakkaden-Stile","description":"Dropdown-Liste \"Label für Sakkadenstil\""},"lineHeightTogglesLabel":{"message":"Zeilenhöhe","description":"Beschriftung für kleinere und größere Schaltflächen mit Zeilenhöhe"},"smallerLineHieghtBtnText":{"message":"aa-","description":"Text für die Schaltfläche"},"smallerLineHieghtBtnSubText":{"message":"kleiner","description":"Untertext für die Schaltfläche"},"largerLineHieghtBtnText":{"message":"aa+","description":"Text für die Schaltfläche"},"largerLineHieghtBtnSubText":{"message":"größer","description":"Untertext für die Schaltfläche"},"defaultBionicModeToggleBtnOffText":{"message":"Immer ausschalten","description":"Text für die Schaltfläche"},"defaultBionicModeToggleBtnOnText":{"message":"Immer einschalten","description":"Text für die Schaltfläche"},"defaultBionicModeToggleBtnSubText":{"message":"Standardeinstellung \"Umschalten\"","description":"Untertext für die Schaltfläche"},"resetBtnText":{"message":"Auf optimale Einstellungen zurücksetzen","description":"Text für die Schaltfläche"},"faqLinkText":{"message":"Häufig gestellte Fragen","description":"Linktext"},"reportIssueLinkText":{"message":"Problem melden","description":"Linktext"},"aboutUsLinkText":{"message":"Website","description":"Linktext"},"dataEntryMessage":{"message":"Ausschalten, wenn der Jiffy-Leser die Dateneingabe stört","description":"Text"},"googlePlayLinkSecondaryText":{"message":"Lesen unterstützt","description":"Text"},"urlPromptText":{"message":"Registerkarten ohne URL funktionieren möglicherweise nicht ordnungsgemäß","description":"Text"},"reloadPromptText":{"message":"Laden Sie die Registerkarte mit der gültigen URL neu und versuchen Sie es erneut.","description":"Text"},"translationHelpLinkText":{"message":"Helfen Sie uns mit Übersetzungen. Klicken Sie hier, um mehr zu erfahren","description":"Text"},"reloadText":{"message":"nachladen","description":"Text"},"openPermissionPageBtnText":{"message":"Klicken Sie hier, um die Berechtigungsseite zu öffnen","description":"Schaltflächentext"},"missingPermissionHeaderText":{"message":"Datei-URL-Berechtigung fehlt","description":"Kopfzeilentext"},"missingPermissionHeaderSubText":{"message":"Führen Sie die folgenden Schritte aus","description":"Subtext"},"grantPermissionInstructionText":{"message":"Erteilen der Datei-URL-Berechtigung","description":"Text"},"reloadPageAndExtensionInstructionText":{"message":"Kehren Sie zurück und versuchen Sie, die Erweiterung erneut zu öffnen.","description":"Text"},"pageNotSupportedHeaderText":{"message":"Diese Seite wird nicht unterstützt","description":"Text"},"pageNotDetectedText":{"message":"Seite nicht erkannt","description":"Text"},"surveyPromptText":{"message":"Nehmen Sie an einer kurzen Umfrage teil, um JR zu verbessern","description":"Text"}}
+{
+	"preferenceLabel": {
+		"message": "Anwedungsbereich",
+		"description": "label for (global or site preference button toggles"
+	},
+	"tipsPopupTriggerLabel": {
+		"message": "Hinweise",
+		"description": "label for (global or site preference button toggles"
+	},
+	"globalPreferenceToggleBtnText": {
+		"message": "Überall",
+		"description": "main text for global preference toggle button"
+	},
+	"globalPreferenceToggleBtnSubText": {
+		"message": "Für jede Seite",
+		"description": "global preference button sub text"
+	},
+	"sitePreferenceToggleBtnText": {
+		"message": "Lokal",
+		"description": "main text for site preference toggle button"
+	},
+	"sitePreferenceToggleBtnSubText": {
+		"message": "Nur diese Seite",
+		"description": "global preference button sub text"
+	},
+	"onOffToggleBtnTextDisable": {
+		"message": "Beenden des",
+		"description": "onOffToggleBtnTextDisable button text"
+	},
+	"onOffToggleBtnTextEnable": {
+		"message": "Starten des",
+		"description": "onOffToggleBtnTextEnable button text"
+	},
+	"onOffToggleBtnSubText": {
+		"message": "Lesemodus",
+		"description": "text for onOffToggleBtnSubText"
+	},
+	"defaultShortcutLabelText": {
+		"message": "Tastenkürzel",
+		"description": "text for onOffToggleBtnShortCutText"
+	},
+	"defaultShortcutValueTextChrome": {
+		"message": "alt+b",
+		"description": "default shortcut for chrome"
+	},
+	"defaultShortcutValueTextFirefox": {
+		"message": "alt+w",
+		"description": "default shortcut for firefox"
+	},
+	"saccadesIntervalLabel": {
+		"message": "Sakkadenabstand",
+		"description": "label for saccades interval slider"
+	},
+	"fixationsStrengthLabel": {
+		"message": "Fixationsstärke",
+		"description": "label for fixations strength slider"
+	},
+	"fixationsEdgeOpacityLabel": {
+		"message": "Opacity outside saccades",
+		"description": "label for fixations edge opacity slider"
+	},
+	"saccadesColorLabel": {
+		"message": "Farbliche Darstellung",
+		"description": "label for saccade color dropdown"
+	},
+	"saccadesStyleLabel": {
+		"message": "Stil der Sakkaden ",
+		"description": "label for saccade style dropdown"
+	},
+	"lineHeightTogglesLabel": {
+		"message": "Zeilenabstand ",
+		"description": "label for smaller and larger line height buttons"
+	},
+	"smallerLineHieghtBtnText": {
+		"message": "aa-",
+		"description": "text for the button"
+	},
+	"smallerLineHieghtBtnSubText": {
+		"message": "Geringer",
+		"description": "sub text for the button"
+	},
+	"largerLineHieghtBtnText": {
+		"message": "aa+",
+		"description": "text for the button"
+	},
+	"largerLineHieghtBtnSubText": {
+		"message": "Größer",
+		"description": "sub text for the button"
+	},
+	"defaultBionicModeToggleBtnOffText": {
+		"message": "Dauerhaft deaktiviert",
+		"description": "text for the button"
+	},
+	"defaultBionicModeToggleBtnOnText": {
+		"message": "Dauerhaft aktiviert",
+		"description": "text for the button"
+	},
+	"defaultBionicModeToggleBtnSubText": {
+		"message": "Ausgewählte Einstellung umschalten",
+		"description": "sub text for the button"
+	},
+	"resetBtnText": {
+		"message": "Einstellugen auf Standard zurücksetzen",
+		"description": "text for the button"
+	},
+	"faqLinkText": {
+		"message": "Häufig gestellte Fragen",
+		"description": "link text"
+	},
+	"reportIssueLinkText": {
+		"message": "Ein Problem melden",
+		"description": "link text"
+	},
+	"aboutUsLinkText": {
+		"message": "Webseite",
+		"description": "link text"
+	},
+	"dataEntryMessage": {
+		"message": "Deaktivieren Sie Jiffy,if it interferes with entering data in text fields",
+		"description": "Text"
+	},
+	"googlePlayLinkSecondaryText": {
+		"message": "Lesen unterstützt",
+		"description": "Text"
+	},
+	"urlPromptText": {
+		"message": "Registerkarten ohne URL funktionieren möglicherweise nicht ordnungsgemäß",
+		"description": "Text"
+	},
+	"reloadPromptText": {
+		"message": "Laden Sie die Registerkarte mit der gültigen URL neu und versuchen Sie es erneut.",
+		"description": "Text"
+	},
+	"translationHelpLinkText": {
+		"message": "Helfen Sie uns mit Übersetzungen. Klicken Sie hier, um mehr zu erfahren",
+		"description": "Text"
+	},
+	"reloadText": {
+		"message": "nachladen",
+		"description": "Text"
+	},
+	"openPermissionPageBtnText": {
+		"message": "Klicken Sie hier, um die Berechtigungsseite zu öffnen",
+		"description": "Schaltflächentext"
+	},
+	"missingPermissionHeaderText": {
+		"message": "Datei-URL-Berechtigung fehlt",
+		"description": "Kopfzeilentext"
+	},
+	"missingPermissionHeaderSubText": {
+		"message": "Führen Sie die folgenden Schritte aus",
+		"description": "Subtext"
+	},
+	"grantPermissionInstructionText": {
+		"message": "Erteilen der Datei-URL-Berechtigung",
+		"description": "Text"
+	},
+	"reloadPageAndExtensionInstructionText": {
+		"message": "Kehren Sie zurück und versuchen Sie, die Erweiterung erneut zu öffnen.",
+		"description": "Text"
+	},
+	"pageNotSupportedHeaderText": {
+		"message": "Diese Seite wird nicht unterstützt",
+		"description": "Text"
+	},
+	"pageNotDetectedText": {
+		"message": "Seite nicht erkannt",
+		"description": "Text"
+	},
+	"surveyPromptText": {
+		"message": "Nehmen Sie an einer kurzen Umfrage teil, um JR zu verbessern",
+		"description": "Text"
+	}
+}
