@@ -1,7 +1,8 @@
 # Jiffy Reader
-A Browser Extension for Bionic Reading on ANY website!
+A Browser Extension for [Faster Reading](#what-is-faster-reading) on ANY website!
 
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=347823&theme=light&period=daily" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+<a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-topic-badge.svg?post_id=347823&theme=light&period=weekly&topic=Productivity" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 <a href="https://www.producthunt.com/posts/jiffy-reader?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-jiffy&#0045;reader" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=347823&theme=light" alt="Jiffy&#0032;Reader - Read&#0032;anything&#0032;on&#0032;the&#0032;internet&#0032;faster&#0032;and&#0032;more&#0032;clearly&#0033; | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 <a href="https://www.buymeacoffee.com/jiffyreader" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
 
@@ -23,6 +24,7 @@ The best way to install this extension is to follow the instructions below. Howe
 - [Installation Instructions](#installation-instructions)
   - [Chrome](#chrome)
   - [Firefox](#firefox)
+  - [Safari macOS & iOS](#safari)
   - [Firefox Nightly / Fennec F-droid / Mull (Android)](#firefox-nightly--fennec-f-droid--mull-android)
   - [Opera](#opera)
   - [Edge](#edge)
@@ -56,7 +58,7 @@ The best way to install this extension is to follow the instructions below. Howe
     - [Enable file url permissions (chrome html)](#enable-file-url-permissions-chrome-html)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
-- [What is Bionic Reading?](#what-is-bionic-reading)
+- [What is faster Reading?](#what-is-faster-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
 - [How to Contribute](#how-to-contribute)
 - [Help with Translations](#help-with-translations)
@@ -99,6 +101,16 @@ The best way to install this extension is to follow the instructions below. Howe
   6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 <strong>Firefox will remove the extension when the browser is closed if the extension is not downloaded from the store.</strong>
+
+## Safari
+
+> Downlaod via the [App Store here](https://apps.apple.com/in/app/jiffy-reader/id6444754311) or [TestFlight here](https://testflight.apple.com/join/eFFlcXzz). This works for both macOS and iOS. We are working on getting it approved to download directly via the App Store. If you want to build the app yourself, follow the instructions below
+
+1. We will be [converting the web extension for Safari](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) usage. This will require a macOS computer and the latest version of XCode installed.
+2. Use `git clone` to clone the Jiffy Reader repo locally.
+3. Run `xcrun safari-web-extension-converter /path/to/extension --bundle-identifier com.jiffyreader.app` to convert the extension.
+4. Open the Safari app on your Mac and make sure to click `Develop` `->` `Allow Unsigned Extensions` in the top menu bar.
+5. Open the project in XCode and click run!
 
 ## Firefox Nightly / Fennec F-droid / Mull (Android)
 
@@ -270,12 +282,10 @@ If you want do not want to publish the document to the web then please follow th
 
 
 
-# What is Bionic Reading?
-Bionic Reading is a new method facilitating the reading process by guiding the eyes through text with artficial fixation points.
-As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word.
-In a digital world dominated by shallow forms of reading, Bionic Reading aims to encourage a more in-depth reading and understanding of written content.
-
-Read more about [Bionic Reading](https://bionic-reading.com/about/).
+# What is Faster Reading?
+This extension provides faster reading through facilitating the reading process by guiding the eyes through text with artficial fixation points.
+As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word. This allows you to read in supersonic speed.
+In a digital world dominated by shallow forms of reading, we aim to encourage a more in-depth reading and understanding of written content.
 
 
 
