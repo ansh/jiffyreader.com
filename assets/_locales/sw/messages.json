@@ -71,13 +71,13 @@
     "message": "urefu wa mstari",
     "description": "lebo ya vifungo vidogo na vikubwa vya urefu wa mstari"
   },
-  "smallerLineHieghtBtnText": { "message": "aa-", "description": "maandishi kwa kitufe" },
-  "smallerLineHieghtBtnSubText": {
+  "smallerLineHeightBtnText": { "message": "aa-", "description": "maandishi kwa kitufe" },
+  "smallerLineHeightBtnSubText": {
     "message": "Ndogo",
     "description": "maandishi madogo kwa kitufe"
   },
-  "largerLineHieghtBtnText": { "message": "aa+", "description": "maandishi kwa kitufe" },
-  "largerLineHieghtBtnSubText": {
+  "largerLineHeightBtnText": { "message": "aa+", "description": "maandishi kwa kitufe" },
+  "largerLineHeightBtnSubText": {
     "message": "Kubwa",
     "description": "maandishi madogo kwa kitufe"
   },

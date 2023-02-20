@@ -71,10 +71,10 @@
     "message": "גובה הקו",
     "description": "תווית עבור לחצני גובה קו קטנים וגדולים יותר"
   },
-  "smallerLineHieghtBtnText": { "message": "אאא-", "description": "טקסט עבור הלחצן" },
-  "smallerLineHieghtBtnSubText": { "message": "קטן", "description": "טקסט משנה עבור הלחצן" },
-  "largerLineHieghtBtnText": { "message": "aa+", "description": "טקסט עבור הלחצן" },
-  "largerLineHieghtBtnSubText": { "message": "גדול", "description": "טקסט משנה עבור הלחצן" },
+  "smallerLineHeightBtnText": { "message": "אאא-", "description": "טקסט עבור הלחצן" },
+  "smallerLineHeightBtnSubText": { "message": "קטן", "description": "טקסט משנה עבור הלחצן" },
+  "largerLineHeightBtnText": { "message": "aa+", "description": "טקסט עבור הלחצן" },
+  "largerLineHeightBtnSubText": { "message": "גדול", "description": "טקסט משנה עבור הלחצן" },
   "defaultBionicModeToggleBtnOffText": { "message": "כבה תמיד", "description": "טקסט עבור הלחצן" },
   "defaultBionicModeToggleBtnOnText": { "message": "הפעל תמיד", "description": "טקסט עבור הלחצן" },
   "defaultBionicModeToggleBtnSubText": {

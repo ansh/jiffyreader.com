@@ -71,10 +71,10 @@
     "message": "altura de línea",
     "description": "para botones de altura de línea más pequeños y más grandes"
   },
-  "smallerLineHieghtBtnText": { "message": "aa-", "description": "texto para el botón" },
-  "smallerLineHieghtBtnSubText": { "message": "menor", "description": "subtexto para el botón" },
-  "largerLineHieghtBtnText": { "message": "Gam", "description": "texto para el botón" },
-  "largerLineHieghtBtnSubText": { "message": "Mayor", "description": "subtexto para el botón" },
+  "smallerLineHeightBtnText": { "message": "aa-", "description": "texto para el botón" },
+  "smallerLineHeightBtnSubText": { "message": "menor", "description": "subtexto para el botón" },
+  "largerLineHeightBtnText": { "message": "Gam", "description": "texto para el botón" },
+  "largerLineHeightBtnSubText": { "message": "Mayor", "description": "subtexto para el botón" },
   "defaultBionicModeToggleBtnOffText": {
     "message": "apagar siempre",
     "description": "texto para el botón"

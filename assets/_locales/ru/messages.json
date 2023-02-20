@@ -71,19 +71,19 @@
         "message": "межстрочный интервал",
         "description": "метка для кнопок высоты строки меньшего и большего размера"
     },
-    "smallerLineHieghtBtnText": {
+    "smallerLineHeightBtnText": {
         "message": "аа-",
         "description": "текст для кнопки"
     },
-    "smallerLineHieghtBtnSubText": {
+    "smallerLineHeightBtnSubText": {
         "message": "меньше",
         "description": "подтекст для кнопки"
     },
-    "largerLineHieghtBtnText": {
+    "largerLineHeightBtnText": {
         "message": "аа+",
         "description": "текст для кнопки"
     },
-    "largerLineHieghtBtnSubText": {
+    "largerLineHeightBtnSubText": {
         "message": "больше",
         "description": "подтекст для кнопки"
     },
