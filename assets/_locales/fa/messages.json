@@ -65,10 +65,10 @@
     "message": "ارتفاع خط",
     "description": "برچسب برای دکمه های کوچک تر و بزرگتر ارتفاع خط"
   },
-  "smallerLineHieghtBtnText": { "message": "aa-", "description": "متن برای دکمه" },
-  "smallerLineHieghtBtnSubText": { "message": "کوچکتر", "description": "متن فرعی برای دکمه" },
-  "largerLineHieghtBtnText": { "message": "aa+", "description": "متن برای دکمه" },
-  "largerLineHieghtBtnSubText": { "message": "بزرگتر", "description": "متن فرعی برای دکمه" },
+  "smallerLineHeightBtnText": { "message": "aa-", "description": "متن برای دکمه" },
+  "smallerLineHeightBtnSubText": { "message": "کوچکتر", "description": "متن فرعی برای دکمه" },
+  "largerLineHeightBtnText": { "message": "aa+", "description": "متن برای دکمه" },
+  "largerLineHeightBtnSubText": { "message": "بزرگتر", "description": "متن فرعی برای دکمه" },
   "defaultBionicModeToggleBtnOffText": {
     "message": "خاموش کردن همیشه",
     "description": "متن برای دکمه"

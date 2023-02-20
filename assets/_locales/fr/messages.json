@@ -71,10 +71,10 @@
     "message": "hauteur de ligne",
     "description": "étiquette pour les boutons de hauteur de ligne plus petits et plus grands"
   },
-  "smallerLineHieghtBtnText": { "message": "aa-", "description": "texte du bouton" },
-  "smallerLineHieghtBtnSubText": { "message": "petite", "description": "sous-texte du bouton" },
-  "largerLineHieghtBtnText": { "message": "aa+", "description": "texte du bouton" },
-  "largerLineHieghtBtnSubText": { "message": "Grandes", "description": "sous-texte du bouton" },
+  "smallerLineHeightBtnText": { "message": "aa-", "description": "texte du bouton" },
+  "smallerLineHeightBtnSubText": { "message": "petite", "description": "sous-texte du bouton" },
+  "largerLineHeightBtnText": { "message": "aa+", "description": "texte du bouton" },
+  "largerLineHeightBtnSubText": { "message": "Grandes", "description": "sous-texte du bouton" },
   "defaultBionicModeToggleBtnOffText": {
     "message": "éteindre toujours",
     "description": "texte du bouton"

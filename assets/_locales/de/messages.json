@@ -71,19 +71,19 @@
 		"message": "Zeilenabstand ",
 		"description": "label for smaller and larger line height buttons"
 	},
-	"smallerLineHieghtBtnText": {
+	"smallerLineHeightBtnText": {
 		"message": "aa-",
 		"description": "text for the button"
 	},
-	"smallerLineHieghtBtnSubText": {
+	"smallerLineHeightBtnSubText": {
 		"message": "Geringer",
 		"description": "sub text for the button"
 	},
-	"largerLineHieghtBtnText": {
+	"largerLineHeightBtnText": {
 		"message": "aa+",
 		"description": "text for the button"
 	},
-	"largerLineHieghtBtnSubText": {
+	"largerLineHeightBtnSubText": {
 		"message": "Größer",
 		"description": "sub text for the button"
 	},
