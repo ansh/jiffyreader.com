@@ -104,7 +104,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 ## Safari
 
-> Downlaod via the [App Store here](https://apps.apple.com/in/app/jiffy-reader/id6444754311) or [TestFlight here](https://testflight.apple.com/join/eFFlcXzz). This works for both macOS and iOS. We are working on getting it approved to download directly via the App Store. If you want to build the app yourself, follow the instructions below
+> Download via the [App Store here](https://apps.apple.com/in/app/jiffy-reader/id6444754311) or [TestFlight here](https://testflight.apple.com/join/eFFlcXzz). This works for both macOS and iOS. We are working on getting it approved to download directly via the App Store. If you want to build the app yourself, follow the instructions below
 
 1. We will be [converting the web extension for Safari](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) usage. This will require a macOS computer and the latest version of XCode installed.
 2. Use `git clone` to clone the Jiffy Reader repo locally.
@@ -157,7 +157,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 # First Installation Welcome
 - Thank you for installing JiffyReader. 
-- <strong>Read the 8 points bellow</strong> which will help you the most in getting you started with JiffyReader
+- <strong>Read the 8 points below</strong> which will help you the most in getting you started with JiffyReader
 ## Notes on the extension
 1. Why did the browser open this page? because this is the first time you installed JiffyReader.<br/>
 2. The extension is on the default settings and optimal for most websites.
@@ -166,7 +166,7 @@ The best way to install this extension is to follow the instructions below. Howe
 ## Notes on this page
 5. You can find important resources such as the [FAQ section](#faq), [how to contribute](#how-to-contribute) and [how to report issues](#reporting-issues-bugs-and-feature-request) on this page.<br/>
 6. You can always get to this page by clicking the FAQ link in the footer of the extension popup.
-7. For futher help on check the [table of contents](#table-of-contents) or open an issue ticket using the links at the very top of this page.
+7. For further help, check the [table of contents](#table-of-contents) or open an issue ticket using the links at the very top of this page.
 8. You can close this page and return at anytime to find more help or clarification.
 
 # FAQ
@@ -186,14 +186,14 @@ The best way to install this extension is to follow the instructions below. Howe
 ### What are the functions of the buttons and sliders
 
 #### Global preferences button
-- clicking this button enters global mode where your preferences are saved and applied to applied to all other sites when you open them afterwards
+- clicking this button enters global mode where your preferences are saved and applied to all other sites when you open them afterwards
 
 #### Site preferences button
 - Clicking this buttons activates and saves preferences only for the site you are presently on. 
 - Any changes you make with the other buttons and sliders persist for only this site.
 
 #### Enable reading mode button
- - Click this button to turn on/off the emphasization(bionification) of the text on the page.
+ - Click this button to turn on/off the emphasis (bionification) of the text on the page.
  - Press `ALT + B` on chrome and `ALT + W` on firefox to achieve the same effect as clicking this button on chrome. see the [shortcut-section](#shortcut) for more info.
 
 #### Saccades interval slider
@@ -209,16 +209,16 @@ The best way to install this extension is to follow the instructions below. Howe
 - Use this to control how faint(weakly visible) or strongly visible you want the edge(un-emphasized) part of words to appear.
 
 #### Saccades colors
-- Use this to select a means of emphasization using colors.
+- Use this to select a means of creating emphasis using colors.
 
 #### Saccades styles
-- Use this to select a means of emphasization using bold variations or underline variations. 
+- Use this to select a means of creating emphasis using bold variations or underline variations. 
 
 #### Line height buttons
-- Use these buttons to increase or decrease line height to strain and improve the confort of reading.
+- Use these buttons to increase or decrease line height to strain and improve the comfort of reading.
 
 #### Always on/off button
-- Use this button to controls the default behaviour which is if words on pages are or aren't emphasized when loaded by default.
+- Use this button to controls the default behavior which is if words on pages are or aren't emphasized when loaded by default.
 
 #### Reset Defaults
 - Resets preferences of the currently engaged preference mode.
@@ -247,7 +247,7 @@ The best way to install this extension is to follow the instructions below. Howe
 6. Open your downloaded html file in your browser and turn on JiffyReader
 
 
-- For chrome persmission issues, follow the steps in [Enable file url permissions (Chrome)](#enable-file-url-permissions-chrome)
+- For chrome permission issues, follow the steps in [Enable file url permissions (Chrome)](#enable-file-url-permissions-chrome)
 - For epub files follow the steps in [Upload Epub to Google PlayBooks](#upload-epubs-to-google-playbooks-epubs)
 - JiffyReader does not collaborate with cloudconvert. Please consult their privacy policy for any privacy concerns.
 
@@ -262,7 +262,7 @@ If you want do not want to publish the document to the web then please follow th
 
 ### Google Docs support (html download method) 
 1. Click on File > click download
-2. Download the document as an html (prefered) or epub optional [Google Play Books Native (Epub)](#google-play-books-native-epub-and-pdf-support)
+2. Download the document as an html (preferred) or epub optional [Google Play Books Native (Epub)](#google-play-books-native-epub-and-pdf-support)
 3. Open the downloaded html with your browser and turn on JiffyReader
 - You may be required to enable permissions to access `file urls` for chrome. To do so follow [Enable file permissions](#enable-file-url-permissions-chrome)
 
@@ -276,14 +276,14 @@ If you want do not want to publish the document to the web then please follow th
 
 ## Shortcut
 - `Alt+B` is the default toggle shortcut to turn `on or off` the extension
-- If prefered you may customize the extension shortcut with the help of the resources below
+- If preferred you may customize the extension shortcut with the help of the resources below
 - [Chrome, Firefox and Edge](https://www.makeuseof.com/open-browser-extensions-keyboard-shortcut/)
 - Opera: open the extension management tab and click the `Keyboard shortcuts` link to access the page for customizing opera shortcuts
 
 
 
 # What is Faster Reading?
-This extension provides faster reading through facilitating the reading process by guiding the eyes through text with artficial fixation points.
+This extension provides faster reading through facilitating the reading process by guiding the eyes through text with artificial fixation points.
 As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word. This allows you to read in supersonic speed.
 In a digital world dominated by shallow forms of reading, we aim to encourage a more in-depth reading and understanding of written content.
 
@@ -304,7 +304,7 @@ In a digital world dominated by shallow forms of reading, we aim to encourage a 
   To help: 
   1. Please check that the language you would like to help with has not already been taken up by someone else by looking through both the open and closed tickets for translations.
   2. Open a issue ticket and add the `translation` label to it along with the name of the language you want to translate. Use this [shortcut link to open a new ticket](https://github.com/ansh/jiffyreader.com/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+Give+a+suitable+title)
-  3. Copy either the english locale json  [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/es/messages.json) translate into the language you can assist with using your prefered editor or even ms word. 
+  3. Copy either the english locale json  [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/es/messages.json) translate into the language you can assist with using your preferred editor or even ms word. 
   4. Indicate the language you would like to help translate in the ticket title. This helps to eliminate duplicate work.
 
   - Attach any questions or updates to the ticket you are working on and someone will try and get to them within a day or two.
@@ -319,7 +319,7 @@ In a digital world dominated by shallow forms of reading, we aim to encourage a 
     }
     ```
 
-    - result after tranlsation into spanish
+    - result after translation into spanish
     
     ```
     "exampleText":{
@@ -331,7 +331,7 @@ In a digital world dominated by shallow forms of reading, we aim to encourage a 
 
    ## Submitting your translations
    - You can email the translated file or paste the entire translation as a new comment in the ticket you opened and we will take it from there.
-   - Dont forget to indicate your name for attribution.
+   - Don't forget to indicate your name for attribution.
 
   # Supported languages
   1. English: by JiffyReader maintainer
@@ -343,11 +343,11 @@ In a digital world dominated by shallow forms of reading, we aim to encourage a 
 
 ## Development
    1. Clone the project
-   2. Open in VS Code or your favourite editor
+   2. Open in VS Code or your favorite editor
    3. Run `yarn` or `npm i` to install dependencies
-   4. Install pnpm if you dont already have it, use `npm i -g pnpm`
-   5. Run `pnpm dev:chrome` or `pnpm run dev:chrome` to build the development version. Substitute chrome for firefox if that is your prefered browser.
-   6. Follow the installation version for your prefered browser but navigate to the `projectRootFolder/build/` and choose the folder that corresponds with your browser.
+   4. Install pnpm if you don't already have it, use `npm i -g pnpm`
+   5. Run `pnpm dev:chrome` or `pnpm run dev:chrome` to build the development version. Substitute chrome for firefox if that is your preferred browser.
+   6. Follow the installation version for your preferred browser but navigate to the `projectRootFolder/build/` and choose the folder that corresponds with your browser.
 
 
 
