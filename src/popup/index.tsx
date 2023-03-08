@@ -566,7 +566,7 @@ function IndexPopup() {
 										className="slider w-100"
 										id="fixationEdgeOpacitySlider"
 										list="fixationEdgeOpacityList"
-										step="20"
+										step="5"
 									/>
 
 									<datalist id="fixationEdgeOpacityList" className="|| flex justify-between || text-sm ">
