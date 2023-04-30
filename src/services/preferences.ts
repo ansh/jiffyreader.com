@@ -18,6 +18,8 @@ const defaultPrefs = {
 	FIXATION_LOWER_BOUND: 0,
 	BR_WORD_STEM_PERCENTAGE: 0.7,
 	displayColorMode: 'light',
+	showBeta: true,
+	transforControlPanelText: false,
 };
 
 export default defaultPrefs;
