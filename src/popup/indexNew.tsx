@@ -542,8 +542,8 @@ function IndexPopupNew() {
 									data-op="decrease"
 									className="mr-md w-100 text-capitalize"
 									onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
-									<span className="block">{chrome.i18n.getMessage('smallerLineHieghtBtnText')}</span>
-									<span className="text-sm">{chrome.i18n.getMessage('smallerLineHieghtBtnSubText')}</span>
+									<span className="block">{chrome.i18n.getMessage('smallerLineHeightBtnText')}</span>
+									<span className="text-sm">{chrome.i18n.getMessage('smallerLineHeightBtnSubText')}</span>
 								</button>
 
 								<button
@@ -551,8 +551,8 @@ function IndexPopupNew() {
 									data-op="increase"
 									className="ml-md w-100 text-capitalize"
 									onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
-									<span className="block text-bold">{chrome.i18n.getMessage('largerLineHieghtBtnText')}</span>
-									<span className="text-sm">{chrome.i18n.getMessage('largerLineHieghtBtnSubText')}</span>
+									<span className="block text-bold">{chrome.i18n.getMessage('largerLineHeightBtnText')}</span>
+									<span className="text-sm">{chrome.i18n.getMessage('largerLineHeightBtnSubText')}</span>
 								</button>
 							</div>
 						</div>
