@@ -408,7 +408,7 @@ function IndexPopupNew() {
 									checked={/local/i.test(prefs.scope)}
 									onChange={(event) => updateConfig('scope', event.target.checked ? 'local' : 'global')}
 								/>
-								<label htmlFor="customizePrefsForSiteLocal">Customize for only this size</label>
+								<label htmlFor="customizePrefsForSiteLocal">Customize for only this site</label>
 							</div>
 							<span className="text-sm">{tabSession?.origin}</span>
 						</div>
