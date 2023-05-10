@@ -320,8 +320,7 @@ function IndexPopupOld() {
 
 	return (
 		<>
-			<div className={`jr_wrapper_container ${appConfigPrefs?.displayColorMode}-mode text-capitalize`}>
-				<div className="popup-body flex flex-column text-alternate">
+	
 					{showDebugInline(process.env.NODE_ENV)}
 					{errorOccured ? (
 						showErrorMessage()
@@ -550,8 +549,6 @@ function IndexPopupOld() {
 							</button>
 						</div>
 					)}
-				</div>
-			</div>
 			{!errorOccured && <footer className="popup_footer || flex flex-column || gap-1 p-2">{getFooterLinks()}</footer>}
 		</>
 	);
