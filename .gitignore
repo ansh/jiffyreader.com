@@ -40,3 +40,6 @@ keys.json
 
 # typescript
 .tsbuildinfo
+
+# xcode
+jiffy reader
