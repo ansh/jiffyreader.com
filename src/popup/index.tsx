@@ -15,6 +15,8 @@ import defaultPrefs from '~services/preferences';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
 
+const badCapScroll = /safari/i.test(process.env.TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
+
 const DisplayVersion = ({ displayVersion }) => {
 	if (displayVersion === 'old') return <IndexPopupOld />;
 	else if (displayVersion === 'new') return <IndexPopupNew />;
@@ -129,7 +131,9 @@ function IndexPopup() {
 					</div>
 
 					{/* display goes here */}
-					<DisplayVersion displayVersion={!appConfigPrefs?.showBeta ? 'old' : 'new'} />
+					<div style={badCapScroll}>
+						<DisplayVersion displayVersion={!appConfigPrefs?.showBeta ? 'old' : 'new'} />
+					</div>
 				</div>
 			</div>
 		</>

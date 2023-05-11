@@ -171,8 +171,7 @@ function IndexPopupNew() {
 	};
 
 	function showDebugInline(environment = 'production') {
-		if (/production/i.test(environment))
-			return;
+		if (/production/i.test(environment)) return;
 
 		const debugData = (
 			<>
@@ -192,7 +191,8 @@ function IndexPopupNew() {
 						name="isDebugDataVisibleInput"
 						id="isDebugDataVisibleInput"
 						onChange={(event) => setIsDebugDataVisible(event.currentTarget.checked)}
-						checked={isDebugDataVisible} />
+						checked={isDebugDataVisible}
+					/>
 				</label>
 				{isDebugDataVisible && debugData}
 			</div>
@@ -266,68 +266,67 @@ function IndexPopupNew() {
 
 	return (
 		<>
-			<div className="popup-body || flex flex-column || text-alternate">
-				{showDebugInline(process.env.NODE_ENV)}
-				{errorOccured ? (
-					showErrorMessage()
-				) : (
-					<div className="popup-container || flex flex-column  | gap-2" br-mode={tabSession.brMode ? 'On' : 'Off'}>
-						<div className="header || flex justify-between align-items-center ||">
-							{/* <span className="mb-md text-capitalize">{chrome.i18n.getMessage('preferenceLabel')}:</span> */}
-							<div className="input-container flex">
-								<input
-									type="checkbox"
-									id="onOffToggleCheckbox"
-									checked={tabSession.brMode}
-									onChange={(event) => handleToggle(event.target.checked)}
-								/>
-								<label htmlFor="onOffToggleCheckbox">Turn on</label>
-							</div>
+			{showDebugInline(process.env.NODE_ENV)}
+			{errorOccured ? (
+				showErrorMessage()
+			) : (
+				<div className="popup-container || flex flex-column  | gap-2" br-mode={tabSession.brMode ? 'On' : 'Off'}>
+					<div className="header || flex justify-between align-items-center ||">
+						{/* <span className="mb-md text-capitalize">{chrome.i18n.getMessage('preferenceLabel')}:</span> */}
+						<div className="input-container flex">
+							<input
+								type="checkbox"
+								id="onOffToggleCheckbox"
+								checked={tabSession.brMode}
+								onChange={(event) => handleToggle(event.target.checked)}
+							/>
+							<label htmlFor="onOffToggleCheckbox">Turn on</label>
+						</div>
 
-							<div className="tips  || flex flex-column || xshow-hover text-capitalize">
-								<button className="select button text-capitalize" onClick={() => setTipsVisibility(!tipsVisibility)}>
-									{chrome.i18n.getMessage('tipsPopupTriggerLabel')}
-								</button>
+						<div className="tips  || flex flex-column || xshow-hover text-capitalize">
+							<button className="select button text-capitalize" onClick={() => setTipsVisibility(!tipsVisibility)}>
+								{chrome.i18n.getMessage('tipsPopupTriggerLabel')}
+							</button>
 
-								{tipsVisibility && (
-									<ul
-										className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
-										style={{ zIndex: '10' }}>
-										<li>
-											<span>
-												{chrome.i18n.getMessage('defaultShortcutLabelText')}:
-												{chrome.i18n.getMessage(
-													/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
-												)}
-											</span>
-										</li>
-										<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
-										<li>
-											<a className="text-white" href="https://play.google.com/books" target="_blank">
-												Google Play Books
-											</a>
-											{chrome.i18n.getMessage('googlePlayLinkSecondaryText')}
-										</li>
-									</ul>
-								)}
-							</div>
+							{tipsVisibility && (
+								<ul
+									className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
+									style={{ zIndex: '10' }}>
+									<li>
+										<span>
+											{chrome.i18n.getMessage('defaultShortcutLabelText')}:
+											{chrome.i18n.getMessage(
+												/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+											)}
+										</span>
+									</li>
+									<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
+									<li>
+										<a className="text-white" href="https://play.google.com/books" target="_blank">
+											Google Play Books
+										</a>
+										{chrome.i18n.getMessage('googlePlayLinkSecondaryText')}
+									</li>
+								</ul>
+							)}
+						</div>
 
-							<div className="light-dark-container flex">
-								<button
-									type="button"
-									name="display_mode_switch"
-									id="display_mode_switch"
-									className="button text-capitalize  text-alternate"
-									value={`${Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]} mode toggle`}
-									onClick={() => handleDisplayColorModeChange(appConfigPrefs.displayColorMode)}
-									aria-description="light mode dark mode toggle">
-									<svg width="20" height="20">
-										<image width="20" height="20" href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle} />
-									</svg>
-								</button>
-							</div>
+						<div className="light-dark-container flex">
+							<button
+								type="button"
+								name="display_mode_switch"
+								id="display_mode_switch"
+								className="button text-capitalize  text-alternate"
+								value={`${Object.fromEntries(COLOR_MODE_STATE_TRANSITIONS)[appConfigPrefs?.displayColorMode]} mode toggle`}
+								onClick={() => handleDisplayColorModeChange(appConfigPrefs.displayColorMode)}
+								aria-description="light mode dark mode toggle">
+								<svg width="20" height="20">
+									<image width="20" height="20" href={appConfigPrefs?.displayColorMode == 'light' ? darkToggle : lightToggle} />
+								</svg>
+							</button>
+						</div>
 
-							{/* <div className="flex w-100 justify-between">
+						{/* <div className="flex w-100 justify-between">
 									<div className="w-100 pr-mr">
 										<button
 											id="globalPrefsBtn"
@@ -350,21 +349,21 @@ function IndexPopupNew() {
 										</button>
 									</div>
 								</div> */}
+					</div>
+
+					<div className="flex w-100 justify-between">
+						<div className="input-container w-50 flex">
+							<input
+								type="checkbox"
+								name=""
+								id="auto_activate"
+								checked={prefs.onPageLoad}
+								onChange={(event) => updateConfig('onPageLoad', event.target.checked)}
+							/>
+							<label htmlFor="auto_activate">Auto Turn on</label>
 						</div>
 
-						<div className="flex w-100 justify-between">
-							<div className="input-container w-50 flex">
-								<input
-									type="checkbox"
-									name=""
-									id="auto_activate"
-									checked={prefs.onPageLoad}
-									onChange={(event) => updateConfig('onPageLoad', event.target.checked)}
-								/>
-								<label htmlFor="auto_activate">Auto Turn on</label>
-							</div>
-
-							{/* <button
+						{/* <button
 									id="onPageLoadBtn"
 									className={`|| flex flex-column || w-100 align-items-center text-capitalize ${prefs.onPageLoad ? 'selected' : ''}`}
 									onClick={() => updateConfig('onPageLoad', !prefs.onPageLoad)}>
@@ -373,17 +372,17 @@ function IndexPopupNew() {
 									</span>
 									<span className="text-sm pt-sm">{chrome.i18n.getMessage('defaultBionicModeToggleBtnSubText')}</span>
 								</button> */}
-						</div>
+					</div>
 
-						<button
-							id="resetDefaultsBtn"
-							className="|| flex flex-column || w-100 align-items-center text-capitalize"
-							style={{ marginBottom: '25px' }}
-							onClick={() => updateConfig('scope', 'reset')}>
-							{chrome.i18n.getMessage('resetBtnText')}
-						</button>
+					<button
+						id="resetDefaultsBtn"
+						className="|| flex flex-column || w-100 align-items-center text-capitalize"
+						style={{ marginBottom: '25px' }}
+						onClick={() => updateConfig('scope', 'reset')}>
+						{chrome.i18n.getMessage('resetBtnText')}
+					</button>
 
-						{/* <button
+					{/* <button
 								id="readingModeToggleBtn"
 								className={`|| flex flex-column || w-100 align-items-center text-capitalize ${tabSession?.brMode ? 'selected' : ''}`}
 								onClick={() => handleToggle(!tabSession.brMode)}>
@@ -397,168 +396,168 @@ function IndexPopupNew() {
 								</span>
 							</button> */}
 
-						<div className="flex || text-capitalize text-bold">Advanced Settings</div>
+					<div className="flex || text-capitalize text-bold">Advanced Settings</div>
 
-						<div className="flex justify-between flex-column || w-100">
-							<div className="input-container flex">
-								<input
-									type="checkbox"
-									name=""
-									id="customizePrefsForSiteLocal"
-									checked={/local/i.test(prefs.scope)}
-									onChange={(event) => updateConfig('scope', event.target.checked ? 'local' : 'global')}
-								/>
-								<label htmlFor="customizePrefsForSiteLocal">Customize for only this site</label>
-							</div>
-							<span className="text-sm">{tabSession?.origin}</span>
+					<div className="flex justify-between flex-column || w-100">
+						<div className="input-container flex">
+							<input
+								type="checkbox"
+								name=""
+								id="customizePrefsForSiteLocal"
+								checked={/local/i.test(prefs.scope)}
+								onChange={(event) => updateConfig('scope', event.target.checked ? 'local' : 'global')}
+							/>
+							<label htmlFor="customizePrefsForSiteLocal">Customize for only this site</label>
 						</div>
+						<span className="text-sm">{tabSession?.origin}</span>
+					</div>
 
-						<div className="w-100">
-							<label className="block text-capitalize">
-								{chrome.i18n.getMessage('saccadesIntervalLabel')}: <span id="saccadesLabelValue">{prefs.saccadesInterval}</span>
-								{showOptimal('saccadesInterval')}
-							</label>
+					<div className="w-100">
+						<label className="block text-capitalize">
+							{chrome.i18n.getMessage('saccadesIntervalLabel')}: <span id="saccadesLabelValue">{prefs.saccadesInterval}</span>
+							{showOptimal('saccadesInterval')}
+						</label>
 
-							<div className="slidecontainer">
-								<input
-									type="range"
-									min="0"
-									max={MaxSaccadesInterval}
-									value={prefs.saccadesInterval}
-									onChange={makeUpdateChangeEventHandler('saccadesInterval')}
-									className="slider w-100"
-									id="saccadesSlider"
-								/>
+						<div className="slidecontainer">
+							<input
+								type="range"
+								min="0"
+								max={MaxSaccadesInterval}
+								value={prefs.saccadesInterval}
+								onChange={makeUpdateChangeEventHandler('saccadesInterval')}
+								className="slider w-100"
+								id="saccadesSlider"
+							/>
 
-								<datalist id="saccadesSlider" className="|| flex justify-between || text-sm ">
-									{new Array(prefs.MAX_FIXATION_PARTS + 1).fill(null).map((_, index) => (
-										<option key={`saccades-interval-${index}`} value={index + 1} label={'' + index}></option>
-									))}
-								</datalist>
-							</div>
-						</div>
-
-						<div className="w-100">
-							<label className="block text-capitalize">
-								{chrome.i18n.getMessage('fixationsStrengthLabel')}: <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span>
-								{showOptimal('fixationStrength')}
-							</label>
-
-							<div className="slidecontainer">
-								<input
-									type="range"
-									min="1"
-									max={prefs.MAX_FIXATION_PARTS}
-									value={prefs.fixationStrength}
-									onChange={makeUpdateChangeEventHandler('fixationStrength')}
-									className="slider w-100"
-									id="fixationStrengthSlider"
-								/>
-
-								<datalist id="fixationStrengthSlider" className="|| flex justify-between || text-sm ">
-									{new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
-										<option key={`fixation-strength-${index}`} value={index + 1} label={'' + (index + 1)}></option>
-									))}
-								</datalist>
-							</div>
-						</div>
-
-						<div className="w-100">
-							<label className="block text-capitalize">
-								{chrome.i18n.getMessage('fixationsEdgeOpacityLabel')}: <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}%</span>
-								{showOptimal('fixationEdgeOpacity')}
-							</label>
-
-							<div className="slidecontainer">
-								<input
-									type="range"
-									min="0"
-									max="100"
-									value={prefs.fixationEdgeOpacity}
-									onChange={makeUpdateChangeEventHandler('fixationEdgeOpacity')}
-									className="slider w-100"
-									id="fixationEdgeOpacitySlider"
-									list="fixationEdgeOpacityList"
-									step="10"
-								/>
-
-								<datalist id="fixationEdgeOpacityList" className="|| flex justify-between || text-sm ">
-									{new Array(FIXATION_OPACITY_STOPS + 1)
-										.fill(null)
-										.map((_, stopIndex) => stopIndex * FIXATION_OPACITY_STOP_UNIT_SCALE)
-										.map((value) => (
-											<option key={`opacity-stop-${value}`} value={value} label={'' + value}></option>
-										))}
-								</datalist>
-							</div>
-						</div>
-
-						<div className="|| flex flex-column || w-100 gap-1">
-							<label className="text-dark text-capitalize" htmlFor="saccadesColor">
-								{chrome.i18n.getMessage('saccadesColorLabel')} {showOptimal('saccadesColor')}
-							</label>
-
-							<select
-								name="saccadesColor"
-								id="saccadesColor"
-								className="p-2"
-								onChange={makeUpdateChangeEventHandler('saccadesColor')}
-								value={prefs.saccadesColor}>
-								{SACCADE_COLORS.map(([label, value]) => (
-									<option key={label} value={value}>
-										{label} {showOptimal('saccadesColor', label.toLowerCase() === 'original' ? '' : label.toLowerCase())}
-									</option>
+							<datalist id="saccadesSlider" className="|| flex justify-between || text-sm ">
+								{new Array(prefs.MAX_FIXATION_PARTS + 1).fill(null).map((_, index) => (
+									<option key={`saccades-interval-${index}`} value={index + 1} label={'' + index}></option>
 								))}
-							</select>
-						</div>
-
-						<div className="|| flex flex-column || w-100 gap-1">
-							<label className="text-dark text-capitalize" htmlFor="saccadesStyle">
-								{chrome.i18n.getMessage('saccadesStyleLabel')} {showOptimal('saccadesStyle')}
-							</label>
-
-							<select
-								name="saccadesStyle"
-								id="saccadesStyle"
-								className="p-2"
-								onChange={makeUpdateChangeEventHandler('saccadesStyle')}
-								value={prefs.saccadesStyle}>
-								{SACCADE_STYLES.map((style) => (
-									<option key={style} value={style.toLowerCase()}>
-										{style} {showOptimal('saccadesStyle', style.toLowerCase())}
-									</option>
-								))}
-							</select>
-						</div>
-
-						<div className="w-100">
-							<label className="block text-capitalize mb-sm" id="lineHeightLabel">
-								{chrome.i18n.getMessage('lineHeightTogglesLabel')}
-							</label>
-
-							<div className="|| flex justify-center || w-100">
-								<button
-									id="lineHeightDecrease"
-									data-op="decrease"
-									className="mr-md w-100 text-capitalize"
-									onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
-									<span className="block">{chrome.i18n.getMessage('smallerLineHeightBtnText')}</span>
-									<span className="text-sm">{chrome.i18n.getMessage('smallerLineHeightBtnSubText')}</span>
-								</button>
-
-								<button
-									id="lineHeightIncrease"
-									data-op="increase"
-									className="ml-md w-100 text-capitalize"
-									onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
-									<span className="block text-bold">{chrome.i18n.getMessage('largerLineHeightBtnText')}</span>
-									<span className="text-sm">{chrome.i18n.getMessage('largerLineHeightBtnSubText')}</span>
-								</button>
-							</div>
+							</datalist>
 						</div>
 					</div>
-				)}
-			</div>
+
+					<div className="w-100">
+						<label className="block text-capitalize">
+							{chrome.i18n.getMessage('fixationsStrengthLabel')}: <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span>
+							{showOptimal('fixationStrength')}
+						</label>
+
+						<div className="slidecontainer">
+							<input
+								type="range"
+								min="1"
+								max={prefs.MAX_FIXATION_PARTS}
+								value={prefs.fixationStrength}
+								onChange={makeUpdateChangeEventHandler('fixationStrength')}
+								className="slider w-100"
+								id="fixationStrengthSlider"
+							/>
+
+							<datalist id="fixationStrengthSlider" className="|| flex justify-between || text-sm ">
+								{new Array(prefs.MAX_FIXATION_PARTS).fill(null).map((_, index) => (
+									<option key={`fixation-strength-${index}`} value={index + 1} label={'' + (index + 1)}></option>
+								))}
+							</datalist>
+						</div>
+					</div>
+
+					<div className="w-100">
+						<label className="block text-capitalize">
+							{chrome.i18n.getMessage('fixationsEdgeOpacityLabel')}: <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}%</span>
+							{showOptimal('fixationEdgeOpacity')}
+						</label>
+
+						<div className="slidecontainer">
+							<input
+								type="range"
+								min="0"
+								max="100"
+								value={prefs.fixationEdgeOpacity}
+								onChange={makeUpdateChangeEventHandler('fixationEdgeOpacity')}
+								className="slider w-100"
+								id="fixationEdgeOpacitySlider"
+								list="fixationEdgeOpacityList"
+								step="10"
+							/>
+
+							<datalist id="fixationEdgeOpacityList" className="|| flex justify-between || text-sm ">
+								{new Array(FIXATION_OPACITY_STOPS + 1)
+									.fill(null)
+									.map((_, stopIndex) => stopIndex * FIXATION_OPACITY_STOP_UNIT_SCALE)
+									.map((value) => (
+										<option key={`opacity-stop-${value}`} value={value} label={'' + value}></option>
+									))}
+							</datalist>
+						</div>
+					</div>
+
+					<div className="|| flex flex-column || w-100 gap-1">
+						<label className="text-dark text-capitalize" htmlFor="saccadesColor">
+							{chrome.i18n.getMessage('saccadesColorLabel')} {showOptimal('saccadesColor')}
+						</label>
+
+						<select
+							name="saccadesColor"
+							id="saccadesColor"
+							className="p-2"
+							onChange={makeUpdateChangeEventHandler('saccadesColor')}
+							value={prefs.saccadesColor}>
+							{SACCADE_COLORS.map(([label, value]) => (
+								<option key={label} value={value}>
+									{label} {showOptimal('saccadesColor', label.toLowerCase() === 'original' ? '' : label.toLowerCase())}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div className="|| flex flex-column || w-100 gap-1">
+						<label className="text-dark text-capitalize" htmlFor="saccadesStyle">
+							{chrome.i18n.getMessage('saccadesStyleLabel')} {showOptimal('saccadesStyle')}
+						</label>
+
+						<select
+							name="saccadesStyle"
+							id="saccadesStyle"
+							className="p-2"
+							onChange={makeUpdateChangeEventHandler('saccadesStyle')}
+							value={prefs.saccadesStyle}>
+							{SACCADE_STYLES.map((style) => (
+								<option key={style} value={style.toLowerCase()}>
+									{style} {showOptimal('saccadesStyle', style.toLowerCase())}
+								</option>
+							))}
+						</select>
+					</div>
+
+					<div className="w-100">
+						<label className="block text-capitalize mb-sm" id="lineHeightLabel">
+							{chrome.i18n.getMessage('lineHeightTogglesLabel')}
+						</label>
+
+						<div className="|| flex justify-center || w-100">
+							<button
+								id="lineHeightDecrease"
+								data-op="decrease"
+								className="mr-md w-100 text-capitalize"
+								onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
+								<span className="block">{chrome.i18n.getMessage('smallerLineHeightBtnText')}</span>
+								<span className="text-sm">{chrome.i18n.getMessage('smallerLineHeightBtnSubText')}</span>
+							</button>
+
+							<button
+								id="lineHeightIncrease"
+								data-op="increase"
+								className="ml-md w-100 text-capitalize"
+								onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
+								<span className="block text-bold">{chrome.i18n.getMessage('largerLineHeightBtnText')}</span>
+								<span className="text-sm">{chrome.i18n.getMessage('largerLineHeightBtnSubText')}</span>
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+
 			{!errorOccured && (
 				<footer className="popup_footer || flex flex-column || gap-1 p-2 mt-3">
 					<Footer chrome={chrome} />
