@@ -19,8 +19,10 @@
     "gh:build:safari": "cross-env NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=safari SHORTCUT=\"Alt+W\" plasmo build --target=safari-mv2 && cd build/safari-mv2-prod/ && zip -r ../jiffyReader-safari.xpi ./*",
     "gh:build:development": "cross-env DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && cross-env DEBUG=FALSE SHORTCUT=\"Alt+W\" TARGET=firefox plasmo build --target=firefox-mv2",
     "gh:build:bookmarklet": "node src/Bookmarklet/esbuild.mjs",
-    "build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter  --bundle-identifier com.jiffyreader build/safari-mv2-prod",
-    "dev:xcode": "xcrun safari-web-extension-converter  --bundle-identifier com.jiffyreader build/safari-mv2-dev"
+    "build:ios": "xcrun safari-web-extension-converter --rebuild-project \"Jiffy reader/Jiffy reader.xcodeproj\"",
+    "build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter --swift --no-open --force --bundle-identifier com.jiffyreader build/safari-mv2-prod",
+    "build:xcode:all": "pnpm build:xcode && pnpm build:ios",
+    "dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev"
   },
   "dependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
