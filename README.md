@@ -24,7 +24,7 @@ The best way to install this extension is to follow the instructions below. Howe
 - [Installation Instructions](#installation-instructions)
   - [Chrome](#chrome)
   - [Firefox](#firefox)
-  - [Safari macOS & iOS](#safari)
+  - [Safari](#safari)
   - [Firefox Nightly / Fennec F-droid / Mull (Android)](#firefox-nightly--fennec-f-droid--mull-android)
   - [Opera](#opera)
   - [Edge](#edge)
@@ -58,7 +58,7 @@ The best way to install this extension is to follow the instructions below. Howe
     - [Enable file url permissions (chrome html)](#enable-file-url-permissions-chrome-html)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
-- [What is faster Reading?](#what-is-faster-reading)
+- [What is Faster Reading?](#what-is-faster-reading)
 - [Reporting Issues, bugs and feature request](#reporting-issues-bugs-and-feature-request)
 - [How to Contribute](#how-to-contribute)
 - [Help with Translations](#help-with-translations)
@@ -108,7 +108,7 @@ The best way to install this extension is to follow the instructions below. Howe
 
 1. We will be [converting the web extension for Safari](https://developer.apple.com/documentation/safariservices/safari_web_extensions/converting_a_web_extension_for_safari) usage. This will require a macOS computer and the latest version of XCode installed.
 2. Use `git clone` to clone the Jiffy Reader repo locally.
-3. Run `xcrun safari-web-extension-converter /path/to/extension --bundle-identifier com.jiffyreader.app` to convert the extension.
+3. Run `pnpm build:xcode` or `pnpm build:xcode:all` to convert the extension.
 4. Open the Safari app on your Mac and make sure to click `Develop` `->` `Allow Unsigned Extensions` in the top menu bar.
 5. Open the project in XCode and click run!
 
