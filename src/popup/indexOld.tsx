@@ -377,11 +377,10 @@ function IndexPopupOld() {
 						onClick={() => handleToggle(!tabSession.brMode)}>
 						<span>{chrome.i18n.getMessage(tabSession?.brMode ? 'onOffToggleBtnTextDisable' : 'onOffToggleBtnTextEnable')}</span>
 						<span>{chrome.i18n.getMessage('onOffToggleBtnSubText')}</span>
-						<span>
-							{chrome.i18n.getMessage('defaultShortcutLabelText')}:{' '}
-							{chrome.i18n.getMessage(/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome')}
-						</span>
+						<Shortcut scope='old' />
 					</button>
+
+					<ShortcutGuide />
 
 					<div className="w-100">
 						<label className="block text-capitalize">

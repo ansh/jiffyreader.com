@@ -293,12 +293,8 @@ function IndexPopupNew() {
 									className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
 									style={{ zIndex: '10' }}>
 									<li>
-										<span>
-											{chrome.i18n.getMessage('defaultShortcutLabelText')}:
-											{chrome.i18n.getMessage(
-												/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
-											)}
-										</span>
+										<Shortcut scope='new' />
+										<ShortcutGuide />
 									</li>
 									<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
 									<li>
