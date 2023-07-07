@@ -4,12 +4,11 @@ import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
 import { APP_PREFS_STORE_KEY, DisplayColorMode, STORAGE_AREA, USER_PREF_STORE_KEY } from '~services/config';
 import defaultPrefs from '~services/preferences';
+import runTimeHandler from '~services/runTimeHandler';
 
 export {};
 
 const BACKGROUND_LOG_STYLE = 'background: brown; color:white';
-
-const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const storage = new Storage({ area: STORAGE_AREA });
 
