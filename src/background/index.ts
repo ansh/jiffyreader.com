@@ -61,7 +61,7 @@ const initializeAppPref = async () => {
 	return await storage.set(APP_PREFS_STORE_KEY, { displayColorMode: DisplayColorMode.LIGHT });
 };
 
-const messageListener = (request, sender, sendResponse) => {
+const messageListener = (request, sender: chrome.runtime.MessageSender, sendResponse: (response?: any) => void) => {
 	Logger.logInfo('background listener called', { request });
 	switch (request.message) {
 		case 'setIconBadgeText': {
@@ -88,6 +88,19 @@ const messageListener = (request, sender, sendResponse) => {
 				Logger.logError(err);
 			}
 
+			return true;
+			break;
+		}
+		case 'getShortcut': {
+			chrome.commands
+				.getAll()
+				.then((commands) => {
+					const [commandEntry = undefined] = commands.filter(({ name }) => /toggle-bionic/.test(name));
+					const shortcutResponse = commandEntry?.shortcut;
+					Logger.logInfo('shorcutResponse', { response: shortcutResponse });
+					sendResponse((shortcutResponse ?? '').length ? shortcutResponse : undefined);
+				})
+				.catch(Logger.logError);
 			return true;
 			break;
 		}
