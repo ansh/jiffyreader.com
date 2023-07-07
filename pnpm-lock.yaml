@@ -36,6 +36,9 @@ devDependencies:
   '@types/chrome':
     specifier: 0.0.193
     version: 0.0.193
+  '@types/firefox-webext-browser':
+    specifier: ^111.0.1
+    version: 111.0.1
   '@types/node':
     specifier: 18.6.1
     version: 18.6.1
@@ -1325,6 +1328,17 @@ packages:
       - '@parcel/core'
     dev: false
 
+  /@parcel/types@2.6.2:
+    resolution: {integrity: sha512-MV8BFpCIs2jMUvK2RHqzkoiuOQ//JIbrD1zocA2YRW3zuPL/iABvbAABJoXpoPCKikVWOoCWASgBfWQo26VvJQ==}
+    dependencies:
+      '@parcel/cache': 2.6.2(@parcel/core@2.6.2)
+      '@parcel/diagnostic': 2.6.2
+      '@parcel/fs': 2.6.2(@parcel/core@2.6.2)
+      '@parcel/package-manager': 2.6.2(@parcel/core@2.6.2)
+      '@parcel/source-map': 2.1.0
+      '@parcel/workers': 2.6.2(@parcel/core@2.6.2)
+      utility-types: 3.10.0
+
   /@parcel/types@2.6.2(@parcel/core@2.6.2):
     resolution: {integrity: sha512-MV8BFpCIs2jMUvK2RHqzkoiuOQ//JIbrD1zocA2YRW3zuPL/iABvbAABJoXpoPCKikVWOoCWASgBfWQo26VvJQ==}
     dependencies:
@@ -1367,7 +1381,7 @@ packages:
       '@parcel/core': 2.6.2
       '@parcel/diagnostic': 2.6.2
       '@parcel/logger': 2.6.2
-      '@parcel/types': 2.6.2(@parcel/core@2.6.2)
+      '@parcel/types': 2.6.2
       '@parcel/utils': 2.6.2
       chrome-trace-event: 1.0.3
       nullthrows: 1.1.1
@@ -1789,6 +1803,10 @@ packages:
 
   /@types/filewriter@0.0.29:
     resolution: {integrity: sha512-BsPXH/irW0ht0Ji6iw/jJaK8Lj3FJemon2gvEqHKpCdDCeemHa+rI3WBGq5z7cDMZgoLjY40oninGxqk+8NzNQ==}
+    dev: true
+
+  /@types/firefox-webext-browser@111.0.1:
+    resolution: {integrity: sha512-mmHWdQTCT68X0hh0URrsIyWhJeFzZHaiprj6nni/CmsAmqYq27T0eZyu1ePeKJ/zuDD3wqtTzm5TwRFAso+oPw==}
     dev: true
 
   /@types/har-format@1.2.8:
