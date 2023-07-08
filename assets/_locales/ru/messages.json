@@ -35,7 +35,7 @@
         "message": "режим чтения",
         "description": "подпись для кнопки включения и отключения"
     },
-    "defaultShortcutLabelText": {
+    "shortcutLabelText": {
         "message": "горячая клавиша по умолчанию",
         "description": "текст для текстовки горячей клавиши"
     },

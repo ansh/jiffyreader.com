@@ -35,8 +35,8 @@
     "message": "reading mode",
     "description": "text for onOffToggleBtnSubText"
   },
-  "defaultShortcutLabelText": {
-    "message": "default shortcut",
+  "shortcutLabelText": {
+    "message": "shortcut",
     "description": "text for onOffToggleBtnShortCutText"
   },
   "defaultShortcutValueTextChrome": {

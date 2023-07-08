@@ -35,7 +35,7 @@
     "message": "حالت خواندن",
     "description": "متن برای onOffToggleBtnSubText"
   },
-  "defaultShortcutLabelText": {
+  "shortcutLabelText": {
     "message": "میانبر پیش فرض",
     "description": "متن برای onOffToggleBtnShortCutText"
   },

@@ -34,25 +34,9 @@ export default function Shortcut({ scope = 'new' }: { scope: 'new' | 'old' }) {
 		return <></>;
 	}
 
-	if (scope === 'old') {
-		return (
-			<span>
-				{chrome.i18n.getMessage('defaultShortcutLabelText')}:{' '}
-				{/* {chrome.i18n.getMessage(/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome')} */}
-				{shortcut}
-			</span>
-		);
-	}
-
-	if (scope === 'new') {
-		return (
-			<span>
-				{chrome.i18n.getMessage('defaultShortcutLabelText')}:
-				{/* {chrome.i18n.getMessage(/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome')} */}
-				{shortcut}
-			</span>
-		);
-	}
-
-	return <div></div>;
+	return (
+		<span className="text-capitalize">
+			{chrome.i18n.getMessage('shortcutLabelText')}:{shortcut}
+		</span>
+	);
 }
