@@ -11,6 +11,7 @@ import { useStorage } from '@plasmohq/storage';
 import { APP_PREFS_STORE_KEY, COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, STORAGE_AREA } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
+import runTimeHandler from '~services/runTimeHandler';
 
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
@@ -27,8 +28,6 @@ const popupLogStyle = 'background:cyan;color:brown';
 const jiffyLogo = chrome.runtime.getURL('./assets/icon512.png');
 
 const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
-
-const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const SHOW_FOOTER_MESSAGE_DURATION = 12_000;
 const FOOT_MESSAGAES_ANIMATION_DELAY = 300;

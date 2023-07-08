@@ -19,6 +19,8 @@ import {
 } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
+import runTimeHandler from '~services/runTimeHandler';
+import Shortcut, { ShortcutGuide } from './shorcut';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -29,8 +31,6 @@ const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle }
 
 const FIXATION_OPACITY_STOPS = 5;
 const FIXATION_OPACITY_STOP_UNIT_SCALE = Math.floor(100 / FIXATION_OPACITY_STOPS);
-
-const runTimeHandler = typeof browser === 'undefined' ? chrome : browser;
 
 const SHOW_FOOTER_MESSAGE_DURATION = 12_000;
 const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
@@ -377,11 +377,10 @@ function IndexPopupOld() {
 						onClick={() => handleToggle(!tabSession.brMode)}>
 						<span>{chrome.i18n.getMessage(tabSession?.brMode ? 'onOffToggleBtnTextDisable' : 'onOffToggleBtnTextEnable')}</span>
 						<span>{chrome.i18n.getMessage('onOffToggleBtnSubText')}</span>
-						<span>
-							{chrome.i18n.getMessage('defaultShortcutLabelText')}:{' '}
-							{chrome.i18n.getMessage(/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome')}
-						</span>
+						<Shortcut />
 					</button>
+
+					<ShortcutGuide />
 
 					<div className="w-100">
 						<label className="block text-capitalize">

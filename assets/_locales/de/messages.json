@@ -35,7 +35,7 @@
 		"message": "Lesemodus",
 		"description": "text for onOffToggleBtnSubText"
 	},
-	"defaultShortcutLabelText": {
+	"shortcutLabelText": {
 		"message": "Tastenkürzel",
 		"description": "text for onOffToggleBtnShortCutText"
 	},
