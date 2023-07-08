@@ -20,6 +20,7 @@ import {
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
+
 import Shortcut, { ShortcutGuide } from './shorcut';
 
 const popupLogStyle = 'background:cyan;color:brown';
@@ -271,20 +272,15 @@ function IndexPopupNew() {
 				showErrorMessage()
 			) : (
 				<div className="popup-container || flex flex-column  | gap-2" br-mode={tabSession.brMode ? 'On' : 'Off'}>
-					<div className="header || flex justify-between align-items-center ||">
+					<div className="header || ||" style={{ display: 'grid', gridTemplateColumns: '3fr 1fr 1fr' }}>
 						{/* <span className="mb-md text-capitalize">{chrome.i18n.getMessage('preferenceLabel')}:</span> */}
-						<div className="input-container flex">
-							<input
-								type="checkbox"
-								id="onOffToggleCheckbox"
-								checked={tabSession.brMode}
-								onChange={(event) => handleToggle(event.target.checked)}
-							/>
-							<label htmlFor="onOffToggleCheckbox">Turn on</label>
+						<div className="shorcuts container">
+							<Shortcut />
+							<ShortcutGuide />
 						</div>
 
-						<div className="tips  || flex flex-column || xshow-hover text-capitalize">
-							<button className="select button text-capitalize" onClick={() => setTipsVisibility(!tipsVisibility)}>
+						<div className="tips  || || xshow-hover text-capitalize">
+							<button className="select button text-capitalize p-3" onClick={() => setTipsVisibility(!tipsVisibility)}>
 								{chrome.i18n.getMessage('tipsPopupTriggerLabel')}
 							</button>
 
@@ -292,10 +288,6 @@ function IndexPopupNew() {
 								<ul
 									className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
 									style={{ zIndex: '10' }}>
-									<li>
-										<Shortcut scope='new' />
-										<ShortcutGuide />
-									</li>
 									<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
 									<li>
 										<a className="text-white" href="https://play.google.com/books" target="_blank">
@@ -307,7 +299,7 @@ function IndexPopupNew() {
 							)}
 						</div>
 
-						<div className="light-dark-container flex">
+						<div className="light-dark-container ">
 							<button
 								type="button"
 								name="display_mode_switch"
@@ -347,7 +339,16 @@ function IndexPopupNew() {
 								</div> */}
 					</div>
 
-					<div className="flex w-100 justify-between">
+					<div className="on_auto_toggles || flex justify-between || w-100 ">
+						<div className="input-container flex">
+							<input
+								type="checkbox"
+								id="onOffToggleCheckbox"
+								checked={tabSession.brMode}
+								onChange={(event) => handleToggle(event.target.checked)}
+							/>
+							<label htmlFor="onOffToggleCheckbox">Turn on</label>
+						</div>
 						<div className="input-container w-50 flex">
 							<input
 								type="checkbox"
@@ -385,7 +386,7 @@ function IndexPopupNew() {
 								<span>{chrome.i18n.getMessage(tabSession?.brMode ? 'onOffToggleBtnTextDisable' : 'onOffToggleBtnTextEnable')}</span>
 								<span>{chrome.i18n.getMessage('onOffToggleBtnSubText')}</span>
 								<span>
-									{chrome.i18n.getMessage('defaultShortcutLabelText')}:
+									{chrome.i18n.getMessage('shortcutLabelText')}:
 									{chrome.i18n.getMessage(
 										/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}

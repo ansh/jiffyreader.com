@@ -27,7 +27,7 @@ export function ShortcutGuide() {
 	return shortcut ? <></> : shortcutGuide;
 }
 
-export default function Shortcut({ scope = 'new' }: { scope: 'new' | 'old' }) {
+export default function Shortcut() {
 	const shortcut = useShortcut();
 
 	if (!shortcut) {
