@@ -35,7 +35,7 @@
     "message": "modo de lectura",
     "description": "texto para onOffToggleBtnSubText"
   },
-  "defaultShortcutLabelText": {
+  "shortcutLabelText": {
     "message": "acceso directo predeterminado",
     "description": "texto para onOffToggleBtnShortCutText"
   },

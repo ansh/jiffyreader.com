@@ -377,7 +377,7 @@ function IndexPopupOld() {
 						onClick={() => handleToggle(!tabSession.brMode)}>
 						<span>{chrome.i18n.getMessage(tabSession?.brMode ? 'onOffToggleBtnTextDisable' : 'onOffToggleBtnTextEnable')}</span>
 						<span>{chrome.i18n.getMessage('onOffToggleBtnSubText')}</span>
-						<Shortcut scope='old' />
+						<Shortcut />
 					</button>
 
 					<ShortcutGuide />

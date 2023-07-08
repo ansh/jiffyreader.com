@@ -35,7 +35,7 @@
     "message": "hali ya kusoma",
     "description": "maandishi ya onOffToggleBtnSubText"
   },
-  "defaultShortcutLabelText": {
+  "shortcutLabelText": {
     "message": "njia ya mkato chaguo-msingi",
     "description": "maandishi ya onOffToggleBtnShortCutText"
   },

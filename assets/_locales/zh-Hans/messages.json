@@ -17,7 +17,7 @@
     "description": "onOffToggleBtnTextEnable button text"
   },
   "onOffToggleBtnSubText": { "message": "阅读模式", "description": "文本 onOffToggleBtnSubText" },
-  "defaultShortcutLabelText": {
+  "shortcutLabelText": {
     "message": "默认快捷键",
     "description": "文本 onOffToggleBtnShortCutText"
   },

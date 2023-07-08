@@ -35,7 +35,7 @@
     "message": "מצב קריאה",
     "description": "text for onOffToggleBtnSubText"
   },
-  "defaultShortcutLabelText": {
+  "shortcutLabelText": {
     "message": "קיצור דרך ברירת מחדל",
     "description": "text for onOffToggleBtnShortCutText"
   },
