@@ -13,8 +13,10 @@ import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
+import PopupContextProvider from './context';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
+import { useShowDebugSwitch } from './shorcut';
 
 const badCapScroll = /safari/i.test(process.env.TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
@@ -36,7 +38,7 @@ const FIRST_FOOTER_MESSAGE_INDEX = 1;
 function IndexPopup() {
 	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-	const [isDebugDataVisible, setIsDebugDataVisible] = useState(!/production/i.test(process.env.NODE_ENV));
+	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
 	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
 
@@ -139,4 +141,12 @@ function IndexPopup() {
 	);
 }
 
-export default IndexPopup;
+function PopupShell() {
+	return (
+		<PopupContextProvider>
+			<IndexPopup />
+		</PopupContextProvider>
+	);
+}
+
+export default PopupShell;

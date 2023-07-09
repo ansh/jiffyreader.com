@@ -20,7 +20,8 @@ import {
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
-import Shortcut, { ShortcutGuide } from './shorcut';
+
+import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -39,7 +40,7 @@ const FIRST_FOOTER_MESSAGE_INDEX = 1;
 function IndexPopupOld() {
 	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-	const [isDebugDataVisible, setIsDebugDataVisible] = useState(!/production/i.test(process.env.NODE_ENV));
+	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
 	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, process.env.TARGET);
 
@@ -136,7 +137,7 @@ function IndexPopupOld() {
 		};
 
 		setTabSession({ ...tabSession, brMode: newBrMode });
-		runTimeHandler.runtime.sendMessage(payload, () => Logger.LogLastError());
+		(runTimeHandler as typeof chrome).runtime.sendMessage(payload, () => Logger.LogLastError());
 
 		TabHelper.getActiveTab(true).then((tab) => chrome.tabs.sendMessage(tab.id, payload, () => Logger.LogLastError()));
 	};
