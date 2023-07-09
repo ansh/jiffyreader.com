@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import Logger from '~services/Logger';
 import runTimeHandler from '~services/runTimeHandler';
 
+import { usePopupContext } from './context';
+
 export function useShortcut() {
 	const [shortcut, setShortcut] = useState(undefined);
 
 	const getShortcut = () => {
-		runTimeHandler.runtime
+		(runTimeHandler as typeof chrome).runtime
 			.sendMessage({ message: 'getShortcut' })
 			.then((shortcutResponse) => setShortcut(shortcutResponse))
 			.catch(Logger.logError);
@@ -39,4 +41,14 @@ export default function Shortcut() {
 			{chrome.i18n.getMessage('shortcutLabelText')}:{shortcut}
 		</span>
 	);
+}
+
+export function useShowDebugSwitch() {
+	const {
+		store: { isDebugDataVisible },
+		dispatch,
+	} = usePopupContext();
+
+	const setIsDebugDataVisible = (value: typeof isDebugDataVisible) => dispatch(['isDebugDataVisible', value]);
+	return [isDebugDataVisible, setIsDebugDataVisible] as [typeof isDebugDataVisible, typeof setIsDebugDataVisible];
 }
