@@ -29,8 +29,8 @@
     "@plasmohq/storage": "^0.8.1",
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
-    "esbuild": "^0.14.42",
-    "esbuild-sass-plugin": "^2.2.6",
+    "esbuild": "^0.14.53",
+    "esbuild-sass-plugin": "^2.3.1",
     "plasmo": "0.50.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

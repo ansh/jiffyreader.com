@@ -20,14 +20,14 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
 	return chrome?.action?.setBadgeText(badgeTextDetails) || browser.browserAction.setBadgeText(badgeTextDetails);
 };
 
-const fireUpdateNotification = async () => {
+const fireUpdateNotification = async (eventReason: chrome.runtime.OnInstalledReason, browserTargetName: string = process.env.TARGET) => {
 	if (await storage.get(USER_PREF_STORE_KEY)) {
 		return;
 	}
 
 	chrome.tabs.create({
 		active: true,
-		url: 'https://github.com/ansh/jiffyreader.com#first-installation-welcome',
+		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}`,
 	});
 };
 
@@ -133,8 +133,10 @@ function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 		Logger.logError();
 	});
 
-	if (event.reason === 'install' || process.env.NODE_ENV === 'production') {
-		fireUpdateNotification();
+	const eventReason = event.reason;
+
+	if (/install|update/.test(eventReason) || process.env.NODE_ENV === 'production') {
+		fireUpdateNotification(eventReason);
 	}
 
 	initializeAppPref();
