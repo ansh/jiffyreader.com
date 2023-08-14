@@ -2,12 +2,10 @@
 import Logger from '~services/Logger';
 
 const siteElementExclusions = {
-	'twitter.com': ['div.DraftEditor-root'],
-	'youtube.com': ['.ytd-commentbox', 'ytd-commentbox'],
 	'play.google.com': ['.mat-icon-button', 'mat-icon-button', '.scrubber-container', 'header>nav>a'],
 	'app.grammarly.com': ['.editor-editorContainer'],
-	'notion.so': ['[data-content-editable-leaf=true]', '.notion-frame'],
-	'web.whatsapp.com.': ['[contenteditable]'],
+	'notion.so': ['.notion-frame'],
+	'.': ['[contenteditable]', '[role=textbox]', 'input'], //disable input containers for all domains
 };
 
 /** @returns {Excluder} */
