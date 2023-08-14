@@ -22,6 +22,7 @@ import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
 import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
+import type { Prefs, TabSession } from 'index';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -51,7 +52,7 @@ function IndexPopupNew() {
 
 	const [tipsVisibility, setTipsVisibility] = useState<boolean>(false);
 
-	const [appConfigPrefs, setAppConfigPrefs] = useStorage({
+	const [appConfigPrefs, setAppConfigPrefs] = useStorage<Prefs>({
 		key: APP_PREFS_STORE_KEY,
 		area: STORAGE_AREA,
 	});
@@ -69,7 +70,7 @@ function IndexPopupNew() {
 	useEffect(() => {
 		Logger.logInfo('%cprefstore updated', popupLogStyle, prefs);
 
-		if (!appConfigPrefs?.transforControlPanelText || !prefs) return;
+		if (!appConfigPrefs?.transformControlPanelText || !prefs) return;
 
 		setProperty('--fixation-edge-opacity', prefs.fixationEdgeOpacity + '%');
 		setSaccadesStyle(prefs.saccadesStyle);

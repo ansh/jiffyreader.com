@@ -19,8 +19,7 @@ let observer;
 /** @type {string} */
 let origin = '';
 
-/** @type {import('./siteElementExclusions').Excluder} */
-let excludeByOrigin;
+let excludeByOrigin: ReturnType<typeof makeExcluder>;
 
 // making half of the letters in a word bold
 function highlightText(sentenceText) {
@@ -36,7 +35,13 @@ function highlightText(sentenceText) {
 	});
 }
 
-function makeFixations(/** @type string */ textContent) {
+function hasLatex(sentence: string) {
+	const result = /((\\)([\(\[]|begin))+/.test(sentence);
+	// Logger.logInfo({ node: sentence, result });
+	return result;
+}
+
+function makeFixations(textContent: string) {
 	const COMPUTED_MAX_FIXATION_PARTS = textContent.length >= MAX_FIXATION_PARTS ? MAX_FIXATION_PARTS : textContent.length;
 
 	const fixationWidth = Math.ceil(textContent.length * (1 / COMPUTED_MAX_FIXATION_PARTS));
@@ -55,7 +60,13 @@ function makeFixations(/** @type string */ textContent) {
 	return fixationsSplits.join('');
 }
 
-function parseNode(/** @type Element */ node) {
+function isTextNodeWithLatex(node: Node) {
+	const result = node.nodeType === Node.TEXT_NODE && hasLatex(node.textContent);
+	// Logger.logInfo('found text_node with latex', result);
+	return result;
+}
+
+function parseNode(node: Node) {
 	// some websites add <style>, <script> tags in the <body>, ignore these tags
 	if (!node?.parentElement?.tagName || IGNORE_NODE_TAGS.includes(node.parentElement.tagName)) {
 		return;
@@ -155,7 +166,7 @@ function ignoreOnMutation(node) {
 	return node?.parentElement?.closest('[br-ignore-on-mutation]');
 }
 
-function mutationCallback(/** @type MutationRecord[] */ mutationRecords) {
+function mutationCallback(mutationRecords: MutationRecord[]) {
 	const body = mutationRecords[0]?.target?.parentElement?.closest('body');
 	if (body && ['textarea:focus', 'input:focus'].filter((query) => body?.querySelector(query)).length) {
 		Logger.logInfo('focused or active input found, exiting mutationCallback');
@@ -221,4 +232,5 @@ export default {
 		getProperty: getProperty(documentRef),
 		setSaccadesStyle: setSaccadesStyle(documentRef),
 	}),
+	hasLatex,
 };

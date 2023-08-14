@@ -19,7 +19,8 @@ const defaultPrefs = {
 	BR_WORD_STEM_PERCENTAGE: 0.7,
 	displayColorMode: 'light',
 	showBeta: true,
-	transforControlPanelText: false,
+	transformControlPanelText: false,
+	autoOnDelay: 5_000
 };
 
 export default defaultPrefs;

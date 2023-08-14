@@ -1,4 +1,5 @@
 import { Storage } from '@plasmohq/storage';
+import type { PrefStore } from 'index';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
@@ -33,15 +34,17 @@ const fireUpdateNotification = async (eventReason: chrome.runtime.OnInstalledRea
 
 const initializeUserPrefStorage = async () => {
 	try {
-		const prefStore = await storage.get(USER_PREF_STORE_KEY);
+		const prefStore: PrefStore = (await storage.get(USER_PREF_STORE_KEY)) ?? ({ global: {}, local: {} } as PrefStore);
 		Logger.logInfo('background: prefStore install value', prefStore);
 
-		if (!prefStore) {
-			await storage.set(USER_PREF_STORE_KEY, { global: defaultPrefs, local: {} });
-			Logger.logInfo('background: prefStore initialization processed', await storage.get(USER_PREF_STORE_KEY));
-		} else {
-			Logger.logInfo('background: prefStore initialization skipped', prefStore);
-		}
+		const newPrefs = {
+			global: { ...defaultPrefs, ...prefStore?.global },
+			local: { ...prefStore?.local },
+		};
+
+		Logger.logInfo('initializeUserPrefStorage', { newPrefs });
+
+		await storage.set(USER_PREF_STORE_KEY, newPrefs);
 	} catch (error) {
 		Logger.logError(error);
 	} finally {
