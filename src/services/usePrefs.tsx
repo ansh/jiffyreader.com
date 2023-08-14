@@ -1,4 +1,5 @@
 import { Storage, useStorage } from '@plasmohq/storage';
+import type { PrefStore } from 'index';
 import { useEffect, useState } from 'react';
 
 import Logger from './Logger';
