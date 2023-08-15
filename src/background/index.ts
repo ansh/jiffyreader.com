@@ -3,6 +3,7 @@ import type { PrefStore } from 'index';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
+import TrackEventService, { EventCategory } from '~services/TrackEventService';
 import { APP_PREFS_STORE_KEY, DisplayColorMode, STORAGE_AREA, USER_PREF_STORE_KEY } from '~services/config';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
@@ -21,10 +22,13 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
 	return chrome?.action?.setBadgeText(badgeTextDetails) || browser.browserAction.setBadgeText(badgeTextDetails);
 };
 
-const fireUpdateNotification = async (eventReason: chrome.runtime.OnInstalledReason, browserTargetName: string = process.env.TARGET) => {
-	if (await storage.get(USER_PREF_STORE_KEY)) {
-		return;
-	}
+const openInstallationWelcomePage = async (
+	eventReason: chrome.runtime.OnInstalledReason,
+	browserTargetName: string = process.env.TARGET,
+) => {
+	// if (await storage.get(USER_PREF_STORE_KEY)) {
+	// 	return;
+	// }
 
 	chrome.tabs.create({
 		active: true,
@@ -138,8 +142,21 @@ function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	const eventReason = event.reason;
 
-	if (/install|update/.test(eventReason) || process.env.NODE_ENV === 'production') {
-		fireUpdateNotification(eventReason);
+	const newVersion = process.env.VERSION;
+	const { previousVersion } = event;
+	const isNewVersion = previousVersion !== newVersion;
+	Logger.logInfo({ newVersion, previousVersion, isNewVersion });
+
+	TrackEventService.trackEvent({
+		eventCategory: EventCategory.APP_EVENT,
+		eventName: 'install',
+		eventType: eventReason,
+		newVersion,
+		previousVersion,
+	});
+
+	if ((isNewVersion && /install|update/.test(eventReason)) || process.env.NODE_ENV === 'production') {
+		openInstallationWelcomePage(eventReason);
 	}
 
 	initializeAppPref();
