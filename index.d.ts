@@ -33,6 +33,7 @@ declare namespace NodeJS {
 		SHORTCUT: string;
 		VERSION: string;
 		NAME: string;
+		HOME_URL: string
 	}
 }
 

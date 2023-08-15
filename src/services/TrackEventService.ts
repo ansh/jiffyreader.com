@@ -10,7 +10,13 @@ function trackEvent(
 	eventData: { eventCategory: EventCategory; eventName: string; eventType: string; [key: string]: any },
 	appData: { browser; version } = { browser: process.env.TARGET, version: process.env.VERSION },
 	date = new Date(),
+	enableTracking = /true/.test(process.env.ENABLE_TRACKING),
 ) {
+	Logger.logInfo({ enableTracking });
+	if (!enableTracking) {
+		return;
+	}
+
 	const params = new URLSearchParams({ ...{ time: date.toString(), time_iso: date.toISOString(), ...eventData }, ...appData });
 	Logger.logInfo('track-event', params.toString());
 	return fetch(process.env.HOME_URL ?? 'https://jiffyreader.com' + `/track-event?${params.toString()}`);
