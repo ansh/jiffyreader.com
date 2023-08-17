@@ -32,7 +32,7 @@ const openInstallationWelcomePage = async (
 
 	chrome.tabs.create({
 		active: true,
-		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}`,
+		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${process.env.VERSION}`,
 	});
 };
 
