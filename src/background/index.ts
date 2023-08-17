@@ -155,7 +155,7 @@ function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 		previousVersion,
 	});
 
-	if ((isNewVersion && /install/i.test(eventReason)) || process.env.NODE_ENV === 'production') {
+	if ((isNewVersion && /install/i.test(eventReason)) && process.env.NODE_ENV === 'production') {
 		openInstallationWelcomePage(eventReason);
 	}
 
