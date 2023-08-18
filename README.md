@@ -68,6 +68,7 @@ The best way to install this extension is to follow the instructions below. Howe
   - [Development](#development)
   - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
   - [Release a new version](#release-a-new-version)
+- [Contributors](#contributors)
 
 # Installation Instructions 
 
@@ -366,3 +367,7 @@ In a digital world dominated by shallow forms of reading, we aim to encourage a 
 - Push a new tag to GitHub, eg. `git tag 1.0.0 && git push --tags`
 - The Workflow should be running [here](https://github.com/ansh/jiffyreader.com/actions)
 - Check the release version [here](https://github.com/ansh/jiffyreader.com/releases) and edit release notes.
+
+# Contributors
+- Major development and maintained by [@asieduernest12](https://github.com/asieduernest12)
+- Created and supported by [@ansh](https://github.com/ansh)
