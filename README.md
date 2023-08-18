@@ -290,10 +290,8 @@ If you want do not want to publish the document to the web then please follow th
 
 
 # What is Faster Reading?
-This extension provides faster reading through facilitating the reading process by guiding the eyes through text with artificial fixation points.
-As a result, the reader is only focusing on the highlighted initial letters and lets the brain center complete the word. This allows you to read in supersonic speed.
-In a digital world dominated by shallow forms of reading, we aim to encourage a more in-depth reading and understanding of written content.
-
+This extension provides faster reading through facilitating the reading process by bolding half the words.
+As a result, the reader is only focusing on the bolded initial letters and lets the brain autocomplete the words. This allows you to read faster.
 
 
 # Reporting Issues, bugs and feature request
