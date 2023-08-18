@@ -20,7 +20,7 @@ Below is a screenshot demonstrating how the extension works by bolding out the i
 ![Screenshot from 2022-05-29 19-13-02](https://user-images.githubusercontent.com/20851930/170895288-992e802f-4f64-4134-97cc-5144685ecb9e.png)
 
 
-The best way to install this extension is to follow the instructions below. However, we will also periodically be releasing this extension on the various stores under the name  [Jiffy Reader](https://jiffyreader.com). 
+The best way to install this extension is to follow the instructions below.
 
 
 
