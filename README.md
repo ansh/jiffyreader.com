@@ -1,3 +1,10 @@
+==========================================================================================================
+
+**THIS EXTENSION IS NO LONGER MAINTAINED. THIS REPOSITORY IS AN ARCHIVE FOR EDUCATIONAL PURPOSES ONLY.**
+
+==========================================================================================================
+
+
 # Jiffy Reader
 A Browser Extension for [Faster Reading](#what-is-faster-reading) on ANY website!
 
