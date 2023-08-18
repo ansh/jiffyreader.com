@@ -1,6 +1,6 @@
 ==========================================================================================================
 
-**THIS EXTENSION IS NO LONGER MAINTAINED. THIS REPOSITORY IS AN ARCHIVE FOR EDUCATIONAL PURPOSES ONLY.**
+**THIS PROJECT IS NO LONGER MAINTAINED. THIS REPOSITORY IS AN ARCHIVE FOR EDUCATIONAL PURPOSES ONLY.**
 
 ==========================================================================================================
 
