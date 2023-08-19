@@ -52,7 +52,7 @@
     "name": "$NAME",
     "version_name": "$VERSION_NAME",
     "version": "$VERSION",
-    "description": "An extension that allows for Bionic Reading on any webpage!",
+    "description": "A Browser Extension for Faster Reading on ANY website!",
     "default_locale": "en",
     "permissions": [
       "activeTab"
