@@ -12,16 +12,14 @@ newversion?=
 no_tag?=0
 
 tag:
-	@echo "making tags: [$(tag), $(tag)-development]"
+	@echo "making tags: [$(tag)]"
 	@if [ -n "$(tag)" ] && [ "$(tag)" != "no-tag" ]; then  \
 		git tag "$(tag)"; \
-		git tag "$(tag)-development"; \
 		git tag | grep -e "$(tag)"; \
 	fi
 
 push-tag:
-	echo "branch:$(remote) tag:[$(tag), $(tag)-development]"; 
-	@git push "$(remote)" "$(tag)-development"; 
+	echo "branch:$(remote) tag:[$(tag)]"; 
 	@git push "$(remote)" "$(tag)"; 
 
 tag-bump:
