@@ -50,26 +50,8 @@ jobs:
 
       - name: Build artifacts
         run: |
-            ext_version_name=${{github.ref_name}}
-            echo $ext_version_name
-            ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
-            ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
-            echo "build jiffy-reader-development"
-            printf "VERSION=$ext_version_id \nVERSION_NAME=$ext_version_name \nNAME=\"Jiffy Reader $ext_tag\" \nTARGET=chrome \nDEBUG=FALSE \nSHORTCUT=\"Alt+B\"" > .env.production
+            . action.sh
 
-            cat .env.production
-
-            pnpm gh:build:development && pnpm gh:build:bookmarklet && pnpm gh:build:firefox
-            
-            cd build/chrome-mv3-prod/ && zip -r "../jiffyReader-chrome-$ext_tag" ./*
-
-            cd ../firefox-mv2-prod/ && zip -r "../jiffyReader-firefox-$ext_tag.xpi" ./*
-
-
-            pwd
-
-            ls -hl ../../build/
-            echo "ext_tag=$ext_tag" >> $GITHUB_ENV
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "build/jiffyReader-*"

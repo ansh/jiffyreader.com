@@ -50,17 +50,5 @@ jobs:
 
       - name: Build artifacts
         run: |
-            ext_version_name=${{github.ref_name}}
-            echo $ext_version_name
-            ext_version_id=$(echo $ext_version_name | tr -d [:alpha:] | tr -d [=-=])
-            ext_tag=$(echo $ext_version_name | tr -d [:digit:] | tr -d [=-=] | tr -d [=.=])
-            echo "build jiffy-reader-development"
-            printf "VERSION=$ext_version_id \nVERSION_NAME=$ext_version_name \nNAME=\"Jiffy Reader\" \nTARGET=chrome \nSHORTCUT=\"Alt+B\"" > .env.production
-
-            cat .env.production
-
-            pnpm gh:build:chrome && pnpm gh:build:firefox && pnpm gh:build:bookmarklet
-
-            ls -hl build/
-            echo "ext_tag=$ext_tag" >> $GITHUB_ENV
+            . action.sh
       
