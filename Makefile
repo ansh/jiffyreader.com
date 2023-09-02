@@ -26,12 +26,22 @@ tag-bump:
 	@make tag tag="$$(cat bump.txt)"
 
 commit-bump:
-	@if [ "$(commit)" = "1" ] && [ -n "$(newversion)" ]; then  \
+	@newversion="$$(make read-bump)"; \
+	lastCommit="$$(make read-last-commit)"; \
+	if [ "$(commit)" = "1" ] && [ -n "$${newversion}" ]; then  \
 		git add bump.txt;  \
-		git commit -m "Chore: make bumped version to: $(newversion)"; \
+		git commit -m "Chore(commit-bump): new bump target: $${newversion}"; \
 	fi
 
+read-last-commit:
+	@echo "$$(git log --oneline -n1 | grep "commit-bump")"
 
+commit-bump-undo:
+	@lastCommit="$$(make read-last-commit)"; \
+	echo "$${lastCommit}"; \
+	if git log --oneline -n1 | grep -e "commit-bump"; then\
+		git reset HEAD~1; \
+	fi
 
 write-version:
 	@newversion="$(major).$(minor).$(patch)"; \
@@ -71,4 +81,5 @@ read-bump:
 	@cat bump.txt
 
 	
-	
+build@latest:
+	. action.sh

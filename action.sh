@@ -33,11 +33,11 @@ buildEnv(){
     version="$(getVersion $1)"
     scope=$2
     fullTag=$3
-    echo "version: ${version}"
-    echo "scope: $(getScope $fullTag $version )"
+    echo "version: $version"
+    echo "scope: $scope"
     echo "name: $fullTag"
 
-    printf "VERSION=$fullTag\nNAME=Jiffy Reader$scope\nTARGET=chrome\nDEBUG=FALSE\nSHORTCUT=Alt+B\n" > .env.production
+    # printf "VERSION=$version\nNAME=\"Jiffy Reader$scope\"\nTARGET=chrome\nDEBUG=FALSE\nSHORTCUT=Alt+B\nVERSION_NAME=$fullTag" > .env.production
 }
 
 
@@ -63,7 +63,7 @@ buildDevelopment(){
 
 buildRelease(){
     fullname="$1"
-    buildEnv $1 " " $fullname
+    buildEnv $1 "" $fullname
     pnpm gh:build:chrome && pnpm gh:build:firefox && pnpm gh:build:bookmarklet
     zipPacks ""
 }
