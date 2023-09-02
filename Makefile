@@ -23,7 +23,10 @@ push-tag:
 	@git push "$(remote)" "$(tag)"; 
 
 tag-bump:
-	@make tag tag="$$(cat bump.txt)"
+	@make tag tag="$$(make read-bump -s)"
+
+tag-bump-undo:
+	@git tag -d "$$(make read-bump -s)"
 
 commit-bump:
 	@newversion="$$(make read-bump)"; \
