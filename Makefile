@@ -19,8 +19,9 @@ tag:
 	fi
 
 push-tag:
-	echo "branch:$(remote) tag:[$(tag)]"; 
-	@git push "$(remote)" "$(tag)"; 
+	@tag="$$(make read-bump -s)"; \
+	echo "branch:$(remote) tag:[$${tag}]"; \
+	git push "$(remote)" "$${tag}"; \
 
 tag-bump:
 	@make tag tag="$$(make read-bump -s)"
