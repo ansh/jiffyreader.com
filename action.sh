@@ -37,7 +37,7 @@ buildEnv(){
     echo "scope: $scope"
     echo "name: $fullTag"
 
-    # printf "VERSION=$version\nNAME=\"Jiffy Reader$scope\"\nTARGET=chrome\nDEBUG=FALSE\nSHORTCUT=Alt+B\nVERSION_NAME=$fullTag" > .env.production
+    printf "VERSION=$version\nNAME=\"Jiffy Reader$scope\"\nTARGET=chrome\nDEBUG=FALSE\nSHORTCUT=Alt+B\nVERSION_NAME=$fullTag" > .env.production
 }
 
 
