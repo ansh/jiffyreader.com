@@ -1,0 +1,134 @@
+{
+    "preferenceLabel": {
+    "message": "自定义设置",
+    "description": "label for (global or site preference button toggles"
+    },
+    "tipsPopupTriggerLabel": {
+    "message": "提示",
+    "description": "label for (global or site preference button toggles"
+    },
+    "globalPreferenceToggleBtnText": {
+    "message": "全局",
+    "description": "main text for global preference toggle button"
+    },
+    "globalPreferenceToggleBtnSubText": {
+    "message": "设为默认",
+    "description": "global preference button sub text"
+    },
+    "sitePreferenceToggleBtnText": {
+    "message": "网页",
+    "description": "main text for site preference toggle button"
+    },
+    "sitePreferenceToggleBtnSubText": {
+    "message": "仅应用于当前页面",
+    "description": "global preference button sub text"
+    },
+    "onOffToggleBtnTextDisable": {
+    "message": "关闭",
+    "description": "onOffToggleBtnTextDisable button text"
+    },
+    "onOffToggleBtnTextEnable": {
+    "message": "开启",
+    "description": "onOffToggleBtnTextEnable button text"
+    },
+    "onOffToggleBtnSubText": {
+    "message": "阅读模式",
+    "description": "text for onOffToggleBtnSubText"
+    },
+    "defaultShortcutLabelText": {
+    "message": "快捷键",
+    "description": "text for onOffToggleBtnShortCutText"
+    },
+    "defaultShortcutValueTextChrome": {
+    "message": "Alt+b",
+    "description": "default shortcut for chrome"
+    },
+    "defaultShortcutValueTextFirefox": {
+    "message": "Alt+w",
+    "description": "default shortcut for firefox"
+    },
+    "saccadesIntervalLabel": {
+    "message": "跳视间隔",
+    "description": "label for saccades interval slider"
+    },
+    "fixationsStrengthLabel": {
+    "message": "注视点强度",
+    "description": "label for fixations strength slider"
+    },
+    "fixationsEdgeOpacityLabel": {
+    "message": "扫视部分透明化",
+    "description": "label for fixations edge opacity slider"
+    },
+    "saccadesColorLabel": {
+    "message": "注视点颜色",
+    "description": "label for saccade color dropdown"
+    },
+    "saccadesStyleLabel": {
+    "message": "注视点样式",
+    "description": "label for saccade style dropdown"
+    },
+    "lineHeightTogglesLabel": {
+    "message": "行距",
+    "description": "label for smaller and larger line height buttons"
+    },
+    "smallerLineHieghtBtnText": {
+    "message": "Aa-",
+    "description": "text for the button"
+    },
+    "smallerLineHieghtBtnSubText": {
+    "message": "降低",
+    "description": "sub text for the button"
+    },
+    "largerLineHieghtBtnText": {
+    "message": "Aa+",
+    "description": "text for the button"
+    },
+    "largerLineHieghtBtnSubText": {
+    "message": "增加",
+    "description": "sub text for the button"
+    },
+    "defaultBionicModeToggleBtnOffText": {
+    "message": "关闭",
+    "description": "text for the button"
+    },
+    "defaultBionicModeToggleBtnOnText": {
+    "message": "开启",
+    "description": "text for the button"
+    },
+    "defaultBionicModeToggleBtnSubText": {
+    "message": "是否默认开启阅读模式",
+    "description": "sub text for the button"
+    },
+    "resetBtnText": {
+    "message": "重置自定义设置",
+    "description": "text for the button"
+    },
+    "faqLinkText": {
+    "message": "常见问题",
+    "description": "link text"
+    },
+    "reportIssueLinkText": {
+    "message": "提交问题",
+    "description": "link text"
+    },
+    "aboutUsLinkText": {
+    "message": "访问我们",
+    "description": "link text"
+    },
+    "dataEntryMessage": {
+    "message": "如干扰数据输入，则禁用阅读模式",
+    "description": "text"
+    },
+    "googlePlayLinkSecondaryText": {
+    "message": "阅读模式可用",
+    "description": "text"
+    },
+    "urlPromptText": {
+    "message": "没有 URL 的标签页可能无法正常显示",
+    "description": "text"
+    },
+    "reloadPromptText": {
+    "message": "请刷新页面重试",
+    "description": "text"
+    }
+    }
