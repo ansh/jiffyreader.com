@@ -1,0 +1,174 @@
+{
+    "preferenceLabel": {
+      "message": "Tercihleri Kullan",
+      "description": "Genel veya site tercihleri düğmesi geçişleri için etiket"
+    },
+    "tipsPopupTriggerLabel": {
+      "message": "İpuçları",
+      "description": "Genel veya site tercih düğmesi geçişleri için etiket"
+    },
+    "globalPreferenceToggleBtnText": {
+      "message": "Genel",
+      "description": "Genel tercih geçiş düğmesi için ana metin"
+    },
+    "globalPreferenceToggleBtnSubText": {
+      "message": "Varsayılan",
+      "description": "Genel tercih düğmesi alt metni"
+    },
+    "sitePreferenceToggleBtnText": {
+      "message": "Site",
+      "description": "Site tercih geçiş düğmesi için ana metin"
+    },
+    "sitePreferenceToggleBtnSubText": {
+      "message": "Bu Site İçin",
+      "description": "Genel tercih düğmesi alt metni"
+    },
+    "onOffToggleBtnTextDisable": {
+      "message": "Devre Dışı",
+      "description": "onOffToggleBtnTextDisable düğmesi metni"
+    },
+    "onOffToggleBtnTextEnable": {
+      "message": "Açık",
+      "description": "onOffToggleBtnTextEnable düğmesi metni"
+    },
+    "onOffToggleBtnSubText": {
+      "message": "Okuma Modu",
+      "description": "onOffToggleBtnSubText için metin"
+    },
+    "shortcutLabelText": {
+      "message": "Kısayol",
+      "description": "onOffToggleBtnShortCutText için metin"
+    },
+    "defaultShortcutValueTextChrome": {
+      "message": "alt+b",
+      "description": "Chrome için varsayılan kısayol"
+    },
+    "defaultShortcutValueTextFirefox": {
+      "message": "alt+w",
+      "description": "Firefox için varsayılan kısayol"
+    },
+    "saccadesIntervalLabel": {
+      "message": "Sakkad aralığı",
+      "description": "Sakkad aralığı kaydırıcısı için etiket"
+    },
+    "fixationsStrengthLabel": {
+      "message": "Odaklanılmış Yarı Genişlik",
+      "description": "Odak gücü kaydırıcısı için etiket"
+    },
+    "fixationsEdgeOpacityLabel": {
+      "message": "Odaklanılmamış Yarı Opaklık",
+      "description": "Odak kenar opaklığı kaydırıcısı için etiket"
+    },
+    "saccadesColorLabel": {
+      "message": "Sakkad Rengi",
+      "description": "Sakkad rengi açılır menüsü için etiket"
+    },
+    "saccadesStyleLabel": {
+      "message": "Sakkad Stilleri",
+      "description": "Sakkad stili açılır menüsü için etiket"
+    },
+    "lineHeightTogglesLabel": {
+      "message": "Satır Yüksekliği",
+      "description": "Daha küçük ve daha büyük satır yüksekliği düğmeleri için etiket"
+    },
+    "smallerLineHeightBtnText": {
+      "message": "Aa-",
+      "description": "düğme için metin"
+    },
+    "smallerLineHeightBtnSubText": {
+      "message": "Küçült",
+      "description": "düğme için alt metin"
+    },
+    "largerLineHeightBtnText": {
+      "message": "Aa+",
+      "description": "düğme için metin"
+    },
+    "largerLineHeightBtnSubText": {
+      "message": "Büyüt",
+      "description": "düğme için alt metin"
+    },
+    "defaultBionicModeToggleBtnOffText": {
+      "message": "Her Zaman Kapalı",
+      "description": "düğme için metin"
+    },
+    "defaultBionicModeToggleBtnOnText": {
+      "message": "Her Zaman Açık",
+      "description": "düğme için metin"
+    },
+    "defaultBionicModeToggleBtnSubText": {
+      "message": "Varsayılan Ayar Tercihi",
+      "description": "düğme için alt metin"
+    },
+    "resetBtnText": {
+      "message": "Önerilen Ayarlara Sıfırla",
+      "description": "düğme için metin"
+    },
+    "faqLinkText": {
+      "message": "SSS",
+      "description": "link metni"
+    },
+    "reportIssueLinkText": {
+      "message": "Sorun Bildir",
+      "description": "link metni"
+    },
+    "aboutUsLinkText": {
+      "message": "Website",
+      "description": "link metni"
+    },
+    "dataEntryMessage": {
+      "message": "Veri girişini engellemesi durumunda, jiffy reader'ı kapatın",
+      "description": "metin"
+    },
+    "googlePlayLinkSecondaryText": {
+      "message": "Okuması Destekleniyor",
+      "description": "metin"
+    },
+    "urlPromptText": {
+      "message": "URL'si olmayan sekmeler düzgün çalışmayabilir",
+      "description": "metin"
+    },
+    "reloadPromptText": {
+      "message": "Sekmeyi geçerli URL ile yeniden yükleyin ve tekrar deneyin",
+      "description": "metin"
+    },
+    "translationHelpLinkText": {
+      "message": "Çeviri için bize yardımcı olun. Daha fazlasını öğrenmek için tıklayın",
+      "description": "metin"
+    },
+    "reloadText": {
+      "message": "Yenile",
+      "description": "metin"
+    },
+    "openPermissionPageBtnText": {
+      "message": "İzin sayfasına gitmek için tıklayın",
+      "description": "düğme metni"
+    },
+    "missingPermissionHeaderText": {
+      "message": "Dosya URL izni eksik",
+      "description": "başlık metni"
+    },
+    "missingPermissionHeaderSubText": {
+      "message": "Aşağıdaki Adımları Tamamlayınız",
+      "description": "alt metin"
+    },
+    "grantPermissionInstructionText": {
+      "message": "Dosya URL izni verin",
+      "description": "metin"
+    },
+    "reloadPageAndExtensionInstructionText": {
+      "message": "Eklentiyi tekrar açmayı deneyin",
+      "description": "metin"
+    },
+    "pageNotSupportedHeaderText": {
+      "message": "Bu sayfa desteklenmiyor",
+      "description": "metin"
+    },
+    "pageNotDetectedText": {
+      "message": "Sayfa algılanamadı",
+      "description": "metin"
+    },
+    "surveyPromptText": {
+      "message": "Kısa Bir Ankete Katılarak JR'ın Gelişmesine Yardımcı Olabilirsiniz",
+      "description": "metin"
+    }
+  }
