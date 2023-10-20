@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
 import documentParser from '~services/documentParser';
+import overrides from '~services/siteOverrides';
 import usePrefs from '~services/usePrefs';
 
 export const config: PlasmoContentScript = {
@@ -30,8 +31,29 @@ const OVERLAY_STYLE = {
 	flexDirection: 'column' as 'row',
 };
 
+const injectPassiveStyleOverides = (document: Document) => {
+	try {
+		setTimeout(() => {
+			//inject passiveOverride styles
+			const overrideStyle = overrides.getPassiveOverride(window.location.href);
+			let style = document.querySelector('style');
+			if (!style) {
+				style = document.createElement('style');
+				document.body.append(style);
+			}
+
+			style.textContent += ' ' + overrideStyle;
+			Logger.logInfo('div:has( + body ) ammended');
+		}, 500);
+	} catch (error) {
+		Logger.logError(error);
+	}
+};
+
 window.addEventListener('load', () => {
 	Logger.logInfo('content script loaded');
+
+	injectPassiveStyleOverides(document);
 });
 
 const isTopmostWindowContext = () => window.self === window.top;
