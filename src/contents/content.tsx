@@ -53,7 +53,7 @@ const injectPassiveStyleOverides = (document: Document) => {
 window.addEventListener('load', () => {
 	Logger.logInfo('content script loaded');
 
-	injectPassiveStyleOverides(document);
+	// injectPassiveStyleOverides(document);
 });
 
 const isTopmostWindowContext = () => window.self === window.top;
