@@ -27,7 +27,7 @@
   "dependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
     "@plasmohq/storage": "^0.8.1",
-    "axios": "^0.27.2",
+    "axios": "^1.6.5",
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.53",
     "esbuild-sass-plugin": "^2.3.1",
