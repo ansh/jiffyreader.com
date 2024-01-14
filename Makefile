@@ -24,7 +24,7 @@ tag: ## make a tag, pass tag=some_tag
 		git tag | grep -e "$(tag)"; \
 	fi
 
-push-tag: ## push a tag from bump.txt to remote, pass tag=different-tag to use a different tag
+push-tag: ## push a tag from bump.txt to remote, pass tag=different-tag to use a different tag, pass remote=origin to use a different remote
 	@tag="$$(make read-bump -s)"; \
 	echo "branch:$(remote) tag:[$${tag}]"; \
 	git push "$(remote)" "$${tag}"; \
