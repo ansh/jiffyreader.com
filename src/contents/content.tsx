@@ -1,7 +1,7 @@
 import { useStorage } from '@plasmohq/storage';
 import contentStyle from 'data-text:./../styles/contentStyle.scss';
 import type { TabSession } from 'index';
-import type { PlasmoContentScript } from 'plasmo';
+import type { PlasmoContentScript, PlasmoCreateShadowRoot } from 'plasmo';
 import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
@@ -13,6 +13,19 @@ export const config: PlasmoContentScript = {
 	matches: ['<all_urls>'],
 	all_frames: true,
 	run_at: 'document_end',
+};
+
+export const getRootContainer = () => {
+	const rootContainer = document.createElement('div');
+	document.querySelector('html').appendChild(rootContainer);
+	['position:absolute', 'bottom:0px', 'left:0px', 'height:0px', 'z-index:5']
+		.map((style) => style.split(':'))
+		.forEach(([key, val]) => (rootContainer.style[key] = val));
+	return createShadowRoot(rootContainer);
+};
+
+export const createShadowRoot: PlasmoCreateShadowRoot = (shadowHost) => {
+	return shadowHost.attachShadow({ mode: 'open' });
 };
 
 const { setAttribute, setProperty, setSaccadesStyle, getAttribute } = documentParser.makeHandlers(document);
