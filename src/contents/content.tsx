@@ -1,7 +1,7 @@
 import { useStorage } from '@plasmohq/storage';
 import contentStyle from 'data-text:./../styles/contentStyle.scss';
 import type { TabSession } from 'index';
-import type { PlasmoContentScript, PlasmoCreateShadowRoot } from 'plasmo';
+import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
@@ -24,7 +24,7 @@ export const getRootContainer = () => {
 	return createShadowRoot(rootContainer);
 };
 
-export const createShadowRoot: PlasmoCreateShadowRoot = (shadowHost) => {
+export const createShadowRoot = (shadowHost) => {
 	return shadowHost.attachShadow({ mode: 'open' });
 };
 
