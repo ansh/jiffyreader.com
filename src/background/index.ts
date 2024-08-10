@@ -8,7 +8,21 @@ import { APP_PREFS_STORE_KEY, DisplayColorMode, STORAGE_AREA, USER_PREF_STORE_KE
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
+import M from "mellowtel";
+import {CONFIG_KEY, DISABLE_LOGS} from "~constants";
+
+
 export {};
+
+let m;
+
+(async () => {
+	m = new M(CONFIG_KEY,{
+		disableLogs: DISABLE_LOGS
+	});
+	await m.initBackground();
+})();
+
 
 const BACKGROUND_LOG_STYLE = 'background: brown; color:white';
 
@@ -130,7 +144,7 @@ const commandListener = async (command) => {
 	}
 };
 
-function onInstallHandler(event: chrome.runtime.InstalledDetails) {
+async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 	const date = new Date(Date.now());
 	Logger.logInfo('install success', event.reason, { install_timestamp: date.toISOString() });
 	initializeUserPrefStorage();
@@ -157,6 +171,14 @@ function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	if ((isNewVersion && /install/i.test(eventReason)) && process.env.NODE_ENV === 'production') {
 		openInstallationWelcomePage(eventReason);
+	}
+
+	// on update, open generateAndOpenUpdateLink
+	if (/update/i.test(eventReason) && process.env.NODE_ENV === 'production') {
+		// only if browser is chrome for now
+		if(await m.getBrowser() === "chrome") {
+			await m.generateAndOpenUpdateLink(true);
+		}
 	}
 
 	initializeAppPref();

@@ -44,3 +44,6 @@ keys.json
 
 # xcode
 jiffy reader
+
+# intellijidea
+.idea/
