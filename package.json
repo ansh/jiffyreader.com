@@ -31,9 +31,10 @@
     "cross-env": "^7.0.3",
     "esbuild": "^0.14.53",
     "esbuild-sass-plugin": "^2.3.1",
-    "plasmo": "0.50.1",
+    "plasmo": "0.51.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "mellowtel": "^1.4.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "2.6.2",
@@ -55,7 +56,12 @@
     "description": "A Browser Extension for Faster Reading on ANY website!",
     "default_locale": "en",
     "permissions": [
-      "activeTab"
+      "activeTab",
+      "declarativeNetRequest",
+      "tabs"
+    ],
+    "host_permissions": [
+      "\u003Call_urls\u003E"
     ],
     "commands": {
       "toggle-bionic": {
