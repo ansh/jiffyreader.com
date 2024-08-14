@@ -95,7 +95,7 @@ The best way to install this extension is to follow the instructions below.
   9. The extensions default reading mode is set to off when installed
   10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
-The chrome version includes support for [https://mellowtel.dev](mellowtel.dev), an open-source library to support the development of free browser extensions.
+The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/about-mellowtel), an open-source library to support the development of free browser extensions.
 
 ## Firefox
 
