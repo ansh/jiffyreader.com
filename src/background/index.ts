@@ -171,13 +171,6 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 		openInstallationWelcomePage(eventReason);
 	}
 
-	// on update, open generateAndOpenUpdateLink
-	if (/update/i.test(eventReason) && process.env.NODE_ENV === 'production') {
-		if(await m.getBrowser() === "chrome") {
-			await m.generateAndOpenUpdateLink();
-		}
-	}
-
 	initializeAppPref();
 }
 
