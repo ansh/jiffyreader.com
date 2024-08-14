@@ -125,10 +125,8 @@ const messageListener = (request, sender: chrome.runtime.MessageSender, sendResp
 			return true;
 			break;
 		}
-		default:
-			sendResponse(false);
-			break;
 	}
+	return true;
 };
 
 const commandListener = async (command) => {
@@ -171,14 +169,6 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	if ((isNewVersion && /install/i.test(eventReason)) && process.env.NODE_ENV === 'production') {
 		openInstallationWelcomePage(eventReason);
-	}
-
-	// on update, open generateAndOpenUpdateLink
-	if (/update/i.test(eventReason) && process.env.NODE_ENV === 'production') {
-		// only if browser is chrome for now
-		if(await m.getBrowser() === "chrome") {
-			await m.generateAndOpenUpdateLink(true);
-		}
 	}
 
 	initializeAppPref();
