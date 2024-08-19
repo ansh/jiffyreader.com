@@ -8,7 +8,7 @@ export enum EventCategory {
 
 function trackEvent(
 	eventData: { eventCategory: EventCategory; eventName: string; eventType: string; [key: string]: any },
-	appData: { browser; version } = { browser: process.env.TARGET, version: process.env.VERSION },
+	appData: { browser; version } = { browser: process.env.PLASMO_TARGET, version: process.env.VERSION },
 	date = new Date(),
 	enableTracking = /true/.test(process.env.ENABLE_TRACKING),
 ) {
