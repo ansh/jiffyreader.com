@@ -19,7 +19,7 @@ import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
 import { useShowDebugSwitch } from './shorcut';
 
-const badCapScroll = /safari/i.test(process.env.TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
+const badCapScroll = /safari/i.test(process.env.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
 const DisplayVersion = ({ displayVersion }) => {
 	if (displayVersion === 'old') return <IndexPopupOld />;
@@ -43,7 +43,7 @@ function IndexPopup() {
 
 	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
 
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.TARGET);
+	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
 

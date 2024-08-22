@@ -38,7 +38,7 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
 
 const openInstallationWelcomePage = async (
 	eventReason: chrome.runtime.OnInstalledReason,
-	browserTargetName: string = process.env.TARGET,
+	browserTargetName: string = process.env.PLASMO_TARGET,
 ) => {
 	// if (await storage.get(USER_PREF_STORE_KEY)) {
 	// 	return;

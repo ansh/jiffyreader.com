@@ -45,7 +45,7 @@ function IndexPopupOld() {
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
 	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
-	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, process.env.TARGET);
+	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, process.env.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
 
@@ -274,7 +274,7 @@ function IndexPopupOld() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(process.env.TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(process.env.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 

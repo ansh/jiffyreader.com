@@ -49,7 +49,7 @@ function IndexPopupNew() {
 
 	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
 
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.TARGET);
+	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
 
@@ -221,7 +221,7 @@ function IndexPopupNew() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(process.env.TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(process.env.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 
@@ -398,7 +398,7 @@ function IndexPopupNew() {
 								<span>
 									{chrome.i18n.getMessage('shortcutLabelText')}:
 									{chrome.i18n.getMessage(
-										/firefox/i.test(process.env.TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+										/firefox/i.test(process.env.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}
 								</span>
 							</button> */}

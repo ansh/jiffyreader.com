@@ -11,7 +11,7 @@ const PREF_LOG_STYLE = 'color: green; background: black;';
 const usePrefs = (
 	getOrigin: () => Promise<string>,
 	initialize = false,
-	target = process.env.TARGET ?? 'chrome',
+	target = process.env.PLASMO_TARGET ?? 'chrome',
 ): [Prefs, SetPrefsExternal] => {
 	const [privateOrigin, setPrivateOrigin] = useState(null);
 
