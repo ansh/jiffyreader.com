@@ -57,3 +57,6 @@ jobs:
           artifacts: "build/jiffyReader*"
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: chrome ext upload
+        run: npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome.zip ${{ secrets.EXTENSION_ID }}
+
