@@ -44,6 +44,7 @@
     "@types/react": "18.0.15",
     "@types/react-dom": "18.0.6",
     "console-browserify": "^1.2.0",
+    "cws-publish": "^2.1.1",
     "eslint-config-airbnb-base-typescript-prettier": "^4.1.0",
     "prettier": "2.7.1",
     "process": "^0.11.10",
