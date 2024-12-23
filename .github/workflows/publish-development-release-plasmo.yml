@@ -2,13 +2,13 @@ name: Plasmo build chrome development relase
 on:
   workflow_dispatch:
   push:
-    tags:
-      - '*.*.*.*-*'
+    # tags:
+    #   - '*.*.*.*-*'
     branches: [plasmo]
 
 jobs:
   build:
-    if: github.ref_type == 'tag'
+    # if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,6 +16,8 @@ jobs:
     name: Node ${{ matrix.node }} sample
     steps:
       - uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
                  
       - name: Setup node
         uses: actions/setup-node@v3
@@ -50,7 +52,9 @@ jobs:
 
       - name: Build artifacts
         run: |
+            npm run release && head -n10 CHANGELOG.md
             . action.sh
+            git push --follow-tags origin HEAD
 
       - uses: ncipollo/release-action@v1
         with:
