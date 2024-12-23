@@ -70,6 +70,13 @@ jobs:
           generateReleaseNotes: true
           tag: ${{ env.VERSION }}
 
-      # - name: chrome ext upload
-      #   run: npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome.zip ${{ secrets.EXTENSION_ID }}
+      - name: chrome ext upload
+        run: |
+          npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome.zip ${{ secrets.EXTENSION_ID }}
+          
+          # if secrete.DEV_EXTENSION_ID is not empty then publish
+          if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
+          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-development.zip ${{ secrets.EXTENSION_DEV_ID }}
+          fi
+          
 
