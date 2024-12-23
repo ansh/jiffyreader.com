@@ -2,13 +2,13 @@ name: Plasmo build release
 on:
   workflow_dispatch:
   push:
-    tags-ignore:
-      - '*.*.*.*-*'
+    # tags-ignore:
+    #   - '*.*.*.*-*'
     branches: [master,plasmo]
 
 jobs:
   build:
-    if: github.ref_type == 'tag'
+    # if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -16,6 +16,8 @@ jobs:
     name: Node ${{ matrix.node }} sample
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
                  
       - name: Setup node
         uses: actions/setup-node@v3
@@ -50,13 +52,31 @@ jobs:
 
       - name: Build artifacts
         run: |
-            . action.sh
+            git config --global user.email "gh-action@github.com"
+            git config --global user.name "gh-action"
 
+            npm run release
+            . action.sh
+            git push --follow-tags origin HEAD
+
+      - name: Read version from package.json
+        run: echo "VERSION=$(npm pkg get version | tr -d '\"')" >> $GITHUB_ENV
+          
       - uses: ncipollo/release-action@v1
         with:
+          # artifacts: "dist/wyzant-looker.zip,dist/changelog.md,CHANGELOG.md"
           artifacts: "build/jiffyReader*"
           token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: ${{ env.VERSION }}
 
       - name: chrome ext upload
-        run: npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome.zip ${{ secrets.EXTENSION_ID }}
+        run: |
+          npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome.zip ${{ secrets.EXTENSION_ID }}
+          
+          # if secrete.DEV_EXTENSION_ID is not empty then publish
+          if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
+          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-development.zip ${{ secrets.EXTENSION_DEV_ID }}
+          fi
+          
 

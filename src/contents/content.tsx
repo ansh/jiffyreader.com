@@ -170,7 +170,7 @@ const IndexContent = () => {
 		return (
 			<div className="[ br-overlay ]" style={OVERLAY_STYLE}>
 				<span>
-					<strong style={{ paddingRight: '15px' }}>Target {process.env.TARGET}</strong>
+					<strong style={{ paddingRight: '15px' }}>Target {process.env.PLASMO_TARGET}</strong>
 					{getCollapseExpandBtn()}
 				</span>
 				<div className="flex flex-column">

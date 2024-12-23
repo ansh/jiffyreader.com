@@ -83,4 +83,4 @@ tag=$1
 cleanBuildDirectory
 
 # tags= value in bump.txt if not set
-handle "${tag:=$(cat bump.txt)}"
+handle "${tag:=$(npm pkg get version|tr -d '\"')}"
