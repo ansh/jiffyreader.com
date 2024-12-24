@@ -55,5 +55,5 @@ jobs:
             git config --global user.name "gh-action"
 
             npm run release && head -n10 CHANGELOG.md
-            . action.sh
+            make build@latest
       
