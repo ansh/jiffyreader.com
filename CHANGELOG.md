@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-## 1.2.0 (2024-12-23)
+## [1.2.1](https://github.com/ansh/jiffyreader.com/compare/v1.2.0...v1.2.1) (2024-12-24)
+
+
+### Bug Fixes
+
+* **ci:** refactor ([15defa4](https://github.com/ansh/jiffyreader.com/commit/15defa46bada19498e99f85e80a92de1a534b7b2))
+* **ci:** run make test ([1ff3e3a](https://github.com/ansh/jiffyreader.com/commit/1ff3e3a413eec3c6831e129bca58eaa29bc3b03d))
+* **internal:** improvements ([010f3ee](https://github.com/ansh/jiffyreader.com/commit/010f3ee35b7fe001d1be4508ce8f379bedb51034))
+* sass build warings ([af40167](https://github.com/ansh/jiffyreader.com/commit/af40167d9a2b02255939eb6957de2c814eff2315))
+* **update:** build and dev script, action and make file, add ([c64923c](https://github.com/ansh/jiffyreader.com/commit/c64923c3ec65e07e7f25bac69a6c7f6e1d821b0d))
+* **update:** ignore .envs ([541e4b6](https://github.com/ansh/jiffyreader.com/commit/541e4b68e7306d0eb476b081a8c550d90b3d66c2))
+
+## [1.2.0](https://github.com/ansh/jiffyreader.com/compare/6c3fad5509a6345346122705c0e859eb036e5171...v1.2.0) (2024-12-23)
 
 
 ### Features
