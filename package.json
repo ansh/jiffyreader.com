@@ -1,102 +1,112 @@
 {
-  "name": "jiffy-reader",
-  "displayName": "Jiffy reader",
-  "version": "1.2.0",
-  "description": "jiffy reader",
-  "packageManager": "yarn@1.22.19",
-  "scripts": {
-    "dev": "plasmo dev",
-    "build": "plasmo build",
-    "dev:chrome": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=jiffy-reader-chrome-dev VERSION_NAME=$VERSION-$NAME TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=TRUE plasmo dev --target=chrome-mv3",
-    "dev:firefox": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=jiffy-reader-firefox-dev VERSION_NAME=$VERSION-$NAME TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=TRUE plasmo dev --target=firefox-mv2",
-    "dev:safari": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=jiffy-reader-safari-dev VERSION_NAME=$VERSION-$NAME TARGET=safari SHORTCUT=\"Alt+W\" DEBUG=TRUE plasmo dev --target=safari-mv2",
-    "build:chrome": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=jiffy-reader-chrome-dev VERSION_NAME=$VERSION-$NAME TARGET=chrome SHORTCUT=\"Alt+B\" DEBUG=FALSE plasmo build --target=chrome-mv3",
-    "build:firefox": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=jiffy-reader-firefox-dev VERSION_NAME=$VERSION-$NAME TARGET=firefox SHORTCUT=\"Alt+W\" DEBUG=FALSE plasmo build --target=firefox-mv2",
-    "build:safari": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=jiffy-reader-safari-dev VERSION_NAME=$VERSION-$NAME TARGET=safari SHORTCUT=\"Alt+W\" DEBUG=FALSE plasmo build --target=safari-mv2",
-    "gh:build:chrome": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=chrome SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && npm run bundle:chrome-opera",
-    "bundle:chrome-opera": "cd build/chrome-mv3-prod && zip -r ../jiffyReader-chrome ./* && zip -r ../jiffyReader-opera.crx ./*",
-    "gh:build:firefox": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=firefox SHORTCUT=\"Alt+W\" plasmo build --target=firefox-mv2 && cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox.xpi ./*",
-    "gh:build:safari": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') NAME=\"Jiffy Reader\" DEBUG=FALSE TARGET=safari SHORTCUT=\"Alt+W\" plasmo build --target=safari-mv2 && cd build/safari-mv2-prod/ && zip -r ../jiffyReader-safari.xpi ./*",
-    "gh:build:development": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') VERSION_NAME=$VERSION-$NAME DEBUG=FALSE SHORTCUT=\"Alt+B\" plasmo build --target=chrome-mv3 && DEBUG=FALSE SHORTCUT=\"Alt+W\" TARGET=firefox plasmo build --target=firefox-mv2",
-    "gh:build:bookmarklet": "cross-env-shell VERSION=$(npm pkg get version | tr -d '\"') VERSION_NAME=$VERSION-$NAME node src/Bookmarklet/esbuild.mjs",
-    "build:ios": "xcrun safari-web-extension-converter --rebuild-project \"Jiffy reader/Jiffy reader.xcodeproj\"",
-    "build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter --swift --no-open --force --bundle-identifier com.jiffyreader build/safari-mv2-prod",
-    "build:xcode:all": "pnpm build:xcode && pnpm build:ios",
-    "dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev",
-    "release": "commit-and-tag-version"
-  },
-  "dependencies": {
-    "@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
-    "@plasmohq/storage": "^0.8.1",
-    "axios": "^1.6.5",
-    "commit-and-tag-version": "^12.5.0",
-    "cross-env": "^7.0.3",
-    "esbuild": "^0.14.53",
-    "esbuild-sass-plugin": "^2.3.1",
-    "mellowtel": "1.4.2",
-    "plasmo": "0.70.0",
-    "postcss": "^8",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "webpack": "^4.0.0"
-  },
-  "devDependencies": {
-    "@parcel/transformer-sass": "2.6.2",
-    "@types/chrome": "0.0.193",
-    "@types/firefox-webext-browser": "^111.0.1",
-    "@types/node": "18.6.1",
-    "@types/react": "18.0.15",
-    "@types/react-dom": "18.0.6",
-    "console-browserify": "^1.2.0",
-    "cws-publish": "^2.1.1",
-    "eslint-config-airbnb-base-typescript-prettier": "^4.1.0",
-    "prettier": "2.7.1",
-    "process": "^0.11.10",
-    "typescript": "4.7.4"
-  },
-  "manifest": {
-    "name": "$NAME",
-    "version_name": "$VERSION_NAME",
-    "version": "$VERSION",
-    "description": "A Browser Extension for Faster Reading on ANY website!",
-    "default_locale": "en",
-    "permissions": [
-      "activeTab",
-      "declarativeNetRequest",
-      "tabs"
-    ],
-    "host_permissions": [
-      "<all_urls>"
-    ],
-    "commands": {
-      "toggle-bionic": {
-        "suggested_key": {
-          "default": "$SHORTCUT"
-        },
-        "description": "Toggle bionic reading mode"
-      }
-    },
-    "web_accessible_resources": [
-      {
-        "resources": [
-          "assets/icon512.png",
-          "assets/sun-light-solid.svg",
-          "assets/moon-solid.svg"
-        ],
-        "matches": [
-          "<all_urls>"
-        ]
-      }
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ansh/jiffyreader.com"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ansh/jiffyreader.com/issues"
-  },
-  "homepage": "https://github.com/ansh/jiffyreader.com#readme"
+	"name": "jiffy-reader",
+	"displayName": "Jiffy reader",
+	"version": "1.2.0",
+	"description": "jiffy reader",
+	"packageManager": "yarn@1.22.19",
+	"scripts": {
+		"dev": "VERSION=\"$(npm pkg get version | tr -d '\"')\" TARGET=${TARGET:-chrome} NAME=${NAME:-\"jiffy-reader-chrome\"} TAG=${TAG:=local}  VERSION_NAME=$VERSION-$TARGET-$TAG DEBUG=${DEBUG:-TRUE}  SHORTCUT=${SHORTCUT:-\"Alt+B\"} plasmo dev --target=${MANIFEST_VERSION:-chrome-mv3}",
+		"buildx": "VERSION=\"$(npm pkg get version | tr -d '\"')\" TARGET=${TARGET:-chrome} NAME=${NAME:-\"Jiffy Reader\"} TAG=${TAG:=prod} VERSION_NAME=$VERSION-$TARGET-$TAG DEBUG=${DEBUG:-FALSE} SHORTCUT=${SHORTCUT:-\"Alt+B\"} plasmo build --target=${MANIFEST_VERSION:-chrome-mv3}",
+		"build": "npm run build:opera && npm run build:chrome & npm run build:firefox & npm run build:safari",
+		"dev:chrome": "npm run dev",
+		"dev:firefox": "NAME=jiffy-reader-firefox TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run dev",
+		"dev:safari": "NAME=jiffy-reader-safari TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run dev",
+		"build:chrome": "npm run buildx && npm run bundle:chrome",
+		"build:opera": "TARGET=opera npm run build:chrome && npm run bundle:opera",
+		"build:firefox": "NAME=jiffy-reader-firefox TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
+		"build:safari": "NAME=jiffy-reader-safari TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
+		"gh:build:chrome": "TARGET=chrome SHORTCUT=\"Alt+B\" MANIFEST_VERSION=chrome-mv3 npm run buildx && npm run bundle:chrome",
+		"gh:build:opera": "TARGET=opera SHORTCUT=\"Alt+B\" MANIFEST_VERSION=chrome-mv3 npm run buildx && npm run bundle:opera",
+		"gh:build:firefox": "TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
+		"gh:build:safari": "TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
+		"gh:build": "echo 'TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari'",
+		"gh:build:development": "echo 'TAG=dev NODE_ENV=development npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari'",
+		"gh:build:bookmarklet": "VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
+		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
+		"bundle:firefox": "cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox-$TAG.xpi ./*",
+		"bundle:safari": "cd build/safari-mv2-prod/ && zip -r ../jiffyReader-safari-$TAG.xpi ./*",
+		"bundle:opera": " mv build/chrome-mv3-prod build/opera-mv3-prod && cd build/opera-mv3-prod && zip -r ../jiffyReader-opera-$TAG.crx ./*",
+		"bundle:chrome": "cd build/chrome-mv3-prod &&  zip -r ../jiffyReader-chrome-$TAG.zip ./*",
+		"build:ios": "xcrun safari-web-extension-converter --rebuild-project \"Jiffy reader/Jiffy reader.xcodeproj\"",
+		"build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter --swift --no-open --force --bundle-identifier com.jiffyreader build/safari-mv2-prod",
+		"build:xcode:all": "pnpm build:xcode && pnpm build:ios",
+		"dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev",
+		"release": "commit-and-tag-version"
+	},
+	"dependencies": {
+		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
+		"@plasmohq/storage": "^0.8.1",
+		"axios": "^1.6.5",
+		"commit-and-tag-version": "^12.5.0",
+		"cross-env": "^7.0.3",
+		"esbuild": "^0.14.53",
+		"esbuild-sass-plugin": "^2.3.1",
+		"mellowtel": "1.4.2",
+		"plasmo": "0.70.0",
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
+	},
+	"devDependencies": {
+		"@parcel/transformer-sass": "2.6.2",
+		"@types/chrome": "0.0.193",
+		"@types/firefox-webext-browser": "^111.0.1",
+		"@types/node": "18.6.1",
+		"@types/react": "18.0.15",
+		"@types/react-dom": "18.0.6",
+		"console-browserify": "^1.2.0",
+		"cws-publish": "^2.1.1",
+		"eslint-config-airbnb-base-typescript-prettier": "^4.1.0",
+		"prettier": "2.7.1",
+		"process": "^0.11.10",
+		"typescript": "4.7.4"
+	},
+	"manifest": {
+		"name": "$NAME",
+		"target": "$TARGET",
+		"version": "$VERSION",
+		"tag": "$TAG",
+		"version_name": "$VERSION_NAME",
+		"environment": "$NODE_ENV",
+		"scope": "$TAG",
+		"description": "A Browser Extension for Faster Reading on ANY website!",
+		"default_locale": "en",
+		"permissions": [
+			"activeTab",
+			"declarativeNetRequest",
+			"tabs"
+		],
+		"host_permissions": [
+			"<all_urls>"
+		],
+		"commands": {
+			"toggle-bionic": {
+				"suggested_key": {
+					"default": "$SHORTCUT"
+				},
+				"description": "Toggle bionic reading mode"
+			}
+		},
+		"web_accessible_resources": [
+			{
+				"resources": [
+					"assets/icon512.png",
+					"assets/sun-light-solid.svg",
+					"assets/moon-solid.svg"
+				],
+				"matches": [
+					"<all_urls>"
+				]
+			}
+		]
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ansh/jiffyreader.com"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/ansh/jiffyreader.com/issues"
+	},
+	"homepage": "https://github.com/ansh/jiffyreader.com#readme"
 }

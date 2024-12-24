@@ -1,3 +1,4 @@
+@use "sass:color";
 $maxFixations: 4;
 $maxSaccadesInterval: 4;
 $activeFixationOpacity: 100%;
@@ -44,13 +45,13 @@ $saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
 @mixin makeColorVariants($color, $id, $delta, $label) {
 	&[saccades-color='#{$label}'] {
 		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
-			--saccadesColor: #{adjust-color($color, $lightness: $delta)};
+			--saccadesColor: #{color.adjust($color, $lightness: $delta)};
 		}
 	}
 
 	&[saccades-color='#{$label}-100'] {
 		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
-			--saccadesColor: #{adjust-color($color, $lightness: $delta * 2.7)};
+			--saccadesColor: #{color.adjust($color, $lightness: $delta * 2.7)};
 		}
 	}
 }
