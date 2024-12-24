@@ -19,5 +19,13 @@ _build: ## build all targets
 
 
 build@latest: ## build latest using version in bump.txt
-	. action.sh
+	rm -rf build/*
+	npm run gh:build:development
+	npm run gh:build
 	@make test
+
+extract: ## extract files
+	rm -rf build/extracts
+	mkdir build/extracts
+	find build -name jiffyReader* | awk -F / '{print $$2}' | xargs -I{} sh -c "unzip build/{} -d build/extracts/{}"
+	
