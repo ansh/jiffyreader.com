@@ -61,8 +61,29 @@ jobs:
       - name: Read version from package.json
         run: echo "VERSION=$(npm pkg get version | tr -d '\"')" >> $GITHUB_ENV
 
+     
+
+      - uses: ncipollo/release-action@v1
+        with:
+          # artifacts: "dist/wyzant-looker.zip,dist/changelog.md,CHANGELOG.md"
+          allowUpdates: true
+          artifacts: "build/jiffyReader*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          prerelease: true
+          tag: ${{ env.VERSION }}
+          
+      - name: push master tags
+        run: git push --follow-tags origin HEAD -f
+
+        
       - name: chrome ext upload
         run: |
+          if [ -z "${{ secrets.CLIENT_ID }}" ] || [ -z "${{ secrets.CLIENT_SECRET }}" ] || [ -z "${{ secrets.REFRESH_TOKEN }}" ] || [ -z "${{ secrets.EXTENSION_ID }}" ]; then
+            echo "Required secrets are not provided. Exiting."
+            exit 0
+          fi
+
           npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
           
           # if secrete.DEV_EXTENSION_ID is not empty then publish
@@ -70,27 +91,14 @@ jobs:
           npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
           fi
 
-      # - name: WebExtPublish: Firefox
-      #   uses: maoserr/firefox_extension_publish@v1.0.4
-      #   with:
-      #       firefox_extension_id: ${{ secrets.FIREFOX_DEV_EXT_ID }}
-      #       api_key: ${{ secrets.FIREFOX_API_KEY }}
-      #       api_secret: ${{ secrets.FIREFOX_API_SECRET }}
-      #       file: build/jiffyReader-firefox-dev.xpi
-
-      - uses: ncipollo/release-action@v1
-        with:
-          # artifacts: "dist/wyzant-looker.zip,dist/changelog.md,CHANGELOG.md"
-          artifacts: "build/jiffyReader*"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          generateReleaseNotes: true
-          tag: ${{ env.VERSION }}
-          
-      - name: push master tags
-        run: git push --follow-tags origin HEAD
 
       - name: chrome ext publish
         run: |
+          if [ -z "${{ secrets.CLIENT_ID }}" ] || [ -z "${{ secrets.CLIENT_SECRET }}" ] || [ -z "${{ secrets.REFRESH_TOKEN }}" ] || [ -z "${{ secrets.EXTENSION_ID }}" ]; then
+            echo "Required secrets are not provided. Exiting."
+            exit 0
+          fi
+          
           npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
           
           # if secrete.DEV_EXTENSION_ID is not empty then publish
@@ -99,3 +107,11 @@ jobs:
           fi
           
 
+      
+      # - name: WebExtPublish: Firefox
+      #   uses: maoserr/firefox_extension_publish@v1.0.4
+      #   with:
+      #       firefox_extension_id: ${{ secrets.FIREFOX_DEV_EXT_ID }}
+      #       api_key: ${{ secrets.FIREFOX_API_KEY }}
+      #       api_secret: ${{ secrets.FIREFOX_API_SECRET }}
+      #       file: build/jiffyReader-firefox-dev.xpi

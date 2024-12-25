@@ -1,7 +1,7 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.2.4",
+	"version": "1.2.6",
 	"description": "jiffy reader",
 	"packageManager": "yarn@1.22.19",
 	"scripts": {
@@ -20,7 +20,7 @@
 		"gh:build:firefox": "TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
 		"gh:build:safari": "TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
 		"gh:build": "echo 'TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari'",
-		"gh:build:development": "echo 'TAG=dev NODE_ENV=development npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari'",
+		"gh:build:development": "echo 'TAG=dev NODE_ENV=development  NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} sh -c '{}opera && {}chrome & {}firefox & {}safari'",
 		"gh:build:bookmarklet": "VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
 		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
 		"bundle:firefox": "cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox-$TAG.xpi ./*",
@@ -36,7 +36,7 @@
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
 		"@plasmohq/storage": "^0.8.1",
-		"axios": "^1.6.5",
+		"axios": "^1.7.4",
 		"commit-and-tag-version": "^12.5.0",
 		"cross-env": "^7.0.3",
 		"esbuild": "^0.14.53",
