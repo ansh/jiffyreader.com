@@ -57,7 +57,6 @@ jobs:
 
             npm run release
             make build@latest test
-            git push --follow-tags origin HEAD
 
       - name: Read version from package.json
         run: echo "VERSION=$(npm pkg get version | tr -d '\"')" >> $GITHUB_ENV
@@ -72,11 +71,24 @@ jobs:
 
       - name: chrome ext upload
         run: |
-          npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome.zip ${{ secrets.EXTENSION_ID }}
+          npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
           
           # if secrete.DEV_EXTENSION_ID is not empty then publish
           if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
-          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-development.zip ${{ secrets.EXTENSION_DEV_ID }}
+          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
           fi
+
+      # - name: WebExtPublish: Firefox
+      #   uses: maoserr/firefox_extension_publish@v1.0.4
+      #   with:
+      #       firefox_extension_id: ${{ secrets.FIREFOX_DEV_EXT_ID }}
+      #       api_key: ${{ secrets.FIREFOX_API_KEY }}
+      #       api_secret: ${{ secrets.FIREFOX_API_SECRET }}
+      #       file: build/jiffyReader-firefox-dev.xpi
+
+            
+          
+      - name: push master tags
+        run: git push --follow-tags origin HEAD
           
 
