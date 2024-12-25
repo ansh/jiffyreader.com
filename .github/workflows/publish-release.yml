@@ -62,8 +62,12 @@ jobs:
         run: echo "VERSION=$(npm pkg get version | tr -d '\"')" >> $GITHUB_ENV
 
       - name: chrome ext upload
-        if: ${{ secrets.CLIENT_ID && secrets.CLIENT_SECRET && secrets.REFRESH_TOKEN && secrets.EXTENSION_ID && secrets.EXTENSION_DEV_ID  }}
         run: |
+          if [ -z "${{ secrets.CLIENT_ID }}" ] || [ -z "${{ secrets.CLIENT_SECRET }}" ] || [ -z "${{ secrets.REFRESH_TOKEN }}" ] || [ -z "${{ secrets.EXTENSION_ID }}" ]; then
+            echo "Required secrets are not provided. Exiting."
+            exit 0
+          fi
+
           npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
           
           # if secrete.DEV_EXTENSION_ID is not empty then publish
@@ -91,8 +95,12 @@ jobs:
         run: git push --follow-tags origin HEAD
 
       - name: chrome ext publish
-        if: ${{ secrets.CLIENT_ID && secrets.CLIENT_SECRET && secrets.REFRESH_TOKEN && secrets.EXTENSION_ID && secrets.EXTENSION_DEV_ID  }}
         run: |
+          if [ -z "${{ secrets.CLIENT_ID }}" ] || [ -z "${{ secrets.CLIENT_SECRET }}" ] || [ -z "${{ secrets.REFRESH_TOKEN }}" ] || [ -z "${{ secrets.EXTENSION_ID }}" ]; then
+            echo "Required secrets are not provided. Exiting."
+            exit 0
+          fi
+          
           npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
           
           # if secrete.DEV_EXTENSION_ID is not empty then publish
