@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.3](https://github.com/ansh/jiffyreader.com/compare/v1.2.2...v1.2.3) (2024-12-25)
+
+
+### Bug Fixes
+
+* **ci:** include pnpm lock ([8428b9a](https://github.com/ansh/jiffyreader.com/commit/8428b9aa4d10e18b7b770bd4754fa05ad3b539da))
+* **ui:** broken css with interpolation ([31a7492](https://github.com/ansh/jiffyreader.com/commit/31a749214c7cba101af00097aaaa6d9dede32a93))
+
 ## [1.2.2](https://github.com/ansh/jiffyreader.com/compare/v1.2.0...v1.2.2) (2024-12-25)
 
 

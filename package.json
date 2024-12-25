@@ -1,7 +1,7 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.2.2",
+	"version": "1.2.3",
 	"description": "jiffy reader",
 	"packageManager": "yarn@1.22.19",
 	"scripts": {
