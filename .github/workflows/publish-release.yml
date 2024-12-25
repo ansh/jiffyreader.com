@@ -60,14 +60,6 @@ jobs:
 
       - name: Read version from package.json
         run: echo "VERSION=$(npm pkg get version | tr -d '\"')" >> $GITHUB_ENV
-          
-      - uses: ncipollo/release-action@v1
-        with:
-          # artifacts: "dist/wyzant-looker.zip,dist/changelog.md,CHANGELOG.md"
-          artifacts: "build/jiffyReader*"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          generateReleaseNotes: true
-          tag: ${{ env.VERSION }}
 
       - name: chrome ext upload
         run: |
@@ -75,7 +67,7 @@ jobs:
           
           # if secrete.DEV_EXTENSION_ID is not empty then publish
           if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
-          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
+          npx cws-upload ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
           fi
 
       # - name: WebExtPublish: Firefox
@@ -86,9 +78,24 @@ jobs:
       #       api_secret: ${{ secrets.FIREFOX_API_SECRET }}
       #       file: build/jiffyReader-firefox-dev.xpi
 
-            
+      - uses: ncipollo/release-action@v1
+        with:
+          # artifacts: "dist/wyzant-looker.zip,dist/changelog.md,CHANGELOG.md"
+          artifacts: "build/jiffyReader*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          tag: ${{ env.VERSION }}
           
       - name: push master tags
         run: git push --follow-tags origin HEAD
+
+      - name: chrome ext publish
+        run: |
+          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
+          
+          # if secrete.DEV_EXTENSION_ID is not empty then publish
+          if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
+          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
+          fi
           
 
