@@ -20,8 +20,7 @@ _build: ## build all targets
 
 build@latest: ## build latest using version in bump.txt
 	rm -rf build/*
-	npm run gh:build:development
-	npm run gh:build
+	. ./action.sh
 	@make test
 
 extract: ## extract files
