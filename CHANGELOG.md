@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.4](https://github.com/ansh/jiffyreader.com/compare/v1.2.3...v1.2.4) (2024-12-25)
+
+
+### Bug Fixes
+
+* **ci:** cws upload missing chrome file ([cccbaea](https://github.com/ansh/jiffyreader.com/commit/cccbaeaab849ccb2226e0d856799edd2e0fccee1))
+* **ci:** print manifest after build and update make calls ([77e5392](https://github.com/ansh/jiffyreader.com/commit/77e5392e88ac3e4a0f9502dc74049597cd8a8bd9))
+* **ci:** upload then publish as last step to fail softly ([af78b9a](https://github.com/ansh/jiffyreader.com/commit/af78b9a861a6970c652847c0a11d3e0961ecb514))
+
 ## [1.2.3](https://github.com/ansh/jiffyreader.com/compare/v1.2.2...v1.2.3) (2024-12-25)
 
 
