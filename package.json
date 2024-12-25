@@ -20,7 +20,7 @@
 		"gh:build:firefox": "TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
 		"gh:build:safari": "TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
 		"gh:build": "echo 'TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari'",
-		"gh:build:development": "echo 'TAG=dev NODE_ENV=development npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari'",
+		"gh:build:development": "echo 'TAG=dev NODE_ENV=development  NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} sh -c '{}opera && {}chrome & {}firefox & {}safari'",
 		"gh:build:bookmarklet": "VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
 		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
 		"bundle:firefox": "cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox-$TAG.xpi ./*",
