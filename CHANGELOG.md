@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.5](https://github.com/ansh/jiffyreader.com/compare/v1.2.4...v1.2.5) (2024-12-25)
+
+
+### Bug Fixes
+
+* **build:** set different name for dev builds ([d1f7b22](https://github.com/ansh/jiffyreader.com/commit/d1f7b22c9ae897c9fe9cb01f98a57ee3e654af82))
+* **ci:** attempt to upload to cws when secrets available ([03bef78](https://github.com/ansh/jiffyreader.com/commit/03bef7811edcbe51ad5f506e01bfaf837cf4eb98))
+* **ci:** build and publish tags as prelease, requires manually unchecking a prerelease to mark it as current in gh gui ([08d2fa1](https://github.com/ansh/jiffyreader.com/commit/08d2fa1d2674bf8948e1bc74dd55e4aac29ee1cf))
+* **ci:** check to run cws uploads with scripts ([921b2fe](https://github.com/ansh/jiffyreader.com/commit/921b2fe298293fa1fcd16398ad142819a366f281))
+
 ## [1.2.4](https://github.com/ansh/jiffyreader.com/compare/v1.2.3...v1.2.4) (2024-12-25)
 
 
