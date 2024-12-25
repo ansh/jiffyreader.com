@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-## [1.2.1](https://github.com/ansh/jiffyreader.com/compare/v1.2.0...v1.2.1) (2024-12-24)
+## [1.2.2](https://github.com/ansh/jiffyreader.com/compare/v1.2.0...v1.2.2) (2024-12-25)
 
 
 ### Bug Fixes
 
+* ci secrets ([7849ee4](https://github.com/ansh/jiffyreader.com/commit/7849ee463b36aea216de0961a125c1518cd37d66))
 * **ci:** refactor ([15defa4](https://github.com/ansh/jiffyreader.com/commit/15defa46bada19498e99f85e80a92de1a534b7b2))
 * **ci:** run make test ([1ff3e3a](https://github.com/ansh/jiffyreader.com/commit/1ff3e3a413eec3c6831e129bca58eaa29bc3b03d))
 * **internal:** improvements ([010f3ee](https://github.com/ansh/jiffyreader.com/commit/010f3ee35b7fe001d1be4508ce8f379bedb51034))
