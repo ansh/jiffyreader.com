@@ -387,7 +387,7 @@
         // transform: scale(50%);
     }
 
-    .buy_me_a_coffee_container:hover > a:hover {
+    .buy_me_a_coffee_container:hover>a:hover {
         width: unset !important;
         overflow: visible !important;
     }
@@ -436,7 +436,7 @@
 
     @each $widht_break in $width_breaks {
         .w-#{$widht_break} {
-            width: '#{$widht_break}%';
+            width: $widht_break + 0% ;
         }
     }
 
