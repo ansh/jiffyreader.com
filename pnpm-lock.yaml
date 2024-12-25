@@ -33,7 +33,7 @@ dependencies:
     specifier: 0.70.0
     version: 0.70.0(postcss@8.4.49)(react-dom@18.2.0)(react@18.2.0)
   postcss:
-    specifier: ^8
+    specifier: ^8.4.49
     version: 8.4.49
   react:
     specifier: 18.2.0
@@ -42,7 +42,7 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
   webpack:
-    specifier: ^4.0.0
+    specifier: ^4.47.0
     version: 4.47.0
 
 devDependencies:
