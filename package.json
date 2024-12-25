@@ -36,7 +36,7 @@
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
 		"@plasmohq/storage": "^0.8.1",
-		"axios": "^1.6.5",
+		"axios": "^1.7.4",
 		"commit-and-tag-version": "^12.5.0",
 		"cross-env": "^7.0.3",
 		"esbuild": "^0.14.53",
