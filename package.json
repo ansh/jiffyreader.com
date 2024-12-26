@@ -19,8 +19,8 @@
 		"gh:build:opera": "TARGET=opera SHORTCUT=\"Alt+B\" MANIFEST_VERSION=chrome-mv3 npm run buildx && npm run bundle:opera",
 		"gh:build:firefox": "TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
 		"gh:build:safari": "TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
-		"gh:build": "echo 'TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && echo \"done...\"'",
-		"gh:build:development": "echo 'TAG=dev NODE_ENV=development  NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && echo \"done...\"'",
+		"gh:build": "echo 'TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari & wait'",
+		"gh:build:development": "echo 'TAG=dev NODE_ENV=development  NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari & wait'",
 		"gh:build:bookmarklet": "VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
 		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
 		"bundle:firefox": "cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox-$TAG.xpi ./*",
@@ -31,7 +31,7 @@
 		"build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter --swift --no-open --force --bundle-identifier com.jiffyreader build/safari-mv2-prod",
 		"build:xcode:all": "pnpm build:xcode && pnpm build:ios",
 		"dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev",
-		"release": "commit-and-tag-version"
+		"release": "if [ 0 -eq $(git log --oneline | head -n1 | grep 'chore(release)' | wc -l) ]; then commit-and-tag-version; fi"
 	},
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
