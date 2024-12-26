@@ -56,7 +56,7 @@ jobs:
             git config --global user.name "gh-action"
 
             npm run release
-            make build@latest test print-manifests
+            make -s build test print-manifests
 
       - name: Read version from package.json
         run: echo "VERSION=$(npm pkg get version | tr -d '\"')" >> $GITHUB_ENV
