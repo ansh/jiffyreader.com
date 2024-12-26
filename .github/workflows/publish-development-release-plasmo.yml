@@ -53,7 +53,7 @@ jobs:
       - name: Build artifacts
         run: |
             npm run release && head -n10 CHANGELOG.md
-            . action.sh
+            make -s build test print-manifests
             git push --follow-tags origin HEAD
 
       - uses: ncipollo/release-action@v1
