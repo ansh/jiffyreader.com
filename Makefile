@@ -31,7 +31,7 @@ build: ## build latest using version in bump.txt
 	@pnpm gh:build;
 	@echo "sleep 5 seconds"; seq 5 | xargs -I{} bash -c 'echo ".";sleep 1;'; 
 	@pnpm gh:build:development
-	@sleep 5;make -s test
+	@sleep 10;make -s test
 
 extract: ## extract files
 	rm -rf build/extracts
