@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.3.2](https://github.com/ansh/jiffyreader.com/compare/v1.3.1...v1.3.2) (2024-12-26)
+
+
+### Bug Fixes
+
+* **build:** wait 10 seconds after build to run test ([d8b76da](https://github.com/ansh/jiffyreader.com/commit/d8b76da7eae82809a6adc5dc6d61c37650bab07c))
+* **ci:** bugs zipping opera, add time delay to stabilize parallel builds, remove action.sh ([4349274](https://github.com/ansh/jiffyreader.com/commit/43492741c4aefac56ae5ea1b49ed3c5e652d72b2))
+
 ## [1.3.1](https://github.com/ansh/jiffyreader.com/compare/v1.2.6...v1.3.1) (2024-12-26)
 
 ## [1.2.6](https://github.com/ansh/jiffyreader.com/compare/v1.2.5...v1.2.6) (2024-12-25)
