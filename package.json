@@ -31,7 +31,7 @@
 		"build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter --swift --no-open --force --bundle-identifier com.jiffyreader build/safari-mv2-prod",
 		"build:xcode:all": "pnpm build:xcode && pnpm build:ios",
 		"dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev",
-		"release": "commit-and-tag-version"
+		"release": "if [ 0 -eq $(git log --oneline | head -n1 | grep 'chore(release)' | wc -l) ]; then commit-and-tag-version; fi"
 	},
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
