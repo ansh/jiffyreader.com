@@ -9,17 +9,7 @@ export const COLOR_MODE_STATE_TRANSITIONS = [
 	['dark', 'light'],
 ];
 
-export const SACCADE_STYLES = [
-	'Bold-400',
-	'Bold-500',
-	'Bold-600',
-	'Bold-700',
-	'Bold-800',
-	'Bold-900',
-	'Solid-line',
-	'Dashed-line',
-	'Dotted-line',
-];
+export const SACCADE_STYLES = ['Bold-400', 'Bold-500', 'Bold-600', 'Bold-700', 'Bold-800', 'Bold-900', 'Solid-line', 'Dashed-line', 'Dotted-line'];
 
 export const SACCADE_COLORS = [
 	['Original', ''],

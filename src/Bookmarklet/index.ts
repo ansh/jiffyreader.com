@@ -89,15 +89,7 @@ function toggleStateEngine(
 
 	const [, nextState] = getStateTransitionEntry(stateTransitionKey, currentActiveState);
 
-	Logger.logInfo(
-		'stateTransitionKey',
-		stateTransitionKey,
-		'currentActiveState',
-		currentActiveState,
-		'nextState',
-		nextState,
-		stateTransitions[stateTransitionKey],
-	);
+	Logger.logInfo('stateTransitionKey', stateTransitionKey, 'currentActiveState', currentActiveState, 'nextState', nextState, stateTransitions[stateTransitionKey]);
 	callbackSetter(stateTransitionKey, nextState);
 
 	if (document.body.getAttribute('br-mode') !== 'on') {

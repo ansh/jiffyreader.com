@@ -7,25 +7,16 @@ import usePrefs from '~services/usePrefs';
 import './../styles/style.css';
 
 import { useStorage } from '@plasmohq/storage';
+import type { Prefs, TabSession } from 'index';
+import M from 'mellowtel';
 
-import {
-	APP_PREFS_STORE_KEY,
-	COLOR_MODE_STATE_TRANSITIONS,
-	DisplayColorMode,
-	MaxSaccadesInterval,
-	SACCADE_COLORS,
-	SACCADE_STYLES,
-	STORAGE_AREA,
-} from '~services/config';
+import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
+import { APP_PREFS_STORE_KEY, COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, MaxSaccadesInterval, SACCADE_COLORS, SACCADE_STYLES, STORAGE_AREA } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
-import M from "mellowtel";
-
 
 import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
-import type { Prefs, TabSession } from 'index';
-import {CONFIG_KEY, DISABLE_LOGS} from "~constants";
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -61,8 +52,7 @@ function IndexPopupNew() {
 	});
 
 	const footerMessagesLength = 3;
-	const nextMessageIndex = (oldFooterMessageIndex) =>
-		typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength;
+	const nextMessageIndex = (oldFooterMessageIndex) => (typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength);
 
 	useEffect(() => {
 		if (!tabSession) return;
@@ -215,8 +205,8 @@ function IndexPopupNew() {
 	};
 
 	const openSettingsPage = async () => {
-		await new M(CONFIG_KEY,{
-			disableLogs: DISABLE_LOGS
+		await new M(CONFIG_KEY, {
+			disableLogs: DISABLE_LOGS,
 		}).openUserSettingsInPopupWindow();
 	};
 
@@ -295,9 +285,7 @@ function IndexPopupNew() {
 							</button>
 
 							{tipsVisibility && (
-								<ul
-									className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
-									style={{ zIndex: '10' }}>
+								<ul className="|| flex flex-column || pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition" style={{ zIndex: '10' }}>
 									<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
 									<li>
 										<a className="text-white" href="https://play.google.com/books" target="_blank">
@@ -351,22 +339,11 @@ function IndexPopupNew() {
 
 					<div className="on_auto_toggles || flex justify-between || w-100 ">
 						<div className="input-container flex">
-							<input
-								type="checkbox"
-								id="onOffToggleCheckbox"
-								checked={tabSession.brMode}
-								onChange={(event) => handleToggle(event.target.checked)}
-							/>
+							<input type="checkbox" id="onOffToggleCheckbox" checked={tabSession.brMode} onChange={(event) => handleToggle(event.target.checked)} />
 							<label htmlFor="onOffToggleCheckbox">Turn on</label>
 						</div>
 						<div className="input-container w-50 flex">
-							<input
-								type="checkbox"
-								name=""
-								id="auto_activate"
-								checked={prefs.onPageLoad}
-								onChange={(event) => updateConfig('onPageLoad', event.target.checked)}
-							/>
+							<input type="checkbox" name="" id="auto_activate" checked={prefs.onPageLoad} onChange={(event) => updateConfig('onPageLoad', event.target.checked)} />
 							<label htmlFor="auto_activate">Auto Turn on</label>
 						</div>
 
@@ -504,12 +481,7 @@ function IndexPopupNew() {
 							{chrome.i18n.getMessage('saccadesColorLabel')} {showOptimal('saccadesColor')}
 						</label>
 
-						<select
-							name="saccadesColor"
-							id="saccadesColor"
-							className="p-2"
-							onChange={makeUpdateChangeEventHandler('saccadesColor')}
-							value={prefs.saccadesColor}>
+						<select name="saccadesColor" id="saccadesColor" className="p-2" onChange={makeUpdateChangeEventHandler('saccadesColor')} value={prefs.saccadesColor}>
 							{SACCADE_COLORS.map(([label, value]) => (
 								<option key={label} value={value}>
 									{label} {showOptimal('saccadesColor', label.toLowerCase() === 'original' ? '' : label.toLowerCase())}
@@ -523,12 +495,7 @@ function IndexPopupNew() {
 							{chrome.i18n.getMessage('saccadesStyleLabel')} {showOptimal('saccadesStyle')}
 						</label>
 
-						<select
-							name="saccadesStyle"
-							id="saccadesStyle"
-							className="p-2"
-							onChange={makeUpdateChangeEventHandler('saccadesStyle')}
-							value={prefs.saccadesStyle}>
+						<select name="saccadesStyle" id="saccadesStyle" className="p-2" onChange={makeUpdateChangeEventHandler('saccadesStyle')} value={prefs.saccadesStyle}>
 							{SACCADE_STYLES.map((style) => (
 								<option key={style} value={style.toLowerCase()}>
 									{style} {showOptimal('saccadesStyle', style.toLowerCase())}
@@ -543,20 +510,12 @@ function IndexPopupNew() {
 						</label>
 
 						<div className="|| flex justify-center || w-100">
-							<button
-								id="lineHeightDecrease"
-								data-op="decrease"
-								className="mr-md w-100 text-capitalize"
-								onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
+							<button id="lineHeightDecrease" data-op="decrease" className="mr-md w-100 text-capitalize" onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
 								<span className="block">{chrome.i18n.getMessage('smallerLineHeightBtnText')}</span>
 								<span className="text-sm">{chrome.i18n.getMessage('smallerLineHeightBtnSubText')}</span>
 							</button>
 
-							<button
-								id="lineHeightIncrease"
-								data-op="increase"
-								className="ml-md w-100 text-capitalize"
-								onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
+							<button id="lineHeightIncrease" data-op="increase" className="ml-md w-100 text-capitalize" onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
 								<span className="block text-bold">{chrome.i18n.getMessage('largerLineHeightBtnText')}</span>
 								<span className="text-sm">{chrome.i18n.getMessage('largerLineHeightBtnSubText')}</span>
 							</button>
@@ -585,37 +544,22 @@ function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
 						href="https://www.buymeacoffee.com/jiffyreader"
 						target="_blank"
 						style={{ position: 'absolute', width: '53px', borderRadius: '0 15px 15px 0', overflow: 'hidden', zIndex: 5 }}>
-						<img
-							src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-							alt="Buy Me A Coffee"
-							className="buymeacoffee"
-							style={{ objectPosition: '-5px 0' }}
-						/>
+						<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" className="buymeacoffee" style={{ objectPosition: '-5px 0' }} />
 					</a>
 				</div>
 
 				<div className="flex flex-column links_and_build_version">
-					<div
-						className="footer-links || flex justify-between || text-center text-md text-bold w-full gap-3 p-1">
-						<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ"
-						   target="_blank">
+					<div className="footer-links || flex justify-between || text-center text-md text-bold w-full gap-3 p-1">
+						<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
 							{chrome.i18n.getMessage('faqLinkText')}
 						</a>
 
-						<a
-							className={`${textColor} text-capitalize`}
-							href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
-							target="_blank">
+						<a className={`${textColor} text-capitalize`} href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request" target="_blank">
 							{chrome.i18n.getMessage('reportIssueLinkText')}
 						</a>
 
-						<a
-							className={`${textColor} text-capitalize`}
-							style={{ cursor: 'pointer' , textDecoration: 'underline' }}
-							onClick={onClickPasser}
-						   	target="_blank"
-						>
-							{"Mellowtel"}
+						<a className={`${textColor} text-capitalize`} style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={onClickPasser} target="_blank">
+							{'Mellowtel'}
 						</a>
 					</div>
 					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">

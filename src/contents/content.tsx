@@ -18,9 +18,7 @@ export const config: PlasmoContentScript = {
 export const getRootContainer = () => {
 	const rootContainer = document.createElement('div');
 	document.querySelector('html').appendChild(rootContainer);
-	['position:absolute', 'bottom:0px', 'left:0px', 'height:0px', 'z-index:5']
-		.map((style) => style.split(':'))
-		.forEach(([key, val]) => (rootContainer.style[key] = val));
+	['position:absolute', 'bottom:0px', 'left:0px', 'height:0px', 'z-index:5'].map((style) => style.split(':')).forEach(([key, val]) => (rootContainer.style[key] = val));
 	return createShadowRoot(rootContainer);
 };
 
@@ -76,9 +74,7 @@ const IndexContent = () => {
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
-	const [isExpanded, setExpanded] = useStorage({ area: 'local', key: 'show_debug_overlay' }, async (previous) =>
-		typeof previous !== 'boolean' ? false : previous,
-	);
+	const [isExpanded, setExpanded] = useStorage({ area: 'local', key: 'show_debug_overlay' }, async (previous) => (typeof previous !== 'boolean' ? false : previous));
 
 	const chromeRuntimeMessageHandler = (message, sender, _sendResponse) => {
 		const sendResponse = (response) => {

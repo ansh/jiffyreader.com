@@ -7,24 +7,16 @@ import usePrefs from '~services/usePrefs';
 import './../styles/style.css';
 
 import { useStorage } from '@plasmohq/storage';
+import type { Prefs, TabSession } from 'index';
+import M from 'mellowtel';
 
-import {
-	APP_PREFS_STORE_KEY,
-	COLOR_MODE_STATE_TRANSITIONS,
-	DisplayColorMode,
-	MaxSaccadesInterval,
-	SACCADE_COLORS,
-	SACCADE_STYLES,
-	STORAGE_AREA,
-} from '~services/config';
+import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
+import { APP_PREFS_STORE_KEY, COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, MaxSaccadesInterval, SACCADE_COLORS, SACCADE_STYLES, STORAGE_AREA } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
-import M from "mellowtel";
 
 import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
-import type { Prefs, TabSession } from 'index';
-import {CONFIG_KEY, DISABLE_LOGS} from "~constants";
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -55,8 +47,7 @@ function IndexPopupOld() {
 	});
 
 	const footerMessagesLength = 3;
-	const nextMessageIndex = (oldFooterMessageIndex) =>
-		typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength;
+	const nextMessageIndex = (oldFooterMessageIndex) => (typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength);
 
 	useEffect(() => {
 		if (!tabSession) return;
@@ -172,25 +163,16 @@ function IndexPopupOld() {
 	const getFooterLinks = (textColor = 'text-secondary', onClickPasser) => (
 		<>
 			<div className="flex justify-between || text-center text-md text-bold w-full gap-3">
-				<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ"
-				   target="_blank">
+				<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
 					{chrome.i18n.getMessage('faqLinkText')}
 				</a>
 
-				<a
-					className={`${textColor} text-capitalize`}
-					href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request"
-					target="_blank">
+				<a className={`${textColor} text-capitalize`} href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request" target="_blank">
 					{chrome.i18n.getMessage('reportIssueLinkText')}
 				</a>
 
-				<a
-					className={`${textColor} text-capitalize`}
-					style={{ cursor: 'pointer' , textDecoration: 'underline' }}
-					onClick={onClickPasser}
-					target="_blank"
-				>
-					{"Mellowtel"}
+				<a className={`${textColor} text-capitalize`} style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={onClickPasser} target="_blank">
+					{'Mellowtel'}
 				</a>
 			</div>
 
@@ -327,8 +309,8 @@ function IndexPopupOld() {
 	};
 
 	const openSettingsPage = async () => {
-		await new M(CONFIG_KEY,{
-			disableLogs: DISABLE_LOGS
+		await new M(CONFIG_KEY, {
+			disableLogs: DISABLE_LOGS,
 		}).openUserSettingsInPopupWindow();
 	};
 
@@ -348,9 +330,7 @@ function IndexPopupOld() {
 							<div className="tips  || flex flex-column || show-hover text-capitalize">
 								<button className="select button mb-md text-capitalize">{chrome.i18n.getMessage('tipsPopupTriggerLabel')}</button>
 
-								<ul
-									className="|| flex flex-column || hide pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition"
-									style={{ zIndex: '10' }}>
+								<ul className="|| flex flex-column || hide pos-absolute ul-plain right-0 bg-secondary gap-2 p-4 mt-5 text-secondary shadow transition" style={{ zIndex: '10' }}>
 									<li>{chrome.i18n.getMessage('dataEntryMessage')}</li>
 									<li>
 										<a className="text-white" href="https://play.google.com/books" target="_blank">
@@ -400,8 +380,7 @@ function IndexPopupOld() {
 
 					<div className="w-100">
 						<label className="block text-capitalize">
-							{chrome.i18n.getMessage('saccadesIntervalLabel')}: <span id="saccadesLabelValue">{prefs.saccadesInterval}</span>{' '}
-							{showOptimal('saccadesInterval')}
+							{chrome.i18n.getMessage('saccadesIntervalLabel')}: <span id="saccadesLabelValue">{prefs.saccadesInterval}</span> {showOptimal('saccadesInterval')}
 						</label>
 
 						<div className="slidecontainer">
@@ -425,8 +404,7 @@ function IndexPopupOld() {
 
 					<div className="w-100">
 						<label className="block text-capitalize">
-							{chrome.i18n.getMessage('fixationsStrengthLabel')}: <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span>{' '}
-							{showOptimal('fixationStrength')}
+							{chrome.i18n.getMessage('fixationsStrengthLabel')}: <span id="fixationStrengthLabelValue">{prefs.fixationStrength}</span> {showOptimal('fixationStrength')}
 						</label>
 
 						<div className="slidecontainer">
@@ -450,8 +428,7 @@ function IndexPopupOld() {
 
 					<div className="w-100">
 						<label className="block text-capitalize">
-							{chrome.i18n.getMessage('fixationsEdgeOpacityLabel')}: <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}%</span>{' '}
-							{showOptimal('fixationEdgeOpacity')}
+							{chrome.i18n.getMessage('fixationsEdgeOpacityLabel')}: <span id="fixationOpacityLabelValue">{prefs.fixationEdgeOpacity}%</span> {showOptimal('fixationEdgeOpacity')}
 						</label>
 
 						<div className="slidecontainer">
@@ -483,12 +460,7 @@ function IndexPopupOld() {
 							{chrome.i18n.getMessage('saccadesColorLabel')} {showOptimal('saccadesColor')}
 						</label>
 
-						<select
-							name="saccadesColor"
-							id="saccadesColor"
-							className="p-2"
-							onChange={makeUpdateChangeEventHandler('saccadesColor')}
-							value={prefs.saccadesColor}>
+						<select name="saccadesColor" id="saccadesColor" className="p-2" onChange={makeUpdateChangeEventHandler('saccadesColor')} value={prefs.saccadesColor}>
 							{SACCADE_COLORS.map(([label, value]) => (
 								<option key={label} value={value}>
 									{label} {showOptimal('saccadesColor', label.toLowerCase() === 'original' ? '' : label.toLowerCase())}
@@ -502,12 +474,7 @@ function IndexPopupOld() {
 							{chrome.i18n.getMessage('saccadesStyleLabel')} {showOptimal('saccadesStyle')}
 						</label>
 
-						<select
-							name="saccadesStyle"
-							id="saccadesStyle"
-							className="p-2"
-							onChange={makeUpdateChangeEventHandler('saccadesStyle')}
-							value={prefs.saccadesStyle}>
+						<select name="saccadesStyle" id="saccadesStyle" className="p-2" onChange={makeUpdateChangeEventHandler('saccadesStyle')} value={prefs.saccadesStyle}>
 							{SACCADE_STYLES.map((style) => (
 								<option key={style} value={style.toLowerCase()}>
 									{style} {showOptimal('saccadesStyle', style.toLowerCase())}
@@ -522,20 +489,12 @@ function IndexPopupOld() {
 						</label>
 
 						<div className="|| flex justify-center || w-100">
-							<button
-								id="lineHeightDecrease"
-								data-op="decrease"
-								className="mr-md w-100 text-capitalize"
-								onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
+							<button id="lineHeightDecrease" data-op="decrease" className="mr-md w-100 text-capitalize" onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) - 0.5)}>
 								<span className="block">{chrome.i18n.getMessage('smallerLineHeightBtnText')}</span>
 								<span className="text-sm">{chrome.i18n.getMessage('smallerLineHeightBtnSubText')}</span>
 							</button>
 
-							<button
-								id="lineHeightIncrease"
-								data-op="increase"
-								className="ml-md w-100 text-capitalize"
-								onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
+							<button id="lineHeightIncrease" data-op="increase" className="ml-md w-100 text-capitalize" onClick={() => updateConfig('lineHeight', Number(prefs.lineHeight) + 0.5)}>
 								<span className="block text-bold">{chrome.i18n.getMessage('largerLineHeightBtnText')}</span>
 								<span className="text-sm">{chrome.i18n.getMessage('largerLineHeightBtnSubText')}</span>
 							</button>
@@ -546,9 +505,7 @@ function IndexPopupOld() {
 						id="onPageLoadBtn"
 						className={`|| flex flex-column || w-100 align-items-center text-capitalize ${prefs.onPageLoad ? 'selected' : ''}`}
 						onClick={() => updateConfig('onPageLoad', !prefs.onPageLoad)}>
-						<span className="text-bold">
-							{chrome.i18n.getMessage(prefs.onPageLoad ? 'defaultBionicModeToggleBtnOffText' : 'defaultBionicModeToggleBtnOnText')}
-						</span>
+						<span className="text-bold">{chrome.i18n.getMessage(prefs.onPageLoad ? 'defaultBionicModeToggleBtnOffText' : 'defaultBionicModeToggleBtnOnText')}</span>
 						<span className="text-sm pt-sm">{chrome.i18n.getMessage('defaultBionicModeToggleBtnSubText')}</span>
 					</button>
 

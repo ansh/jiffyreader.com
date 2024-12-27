@@ -55,8 +55,7 @@ function IndexPopup() {
 	});
 
 	const footerMessagesLength = 3;
-	const nextMessageIndex = (oldFooterMessageIndex) =>
-		typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength;
+	const nextMessageIndex = (oldFooterMessageIndex) => (typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength);
 
 	useEffect(() => {
 		if (!tabSession) return;
@@ -66,7 +65,7 @@ function IndexPopup() {
 
 	useEffect(() => {
 		TrackEventService.trackEvent({ eventCategory: EventCategory.USER_EVENT, eventName: 'open-popup', eventType: 'click' });
-		
+
 		(async () => {
 			const _activeTab = await TabHelper.getActiveTab(true);
 			setActiveTab(_activeTab);
@@ -119,9 +118,7 @@ function IndexPopup() {
 		<>
 			<div className={`jr_wrapper_container ${appConfigPrefs?.displayColorMode}-mode text-capitalize`}>
 				<div className="popup-body || flex flex-column || text-alternate">
-					<div
-						className="toolbar || flex w-100 gap-2 || bg-primary"
-						style={{ boxShadow: '0 0 0 10px var(--bg-secondary)', position: 'sticky', top: '10px', zIndex: '1' }}>
+					<div className="toolbar || flex w-100 gap-2 || bg-primary" style={{ boxShadow: '0 0 0 10px var(--bg-secondary)', position: 'sticky', top: '10px', zIndex: '1' }}>
 						<span className="icon">
 							<img src={jiffyLogo} alt="logo" height={25} width={25} />
 						</span>
