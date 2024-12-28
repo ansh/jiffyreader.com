@@ -29,6 +29,7 @@ export default [
 			'import/no-duplicates': 'error',
 			'import/no-relative-packages': 'error',
 			'no-undef': ['error'],
+			'no-unused-vars': 'error',
 		},
 	},
 ];
