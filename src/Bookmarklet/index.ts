@@ -1,6 +1,6 @@
 import contentStyle from '~/styles/contentStyle.scss';
-import Logger from '~services/Logger';
 import documentParser from '~services/documentParser';
+import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
 
 const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {

@@ -4,8 +4,8 @@ import type { TabSession } from 'index';
 import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
-import Logger from '~services/Logger';
 import documentParser from '~services/documentParser';
+import Logger from '~services/Logger';
 import overrides from '~services/siteOverrides';
 import usePrefs from '~services/usePrefs';
 

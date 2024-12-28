@@ -1,5 +1,5 @@
 import { Storage, useStorage } from '@plasmohq/storage';
-import type { PrefStore, Prefs, SetPrefsExternal } from 'index';
+import type { Prefs, PrefStore, SetPrefsExternal } from 'index';
 import { useEffect, useState } from 'react';
 
 import Logger from './Logger';

@@ -3,12 +3,12 @@ import type { PrefStore } from 'index';
 import M from 'mellowtel';
 
 import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
-import Logger from '~services/Logger';
-import TabHelper from '~services/TabHelper';
-import TrackEventService, { EventCategory } from '~services/TrackEventService';
 import { APP_PREFS_STORE_KEY, DisplayColorMode, STORAGE_AREA, USER_PREF_STORE_KEY } from '~services/config';
+import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
+import TabHelper from '~services/TabHelper';
+import TrackEventService, { EventCategory } from '~services/TrackEventService';
 
 export {};
 
