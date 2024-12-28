@@ -6,6 +6,7 @@ import Logger from '~services/Logger';
 
 const siteOverrides = {
 	'play.google.com': `[br-mode=on] reader-rendered-page { overflow: auto !important; }`,
+	'reddit.com': 'br-span, br-bold, br-fixation, br-edge { visibility : visible !important; }',
 };
 
 /**
