@@ -5,6 +5,7 @@ import TabHelper from '~services/TabHelper';
 import usePrefs from '~services/usePrefs';
 
 import './style.scss';
+import './../styles/style.scss'
 
 import { useStorage } from '@plasmohq/storage';
 
