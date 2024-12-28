@@ -3,8 +3,10 @@
 	"exclude": ["node_modules"],
 	"include": [".plasmo/index.d.ts", ".plasmo/**/*", "./**/*.ts", "./**/*.tsx"],
 	"compilerOptions": {
-		"strict": true,
 		"target": "ES2023",
+		"strict": true,
+		"noUnusedLocals": true,
+		"alwaysStrict": true,
 		"baseUrl": ".",
 		"paths": {
 			"~*": ["./src/*"]
