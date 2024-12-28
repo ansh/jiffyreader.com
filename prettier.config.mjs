@@ -11,7 +11,7 @@ export default {
 	trailingComma: 'all',
 	bracketSpacing: true,
 	bracketSameLine: true,
-	plugins: ['prettier-plugin-organize-imports', '@plasmohq/prettier-plugin-sort-imports'],
+	plugins: ['@plasmohq/prettier-plugin-sort-imports', 'prettier-plugin-organize-imports'],
 	importOrder: ['^~(.*)$', '^[./]'],
 	importOrderSeparation: true,
 	importOrderSortSpecifiers: true,
