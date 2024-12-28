@@ -4,7 +4,7 @@ import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
 import usePrefs from '~services/usePrefs';
 
-import './../styles/style.css';
+import './style.scss';
 
 import { useStorage } from '@plasmohq/storage';
 

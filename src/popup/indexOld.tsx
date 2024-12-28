@@ -4,8 +4,6 @@ import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
 import usePrefs from '~services/usePrefs';
 
-import './../styles/style.css';
-
 import { useStorage } from '@plasmohq/storage';
 import type { Prefs, TabSession } from 'index';
 import M from 'mellowtel';
