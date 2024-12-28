@@ -1,6 +1,6 @@
 import contentStyle from '~/styles/contentStyle.scss';
-import Logger from '~services/Logger';
 import documentParser from '~services/documentParser';
+import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
 
 const { saccadesInterval, fixationStrength, saccadesColor, saccadesStyle, fixationEdgeOpacity } = {
@@ -89,15 +89,7 @@ function toggleStateEngine(
 
 	const [, nextState] = getStateTransitionEntry(stateTransitionKey, currentActiveState);
 
-	Logger.logInfo(
-		'stateTransitionKey',
-		stateTransitionKey,
-		'currentActiveState',
-		currentActiveState,
-		'nextState',
-		nextState,
-		stateTransitions[stateTransitionKey],
-	);
+	Logger.logInfo('stateTransitionKey', stateTransitionKey, 'currentActiveState', currentActiveState, 'nextState', nextState, stateTransitions[stateTransitionKey]);
 	callbackSetter(stateTransitionKey, nextState);
 
 	if (document.body.getAttribute('br-mode') !== 'on') {
