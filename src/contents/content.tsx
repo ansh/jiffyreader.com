@@ -5,6 +5,7 @@ import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
 import documentParser from '~services/documentParser';
+import { envService } from '~services/envService';
 import Logger from '~services/Logger';
 import overrides from '~services/siteOverrides';
 import usePrefs from '~services/usePrefs';
@@ -160,35 +161,25 @@ const IndexContent = () => {
 
 	const getCollapseExpandBtn = () => <button onClick={toggleExpandeHandler}> {isExpanded ? 'Collapse' : 'Expand'}</button>;
 
-	const showDebugOverLay = (show) => {
-		if (!show) return;
+	const showDebugOverLay = (show = !envService.isProduction) => {
+		if (show) return;
 
 		return (
 			<div className="[ br-overlay ]" style={OVERLAY_STYLE}>
 				<span>
-					<strong style={{ paddingRight: '15px' }}>Target {process.env.PLASMO_TARGET}</strong>
+					<strong style={{ paddingRight: '15px' }}>Target {envService.PLASMO_TARGET}</strong>
 					{getCollapseExpandBtn()}
 				</span>
 				<div className="flex flex-column">
 					<span>{!prefs || !tabSession ? 'Loading... or broken but probably loading' : 'JiffyReady to the moon'}</span>
 				</div>
-				<span>{JSON.stringify(tabSession)}</span>
-				<span>
-					{isExpanded &&
-						prefs &&
-						Object.entries(prefs).map(([key, val], index) => (
-							<p className="prefsEntry" key={'prefs_item' + index}>
-								<span className="prefsKey">{key}:: </span>
-								<span className="prefsValue">{typeof val === 'boolean' ? (val === true ? 'true' : 'false') : val}</span>
-							</p>
-						))}
-				</span>
+				<span>{isExpanded && <pre>{JSON.stringify({ tabSession, prefs }, null, 2)}</pre>}</span>
 				{getCollapseExpandBtn()}
 			</div>
 		);
 	};
 
-	return showDebugOverLay(process.env.NODE_ENV !== 'production');
+	return showDebugOverLay();
 };
 
 export default IndexContent;

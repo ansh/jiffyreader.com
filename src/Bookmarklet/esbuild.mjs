@@ -7,7 +7,7 @@ const /** @type {import('esbuild').BuildOptions} */ defaultConfigs = {
 		minify: true,
 		write: false,
 		plugins: [sassPlugin({ type: 'css-text' })],
-		define: { 'process.env.DEBUG': '"false"' },
+		define: { 'envService.DEBUG': '"false"' },
 		tsconfig: './tsconfig.json',
 	};
 

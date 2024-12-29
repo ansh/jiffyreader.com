@@ -1,3 +1,4 @@
+import { envService } from './envService';
 import Logger from './Logger';
 
 export enum EventCategory {
@@ -8,9 +9,9 @@ export enum EventCategory {
 
 function trackEvent(
 	eventData: { eventCategory: EventCategory; eventName: string; eventType: string; [key: string]: any },
-	appData: { browser; version } = { browser: process.env.PLASMO_TARGET, version: process.env.VERSION },
+	appData = { browser: envService.PLASMO_TARGET, version: envService.VERSION },
 	date = new Date(),
-	enableTracking = /true/.test(process.env.ENABLE_TRACKING),
+	enableTracking = envService.ENABLE_TRACKING,
 ) {
 	Logger.logInfo({ enableTracking });
 	if (!enableTracking) {
@@ -19,7 +20,7 @@ function trackEvent(
 
 	const params = new URLSearchParams({ ...{ time: date.toString(), time_iso: date.toISOString(), ...eventData }, ...appData });
 	Logger.logInfo('track-event', params.toString());
-	return fetch(process.env.HOME_URL ?? 'https://jiffyreader.com' + `/track-event?${params.toString()}`);
+	return fetch(envService.HOME_URL ?? 'https://jiffyreader.com' + `/track-event?${params.toString()}`);
 }
 
 const TrackEventService = {

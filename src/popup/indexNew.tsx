@@ -16,7 +16,9 @@ import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
-import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
+import { envService } from '~services/envService';
+import Shortcut, { ShortcutGuide } from './shorcut';
+import { ShowDebugInline } from './ShowInlineDebug';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -24,7 +26,7 @@ const darkToggle = chrome.runtime.getURL('./assets/moon-solid.svg');
 const lightToggle = chrome.runtime.getURL('./assets/sun-light-solid.svg');
 const jiffyLogo = chrome.runtime.getURL('./assets/icon512.png');
 
-const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
+const { setAttribute, setProperty, setSaccadesStyle } = documentParser.makeHandlers(document);
 
 const FIXATION_OPACITY_STOPS = 5;
 const FIXATION_OPACITY_STOP_UNIT_SCALE = Math.floor(100 / FIXATION_OPACITY_STOPS);
@@ -34,15 +36,14 @@ const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
 const FIRST_FOOTER_MESSAGE_INDEX = 1;
 
 function IndexPopupNew() {
-	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
-	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
+	const [activeTab, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
+	const [footerMessageIndex, setFooterMeessageIndex] = useState<number | null>(null);
 
 	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
 
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.PLASMO_TARGET);
+	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, envService.PLASMO_TARGET);
 
-	const [tabSession, setTabSession] = useState<TabSession>(null);
+	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
 	const [tipsVisibility, setTipsVisibility] = useState<boolean>(false);
 
@@ -52,7 +53,8 @@ function IndexPopupNew() {
 	});
 
 	const footerMessagesLength = 3;
-	const nextMessageIndex = (oldFooterMessageIndex) => (typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength);
+	const nextMessageIndex = (oldFooterMessageIndex: typeof footerMessageIndex) =>
+		typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength;
 
 	useEffect(() => {
 		if (!tabSession) return;
@@ -80,9 +82,10 @@ function IndexPopupNew() {
 
 			const origin = await TabHelper.getTabOrigin(_activeTab);
 
-			const brMode = chrome.tabs.sendMessage(_activeTab.id, { type: 'getReadingMode' }, ({ data }) => {
-				setTabSession({ brMode: data, origin });
-			});
+			_activeTab.id &&
+				chrome.tabs.sendMessage(_activeTab.id, { type: 'getReadingMode' }, ({ data }) => {
+					setTabSession({ brMode: data, origin });
+				});
 		})();
 
 		runTimeHandler.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -102,7 +105,7 @@ function IndexPopupNew() {
 			}
 		});
 
-		let footerInterval;
+		let footerInterval: NodeJS.Timer;
 
 		setTimeout(() => {
 			setFooterMeessageIndex(nextMessageIndex);
@@ -141,7 +144,7 @@ function IndexPopupNew() {
 		TabHelper.getActiveTab(true).then((tab) => chrome.tabs.sendMessage(tab.id, payload, () => Logger.LogLastError()));
 	};
 
-	const handleDisplayColorModeChange = async (currentDisplayColorMode) => {
+	const handleDisplayColorModeChange = async (currentDisplayColorMode: DisplayColorMode) => {
 		console.log('handleDisplayColorModeChange', currentDisplayColorMode);
 
 		if (![...Object.values(DisplayColorMode)].includes(currentDisplayColorMode)) {
@@ -165,35 +168,6 @@ function IndexPopupNew() {
 		return 'animated-footer-link ' + (index === footerMessageIndex && ' animated-footer-link-show');
 	};
 
-	function showDebugInline(environment = 'production') {
-		if (/production/i.test(environment)) return;
-
-		const debugData = (
-			<>
-				<span className="w-full">tabSession {JSON.stringify(tabSession)}</span>
-				<span className="w-full">prefs: {JSON.stringify(prefs)}</span>
-				<span className="w-full">appConfigPrefs: {JSON.stringify(appConfigPrefs)}</span>
-				<span className="w-full">footerMessageIndex: {footerMessageIndex}</span>
-			</>
-		);
-
-		return (
-			<div className=" || flex flex-column || w-full text-wrap p-1">
-				<label htmlFor="isDebugDataVisibleInput">
-					show
-					<input
-						type="checkbox"
-						name="isDebugDataVisibleInput"
-						id="isDebugDataVisibleInput"
-						onChange={(event) => setIsDebugDataVisible(event.currentTarget.checked)}
-						checked={isDebugDataVisible}
-					/>
-				</label>
-				{isDebugDataVisible && debugData}
-			</div>
-		);
-	}
-
 	const reloadActiveTab = async (_activeTab = activeTab) => {
 		await chrome.tabs.reload(_activeTab.id).then(() => window.close());
 	};
@@ -211,7 +185,7 @@ function IndexPopupNew() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(process.env.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(envService.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 
@@ -265,9 +239,11 @@ function IndexPopupNew() {
 
 	const errorOccured = !prefs || !tabSession;
 
+	console.log({ tabSession, prefs });
+
 	return (
 		<>
-			{showDebugInline(process.env.NODE_ENV)}
+			<ShowDebugInline tabSession={tabSession} />
 			{errorOccured ? (
 				showErrorMessage()
 			) : (
@@ -375,7 +351,7 @@ function IndexPopupNew() {
 								<span>
 									{chrome.i18n.getMessage('shortcutLabelText')}:
 									{chrome.i18n.getMessage(
-										/firefox/i.test(process.env.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+										/firefox/i.test(envService.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}
 								</span>
 							</button> */}
@@ -563,7 +539,7 @@ function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
 						</a>
 					</div>
 					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-						<div className={'|| text-left text-md ml-auto ' + textColor}>{process.env.VERSION_NAME}</div>
+						<div className={'|| text-left text-md ml-auto ' + textColor}>{envService.VERSION_NAME}</div>
 
 						{/* <div className="light-dark-container">
 	<button
