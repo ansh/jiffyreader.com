@@ -3,6 +3,8 @@
  * provide development utility functions for reporting errors, logging data and logging time
  */
 
+import { envService } from './envService';
+
 /**
  * @description stateMachine of debug to cantDebug states
  */
@@ -11,15 +13,11 @@ const debugStates = new Map([
 	['false', true],
 ]);
 
-/* eslint-disable no-console */
-const cantDebug = (debugState: string = 'false') => {
-	const key = debugState.toLowerCase();
-	return debugStates.has(key) && debugStates.get(key);
-};
+const cantDebug = (shouldDebug: boolean = false) => !shouldDebug;
 
 const nullCallback = () => null;
 
-const maker = <T>(fn: T): T => (cantDebug(process.env.DEBUG) ? nullCallback : fn) as T;
+const maker = <T>(fn: T): T => (envService.DEBUG ? nullCallback : fn) as T;
 
 /**
  *
@@ -27,7 +25,7 @@ const maker = <T>(fn: T): T => (cantDebug(process.env.DEBUG) ? nullCallback : fn
  * @returns {Function} end and display time when called in non production environment
  */
 const logTime = (label) => {
-	if (cantDebug(process.env.DEBUG)) return () => nullCallback;
+	if (cantDebug(envService.DEBUG)) return () => nullCallback;
 
 	console.time(label);
 	return () => console.timeEnd(label);

@@ -1,37 +1,40 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.3.3",
+	"version": "1.3.5",
 	"description": "jiffy reader",
 	"packageManager": "yarn@1.22.19",
 	"scripts": {
-		"dev": "VERSION=\"$(npm pkg get version | tr -d '\"')\" TARGET=${TARGET:-chrome} NAME=${NAME:-\"jiffy-reader-chrome\"} TAG=${TAG:=local}  VERSION_NAME=$VERSION-$TARGET-$TAG DEBUG=${DEBUG:-TRUE}  SHORTCUT=${SHORTCUT:-\"Alt+B\"} plasmo dev --target=${MANIFEST_VERSION:-chrome-mv3}",
-		"buildx": "VERSION=\"$(npm pkg get version | tr -d '\"')\" TARGET=${TARGET:-chrome} NAME=${NAME:-\"Jiffy Reader\"} TAG=${TAG:=prod} VERSION_NAME=$VERSION-$TARGET-$TAG DEBUG=${DEBUG:-FALSE} SHORTCUT=${SHORTCUT:-\"Alt+B\"} plasmo build --target=${MANIFEST_VERSION:-chrome-mv3}",
+		"dev": "PLASMO_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_TARGET=${PLASMO_TARGET:-chrome} PLASMO_NAME=${PLASMO_NAME:-\"jiffy-reader-chrome\"} PLASMO_TAG=${PLASMO_TAG:-dev}  PLASMO_VERSION_NAME=$PLASMO_VERSION-$PLASMO_TARGET-$PLASMO_TAG PLASMO_DEBUG=${PLASMO_DEBUG:-TRUE}  PLASMO_SHORTCUT=${PLASMO_SHORTCUT:-\"Alt+B\"} plasmo dev --target=${PLASMO_MANIFEST_VERSION:-chrome-mv3}",
+		"buildx": "PLASMO_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_TARGET=${PLASMO_TARGET:-chrome} PLASMO_NAME=${PLASMO_NAME:-\"Jiffy Reader\"} PLASMO_TAG=${PLASMO_TAG:-prod} PLASMO_VERSION_NAME=$PLASMO_VERSION-$PLASMO_TARGET-$PLASMO_TAG PLASMO_DEBUG=${PLASMO_DEBUG:-FALSE} PLASMO_SHORTCUT=${PLASMO_SHORTCUT:-\"Alt+B\"} plasmo build --target=${PLASMO_MANIFEST_VERSION:-chrome-mv3}",
 		"build": "npm run build:opera && npm run build:chrome & npm run build:firefox & npm run build:safari",
 		"dev:chrome": "npm run dev",
-		"dev:firefox": "NAME=jiffy-reader-firefox TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run dev",
-		"dev:safari": "NAME=jiffy-reader-safari TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run dev",
+		"dev:firefox": "PLASMO_NAME=jiffy-reader-firefox PLASMO_TARGET=firefox PLASMO_SHORTCUT=\"Alt+W\" PLASMO_MANIFEST_VERSION=firefox-mv2 npm run dev",
+		"dev:safari": "PLASMO_NAME=jiffy-reader-safari PLASMO_TARGET=safari PLASMO_SHORTCUT=\"Alt+W\" PLASMO_MANIFEST_VERSION=safari-mv2 npm run dev",
 		"build:chrome": "npm run buildx && npm run bundle:chrome",
-		"build:opera": "TARGET=opera npm run build:chrome && npm run bundle:opera",
-		"build:firefox": "NAME=jiffy-reader-firefox TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
-		"build:safari": "NAME=jiffy-reader-safari TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
-		"gh:build:chrome": "TARGET=chrome SHORTCUT=\"Alt+B\" MANIFEST_VERSION=chrome-mv3 npm run buildx && npm run bundle:chrome",
-		"gh:build:opera": "TARGET=opera SHORTCUT=\"Alt+B\" MANIFEST_VERSION=chrome-mv3 npm run buildx && npm run bundle:opera",
-		"gh:build:firefox": "TARGET=firefox SHORTCUT=\"Alt+W\" MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
-		"gh:build:safari": "TARGET=safari SHORTCUT=\"Alt+W\" MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
-		"gh:build": "echo 'TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari & wait'",
-		"gh:build:development": "echo 'TAG=dev NODE_ENV=development  NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari & wait'",
-		"gh:build:bookmarklet": "VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
+		"build:opera": "PLASMO_TARGET=opera PLASMO_MANIFEST_VERSION=opera-mv3 npm run build:chrome && npm run bundle:opera",
+		"build:firefox": "PLASMO_NAME=jiffy-reader-firefox PLASMO_TARGET=firefox PLASMO_SHORTCUT=\"Alt+W\" PLASMO_MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
+		"build:safari": "PLASMO_NAME=jiffy-reader-safari PLASMO_TARGET=safari PLASMO_SHORTCUT=\"Alt+W\" PLASMO_MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
+		"gh:build:chrome": "PLASMO_TARGET=chrome PLASMO_SHORTCUT=\"Alt+B\" npm run buildx && npm run bundle:chrome",
+		"gh:build:opera": "PLASMO_TARGET=opera PLASMO_SHORTCUT=\"Alt+B\" PLASMO_MANIFEST_VERSION=opera-mv3 npm run buildx && npm run bundle:opera",
+		"gh:build:firefox": "PLASMO_TARGET=firefox PLASMO_SHORTCUT=\"Alt+W\" PLASMO_MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
+		"gh:build:safari": "PLASMO_TARGET=safari PLASMO_SHORTCUT=\"Alt+W\" PLASMO_MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
+		"gh:build": "echo 'PLASMO_TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari & wait'",
+		"gh:build:development": "echo 'PLASMO_TAG=dev NODE_ENV=development  PLASMO_NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari & wait'",
+		"gh:build:bookmarklet": "PLASMO_VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
 		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
-		"bundle:firefox": "cd build/firefox-mv2-prod/ && zip -r ../jiffyReader-firefox-$TAG.xpi ./*",
-		"bundle:safari": "cd build/safari-mv2-prod/ && zip -r ../jiffyReader-safari-$TAG.xpi ./*",
-		"bundle:chrome": "cd build/chrome-mv3-prod &&  zip -r ../jiffyReader-chrome-$TAG.zip ./*",
-		"bundle:opera": "rm -rf build/opera-mv3-prod; cp -r build/chrome-mv3-prod build/opera-mv3-prod && cd build/opera-mv3-prod && zip -r ../jiffyReader-opera-$TAG.crx ./*",
+		"bundle:firefox": "cd build/firefox-mv2-$PLASMO_TAG/ && zip -r ../jiffyReader-firefox-$PLASMO_TAG.xpi ./*",
+		"bundle:safari": "cd build/safari-mv2-$PLASMO_TAG/ && zip -r ../jiffyReader-safari-$PLASMO_TAG.xpi ./*",
+		"bundle:chrome": "cd build/chrome-mv3-$PLASMO_TAG &&  zip -r ../jiffyReader-chrome-$PLASMO_TAG.zip ./*",
+		"bundle:opera": "cd build/opera-mv3-$PLASMO_TAG && zip -r ../jiffyReader-opera-$PLASMO_TAG.crx ./*",
 		"build:ios": "xcrun safari-web-extension-converter --rebuild-project \"Jiffy reader/Jiffy reader.xcodeproj\"",
 		"build:xcode": "pnpm build:safari && xcrun safari-web-extension-converter --swift --no-open --force --bundle-identifier com.jiffyreader build/safari-mv2-prod",
 		"build:xcode:all": "pnpm build:xcode && pnpm build:ios",
 		"dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev",
-		"release": "if [ 0 -eq $(git log --oneline | head -n1 | grep 'chore(release)' | wc -l) ]; then commit-and-tag-version; fi"
+		"release": "if [ 0 -eq $(git log --oneline | head -n1 | grep 'chore(release)' | wc -l) ]; then commit-and-tag-version; fi",
+		"lint": "eslint src/",
+		"lint:fix": "eslint --fix src/",
+		"test": "make -s build print-manifests; # test is unstable';"
 	},
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
@@ -46,7 +49,8 @@
 		"postcss": "^8.4.49",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"webpack": "^4.47.0"
+		"webpack": "^4.47.0",
+		"zod": "^3.24.1"
 	},
 	"devDependencies": {
 		"@parcel/transformer-sass": "2.6.2",
@@ -57,19 +61,25 @@
 		"@types/react-dom": "18.0.6",
 		"console-browserify": "^1.2.0",
 		"cws-publish": "^2.1.1",
-		"eslint-config-airbnb-base-typescript-prettier": "^4.1.0",
-		"prettier": "2.7.1",
+		"eslint": "^9.17.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-organize-imports": "^0.0.46",
+		"eslint-plugin-path-alias": "^2.1.0",
+		"globals": "^15.14.0",
+		"prettier": "3.4.2",
+		"prettier-eslint": "^16.3.0",
+		"prettier-plugin-organize-imports": "^4.1.0",
 		"process": "^0.11.10",
 		"typescript": "4.7.4"
 	},
 	"manifest": {
-		"name": "$NAME",
-		"target": "$TARGET",
-		"version": "$VERSION",
-		"tag": "$TAG",
-		"version_name": "$VERSION_NAME",
+		"name": "$PLASMO_NAME",
+		"target": "$PLASMO_TARGET",
+		"version": "$PLASMO_VERSION",
+		"tag": "$PLASMO_TAG",
+		"version_name": "$PLASMO_VERSION_NAME",
 		"environment": "$NODE_ENV",
-		"scope": "$TAG",
 		"description": "A Browser Extension for Faster Reading on ANY website!",
 		"default_locale": "en",
 		"permissions": [
@@ -83,7 +93,7 @@
 		"commands": {
 			"toggle-bionic": {
 				"suggested_key": {
-					"default": "$SHORTCUT"
+					"default": "$PLASMO_SHORTCUT"
 				},
 				"description": "Toggle bionic reading mode"
 			}

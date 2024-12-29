@@ -1,53 +1,48 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
-import usePrefs from '~services/usePrefs';
 
-import './../styles/style.css';
+import './../styles/style.scss';
+import './style.scss';
 
 import { useStorage } from '@plasmohq/storage';
+import type { TabSession } from 'index';
 
-import TrackEventService, { EventCategory } from '~services/TrackEventService';
-import { APP_PREFS_STORE_KEY, COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, STORAGE_AREA } from '~services/config';
+import { APP_PREFS_STORE_KEY, STORAGE_AREA } from '~services/config';
 import documentParser from '~services/documentParser';
-import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
+import TrackEventService, { EventCategory } from '~services/TrackEventService';
 
+import { envService } from '~services/envService';
 import PopupContextProvider from './context';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
-import { useShowDebugSwitch } from './shorcut';
 
-const badCapScroll = /safari/i.test(process.env.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
+const badCapScroll: CSSProperties = /safari/i.test(envService.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
-const DisplayVersion = ({ displayVersion }) => {
-	if (displayVersion === 'old') return <IndexPopupOld />;
-	else if (displayVersion === 'new') return <IndexPopupNew />;
+const PopupVersions = {
+	new: IndexPopupNew,
+	old: IndexPopupOld,
+};
+const DisplayVersion = ({ displayVersionKey }: { displayVersionKey: keyof typeof PopupVersions }) => {
+	const PopupVersion = PopupVersions[displayVersionKey];
+	return <PopupVersion />;
 };
 
 const popupLogStyle = 'background:cyan;color:brown';
 
 const jiffyLogo = chrome.runtime.getURL('./assets/icon512.png');
 
-const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
-
 const SHOW_FOOTER_MESSAGE_DURATION = 12_000;
 const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
 const FIRST_FOOTER_MESSAGE_INDEX = 1;
 
 function IndexPopup() {
-	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
-	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
+	const [, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
+	const [footerMessageIndex, setFooterMeessageIndex] = useState<number | null>(null);
 
-	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
-
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.PLASMO_TARGET);
-
-	const [tabSession, setTabSession] = useState<TabSession>(null);
-
-	const [tipsVisibility, setTipsVisibility] = useState<boolean>(false);
+	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
 	const [appConfigPrefs, setAppConfigPrefs] = useStorage({
 		key: APP_PREFS_STORE_KEY,
@@ -55,7 +50,8 @@ function IndexPopup() {
 	});
 
 	const footerMessagesLength = 3;
-	const nextMessageIndex = (oldFooterMessageIndex) =>
+
+	const nextMessageIndex = (oldFooterMessageIndex: typeof footerMessageIndex) =>
 		typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength;
 
 	useEffect(() => {
@@ -66,7 +62,7 @@ function IndexPopup() {
 
 	useEffect(() => {
 		TrackEventService.trackEvent({ eventCategory: EventCategory.USER_EVENT, eventName: 'open-popup', eventType: 'click' });
-		
+
 		(async () => {
 			const _activeTab = await TabHelper.getActiveTab(true);
 			setActiveTab(_activeTab);
@@ -74,9 +70,10 @@ function IndexPopup() {
 
 			const origin = await TabHelper.getTabOrigin(_activeTab);
 
-			const brMode = chrome.tabs.sendMessage(_activeTab.id, { type: 'getReadingMode' }, ({ data }) => {
-				setTabSession({ brMode: data, origin });
-			});
+			_activeTab.id &&
+				chrome.tabs.sendMessage(_activeTab.id, { type: 'getReadingMode' }, ({ data }) => {
+					setTabSession({ brMode: data, origin });
+				});
 		})();
 
 		runTimeHandler.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -96,7 +93,7 @@ function IndexPopup() {
 			}
 		});
 
-		let footerInterval;
+		let footerInterval: NodeJS.Timer;
 
 		setTimeout(() => {
 			setFooterMeessageIndex(nextMessageIndex);
@@ -119,9 +116,7 @@ function IndexPopup() {
 		<>
 			<div className={`jr_wrapper_container ${appConfigPrefs?.displayColorMode}-mode text-capitalize`}>
 				<div className="popup-body || flex flex-column || text-alternate">
-					<div
-						className="toolbar || flex w-100 gap-2 || bg-primary"
-						style={{ boxShadow: '0 0 0 10px var(--bg-secondary)', position: 'sticky', top: '10px', zIndex: '1' }}>
+					<div className="toolbar || flex w-100 gap-2 || bg-primary" style={{ boxShadow: '0 0 0 10px var(--bg-secondary)', position: 'sticky', top: '10px', zIndex: '1' }}>
 						<span className="icon">
 							<img src={jiffyLogo} alt="logo" height={25} width={25} />
 						</span>
@@ -136,7 +131,7 @@ function IndexPopup() {
 
 					{/* display goes here */}
 					<div style={badCapScroll}>
-						<DisplayVersion displayVersion={!appConfigPrefs?.showBeta ? 'old' : 'new'} />
+						<DisplayVersion displayVersionKey={!appConfigPrefs?.showBeta ? 'old' : 'new'} />
 					</div>
 				</div>
 			</div>

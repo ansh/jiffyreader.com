@@ -1,18 +1,16 @@
 import { Storage, useStorage } from '@plasmohq/storage';
-import type { PrefStore } from 'index';
+import type { Prefs, PrefStore, SetPrefsExternal } from 'index';
 import { useEffect, useState } from 'react';
 
+import { APP_PREFS_STORE_KEY, STORAGE_AREA } from './config';
+import { envService } from './envService';
 import Logger from './Logger';
 import defaultPrefs from './preferences';
 
 const PREF_STORE_SCOPES = ['global', 'local', 'reset'];
 const PREF_LOG_STYLE = 'color: green; background: black;';
 
-const usePrefs = (
-	getOrigin: () => Promise<string>,
-	initialize = false,
-	target = process.env.PLASMO_TARGET ?? 'chrome',
-): [Prefs, SetPrefsExternal] => {
+const usePrefs = (getOrigin: () => Promise<string>, initialize = false, target = envService.PLASMO_TARGET ?? 'chrome'): [Prefs, SetPrefsExternal] => {
 	const [privateOrigin, setPrivateOrigin] = useState(null);
 
 	const area = ((target as string).includes('firefox') && 'local') || 'sync';
@@ -93,3 +91,9 @@ const usePrefs = (
 };
 
 export default usePrefs;
+
+export const usePrefStorage = () =>
+	useStorage<Prefs>({
+		key: APP_PREFS_STORE_KEY,
+		area: STORAGE_AREA,
+	});

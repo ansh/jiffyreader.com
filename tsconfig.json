@@ -1,21 +1,15 @@
 {
-  "extends": "plasmo/templates/tsconfig.base",
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    ".plasmo/index.d.ts",
-    ".plasmo/**/*",
-    "./**/*.ts",
-    "./**/*.tsx"
-  ],
-  "compilerOptions": {
-    "paths": {
-      "~*": [
-        "./src/*"
-      ]
-    },
-    "baseUrl": ".",
-    "target": "ES2018"
-  }
+	"extends": "plasmo/templates/tsconfig.base",
+	"exclude": ["node_modules"],
+	"include": [".plasmo/index.d.ts", ".plasmo/**/*", "./**/*.ts", "./**/*.tsx"],
+	"compilerOptions": {
+		"target": "ES2023",
+		"strict": true,
+		"noUnusedLocals": true,
+		"alwaysStrict": true,
+		"baseUrl": ".",
+		"paths": {
+			"~*": ["./src/*"]
+		}
+	}
 }

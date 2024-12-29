@@ -20,7 +20,7 @@ const defaultPrefs = {
 	displayColorMode: 'light',
 	showBeta: true,
 	transformControlPanelText: false,
-	autoOnDelay: 5_000
+	autoOnDelay: 5_000,
 };
 
 export default defaultPrefs;

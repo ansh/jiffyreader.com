@@ -92,19 +92,19 @@ jobs:
           fi
 
 
-      - name: chrome ext publish
-        run: |
-          if [ -z "${{ secrets.CLIENT_ID }}" ] || [ -z "${{ secrets.CLIENT_SECRET }}" ] || [ -z "${{ secrets.REFRESH_TOKEN }}" ] || [ -z "${{ secrets.EXTENSION_ID }}" ]; then
-            echo "Required secrets are not provided. Exiting."
-            exit 0
-          fi
+      # - name: chrome ext publish
+      #   run: |
+      #     if [ -z "${{ secrets.CLIENT_ID }}" ] || [ -z "${{ secrets.CLIENT_SECRET }}" ] || [ -z "${{ secrets.REFRESH_TOKEN }}" ] || [ -z "${{ secrets.EXTENSION_ID }}" ]; then
+      #       echo "Required secrets are not provided. Exiting."
+      #       exit 0
+      #     fi
           
-          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
+      #     npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-prod.zip ${{ secrets.EXTENSION_ID }}
           
-          # if secrete.DEV_EXTENSION_ID is not empty then publish
-          if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
-          npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
-          fi
+      #     # if secrete.DEV_EXTENSION_ID is not empty then publish
+      #     if [ -n "${{ secrets.EXTENSION_DEV_ID }}" ]; then
+      #     npx cws-publish ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.REFRESH_TOKEN }} ./build/jiffyReader-chrome-dev.zip ${{ secrets.EXTENSION_DEV_ID }}
+      #     fi
           
 
       

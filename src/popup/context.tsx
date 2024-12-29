@@ -1,5 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 import { createContext, useContext, useEffect, useReducer } from 'react';
+import { envService } from '~services/envService';
 
 let storage = {
 	key: 'context.store',
@@ -13,17 +14,17 @@ let storage = {
 };
 
 const rawValues = {
-	isDebugDataVisible: !/production/i.test(process.env.NODE_ENV),
+	isDebugDataVisible: envService.showDebugInfo,
 };
 
 const initialPopupContextValue = {
 	...rawValues,
-	dispatch: function <Tkey extends keyof typeof rawValues>([action, value]: [Tkey, typeof rawValues[Tkey]]) {
+	dispatch: function <Tkey extends keyof typeof rawValues>([action, value]: [Tkey, (typeof rawValues)[Tkey]]) {
 		return;
 	},
 };
 
-function reducer<Tkey extends keyof typeof rawValues>(state, [action, data]: [Tkey, typeof rawValues[Tkey]]): typeof rawValues {
+function reducer<Tkey extends keyof typeof rawValues>(state, [action, data]: [Tkey, (typeof rawValues)[Tkey]]): typeof rawValues {
 	let result = state;
 	switch (action) {
 		case 'isDebugDataVisible': {

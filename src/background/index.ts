@@ -1,28 +1,26 @@
 import { Storage } from '@plasmohq/storage';
 import type { PrefStore } from 'index';
+import M from 'mellowtel';
 
-import Logger from '~services/Logger';
-import TabHelper from '~services/TabHelper';
-import TrackEventService, { EventCategory } from '~services/TrackEventService';
+import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
 import { APP_PREFS_STORE_KEY, DisplayColorMode, STORAGE_AREA, USER_PREF_STORE_KEY } from '~services/config';
+import { envService } from '~services/envService';
+import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
-
-import M from "mellowtel";
-import {CONFIG_KEY, DISABLE_LOGS} from "~constants";
-
+import TabHelper from '~services/TabHelper';
+import TrackEventService, { EventCategory } from '~services/TrackEventService';
 
 export {};
 
 let m;
 
 (async () => {
-	m = new M(CONFIG_KEY,{
-		disableLogs: DISABLE_LOGS
+	m = new M(CONFIG_KEY, {
+		disableLogs: DISABLE_LOGS,
 	});
 	await m.initBackground();
 })();
-
 
 const BACKGROUND_LOG_STYLE = 'background: brown; color:white';
 
@@ -36,17 +34,14 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
 	return chrome?.action?.setBadgeText(badgeTextDetails) || browser.browserAction.setBadgeText(badgeTextDetails);
 };
 
-const openInstallationWelcomePage = async (
-	eventReason: chrome.runtime.OnInstalledReason,
-	browserTargetName: string = process.env.PLASMO_TARGET,
-) => {
+const openInstallationWelcomePage = async (eventReason: chrome.runtime.OnInstalledReason, browserTargetName: string = envService.PLASMO_TARGET) => {
 	// if (await storage.get(USER_PREF_STORE_KEY)) {
 	// 	return;
 	// }
 
 	chrome.tabs.create({
 		active: true,
-		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${process.env.VERSION}`,
+		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${envService.VERSION}`,
 	});
 };
 
@@ -154,7 +149,7 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	const eventReason = event.reason;
 
-	const newVersion = process.env.VERSION;
+	const newVersion = envService.VERSION;
 	const { previousVersion } = event;
 	const isNewVersion = previousVersion !== newVersion;
 	Logger.logInfo({ newVersion, previousVersion, isNewVersion });
@@ -167,7 +162,7 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 		previousVersion,
 	});
 
-	if ((isNewVersion && /install/i.test(eventReason)) && process.env.NODE_ENV === 'production') {
+	if (isNewVersion && /install/i.test(eventReason) && envService.NODE_ENV === 'production') {
 		openInstallationWelcomePage(eventReason);
 	}
 

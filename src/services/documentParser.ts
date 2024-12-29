@@ -1,6 +1,5 @@
 import Logger from '~services/Logger';
 import defaultPrefs from '~services/preferences';
-
 import NodeObserver from './observer';
 import { makeExcluder } from './siteElementExclusions';
 import siteOverrides from './siteOverrides';
@@ -13,8 +12,7 @@ const MUTATION_TYPES = ['childList', 'characterData'];
 
 const IGNORE_MUTATIONS_ATTRIBUTES = ['br-ignore-on-mutation'];
 
-/** @type {NodeObserver} */
-let observer;
+let observer: NodeObserver | null;
 
 /** @type {string} */
 let origin = '';
