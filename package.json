@@ -32,8 +32,9 @@
 		"build:xcode:all": "pnpm build:xcode && pnpm build:ios",
 		"dev:xcode": "xcrun safari-web-extension-converter --swift --no-open --force  --bundle-identifier com.jiffyreader build/safari-mv2-dev",
 		"release": "if [ 0 -eq $(git log --oneline | head -n1 | grep 'chore(release)' | wc -l) ]; then commit-and-tag-version; fi",
-		"lint": "prettier -w src/ ; eslint --fix src/",
-		"test": "make -s build;# test is unstable';"
+		"lint": "eslint src/",
+		"lint:fix": "eslint --fix src/",
+		"test": "make -s build print-manifests; # test is unstable';"
 	},
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
