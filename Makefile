@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 .SILENT:
-.PHONY: build
+.PHONY: print-manifests  build
 
 
 help:
@@ -9,7 +9,7 @@ help:
 	| sed -e 's/\[32m #-- /[33m/'
 
 print-manifests: ## print out build target manifests
-	@ls ./build/jiffyReader-* -t |grep -E '.(xpi|zip|crx)' | xargs -I {} sh -c 'unzip -p "{}" manifest.json | jq -r ". | \"Version: \(.version), Name: \(.name), Version Name: \(.version_name), Target: \(.target), Scope: \(.scope)  {}\""'
+	@ls ./build/jiffyReader-* -t |grep -E '.(xpi|zip|crx)' | xargs -I {} sh -c 'unzip -p "{}" manifest.json | jq -r ". | \"Version: \(.version), Name: \(.name), Version Name: \(.version_name), Target: \(.target), Tag: \(.tag)  {}\""'
 
 test-build-manifests: ## test build manifests
 	@if make -s print-manifests | grep -E '(\W-\W|null)'; then exit 1; fi
