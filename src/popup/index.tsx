@@ -1,8 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
-import usePrefs from '~services/usePrefs';
 
 import './../styles/style.scss';
 import './style.scss';
@@ -20,7 +19,7 @@ import PopupContextProvider from './context';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
 
-const badCapScroll = /safari/i.test(envService.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
+const badCapScroll: CSSProperties = /safari/i.test(envService.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
 const PopupVersions = {
 	new: IndexPopupNew,
@@ -35,23 +34,15 @@ const popupLogStyle = 'background:cyan;color:brown';
 
 const jiffyLogo = chrome.runtime.getURL('./assets/icon512.png');
 
-const { setAttribute, setProperty, getProperty, getAttribute, setSaccadesStyle } = documentParser.makeHandlers(document);
-
 const SHOW_FOOTER_MESSAGE_DURATION = 12_000;
 const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
 const FIRST_FOOTER_MESSAGE_INDEX = 1;
 
 function IndexPopup() {
-	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
-	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-
-	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
-
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, envService.PLASMO_TARGET);
+	const [, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
+	const [footerMessageIndex, setFooterMeessageIndex] = useState<number | null>(null);
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
-
-	const [tipsVisibility, setTipsVisibility] = useState<boolean>(false);
 
 	const [appConfigPrefs, setAppConfigPrefs] = useStorage({
 		key: APP_PREFS_STORE_KEY,
@@ -59,7 +50,9 @@ function IndexPopup() {
 	});
 
 	const footerMessagesLength = 3;
-	const nextMessageIndex = (oldFooterMessageIndex) => (typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength);
+
+	const nextMessageIndex = (oldFooterMessageIndex: typeof footerMessageIndex) =>
+		typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength;
 
 	useEffect(() => {
 		if (!tabSession) return;
@@ -77,9 +70,10 @@ function IndexPopup() {
 
 			const origin = await TabHelper.getTabOrigin(_activeTab);
 
-			const brMode = chrome.tabs.sendMessage(_activeTab.id, { type: 'getReadingMode' }, ({ data }) => {
-				setTabSession({ brMode: data, origin });
-			});
+			_activeTab.id &&
+				chrome.tabs.sendMessage(_activeTab.id, { type: 'getReadingMode' }, ({ data }) => {
+					setTabSession({ brMode: data, origin });
+				});
 		})();
 
 		runTimeHandler.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -99,7 +93,7 @@ function IndexPopup() {
 			}
 		});
 
-		let footerInterval;
+		let footerInterval: NodeJS.Timer;
 
 		setTimeout(() => {
 			setFooterMeessageIndex(nextMessageIndex);
