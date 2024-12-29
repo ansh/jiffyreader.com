@@ -19,13 +19,16 @@ import { envService } from '~services/envService';
 import PopupContextProvider from './context';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
-import { useShowDebugSwitch } from './shorcut';
 
 const badCapScroll = /safari/i.test(envService.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
-const DisplayVersion = ({ displayVersion }) => {
-	if (displayVersion === 'old') return <IndexPopupOld />;
-	else if (displayVersion === 'new') return <IndexPopupNew />;
+const PopupVersions = {
+	new: IndexPopupNew,
+	old: IndexPopupOld,
+};
+const DisplayVersion = ({ displayVersionKey }: { displayVersionKey: keyof typeof PopupVersions }) => {
+	const PopupVersion = PopupVersions[displayVersionKey];
+	return <PopupVersion />;
 };
 
 const popupLogStyle = 'background:cyan;color:brown';
@@ -134,7 +137,7 @@ function IndexPopup() {
 
 					{/* display goes here */}
 					<div style={badCapScroll}>
-						<DisplayVersion displayVersion={!appConfigPrefs?.showBeta ? 'old' : 'new'} />
+						<DisplayVersion displayVersionKey={!appConfigPrefs?.showBeta ? 'old' : 'new'} />
 					</div>
 				</div>
 			</div>

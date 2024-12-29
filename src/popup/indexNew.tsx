@@ -18,6 +18,7 @@ import runTimeHandler from '~services/runTimeHandler';
 
 import { envService } from '~services/envService';
 import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
+import { ShowDebugInline } from './ShowInlineDebug';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -166,35 +167,6 @@ function IndexPopupNew() {
 		return 'animated-footer-link ' + (index === footerMessageIndex && ' animated-footer-link-show');
 	};
 
-	function showDebugInline(environment = 'production') {
-		if (/production/i.test(environment)) return;
-
-		const debugData = (
-			<>
-				<span className="w-full">tabSession {JSON.stringify(tabSession)}</span>
-				<span className="w-full">prefs: {JSON.stringify(prefs)}</span>
-				<span className="w-full">appConfigPrefs: {JSON.stringify(appConfigPrefs)}</span>
-				<span className="w-full">footerMessageIndex: {footerMessageIndex}</span>
-			</>
-		);
-
-		return (
-			<div className=" || flex flex-column || w-full text-wrap p-1">
-				<label htmlFor="isDebugDataVisibleInput">
-					show
-					<input
-						type="checkbox"
-						name="isDebugDataVisibleInput"
-						id="isDebugDataVisibleInput"
-						onChange={(event) => setIsDebugDataVisible(event.currentTarget.checked)}
-						checked={isDebugDataVisible}
-					/>
-				</label>
-				{isDebugDataVisible && debugData}
-			</div>
-		);
-	}
-
 	const reloadActiveTab = async (_activeTab = activeTab) => {
 		await chrome.tabs.reload(_activeTab.id).then(() => window.close());
 	};
@@ -266,9 +238,11 @@ function IndexPopupNew() {
 
 	const errorOccured = !prefs || !tabSession;
 
+	console.log({ tabSession, prefs });
+
 	return (
 		<>
-			{showDebugInline(process.env.NODE_ENV)}
+			<ShowDebugInline tabSession={tabSession} />
 			{errorOccured ? (
 				showErrorMessage()
 			) : (
