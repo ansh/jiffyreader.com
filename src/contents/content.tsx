@@ -5,6 +5,7 @@ import type { PlasmoContentScript } from 'plasmo';
 import { useEffect, useState } from 'react';
 
 import documentParser from '~services/documentParser';
+import { envService } from '~services/envService';
 import Logger from '~services/Logger';
 import overrides from '~services/siteOverrides';
 import usePrefs from '~services/usePrefs';
@@ -160,13 +161,13 @@ const IndexContent = () => {
 
 	const getCollapseExpandBtn = () => <button onClick={toggleExpandeHandler}> {isExpanded ? 'Collapse' : 'Expand'}</button>;
 
-	const showDebugOverLay = (show) => {
-		if (!show) return;
+	const showDebugOverLay = (show = !envService.isProduction) => {
+		if (show) return;
 
 		return (
 			<div className="[ br-overlay ]" style={OVERLAY_STYLE}>
 				<span>
-					<strong style={{ paddingRight: '15px' }}>Target {process.env.PLASMO_TARGET}</strong>
+					<strong style={{ paddingRight: '15px' }}>Target {envService.PLASMO_TARGET}</strong>
 					{getCollapseExpandBtn()}
 				</span>
 				<div className="flex flex-column">

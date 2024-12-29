@@ -1,6 +1,7 @@
+import { envService } from '~services/envService';	
 export const USER_PREF_STORE_KEY = 'prefStore';
 export const APP_PREFS_STORE_KEY = 'appStore';
-export const STORAGE_AREA = ((process.env.PLASMO_TARGET as string).includes('firefox') && 'local') || 'sync';
+export const STORAGE_AREA = ((envService.PLASMO_TARGET as string).includes('firefox') && 'local') || 'sync';
 
 export const COLOR_MODE_STATE_TRANSITIONS = [
 	[null, 'light'],

@@ -16,6 +16,7 @@ import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
+import { envService } from '~services/envService';
 import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
 
 const popupLogStyle = 'background:cyan;color:brown';
@@ -40,7 +41,7 @@ function IndexPopupNew() {
 
 	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
 
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.PLASMO_TARGET);
+	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, envService.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
 
@@ -211,7 +212,7 @@ function IndexPopupNew() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(process.env.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(envService.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 
@@ -375,7 +376,7 @@ function IndexPopupNew() {
 								<span>
 									{chrome.i18n.getMessage('shortcutLabelText')}:
 									{chrome.i18n.getMessage(
-										/firefox/i.test(process.env.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+										/firefox/i.test(envService.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}
 								</span>
 							</button> */}
@@ -563,7 +564,7 @@ function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
 						</a>
 					</div>
 					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-						<div className={'|| text-left text-md ml-auto ' + textColor}>{process.env.VERSION_NAME}</div>
+						<div className={'|| text-left text-md ml-auto ' + textColor}>{envService.VERSION_NAME}</div>
 
 						{/* <div className="light-dark-container">
 	<button

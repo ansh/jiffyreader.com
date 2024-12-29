@@ -1,5 +1,6 @@
 import { Storage } from '@plasmohq/storage';
 import { createContext, useContext, useEffect, useReducer } from 'react';
+import { envService } from '~services/envService';
 
 let storage = {
 	key: 'context.store',
@@ -13,7 +14,7 @@ let storage = {
 };
 
 const rawValues = {
-	isDebugDataVisible: !/production/i.test(process.env.NODE_ENV),
+	isDebugDataVisible: envService.showDebugInfo,
 };
 
 const initialPopupContextValue = {

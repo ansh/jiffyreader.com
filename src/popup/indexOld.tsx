@@ -14,7 +14,9 @@ import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
-import Shortcut, { ShortcutGuide, useShowDebugSwitch } from './shorcut';
+import { envService } from '~services/envService';
+import Shortcut, { ShortcutGuide } from './shorcut';
+import { ShowDebugInline } from './ShowInlineDebug';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -35,7 +37,7 @@ function IndexPopupOld() {
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
 	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
-	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, process.env.PLASMO_TARGET);
+	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, envService.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
 
@@ -175,7 +177,7 @@ function IndexPopupOld() {
 			</div>
 
 			<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-				<div className={'|| text-left text-md ' + textColor}>{process.env.VERSION_NAME}</div>
+				<div className={'|| text-left text-md ' + textColor}>{envService.VERSION_NAME}</div>
 
 				<div className="light-dark-container">
 					<button
@@ -254,7 +256,7 @@ function IndexPopupOld() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(process.env.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(envService.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 

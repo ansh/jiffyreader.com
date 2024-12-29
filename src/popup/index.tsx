@@ -15,12 +15,13 @@ import documentParser from '~services/documentParser';
 import runTimeHandler from '~services/runTimeHandler';
 import TrackEventService, { EventCategory } from '~services/TrackEventService';
 
+import { envService } from '~services/envService';
 import PopupContextProvider from './context';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
 import { useShowDebugSwitch } from './shorcut';
 
-const badCapScroll = /safari/i.test(process.env.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
+const badCapScroll = /safari/i.test(envService.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
 const DisplayVersion = ({ displayVersion }) => {
 	if (displayVersion === 'old') return <IndexPopupOld />;
@@ -40,11 +41,10 @@ const FIRST_FOOTER_MESSAGE_INDEX = 1;
 function IndexPopup() {
 	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
 	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
 
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, process.env.PLASMO_TARGET);
+	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, envService.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
