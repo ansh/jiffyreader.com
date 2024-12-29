@@ -161,8 +161,8 @@ const IndexContent = () => {
 
 	const getCollapseExpandBtn = () => <button onClick={toggleExpandeHandler}> {isExpanded ? 'Collapse' : 'Expand'}</button>;
 
-	const showDebugOverLay = (show = !envService.isProduction) => {
-		if (show) return;
+	const showDebugOverLay = () => {
+		if (envService.isProduction) return;
 
 		return (
 			<div className="[ br-overlay ]" style={OVERLAY_STYLE}>
