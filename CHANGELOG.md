@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.3.5](https://github.com/ansh/jiffyreader.com/compare/v1.3.4...v1.3.5) (2024-12-29)
+
+
+### Bug Fixes
+
+* reddi disappearing text [#288](https://github.com/ansh/jiffyreader.com/issues/288) ([f4e5256](https://github.com/ansh/jiffyreader.com/commit/f4e5256bb9c0a6d6a54cc5d2c759a32f756d8d38))
+
 ## [1.3.4](https://github.com/ansh/jiffyreader.com/compare/v1.3.2...v1.3.4) (2024-12-28)
 
 
