@@ -173,23 +173,13 @@ const IndexContent = () => {
 				<div className="flex flex-column">
 					<span>{!prefs || !tabSession ? 'Loading... or broken but probably loading' : 'JiffyReady to the moon'}</span>
 				</div>
-				<span>{JSON.stringify(tabSession)}</span>
-				<span>
-					{isExpanded &&
-						prefs &&
-						Object.entries(prefs).map(([key, val], index) => (
-							<p className="prefsEntry" key={'prefs_item' + index}>
-								<span className="prefsKey">{key}:: </span>
-								<span className="prefsValue">{typeof val === 'boolean' ? (val === true ? 'true' : 'false') : val}</span>
-							</p>
-						))}
-				</span>
+				<span>{isExpanded && <pre>{JSON.stringify({ tabSession, prefs }, null, 2)}</pre>}</span>
 				{getCollapseExpandBtn()}
 			</div>
 		);
 	};
 
-	return showDebugOverLay(process.env.NODE_ENV !== 'production');
+	return showDebugOverLay();
 };
 
 export default IndexContent;

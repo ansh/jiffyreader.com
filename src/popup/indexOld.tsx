@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
-import usePrefs from '~services/usePrefs';
+import usePrefs, { usePrefStorage } from '~services/usePrefs';
 
-import { useStorage } from '@plasmohq/storage';
-import type { Prefs, TabSession } from 'index';
+import type { TabSession } from 'index';
 import M from 'mellowtel';
 
 import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
-import { APP_PREFS_STORE_KEY, COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, MaxSaccadesInterval, SACCADE_COLORS, SACCADE_STYLES, STORAGE_AREA } from '~services/config';
+import { COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, MaxSaccadesInterval, SACCADE_COLORS, SACCADE_STYLES } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
@@ -33,18 +32,14 @@ const FOOT_MESSAGAES_ANIMATION_DELAY = 300;
 const FIRST_FOOTER_MESSAGE_INDEX = 1;
 
 function IndexPopupOld() {
-	const [activeTab, setActiveTab] = useState(null as chrome.tabs.Tab);
+	const [activeTab, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
-	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
 	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, envService.PLASMO_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession>(null);
 
-	const [appConfigPrefs, setAppConfigPrefs] = useStorage<Prefs>({
-		key: APP_PREFS_STORE_KEY,
-		area: STORAGE_AREA,
-	});
+	const [appConfigPrefs, setAppConfigPrefs] = usePrefStorage();
 
 	const footerMessagesLength = 3;
 	const nextMessageIndex = (oldFooterMessageIndex) => (typeof oldFooterMessageIndex !== 'number' ? FIRST_FOOTER_MESSAGE_INDEX : (oldFooterMessageIndex + 1) % footerMessagesLength);

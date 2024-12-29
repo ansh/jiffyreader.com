@@ -91,3 +91,9 @@ const usePrefs = (getOrigin: () => Promise<string>, initialize = false, target =
 };
 
 export default usePrefs;
+
+export const usePrefStorage = () =>
+	useStorage<Prefs>({
+		key: APP_PREFS_STORE_KEY,
+		area: STORAGE_AREA,
+	});
