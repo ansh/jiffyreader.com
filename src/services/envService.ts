@@ -7,14 +7,15 @@ const booleanMap = new Map<'true' | 'false' | undefined, boolean>([
 ]);
 
 const env = {
-	PLASMO_VERSION: { value: process.env.PLASMO_VERSION, validator: z.string().optional() },
-	PLASMO_VERSION_NAME: { value: process.env.PLASMO_VERSION_NAME, validator: z.string().optional() },
-	PLASMO_TARGET: {
-		value: process.env.PLASMO_TARGET,
+	PLASMO_PUBLIC_SHORTCUT: { value: process.env.PLASMO_PUBLIC_SHORTCUT, validator: z.string() },
+	PLASMO_PUBLIC_VERSION: { value: process.env.PLASMO_PUBLIC_VERSION, validator: z.string().optional() },
+	PLASMO_PUBLIC_VERSION_NAME: { value: process.env.PLASMO_PUBLIC_VERSION_NAME, validator: z.string().optional() },
+	PLASMO_PUBLIC_TARGET: {
+		value: process.env.PLASMO_PUBLIC_TARGET,
 		validator: z
 			.string()
 			.default('')
-			.transform((x) => x as typeof process.env.PLASMO_TARGET),
+			.transform((x) => x as typeof process.env.PLASMO_PUBLIC_TARGET),
 	},
 	NODE_ENV: {
 		value: process.env.NODE_ENV,
@@ -23,21 +24,21 @@ const env = {
 			.optional()
 			.transform((x) => x as typeof process.env.NODE_ENV),
 	},
-	PLASMO_DEBUG: {
-		value: process.env.PLASMO_DEBUG,
+	PLASMO_PUBLIC_DEBUG: {
+		value: process.env.PLASMO_PUBLIC_DEBUG,
 		validator: z
 			.boolean()
 			.or(
 				z
-					.enum(['true', 'false'])
+					.enum(['TRUE', 'FALSE'])
 					// .optional()
 					// .default('true')
 					.transform((x) => booleanMap.get(x as keyof typeof booleanMap.keys)),
 			)
 			.default(false),
 	},
-	PLASMO_ENABLE_TRACKING: {
-		value: process.env.PLASMO_ENABLE_TRACKING,
+	PLASMO_PUBLIC_ENABLE_TRACKING: {
+		value: process.env.PLASMO_PUBLIC_ENABLE_TRACKING,
 		validator: z
 			.boolean()
 			.or(
@@ -49,7 +50,7 @@ const env = {
 			)
 			.default(false),
 	},
-	PLASMO_HOME_URL: { value: process.env.PLASMO_HOME_URL, validator: z.string().optional() },
+	PLASMO_PUBLIC_HOME_URL: { value: process.env.PLASMO_PUBLIC_HOME_URL, validator: z.string().optional() },
 };
 
 type Env = typeof env;
@@ -77,5 +78,7 @@ const envService = {
 		return !this.isProduction;
 	},
 };
+
+console.log({ envService });
 
 export { envService };

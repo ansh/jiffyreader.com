@@ -9,9 +9,9 @@ export enum EventCategory {
 
 function trackEvent(
 	eventData: { eventCategory: EventCategory; eventName: string; eventType: string; [key: string]: any },
-	appData = { browser: envService.PLASMO_TARGET, version: envService.PLASMO_VERSION },
+	appData = { browser: envService.PLASMO_PUBLIC_TARGET, version: envService.PLASMO_PUBLIC_VERSION },
 	date = new Date(),
-	enableTracking = envService.PLASMO_ENABLE_TRACKING,
+	enableTracking = envService.PLASMO_PUBLIC_ENABLE_TRACKING,
 ) {
 	Logger.logInfo({ enableTracking });
 	if (!enableTracking) {
@@ -20,7 +20,7 @@ function trackEvent(
 
 	const params = new URLSearchParams({ ...{ time: date.toString(), time_iso: date.toISOString(), ...eventData }, ...appData });
 	Logger.logInfo('track-event', params.toString());
-	return fetch(envService.PLASMO_HOME_URL ?? 'https://jiffyreader.com' + `/track-event?${params.toString()}`);
+	return fetch(envService.PLASMO_PUBLIC_HOME_URL ?? 'https://jiffyreader.com' + `/track-event?${params.toString()}`);
 }
 
 const TrackEventService = {
