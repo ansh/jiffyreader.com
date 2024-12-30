@@ -38,9 +38,10 @@ const OVERLAY_STYLE = {
 	bottom: '40px',
 	left: '40px',
 	display: 'flex',
-	background: 'white',
+	background: '#3c2020',
 	padding: '15px',
 	flexDirection: 'column' as 'row',
+	text: 'light',
 };
 
 const injectPassiveStyleOverides = (document: Document) => {
