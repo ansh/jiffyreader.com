@@ -27,7 +27,7 @@ export const createShadowRoot = (shadowHost) => {
 	return shadowHost.attachShadow({ mode: 'open' });
 };
 
-const { setAttribute, setProperty, setSaccadesStyle, getAttribute } = documentParser.makeHandlers(document);
+const { setAttribute, setProperty, setSaccadesStyle, getAttribute, amendClasses } = documentParser.makeHandlers(document);
 
 const contentLogStyle = 'background-color: pink';
 
@@ -150,6 +150,14 @@ const IndexContent = () => {
 		setAttribute('saccades-color', prefs.saccadesColor);
 		setAttribute('fixation-strength', prefs.fixationStrength);
 		setAttribute('saccades-interval', prefs.saccadesInterval);
+
+		const getPrefsClasses = (addedOrRemoved: boolean) =>
+			Object.entries(prefs.symanticTags)
+				.filter(([, value]) => value === addedOrRemoved)
+				.map(([element]) => `br-exclusions-${element}`);
+
+		amendClasses('add', getPrefsClasses(false));
+		amendClasses('remove', getPrefsClasses(true));
 	}, [prefs, tabSession]);
 
 	useEffect(() => {
@@ -179,7 +187,7 @@ const IndexContent = () => {
 		);
 	};
 
-	return showDebugOverLay();
+	return !!prefs?.showContentDebugOverlay && showDebugOverLay();
 };
 
 export default IndexContent;

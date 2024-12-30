@@ -21,6 +21,23 @@ const defaultPrefs = {
 	showBeta: true,
 	transformControlPanelText: false,
 	autoOnDelay: 5_000,
+	showContentDebugOverlay: false,
+	symanticTags: {
+		nav: true,
+		footer: true,
+		aside: true,
+		a: true,
+		button: true,
+		p: true,
+		pre: true,
+		span: true,
+		code: true,
+		caption: true,
+		li: true,
+		ul: true,
+		ol: true,
+		dialog: true,
+	},
 };
 
 export default defaultPrefs;
