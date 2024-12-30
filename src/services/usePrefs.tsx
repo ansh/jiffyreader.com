@@ -84,10 +84,17 @@ const usePrefs = (getOrigin: () => Promise<string>, initialize = false, target =
 		})();
 	}, [getOrigin]);
 
+	const updateConfig = <T extends keyof Prefs>(key: T, value: Prefs[T], configLocal = outPrefs, _getTabOriginfn = getOrigin) => {
+		const newConfig = { ...configLocal, [key]: value };
+
+		setPrefsExternal(_getTabOriginfn, newConfig.scope, newConfig);
+	};
+
 	const outPrefs = getActivePrefs();
 	Logger.logInfo('%cusePrefs.return', 'background-color:lime');
 	Logger.LogTable({ privateOrigin, outPrefs, prefStore, area });
-	return [outPrefs, setPrefsExternal];
+
+	return [outPrefs, setPrefsExternal, updateConfig];
 };
 
 export default usePrefs;

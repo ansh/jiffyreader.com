@@ -10,7 +10,13 @@ $hue3: #561f37ff;
 $hue4: rgb(68, 155, 255);
 $delta: 8%;
 
-$saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
+$saccadesColorsBase: (
+	0,
+	$hue1),
+	(1, $hue2),
+	(2, $hue3),
+	(3, $hue4
+);
 
 /**
 	generate (3) fixation-strength variants
@@ -57,6 +63,7 @@ $saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
 }
 
 [br-mode='on'] {
+
 	br-bold *,
 	br-edge {
 		opacity: (var(--fixation-edge-opacity, $activeFixationOpacity));
@@ -71,4 +78,28 @@ $saccadesColorsBase: (0, $hue1), (1, $hue2), (2, $hue3), (3, $hue4);
 
 		@include makeColorVariants($color, $id, -$delta, 'dark');
 	}
+
+	$excludedElements: (
+		nav,
+		footer,
+		p,
+		a,
+		button,
+		aside
+	);
+
+@each $excludedElement in $excludedElements {
+
+	&.br-exclusions-#{$excludedElement} #{$excludedElement} {
+
+		& br-bold :is(*, [fixation-strength]),
+		& br-edge {
+			--fixation-edge-opacity: initial !important;
+			--br-line-height: initial !important;
+			--br-boldness: initial !important;
+			opacity: initial;
+		}
+	}
+
+}
 }

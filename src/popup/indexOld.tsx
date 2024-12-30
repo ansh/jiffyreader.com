@@ -14,6 +14,7 @@ import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
 import { envService } from '~services/envService';
+import { HtmlNodeToggles } from './HtmlNodeToggles';
 import Shortcut, { ShortcutGuide } from './shorcut';
 import { ShowDebugInline } from './ShowInlineDebug';
 
@@ -485,6 +486,8 @@ function IndexPopupOld() {
 						onClick={() => updateConfig('scope', 'reset')}>
 						{chrome.i18n.getMessage('resetBtnText')}
 					</button>
+
+					<HtmlNodeToggles />
 				</div>
 			)}
 			{!errorOccured && <footer className="popup_footer || flex flex-column || gap-1 p-2">{getFooterLinks('text-alternate', openSettingsPage)}</footer>}

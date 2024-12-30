@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
@@ -17,8 +17,10 @@ import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
 import { envService } from '~services/envService';
+import { HtmlNodeToggles } from './HtmlNodeToggles';
 import Shortcut, { ShortcutGuide } from './shorcut';
 import { ShowDebugInline } from './ShowInlineDebug';
+import { useGetTabOriginCb } from './useGetTabOriginCb';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -123,11 +125,11 @@ function IndexPopupNew() {
 		(event, customValue = null) =>
 			updateConfig(field as keyof Prefs, customValue ?? event.target.value);
 
-	const updateConfig = (key: keyof Prefs, value: any, configLocal = prefs) => {
-		const newConfig = { ...configLocal, [key]: value };
+	// const updateConfig = <T extends keyof Prefs>(key: T, value: Prefs[T], configLocal = prefs, _getTabOriginfn = getTabOriginfn) => {
+	// 	const newConfig = { ...configLocal, [key]: value };
 
-		setPrefs(getTabOriginfn, newConfig.scope, newConfig);
-	};
+	// 	setPrefs(_getTabOriginfn, newConfig.scope, newConfig);
+	// };
 
 	const handleToggle = (newBrMode: boolean) => {
 		const payload = {
@@ -495,6 +497,8 @@ function IndexPopupNew() {
 							</button>
 						</div>
 					</div>
+
+					<HtmlNodeToggles />
 				</div>
 			)}
 
