@@ -41,7 +41,7 @@ const openInstallationWelcomePage = async (eventReason: chrome.runtime.OnInstall
 
 	chrome.tabs.create({
 		active: true,
-		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${envService.VERSION}`,
+		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${envService.PLASMO_VERSION}`,
 	});
 };
 
@@ -149,7 +149,7 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	const eventReason = event.reason;
 
-	const newVersion = envService.VERSION;
+	const newVersion = envService.PLASMO_VERSION;
 	const { previousVersion } = event;
 	const isNewVersion = previousVersion !== newVersion;
 	Logger.logInfo({ newVersion, previousVersion, isNewVersion });
