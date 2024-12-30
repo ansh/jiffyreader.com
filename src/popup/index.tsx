@@ -19,7 +19,7 @@ import PopupContextProvider from './context';
 import IndexPopupNew from './indexNew';
 import IndexPopupOld from './indexOld';
 
-const badCapScroll: CSSProperties = /safari/i.test(envService.PLASMO_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
+const badCapScroll: CSSProperties = /safari/i.test(envService.PLASMO_PUBLIC_TARGET) ? { overflowY: 'scroll', height: '600px' } : {};
 
 const PopupVersions = {
 	new: IndexPopupNew,

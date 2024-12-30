@@ -17,7 +17,7 @@ const cantDebug = (shouldDebug: boolean = false) => !shouldDebug;
 
 const nullCallback = () => null;
 
-const maker = <T>(fn: T): T => (envService.PLASMO_DEBUG ? nullCallback : fn) as T;
+const maker = <T>(fn: T): T => (envService.PLASMO_PUBLIC_DEBUG ? nullCallback : fn) as T;
 
 /**
  *
@@ -25,7 +25,7 @@ const maker = <T>(fn: T): T => (envService.PLASMO_DEBUG ? nullCallback : fn) as 
  * @returns {Function} end and display time when called in non production environment
  */
 const logTime = (label) => {
-	if (cantDebug(envService.PLASMO_DEBUG)) return () => nullCallback;
+	if (cantDebug(envService.PLASMO_PUBLIC_DEBUG)) return () => nullCallback;
 
 	console.time(label);
 	return () => console.timeEnd(label);

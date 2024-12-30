@@ -7,7 +7,8 @@ import { useShowDebugSwitch } from './shorcut';
 export function ShowDebugInline({ tabSession }: { tabSession: TabSession }) {
 	const [isDebugDataVisible, setIsDebugDataVisible] = useShowDebugSwitch();
 
-	const [prefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, envService.PLASMO_TARGET);
+	// const [prefs,setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, envService.PLASMO_PUBLIC_TARGET);
+	const [prefs, , setPrefs] = usePrefs(useGetTabOriginCb(), true, envService.PLASMO_PUBLIC_TARGET);
 
 	const [appConfigPrefs] = usePrefStorage();
 
