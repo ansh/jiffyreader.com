@@ -39,9 +39,7 @@ function IndexPopupNew() {
 	const [activeTab, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState<number | null>(null);
 
-	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
-
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, envService.PLASMO_TARGET);
+	const [prefs, , updateConfig] = usePrefs(useGetTabOriginCb(), true, envService.PLASMO_PUBLIC_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
@@ -185,7 +183,7 @@ function IndexPopupNew() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(envService.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(envService.PLASMO_PUBLIC_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 
@@ -351,7 +349,7 @@ function IndexPopupNew() {
 								<span>
 									{chrome.i18n.getMessage('shortcutLabelText')}:
 									{chrome.i18n.getMessage(
-										/firefox/i.test(envService.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+										/firefox/i.test(envService.PLASMO_PUBLIC_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}
 								</span>
 							</button> */}
@@ -539,7 +537,7 @@ function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
 						</a>
 					</div>
 					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-						<div className={'|| text-left text-md ml-auto ' + textColor}>{envService.PLASMO_VERSION_NAME}</div>
+						<div className={'|| text-left text-md ml-auto ' + textColor}>Version: {envService.PLASMO_PUBLIC_VERSION_NAME}</div>
 
 						{/* <div className="light-dark-container">
 	<button

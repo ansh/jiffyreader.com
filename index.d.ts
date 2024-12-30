@@ -28,13 +28,13 @@ interface AppConfigPref {
 
 declare namespace NodeJS {
 	interface ProcessEnv {
-		DEBUG: string;
-		TARGET: string;
-		SHORTCUT: string;
-		VERSION: string;
-		NAME: string;
-		HOME_URL: string;
-		ENABLE_TRACKING: string
+		PLASMO_PUBLIC_DEBUG: string;
+		PLASMO_PUBLIC_TARGET: string;
+		PLASMO_PUBLIC_SHORTCUT: string;
+		PLASMO_PUBLIC_VERSION: string;
+		PLASMO_PUBLIC_NAME: string;
+		PLASMO_PUBLIC_HOME_URL: string;
+		PLASMO_PUBLIC_ENABLE_TRACKING: string
 	}
 }
 
