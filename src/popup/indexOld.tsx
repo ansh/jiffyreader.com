@@ -174,7 +174,7 @@ function IndexPopupOld() {
 			</div>
 
 			<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-				<div className={'|| text-left text-md ' + textColor}>{envService.VERSION_NAME}</div>
+				<div className={'|| text-left text-md ' + textColor}>{envService.PLASMO_VERSION_NAME}</div>
 
 				<div className="light-dark-container">
 					<button
