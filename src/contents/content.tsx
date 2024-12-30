@@ -27,7 +27,7 @@ export const createShadowRoot = (shadowHost) => {
 	return shadowHost.attachShadow({ mode: 'open' });
 };
 
-const { setAttribute, setProperty, setSaccadesStyle, getAttribute } = documentParser.makeHandlers(document);
+const { setAttribute, setProperty, setSaccadesStyle, getAttribute, amendClasses } = documentParser.makeHandlers(document);
 
 const contentLogStyle = 'background-color: pink';
 
@@ -38,9 +38,10 @@ const OVERLAY_STYLE = {
 	bottom: '40px',
 	left: '40px',
 	display: 'flex',
-	background: 'white',
+	background: '#3c2020',
 	padding: '15px',
 	flexDirection: 'column' as 'row',
+	text: 'light',
 };
 
 const injectPassiveStyleOverides = (document: Document) => {
@@ -150,6 +151,14 @@ const IndexContent = () => {
 		setAttribute('saccades-color', prefs.saccadesColor);
 		setAttribute('fixation-strength', prefs.fixationStrength);
 		setAttribute('saccades-interval', prefs.saccadesInterval);
+
+		const getPrefsClasses = (addedOrRemoved: boolean) =>
+			Object.entries(prefs.symanticTags)
+				.filter(([, value]) => value === addedOrRemoved)
+				.map(([element]) => `br-exclusions-${element}`);
+
+		amendClasses('add', getPrefsClasses(false));
+		amendClasses('remove', getPrefsClasses(true));
 	}, [prefs, tabSession]);
 
 	useEffect(() => {
@@ -167,7 +176,7 @@ const IndexContent = () => {
 		return (
 			<div className="[ br-overlay ]" style={OVERLAY_STYLE}>
 				<span>
-					<strong style={{ paddingRight: '15px' }}>Target {envService.PLASMO_TARGET}</strong>
+					<strong style={{ paddingRight: '15px' }}>Target {envService.PLASMO_PUBLIC_TARGET}</strong>
 					{getCollapseExpandBtn()}
 				</span>
 				<div className="flex flex-column">
@@ -179,7 +188,7 @@ const IndexContent = () => {
 		);
 	};
 
-	return showDebugOverLay();
+	return !!prefs?.showContentDebugOverlay && showDebugOverLay();
 };
 
 export default IndexContent;

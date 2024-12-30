@@ -14,6 +14,7 @@ import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
 import { envService } from '~services/envService';
+import { HtmlNodeToggles } from './HtmlNodeToggles';
 import Shortcut, { ShortcutGuide } from './shorcut';
 import { ShowDebugInline } from './ShowInlineDebug';
 
@@ -35,7 +36,7 @@ function IndexPopupOld() {
 	const [activeTab, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState(null);
 
-	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, envService.PLASMO_TARGET);
+	const [prefs, setPrefs] = usePrefs(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), true, envService.PLASMO_PUBLIC_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
@@ -174,7 +175,7 @@ function IndexPopupOld() {
 			</div>
 
 			<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-				<div className={'|| text-left text-md ' + textColor}>{envService.VERSION_NAME}</div>
+				<div className={'|| text-left text-md ' + textColor}>{envService.PLASMO_PUBLIC_VERSION_NAME}</div>
 
 				<div className="light-dark-container">
 					<button
@@ -224,7 +225,7 @@ function IndexPopupOld() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(envService.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(envService.PLASMO_PUBLIC_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 
@@ -485,6 +486,8 @@ function IndexPopupOld() {
 						onClick={() => updateConfig('scope', 'reset')}>
 						{chrome.i18n.getMessage('resetBtnText')}
 					</button>
+
+					<HtmlNodeToggles />
 				</div>
 			)}
 			{!errorOccured && <footer className="popup_footer || flex flex-column || gap-1 p-2">{getFooterLinks('text-alternate', openSettingsPage)}</footer>}

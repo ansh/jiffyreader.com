@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import Logger from '~services/Logger';
 import runTimeHandler from '~services/runTimeHandler';
 
+import { envService } from '~services/envService';
 import { usePopupContext } from './context';
 
 export function useShortcut() {
-	const [shortcut, setShortcut] = useState(undefined);
+	const [shortcut, setShortcut] = useState(envService.PLASMO_PUBLIC_SHORTCUT);
 
 	const getShortcut = () => {
 		(runTimeHandler as typeof chrome).runtime

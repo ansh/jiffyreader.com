@@ -194,18 +194,21 @@ function addStyles(styleText, document) {
 	document.head.appendChild(style);
 }
 
-const setAttribute = (documentRef) => (attribute, value) => {
+const amendClasses = (documentRef: typeof document) => (action: 'add' | 'remove', classList: string[]) =>
+	action === 'add' ? documentRef.body.classList.add(...classList) : document.body.classList.remove(...classList);
+
+const setAttribute = (documentRef: typeof document) => (attribute, value) => {
 	documentRef.body.setAttribute(attribute, value);
 };
-const getAttribute = (documentRef) => (attribute) => documentRef.body.getAttribute(attribute);
+const getAttribute = (documentRef: typeof document) => (attribute) => documentRef.body.getAttribute(attribute);
 
-const setProperty = (documentRef) => (property, value) => {
+const setProperty = (documentRef: typeof document) => (property, value) => {
 	documentRef.body.style.setProperty(property, value);
 };
 
-const getProperty = (documentRef) => (property) => documentRef.body.style.getPropertyValue(property);
+const getProperty = (documentRef: typeof document) => (property) => documentRef.body.style.getPropertyValue(property);
 
-const setSaccadesStyle = (documentRef) => (style) => {
+const setSaccadesStyle = (documentRef: typeof document) => (style) => {
 	Logger.logInfo('saccades-style', style);
 
 	if (/bold/i.test(style)) {
@@ -223,12 +226,13 @@ const setSaccadesStyle = (documentRef) => (style) => {
 
 export default {
 	setReadingMode,
-	makeHandlers: (documentRef) => ({
+	makeHandlers: (documentRef: typeof document) => ({
 		setAttribute: setAttribute(documentRef),
 		getAttribute: getAttribute(documentRef),
 		setProperty: setProperty(documentRef),
 		getProperty: getProperty(documentRef),
 		setSaccadesStyle: setSaccadesStyle(documentRef),
+		amendClasses: amendClasses(documentRef),
 	}),
 	hasLatex,
 };

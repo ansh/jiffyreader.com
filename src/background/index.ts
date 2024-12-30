@@ -34,14 +34,14 @@ const setBadgeText = (badgeTextDetails: chrome.action.BadgeTextDetails, runner =
 	return chrome?.action?.setBadgeText(badgeTextDetails) || browser.browserAction.setBadgeText(badgeTextDetails);
 };
 
-const openInstallationWelcomePage = async (eventReason: chrome.runtime.OnInstalledReason, browserTargetName: string = envService.PLASMO_TARGET) => {
+const openInstallationWelcomePage = async (eventReason: chrome.runtime.OnInstalledReason, browserTargetName: string = envService.PLASMO_PUBLIC_TARGET) => {
 	// if (await storage.get(USER_PREF_STORE_KEY)) {
 	// 	return;
 	// }
 
 	chrome.tabs.create({
 		active: true,
-		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${envService.VERSION}`,
+		url: `https://jiffyreader.com/welcome?browser=${browserTargetName}&event=${eventReason}&version=${envService.PLASMO_PUBLIC_VERSION}`,
 	});
 };
 
@@ -149,7 +149,7 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	const eventReason = event.reason;
 
-	const newVersion = envService.VERSION;
+	const newVersion = envService.PLASMO_PUBLIC_VERSION;
 	const { previousVersion } = event;
 	const isNewVersion = previousVersion !== newVersion;
 	Logger.logInfo({ newVersion, previousVersion, isNewVersion });

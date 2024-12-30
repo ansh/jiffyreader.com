@@ -10,7 +10,7 @@ import defaultPrefs from './preferences';
 const PREF_STORE_SCOPES = ['global', 'local', 'reset'];
 const PREF_LOG_STYLE = 'color: green; background: black;';
 
-const usePrefs = (getOrigin: () => Promise<string>, initialize = false, target = envService.PLASMO_TARGET ?? 'chrome'): [Prefs, SetPrefsExternal] => {
+const usePrefs = (getOrigin: () => Promise<string>, initialize = false, target = envService.PLASMO_PUBLIC_TARGET ?? 'chrome'): [Prefs, SetPrefsExternal, typeof updateConfig] => {
 	const [privateOrigin, setPrivateOrigin] = useState(null);
 
 	const area = ((target as string).includes('firefox') && 'local') || 'sync';
@@ -84,10 +84,17 @@ const usePrefs = (getOrigin: () => Promise<string>, initialize = false, target =
 		})();
 	}, [getOrigin]);
 
+	const updateConfig = <T extends keyof Prefs>(key: T, value: Prefs[T], configLocal = outPrefs, _getTabOriginfn = getOrigin) => {
+		const newConfig = { ...configLocal, [key]: value };
+
+		setPrefsExternal(_getTabOriginfn, newConfig.scope, newConfig);
+	};
+
 	const outPrefs = getActivePrefs();
 	Logger.logInfo('%cusePrefs.return', 'background-color:lime');
 	Logger.LogTable({ privateOrigin, outPrefs, prefStore, area });
-	return [outPrefs, setPrefsExternal];
+
+	return [outPrefs, setPrefsExternal, updateConfig];
 };
 
 export default usePrefs;

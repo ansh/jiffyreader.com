@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Logger from '~services/Logger';
 import TabHelper from '~services/TabHelper';
@@ -17,8 +17,10 @@ import defaultPrefs from '~services/preferences';
 import runTimeHandler from '~services/runTimeHandler';
 
 import { envService } from '~services/envService';
+import { HtmlNodeToggles } from './HtmlNodeToggles';
 import Shortcut, { ShortcutGuide } from './shorcut';
 import { ShowDebugInline } from './ShowInlineDebug';
+import { useGetTabOriginCb } from './useGetTabOriginCb';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -39,9 +41,7 @@ function IndexPopupNew() {
 	const [activeTab, setActiveTab] = useState<chrome.tabs.Tab | null>(null);
 	const [footerMessageIndex, setFooterMeessageIndex] = useState<number | null>(null);
 
-	const getTabOriginfn = useCallback(async () => await TabHelper.getTabOrigin(await TabHelper.getActiveTab(true)), [TabHelper]);
-
-	const [prefs, setPrefs] = usePrefs(getTabOriginfn, true, envService.PLASMO_TARGET);
+	const [prefs, , updateConfig] = usePrefs(useGetTabOriginCb(), true, envService.PLASMO_PUBLIC_TARGET);
 
 	const [tabSession, setTabSession] = useState<TabSession | null>(null);
 
@@ -125,11 +125,11 @@ function IndexPopupNew() {
 		(event, customValue = null) =>
 			updateConfig(field as keyof Prefs, customValue ?? event.target.value);
 
-	const updateConfig = (key: keyof Prefs, value: any, configLocal = prefs) => {
-		const newConfig = { ...configLocal, [key]: value };
+	// const updateConfig = <T extends keyof Prefs>(key: T, value: Prefs[T], configLocal = prefs, _getTabOriginfn = getTabOriginfn) => {
+	// 	const newConfig = { ...configLocal, [key]: value };
 
-		setPrefs(getTabOriginfn, newConfig.scope, newConfig);
-	};
+	// 	setPrefs(_getTabOriginfn, newConfig.scope, newConfig);
+	// };
 
 	const handleToggle = (newBrMode: boolean) => {
 		const payload = {
@@ -185,7 +185,7 @@ function IndexPopupNew() {
 	};
 
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
-		if (!/chrome/i.test(envService.PLASMO_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
+		if (!/chrome/i.test(envService.PLASMO_PUBLIC_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
 		}
 
@@ -351,7 +351,7 @@ function IndexPopupNew() {
 								<span>
 									{chrome.i18n.getMessage('shortcutLabelText')}:
 									{chrome.i18n.getMessage(
-										/firefox/i.test(envService.PLASMO_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
+										/firefox/i.test(envService.PLASMO_PUBLIC_TARGET) ? 'defaultShortcutValueTextFirefox' : 'defaultShortcutValueTextChrome',
 									)}
 								</span>
 							</button> */}
@@ -497,6 +497,8 @@ function IndexPopupNew() {
 							</button>
 						</div>
 					</div>
+
+					<HtmlNodeToggles />
 				</div>
 			)}
 
@@ -539,7 +541,7 @@ function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
 						</a>
 					</div>
 					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">
-						<div className={'|| text-left text-md ml-auto ' + textColor}>{envService.VERSION_NAME}</div>
+						<div className={'|| text-left text-md ml-auto ' + textColor}>Version: {envService.PLASMO_PUBLIC_VERSION_NAME}</div>
 
 						{/* <div className="light-dark-container">
 	<button

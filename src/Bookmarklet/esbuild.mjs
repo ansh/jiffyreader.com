@@ -7,7 +7,7 @@ const /** @type {import('esbuild').BuildOptions} */ defaultConfigs = {
 		minify: true,
 		write: false,
 		plugins: [sassPlugin({ type: 'css-text' })],
-		define: { 'envService.DEBUG': '"false"' },
+		define: { 'process.env.PLASMO_PUBLIC_DEBUG': '"false"' },
 		tsconfig: './tsconfig.json',
 	};
 
@@ -32,7 +32,7 @@ build({
 				['FixationEdgeOpacity Toggle', 'firefixationEdgeOpacityTransition'],
 			].map(([textContent, eventKey]) => makeLinkBtn(textContent, outputScript.replace('ACTION_TO_FIRE', eventKey))),
 
-			'<p>Drag any of the links above onto your bookmark bar to save it as a bookmarklet which works on any site just like the full extension</p>',
+			`<p>Drag any of the links above onto your bookmark bar to save it as a bookmarklet which works on any site just like the full extension <br/>Version: ${process.env.PLASMO_PUBLIC_VERSION}</p>`,
 		].join(' ');
 
 		fs.writeFileSync(outputFile, output);
