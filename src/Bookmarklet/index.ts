@@ -69,51 +69,59 @@ const stateTransitions = {
 		['80%', '25%'],
 		['100%', '25%'],
 	],
-};
+} as const;
 
 /**
  * @param {string} stateTransitionKey
  * @param {string|null} currentActiveState
  * @returns {[targetState,nextState]}
  */
-function getStateTransitionEntry(stateTransitionKey, currentActiveState, stateEntries = stateTransitions) {
-	return stateEntries[stateTransitionKey].find(([state]) => `${state}` === `${currentActiveState}`);
+function getStateTransitionEntry<TKey extends keyof typeof stateTransitions>(
+	stateTransitionKey: TKey,
+	currentActiveState: (typeof stateTransitions)[TKey][number][number],
+	stateEntries = stateTransitions,
+) {
+	return stateEntries[stateTransitionKey].find(([state]) => `${state}` === `${currentActiveState}`) as (typeof stateTransitions)[TKey][number];
 }
 
-function toggleStateEngine(
-	stateTransitionKey,
-	/** @type {(property, value)} */ callbackSetter = setAttribute,
-	/** @type {(identified) => string}  */ callbackGetter = getAttribute,
+function toggleStateEngine<
+	T extends keyof typeof stateTransitions,
+	G extends (input: T) => (typeof stateTransitions)[T][number][number],
+	S extends (input: T, value: (typeof stateTransitions)[T][number][number]) => void,
+>(
+	stateTransitionKey: T,
+	setter: S = (stateTransitionKey === '--fixation-edge-opacity' ? setProperty : setAttribute) as any,
+	getter: G = (stateTransitionKey === '--fixation-edge-opacity' ? getProperty : getAttribute) as any,
 ) {
-	const currentActiveState = callbackGetter(stateTransitionKey);
+	const currentActiveState = getter(stateTransitionKey);
 
 	const [, nextState] = getStateTransitionEntry(stateTransitionKey, currentActiveState);
 
 	Logger.logInfo('stateTransitionKey', stateTransitionKey, 'currentActiveState', currentActiveState, 'nextState', nextState, stateTransitions[stateTransitionKey]);
-	callbackSetter(stateTransitionKey, nextState);
+	setter(stateTransitionKey, nextState);
 
 	if (document.body.getAttribute('br-mode') !== 'on') {
 		toggleReadingMode();
 	}
 }
 
-const setProperty = (property, value) => {
+const setProperty = (property: string, value: string | null) => {
 	Logger.logInfo({ setProperty, property, value });
 	document.body.style.setProperty(property, value);
 };
-const setAttribute = (attribute, value) => document.body.setAttribute(attribute, value);
-const getProperty = (property) => document.body.style.getPropertyValue(property);
-const getAttribute = (attribute) => document.body.getAttribute(attribute);
+const setAttribute = (attribute: string, value: any) => document.body.setAttribute(attribute, value);
+const getProperty = (property: string) => document.body.style.getPropertyValue(property);
+const getAttribute = (attribute: string) => document.body.getAttribute(attribute);
 
 const callableActions = {
 	fireReadingToggle: toggleReadingMode,
 	fireFixationStrengthTransition: () => toggleStateEngine('fixation-strength'),
 	fireSaccadesIntervalTransition: () => toggleStateEngine('saccades-interval'),
 	fireSaccadesColorTransition: () => toggleStateEngine('saccades-color'),
-	firefixationEdgeOpacityTransition: () => toggleStateEngine('--fixation-edge-opacity', setProperty, getProperty),
+	firefixationEdgeOpacityTransition: () => toggleStateEngine('--fixation-edge-opacity'),
 };
 
-const actionToFire = 'ACTION_TO_FIRE';
+const actionToFire = 'ACTION_TO_FIRE' as keyof typeof callableActions;
 
 Logger.logInfo('actionToFire', actionToFire, callableActions);
 
