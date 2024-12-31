@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.5.0](https://github.com/ansh/jiffyreader.com/compare/v1.4.0...v1.5.0) (2024-12-31)
+
+
+### Features
+
+* ability to enable and disable elements on a page like buttons, links, ... etc ([30b889a](https://github.com/ansh/jiffyreader.com/commit/30b889a27906786c2220b4ec3d389d5790e697e2))
+
 ## [1.4.0](https://github.com/ansh/jiffyreader.com/compare/v1.3.5...v1.4.0) (2024-12-30)
 
 

@@ -5,14 +5,6 @@
 
 import { envService } from './envService';
 
-/**
- * @description stateMachine of debug to cantDebug states
- */
-const debugStates = new Map([
-	['true', false],
-	['false', true],
-]);
-
 const cantDebug = (shouldDebug: boolean = false) => !shouldDebug;
 
 const nullCallback = () => null;

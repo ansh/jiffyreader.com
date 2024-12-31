@@ -65,7 +65,6 @@ jobs:
 
       - uses: ncipollo/release-action@v1
         with:
-          # artifacts: "dist/wyzant-looker.zip,dist/changelog.md,CHANGELOG.md"
           allowUpdates: true
           artifacts: "build/jiffyReader*"
           token: ${{ secrets.GITHUB_TOKEN }}

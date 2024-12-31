@@ -1,11 +1,12 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.4.0",
+	"version": "1.5.0",
 	"description": "jiffy reader",
 	"packageManager": "yarn@1.22.19",
 	"scripts": {
 		"dev": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_PUBLIC_TARGET=${PLASMO_PUBLIC_TARGET:-chrome} PLASMO_PUBLIC_NAME=${PLASMO_PUBLIC_NAME:-\"jiffy-reader-chrome\"} PLASMO_PUBLIC_TAG=${PLASMO_PUBLIC_TAG:-dev} PLASMO_TAG=$PLASMO_PUBLIC_TAG  PLASMO_PUBLIC_VERSION_NAME=$PLASMO_PUBLIC_VERSION-$PLASMO_PUBLIC_TARGET-$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_DEBUG=${PLASMO_PUBLIC_DEBUG:-TRUE}  PLASMO_PUBLIC_SHORTCUT=${PLASMO_PUBLIC_SHORTCUT:-\"Alt+B\"} plasmo dev --target=${PLASMO_PUBLIC_MANIFEST_VERSION:-chrome-mv3}",
+		"dev:bookmarklet": "nodemon -x 'pnpm gh:build:bookmarklet' -w src/Bookmarklet",
 		"buildx": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_PUBLIC_TARGET=${PLASMO_PUBLIC_TARGET:-chrome} PLASMO_PUBLIC_NAME=${PLASMO_PUBLIC_NAME:-\"Jiffy Reader\"} PLASMO_PUBLIC_TAG=${PLASMO_PUBLIC_TAG:-prod} PLASMO_TAG=$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_VERSION_NAME=$PLASMO_PUBLIC_VERSION-$PLASMO_PUBLIC_TARGET-$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_DEBUG=${PLASMO_PUBLIC_DEBUG:-FALSE} PLASMO_PUBLIC_SHORTCUT=${PLASMO_PUBLIC_SHORTCUT:-\"Alt+B\"} plasmo build --target=${PLASMO_PUBLIC_MANIFEST_VERSION:-chrome-mv3}",
 		"build": "npm run build:opera && npm run build:chrome & npm run build:firefox & npm run build:safari",
 		"dev:chrome": "npm run dev",
@@ -19,7 +20,7 @@
 		"gh:build:opera": "PLASMO_PUBLIC_TARGET=opera PLASMO_PUBLIC_SHORTCUT=\"Alt+B\" PLASMO_PUBLIC_MANIFEST_VERSION=opera-mv3 npm run buildx && npm run bundle:opera",
 		"gh:build:firefox": "PLASMO_PUBLIC_TARGET=firefox PLASMO_PUBLIC_SHORTCUT=\"Alt+W\" PLASMO_PUBLIC_MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
 		"gh:build:safari": "PLASMO_PUBLIC_TARGET=safari PLASMO_PUBLIC_SHORTCUT=\"Alt+W\" PLASMO_PUBLIC_MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
-		"gh:build": "echo 'PLASMO_PUBLIC_TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && wait'",
+		"gh:build": "echo 'PLASMO_PUBLIC_TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && wait && pnpm gh:build:bookmarklet'",
 		"gh:build:development": "echo 'PLASMO_PUBLIC_TAG=dev NODE_ENV=development  PLASMO_PUBLIC_NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && wait'",
 		"gh:build:bookmarklet": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
 		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
@@ -49,8 +50,8 @@
 		"postcss": "^8.4.49",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
-		"webpack": "^4.47.0",
-		"zod": "^3.24.1"
+		"valibot": "1.0.0-beta.9",
+		"webpack": "^4.47.0"
 	},
 	"devDependencies": {
 		"@parcel/transformer-sass": "2.6.2",
