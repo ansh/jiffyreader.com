@@ -7,7 +7,16 @@ const /** @type {import('esbuild').BuildOptions} */ defaultConfigs = {
 		minify: true,
 		write: false,
 		plugins: [sassPlugin({ type: 'css-text' })],
-		define: { 'process.env.PLASMO_PUBLIC_DEBUG': '"false"' },
+		define: {
+			'process.env.PLASMO_PUBLIC_SHORTCUT': `'${process.env.PLASMO_PUBLIC_SHORTCUT}'`,
+			'process.env.PLASMO_PUBLIC_VERSION': `'${process.env.PLASMO_PUBLIC_VERSION}'`,
+			'process.env.PLASMO_PUBLIC_VERSION_NAME': `'${process.env.PLASMO_PUBLIC_VERSION_NAME}'`,
+			'process.env.PLASMO_PUBLIC_TARGET': `'${process.env.PLASMO_PUBLIC_TARGET}'`,
+			'process.env.NODE_ENV': `'${process.env.NODE_ENV}'`,
+			'process.env.PLASMO_PUBLIC_DEBUG': `'${process.env.PLASMO_PUBLIC_DEBUG ?? 'FALSE'}'`,
+			'process.env.PLASMO_PUBLIC_ENABLE_TRACKING': `'${process.env.PLASMO_PUBLIC_ENABLE_TRACKING ?? 'FALSE'}'`,
+			'process.env.PLASMO_PUBLIC_HOME_URL': `'${process.env.PLASMO_PUBLIC_HOME_URL}'`,
+		},
 		tsconfig: './tsconfig.json',
 	};
 
@@ -23,7 +32,7 @@ build({
 })
 	.then(({ outputFiles: [res] }) => {
 		const outputScript = res.text.replace(/\n/g, '');
-		const output = [
+		const buttons = [
 			...[
 				['JiffyReader Toggle', 'fireReadingToggle'],
 				['FixationStrength Toggle', 'fireFixationStrengthTransition'],
@@ -34,6 +43,8 @@ build({
 
 			`<p>Drag any of the links above onto your bookmark bar to save it as a bookmarklet which works on any site just like the full extension <br/>Version: ${process.env.PLASMO_PUBLIC_VERSION}</p>`,
 		].join(' ');
+
+		const output = `<div style='display: block grid; grid-template-columns: repeat(5,1fr);grid-template-rows: repeat(2,40px);'>${buttons}<div></div>`;
 
 		fs.writeFileSync(outputFile, output);
 	})
