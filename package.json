@@ -20,7 +20,7 @@
 		"gh:build:opera": "PLASMO_PUBLIC_TARGET=opera PLASMO_PUBLIC_SHORTCUT=\"Alt+B\" PLASMO_PUBLIC_MANIFEST_VERSION=opera-mv3 npm run buildx && npm run bundle:opera",
 		"gh:build:firefox": "PLASMO_PUBLIC_TARGET=firefox PLASMO_PUBLIC_SHORTCUT=\"Alt+W\" PLASMO_PUBLIC_MANIFEST_VERSION=firefox-mv2 npm run buildx && npm run bundle:firefox",
 		"gh:build:safari": "PLASMO_PUBLIC_TARGET=safari PLASMO_PUBLIC_SHORTCUT=\"Alt+W\" PLASMO_PUBLIC_MANIFEST_VERSION=safari-mv2 npm run buildx && npm run bundle:safari",
-		"gh:build": "echo 'PLASMO_PUBLIC_TAG=prod NODE_ENV=production npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && wait && pnpm gh:build:bookmarklet'",
+		"gh:build": "echo 'PLASMO_PUBLIC_TAG=prod NODE_ENV=production PLASMO_PUBLIC_DEBUG=FALSE npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && wait && pnpm gh:build:bookmarklet'",
 		"gh:build:development": "echo 'PLASMO_PUBLIC_TAG=dev NODE_ENV=development  PLASMO_PUBLIC_NAME=Jiffy-Reader-Dev npm run gh:build:' | xargs -I{} bash -c '{}opera && {}chrome & {}firefox & {}safari && wait'",
 		"gh:build:bookmarklet": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" node src/Bookmarklet/esbuild.mjs",
 		"bundle": "npm run bundle:chrome & npm run bundle:firefix & npm run bundle:safari",
