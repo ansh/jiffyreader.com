@@ -36,7 +36,6 @@ const env = {
 
 type Env = typeof env;
 
-console.log({ env });
 
 let envSchema = object(Object.fromEntries(Object.entries(env).map(([key, { validator }]) => [key, validator])) as { [K in keyof Env]: Env[K]['validator'] });
 let envSelection = Object.fromEntries(Object.entries(env).map(([key, { value }]) => [key, value])) as (typeof process)['env'];
@@ -60,6 +59,5 @@ const envService = {
 	},
 };
 
-console.log({ envService });
 
 export { envService };

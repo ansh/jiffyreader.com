@@ -5,19 +5,19 @@
 
 import { envService } from './envService';
 
-const cantDebug = (shouldDebug: boolean = false) => !shouldDebug;
 
-const nullCallback = () => null;
+const nullCallback = function () {
+};
 
-const maker = <T>(fn: T): T => (envService.PLASMO_PUBLIC_DEBUG ? nullCallback : fn) as T;
+const maker = <T>(fn: T): T => (!envService.PLASMO_PUBLIC_DEBUG ? nullCallback : fn) as T;
 
 /**
  *
- * @param {String} label
+ * @param {string} label
  * @returns {Function} end and display time when called in non production environment
  */
 const logTime = (label) => {
-	if (cantDebug(envService.PLASMO_PUBLIC_DEBUG)) return () => nullCallback;
+	if (!envService.PLASMO_PUBLIC_DEBUG) return () => nullCallback;
 
 	console.time(label);
 	return () => console.timeEnd(label);
@@ -27,10 +27,29 @@ const logInfo = maker(console.log);
 const logError = maker(console.trace);
 const LogLastError = ({ lastError = null } = chrome.runtime) => lastError && logError(lastError);
 
-export default {
+const logger = {
 	logTime,
 	logInfo,
 	logError,
 	LogLastError: maker(LogLastError),
 	LogTable: maker(console.table),
 };
+
+const loggerProxy = new Proxy(() => {}, {
+	get(target, propKey) {
+		console.log('loggerProxy.get.fired', { propKey, });
+		if (envService.PLASMO_PUBLIC_DEBUG) {
+			return () => nullCallback;
+		}
+		return loggerProxy;
+	},
+	apply(targer, _this, args) {
+		console.log('logerProxy.apply.fired');
+		if (cantDebug()) {
+			return () => loggerProxy(...args);
+		}
+		return logger[target].call(...args);
+	},
+});
+
+export default logger;
