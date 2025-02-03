@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.6.3](https://github.com/ansh/jiffyreader.com/compare/v1.6.2...v1.6.3) (2025-02-03)
+
+
+### Bug Fixes
+
+* noisy prod log with env ([9dc8676](https://github.com/ansh/jiffyreader.com/commit/9dc867673fd956b33be1bfb4db9900105e754117))
+
 ## [1.6.2](https://github.com/ansh/jiffyreader.com/compare/v1.6.1...v1.6.2) (2025-02-03)
 
 

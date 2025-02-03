@@ -1,7 +1,7 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.6.2",
+	"version": "1.6.3",
 	"description": "jiffy reader",
 	"packageManager": "pnpm@9.15.3",
 	"scripts": {
