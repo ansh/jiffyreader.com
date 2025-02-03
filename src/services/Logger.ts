@@ -5,23 +5,19 @@
 
 import { envService } from './envService';
 
+const nullCallback = function () {};
 
-const nullCallback = function () {
-};
-
-const maker = <T>(fn: T): T => (!envService.PLASMO_PUBLIC_DEBUG ? nullCallback : fn) as T;
+const maker = <T>(fn: T, debug = envService.showDebugInfo): T => (debug ? nullCallback : fn) as T;
 
 /**
  *
  * @param {string} label
  * @returns {Function} end and display time when called in non production environment
  */
-const logTime = (label) => {
-	if (!envService.PLASMO_PUBLIC_DEBUG) return () => nullCallback;
-
+const logTime = maker((label: string) => {
 	console.time(label);
 	return () => console.timeEnd(label);
-};
+});
 
 const logInfo = maker(console.log);
 const logError = maker(console.trace);
@@ -37,7 +33,7 @@ const logger = {
 
 const loggerProxy = new Proxy(() => {}, {
 	get(target, propKey) {
-		console.log('loggerProxy.get.fired', { propKey, });
+		console.log('loggerProxy.get.fired', { propKey });
 		if (envService.PLASMO_PUBLIC_DEBUG) {
 			return () => nullCallback;
 		}
