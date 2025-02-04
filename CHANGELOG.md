@@ -2,111 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-## [1.6.3](https://github.com/ansh/jiffyreader.com/compare/v1.6.2...v1.6.3) (2025-02-03)
-
-
-### Bug Fixes
-
-* noisy prod log with env ([9dc8676](https://github.com/ansh/jiffyreader.com/commit/9dc867673fd956b33be1bfb4db9900105e754117))
-
-## [1.6.2](https://github.com/ansh/jiffyreader.com/compare/v1.6.1...v1.6.2) (2025-02-03)
-
-
-### Bug Fixes
-
-* noisy console logs in production ([442e959](https://github.com/ansh/jiffyreader.com/commit/442e959785dfc1c4a757b28e17c02d80d5eb59e5))
-* noisy logging ([c98039c](https://github.com/ansh/jiffyreader.com/commit/c98039c6fedb58ff86c95bce14ba36124a0aba1d))
-
-## [1.6.1](https://github.com/ansh/jiffyreader.com/compare/v1.5.0...v1.6.1) (2025-01-20)
+## [1.6.4](https://github.com/ansh/jiffyreader.com/compare/v1.6.0...v1.6.4) (2025-02-04)
 
 
 ### Bug Fixes
 
 * disable debug for prod builds ([4c3a425](https://github.com/ansh/jiffyreader.com/commit/4c3a42559bb3150751920ef29c8bbf9867f4a61a))
+* noisy console logs in production ([442e959](https://github.com/ansh/jiffyreader.com/commit/442e959785dfc1c4a757b28e17c02d80d5eb59e5))
+* noisy logging ([c98039c](https://github.com/ansh/jiffyreader.com/commit/c98039c6fedb58ff86c95bce14ba36124a0aba1d))
+* noisy prod log with env ([9dc8676](https://github.com/ansh/jiffyreader.com/commit/9dc867673fd956b33be1bfb4db9900105e754117))
+* noisylogging ([876a170](https://github.com/ansh/jiffyreader.com/commit/876a17084977c2cc54cfb41f8c0c074ddfd968ad))
 
-## [1.5.0](https://github.com/ansh/jiffyreader.com/compare/v1.4.0...v1.5.0) (2024-12-31)
+## [1.6.0](https://github.com/ansh/jiffyreader.com/compare/v1.3.7...v1.6.0) (2024-12-31)
 
 
 ### Features
 
 * ability to enable and disable elements on a page like buttons, links, ... etc ([30b889a](https://github.com/ansh/jiffyreader.com/commit/30b889a27906786c2220b4ec3d389d5790e697e2))
-
-## [1.4.0](https://github.com/ansh/jiffyreader.com/compare/v1.3.5...v1.4.0) (2024-12-30)
-
-
-### Features
-
 * ability to enable and disable elements on a page like buttons, links, ... etc ([a97e0ea](https://github.com/ansh/jiffyreader.com/commit/a97e0eade9974c63bb67e079c8ae198f0f64d50d))
 
-## [1.3.5](https://github.com/ansh/jiffyreader.com/compare/v1.3.4...v1.3.5) (2024-12-29)
+## [1.3.7](https://github.com/ansh/jiffyreader.com/compare/v1.3.6...v1.3.7) (2024-12-29)
+
+## [1.3.6](https://github.com/ansh/jiffyreader.com/compare/v1.3.3...v1.3.6) (2024-12-29)
 
 
 ### Bug Fixes
 
 * reddi disappearing text [#288](https://github.com/ansh/jiffyreader.com/issues/288) ([f4e5256](https://github.com/ansh/jiffyreader.com/commit/f4e5256bb9c0a6d6a54cc5d2c759a32f756d8d38))
-
-## [1.3.4](https://github.com/ansh/jiffyreader.com/compare/v1.3.2...v1.3.4) (2024-12-28)
-
-
-### Bug Fixes
-
-* **ci/update:** use wait instead of sleep ([4922097](https://github.com/ansh/jiffyreader.com/commit/49220974dcea8702ec6523e75aad7ae3b482de8b))
-* **ci:** skip release if last commit is chore(release) ([0cd8748](https://github.com/ansh/jiffyreader.com/commit/0cd87481c6b854fc48516acdad6a6b56cbfbe77a))
 * **ui:** popup ([17fabf7](https://github.com/ansh/jiffyreader.com/commit/17fabf7bee71505bd75181ce2813196dbf6b6180))
 
-## [1.3.2](https://github.com/ansh/jiffyreader.com/compare/v1.3.1...v1.3.2) (2024-12-26)
+## [1.3.3](https://github.com/ansh/jiffyreader.com/compare/v1.3.0...v1.3.3) (2024-12-26)
 
 
 ### Bug Fixes
 
 * **build:** wait 10 seconds after build to run test ([d8b76da](https://github.com/ansh/jiffyreader.com/commit/d8b76da7eae82809a6adc5dc6d61c37650bab07c))
+* **ci/update:** use wait instead of sleep ([4922097](https://github.com/ansh/jiffyreader.com/commit/49220974dcea8702ec6523e75aad7ae3b482de8b))
 * **ci:** bugs zipping opera, add time delay to stabilize parallel builds, remove action.sh ([4349274](https://github.com/ansh/jiffyreader.com/commit/43492741c4aefac56ae5ea1b49ed3c5e652d72b2))
+* **ci:** skip release if last commit is chore(release) ([0cd8748](https://github.com/ansh/jiffyreader.com/commit/0cd87481c6b854fc48516acdad6a6b56cbfbe77a))
 
-## [1.3.1](https://github.com/ansh/jiffyreader.com/compare/v1.2.6...v1.3.1) (2024-12-26)
-
-## [1.2.6](https://github.com/ansh/jiffyreader.com/compare/v1.2.5...v1.2.6) (2024-12-25)
-
-## [1.2.5](https://github.com/ansh/jiffyreader.com/compare/v1.2.4...v1.2.5) (2024-12-25)
-
-
-### Bug Fixes
-
-* **build:** set different name for dev builds ([d1f7b22](https://github.com/ansh/jiffyreader.com/commit/d1f7b22c9ae897c9fe9cb01f98a57ee3e654af82))
-* **ci:** attempt to upload to cws when secrets available ([03bef78](https://github.com/ansh/jiffyreader.com/commit/03bef7811edcbe51ad5f506e01bfaf837cf4eb98))
-* **ci:** build and publish tags as prelease, requires manually unchecking a prerelease to mark it as current in gh gui ([08d2fa1](https://github.com/ansh/jiffyreader.com/commit/08d2fa1d2674bf8948e1bc74dd55e4aac29ee1cf))
-* **ci:** check to run cws uploads with scripts ([921b2fe](https://github.com/ansh/jiffyreader.com/commit/921b2fe298293fa1fcd16398ad142819a366f281))
-
-## [1.2.4](https://github.com/ansh/jiffyreader.com/compare/v1.2.3...v1.2.4) (2024-12-25)
-
-
-### Bug Fixes
-
-* **ci:** cws upload missing chrome file ([cccbaea](https://github.com/ansh/jiffyreader.com/commit/cccbaeaab849ccb2226e0d856799edd2e0fccee1))
-* **ci:** print manifest after build and update make calls ([77e5392](https://github.com/ansh/jiffyreader.com/commit/77e5392e88ac3e4a0f9502dc74049597cd8a8bd9))
-* **ci:** upload then publish as last step to fail softly ([af78b9a](https://github.com/ansh/jiffyreader.com/commit/af78b9a861a6970c652847c0a11d3e0961ecb514))
-
-## [1.2.3](https://github.com/ansh/jiffyreader.com/compare/v1.2.2...v1.2.3) (2024-12-25)
-
-
-### Bug Fixes
-
-* **ci:** include pnpm lock ([8428b9a](https://github.com/ansh/jiffyreader.com/commit/8428b9aa4d10e18b7b770bd4754fa05ad3b539da))
-* **ui:** broken css with interpolation ([31a7492](https://github.com/ansh/jiffyreader.com/commit/31a749214c7cba101af00097aaaa6d9dede32a93))
-
-## [1.2.2](https://github.com/ansh/jiffyreader.com/compare/v1.2.0...v1.2.2) (2024-12-25)
-
-
-### Bug Fixes
-
-* ci secrets ([7849ee4](https://github.com/ansh/jiffyreader.com/commit/7849ee463b36aea216de0961a125c1518cd37d66))
-* **ci:** refactor ([15defa4](https://github.com/ansh/jiffyreader.com/commit/15defa46bada19498e99f85e80a92de1a534b7b2))
-* **ci:** run make test ([1ff3e3a](https://github.com/ansh/jiffyreader.com/commit/1ff3e3a413eec3c6831e129bca58eaa29bc3b03d))
-* **internal:** improvements ([010f3ee](https://github.com/ansh/jiffyreader.com/commit/010f3ee35b7fe001d1be4508ce8f379bedb51034))
-* sass build warings ([af40167](https://github.com/ansh/jiffyreader.com/commit/af40167d9a2b02255939eb6957de2c814eff2315))
-* **update:** build and dev script, action and make file, add ([c64923c](https://github.com/ansh/jiffyreader.com/commit/c64923c3ec65e07e7f25bac69a6c7f6e1d821b0d))
-* **update:** ignore .envs ([541e4b6](https://github.com/ansh/jiffyreader.com/commit/541e4b68e7306d0eb476b081a8c550d90b3d66c2))
-
-## [1.2.0](https://github.com/ansh/jiffyreader.com/compare/6c3fad5509a6345346122705c0e859eb036e5171...v1.2.0) (2024-12-23)
+## [1.3.0](https://github.com/ansh/jiffyreader.com/compare/6c3fad5509a6345346122705c0e859eb036e5171...v1.3.0) (2024-12-25)
 
 
 ### Features
@@ -154,8 +89,19 @@ All notable changes to this project will be documented in this file. See [commit
 * bookmarklet build failing ([ae347e4](https://github.com/ansh/jiffyreader.com/commit/ae347e4fcc4e28a7a9c3df0670f5d25aa512d7ad))
 * broken bookmarlet ([859292a](https://github.com/ansh/jiffyreader.com/commit/859292a5d241955ad6a8d6517e9f0f9db4b13bb8))
 * buggy toggles ([dfca483](https://github.com/ansh/jiffyreader.com/commit/dfca483174481c0fb2c614a5968b775bdc73b80a))
+* **build:** set different name for dev builds ([d1f7b22](https://github.com/ansh/jiffyreader.com/commit/d1f7b22c9ae897c9fe9cb01f98a57ee3e654af82))
 * chrome install notification bug ([be7e397](https://github.com/ansh/jiffyreader.com/commit/be7e397ff5d663e32d71682d6f749535af147a3a))
+* ci secrets ([7849ee4](https://github.com/ansh/jiffyreader.com/commit/7849ee463b36aea216de0961a125c1518cd37d66))
+* **ci:** attempt to upload to cws when secrets available ([03bef78](https://github.com/ansh/jiffyreader.com/commit/03bef7811edcbe51ad5f506e01bfaf837cf4eb98))
+* **ci:** build and publish tags as prelease, requires manually unchecking a prerelease to mark it as current in gh gui ([08d2fa1](https://github.com/ansh/jiffyreader.com/commit/08d2fa1d2674bf8948e1bc74dd55e4aac29ee1cf))
+* **ci:** check to run cws uploads with scripts ([921b2fe](https://github.com/ansh/jiffyreader.com/commit/921b2fe298293fa1fcd16398ad142819a366f281))
+* **ci:** cws upload missing chrome file ([cccbaea](https://github.com/ansh/jiffyreader.com/commit/cccbaeaab849ccb2226e0d856799edd2e0fccee1))
+* **ci:** include pnpm lock ([8428b9a](https://github.com/ansh/jiffyreader.com/commit/8428b9aa4d10e18b7b770bd4754fa05ad3b539da))
+* **ci:** print manifest after build and update make calls ([77e5392](https://github.com/ansh/jiffyreader.com/commit/77e5392e88ac3e4a0f9502dc74049597cd8a8bd9))
+* **ci:** refactor ([15defa4](https://github.com/ansh/jiffyreader.com/commit/15defa46bada19498e99f85e80a92de1a534b7b2))
+* **ci:** run make test ([1ff3e3a](https://github.com/ansh/jiffyreader.com/commit/1ff3e3a413eec3c6831e129bca58eaa29bc3b03d))
 * **ci:** upload prod extension and publish dev extension to chrome webstore ([8b7b14d](https://github.com/ansh/jiffyreader.com/commit/8b7b14d4f480beeabe57a330a491620e290e307e))
+* **ci:** upload then publish as last step to fail softly ([af78b9a](https://github.com/ansh/jiffyreader.com/commit/af78b9a861a6970c652847c0a11d3e0961ecb514))
 * content loading incorrect tabSession on init ([26457c6](https://github.com/ansh/jiffyreader.com/commit/26457c6476a153bd42347433213e5b6afcbe4c23))
 * **doc:** broken about link ([c0936c7](https://github.com/ansh/jiffyreader.com/commit/c0936c757d924580a1c0dca5b288f36ed7a4da1b)), closes [#164](https://github.com/ansh/jiffyreader.com/issues/164)
 * **docs:** typo ([df4bbcd](https://github.com/ansh/jiffyreader.com/commit/df4bbcd3c5b4e1f6c2a83130b584693ca79a6175))
@@ -168,6 +114,7 @@ All notable changes to this project will be documented in this file. See [commit
 * google play logo ([7c1d27f](https://github.com/ansh/jiffyreader.com/commit/7c1d27fc449741f35c22efd87473eb1017d3c982))
 * ignore styles tags in body element ([07b0f5b](https://github.com/ansh/jiffyreader.com/commit/07b0f5b1ada87de2a53dd3e05473ec14870ae653)), closes [#98](https://github.com/ansh/jiffyreader.com/issues/98)
 * import.meta firefox error ([d62c26e](https://github.com/ansh/jiffyreader.com/commit/d62c26e240468f61bb6e428311ae0ccc646f332f))
+* **internal:** improvements ([010f3ee](https://github.com/ansh/jiffyreader.com/commit/010f3ee35b7fe001d1be4508ce8f379bedb51034))
 * invisible buttons ([eca0292](https://github.com/ansh/jiffyreader.com/commit/eca02928ded7e9c6d090d2907bda9f1578dcf7ce))
 * issue [#168](https://github.com/ansh/jiffyreader.com/issues/168) ([8136fdb](https://github.com/ansh/jiffyreader.com/commit/8136fdbf2a365157253f93568b79c723badaa3d6))
 * issue[#148](https://github.com/ansh/jiffyreader.com/issues/148) ([b2c2f81](https://github.com/ansh/jiffyreader.com/commit/b2c2f81b5e344f0374172bf88f1e37dc112cd9e4))
@@ -181,6 +128,7 @@ All notable changes to this project will be documented in this file. See [commit
 * popup style ([6959d60](https://github.com/ansh/jiffyreader.com/commit/6959d60793559927ddfd4787a625733443abec53))
 * production build not working ([5c25391](https://github.com/ansh/jiffyreader.com/commit/5c253919888084a1bcec6eeedc835fc64c259a5f))
 * removed unused storage permission ([3a3caa8](https://github.com/ansh/jiffyreader.com/commit/3a3caa859f9ca282a8c54e59c9f8c6f1d80c2778))
+* sass build warings ([af40167](https://github.com/ansh/jiffyreader.com/commit/af40167d9a2b02255939eb6957de2c814eff2315))
 * shorcut error ([b825cda](https://github.com/ansh/jiffyreader.com/commit/b825cda16d1392671dc7023aca806dca15c4521e))
 * shortcut and badgetext, house cleaning ([9be4ed5](https://github.com/ansh/jiffyreader.com/commit/9be4ed59cb6f2020dd4a4b121e13154979eee7f2))
 * style is not being triggered for the first toggle ([9042cdd](https://github.com/ansh/jiffyreader.com/commit/9042cddfe2fcab9951b8b54be77c7f54e2055f3d))
@@ -189,6 +137,9 @@ All notable changes to this project will be documented in this file. See [commit
 * typo ([2e60ecb](https://github.com/ansh/jiffyreader.com/commit/2e60ecbfd2c540e2772878c1fbb9a1ae2686d9c8))
 * typo ([b12b9da](https://github.com/ansh/jiffyreader.com/commit/b12b9daedaa76dfcef810bc296a8ae1e4a4d1744))
 * typo ([42cfd6a](https://github.com/ansh/jiffyreader.com/commit/42cfd6aba4c8d9bd6f3d80789f7b3b83b3b65db7))
+* **ui:** broken css with interpolation ([31a7492](https://github.com/ansh/jiffyreader.com/commit/31a749214c7cba101af00097aaaa6d9dede32a93))
+* **update:** build and dev script, action and make file, add ([c64923c](https://github.com/ansh/jiffyreader.com/commit/c64923c3ec65e07e7f25bac69a6c7f6e1d821b0d))
+* **update:** ignore .envs ([541e4b6](https://github.com/ansh/jiffyreader.com/commit/541e4b68e7306d0eb476b081a8c550d90b3d66c2))
 * use custom anchor placed after body ([d08b3cc](https://github.com/ansh/jiffyreader.com/commit/d08b3cc66012346eca07ef57d879132bcb4bcf23))
 * web.whatapp.com message contenteditable bug ([629d29d](https://github.com/ansh/jiffyreader.com/commit/629d29de4216001b0adb12e370a6c248fb3bebc5))
 * workflow ([64c8ab7](https://github.com/ansh/jiffyreader.com/commit/64c8ab7c8df89f48f410f01bc37931410a9eb88f))
