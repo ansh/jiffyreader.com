@@ -2,31 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
-## [1.6.5](https://github.com/ansh/jiffyreader.com/compare/v1.6.4...v1.6.5) (2025-02-04)
+## [1.6.6](https://github.com/ansh/jiffyreader.com/compare/v1.6.4...v1.6.6) (2025-02-04)
 
-## [1.6.4](https://github.com/ansh/jiffyreader.com/compare/v1.6.3...v1.6.4) (2025-02-04)
-
-
-### Bug Fixes
-
-* noisylogging ([876a170](https://github.com/ansh/jiffyreader.com/commit/876a17084977c2cc54cfb41f8c0c074ddfd968ad))
-
-## [1.6.3](https://github.com/ansh/jiffyreader.com/compare/v1.6.2...v1.6.3) (2025-02-03)
-
-
-### Bug Fixes
-
-* noisy prod log with env ([9dc8676](https://github.com/ansh/jiffyreader.com/commit/9dc867673fd956b33be1bfb4db9900105e754117))
-
-## [1.6.2](https://github.com/ansh/jiffyreader.com/compare/v1.6.1...v1.6.2) (2025-02-03)
-
-
-### Bug Fixes
-
-* noisy console logs in production ([442e959](https://github.com/ansh/jiffyreader.com/commit/442e959785dfc1c4a757b28e17c02d80d5eb59e5))
-* noisy logging ([c98039c](https://github.com/ansh/jiffyreader.com/commit/c98039c6fedb58ff86c95bce14ba36124a0aba1d))
-
-## [1.6.1](https://github.com/ansh/jiffyreader.com/compare/v1.5.0...v1.6.1) (2025-01-20)
+## [1.6.4](https://github.com/ansh/jiffyreader.com/compare/v1.6.0...v1.6.4) (2025-02-04)
 
 
 ### Bug Fixes
