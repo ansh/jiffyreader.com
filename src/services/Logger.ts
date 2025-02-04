@@ -5,9 +5,9 @@
 
 import { envService } from './envService';
 
-const nullCallback = function () {};
+const nullCallback = () => nullCallback;
 
-const maker = <T>(fn: T, debug = envService.showDebugInfo): T => (debug ? nullCallback : fn) as T;
+const maker = <T>(fn: T, debug = envService.showDebugInfo): T => (debug ? fn : nullCallback) as T;
 
 /**
  *
@@ -30,22 +30,5 @@ const logger = {
 	LogLastError: maker(LogLastError),
 	LogTable: maker(console.table),
 };
-
-const loggerProxy = new Proxy(() => {}, {
-	get(target, propKey) {
-		console.log('loggerProxy.get.fired', { propKey });
-		if (envService.PLASMO_PUBLIC_DEBUG) {
-			return () => nullCallback;
-		}
-		return loggerProxy;
-	},
-	apply(targer, _this, args) {
-		console.log('logerProxy.apply.fired');
-		if (cantDebug()) {
-			return () => loggerProxy(...args);
-		}
-		return logger[target].call(...args);
-	},
-});
 
 export default logger;
