@@ -5,32 +5,30 @@
 
 import { envService } from './envService';
 
-const cantDebug = (shouldDebug: boolean = false) => !shouldDebug;
+const nullCallback = () => nullCallback;
 
-const nullCallback = () => null;
-
-const maker = <T>(fn: T): T => (envService.PLASMO_PUBLIC_DEBUG ? nullCallback : fn) as T;
+const maker = <T>(fn: T, debug = envService.showDebugInfo): T => (debug ? fn : nullCallback) as T;
 
 /**
  *
- * @param {String} label
+ * @param {string} label
  * @returns {Function} end and display time when called in non production environment
  */
-const logTime = (label) => {
-	if (cantDebug(envService.PLASMO_PUBLIC_DEBUG)) return () => nullCallback;
-
+const logTime = maker((label: string) => {
 	console.time(label);
 	return () => console.timeEnd(label);
-};
+});
 
 const logInfo = maker(console.log);
 const logError = maker(console.trace);
 const LogLastError = ({ lastError = null } = chrome.runtime) => lastError && logError(lastError);
 
-export default {
+const logger = {
 	logTime,
 	logInfo,
 	logError,
 	LogLastError: maker(LogLastError),
 	LogTable: maker(console.table),
 };
+
+export default logger;
