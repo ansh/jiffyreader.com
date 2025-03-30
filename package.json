@@ -1,13 +1,13 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.6.6",
+	"version": "1.6.7",
 	"description": "jiffy reader",
 	"packageManager": "pnpm@9.15.3",
 	"scripts": {
-		"dev": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_PUBLIC_TARGET=${PLASMO_PUBLIC_TARGET:-chrome} PLASMO_PUBLIC_NAME=${PLASMO_PUBLIC_NAME:-\"jiffy-reader-chrome\"} PLASMO_PUBLIC_TAG=${PLASMO_PUBLIC_TAG:-dev} PLASMO_TAG=$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_VERSION_NAME=$PLASMO_PUBLIC_VERSION-$PLASMO_PUBLIC_TARGET-$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_DEBUG=${PLASMO_PUBLIC_DEBUG:-TRUE} PLASMO_PUBLIC_SHORTCUT=${PLASMO_PUBLIC_SHORTCUT:-\"Alt+B\"} plasmo dev --target=${PLASMO_PUBLIC_MANIFEST_VERSION:-chrome-mv3}",
+		"dev": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_PUBLIC_TARGET=${PLASMO_PUBLIC_TARGET:-chrome} PLASMO_PUBLIC_NAME=${PLASMO_PUBLIC_NAME:-\"jiffy-reader-chrome\"} PLASMO_PUBLIC_TAG=${PLASMO_PUBLIC_TAG:-dev} PLASMO_TAG=$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_VERSION_NAME=$PLASMO_PUBLIC_VERSION-$PLASMO_PUBLIC_TARGET-$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_DEBUG=${PLASMO_PUBLIC_DEBUG:-TRUE} PLASMO_PUBLIC_SHORTCUT=${PLASMO_PUBLIC_SHORTCUT:-\"Alt+B\"} plasmo dev --target=${PLASMO_PUBLIC_MANIFEST_VERSION:-chrome-mv3} & node build-burke.js",
 		"dev:bookmarklet": "nodemon -x 'pnpm gh:build:bookmarklet' -w src/Bookmarklet",
-		"buildx": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_PUBLIC_TARGET=${PLASMO_PUBLIC_TARGET:-chrome} PLASMO_PUBLIC_NAME=${PLASMO_PUBLIC_NAME:-\"Jiffy Reader\"} PLASMO_PUBLIC_TAG=${PLASMO_PUBLIC_TAG:-prod} PLASMO_TAG=$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_VERSION_NAME=$PLASMO_PUBLIC_VERSION-$PLASMO_PUBLIC_TARGET-$PLASMO_PUBLIC_TAG k=${PLASMO_PUBLIC_DEBUG:-FALSE} PLASMO_PUBLIC_SHORTCUT=${PLASMO_PUBLIC_SHORTCUT:-\"Alt+B\"} plasmo build --target=${PLASMO_PUBLIC_MANIFEST_VERSION:-chrome-mv3}",
+		"buildx": "PLASMO_PUBLIC_VERSION=\"$(npm pkg get version | tr -d '\"')\" PLASMO_PUBLIC_TARGET=${PLASMO_PUBLIC_TARGET:-chrome} PLASMO_PUBLIC_NAME=${PLASMO_PUBLIC_NAME:-\"Jiffy Reader\"} PLASMO_PUBLIC_TAG=${PLASMO_PUBLIC_TAG:-prod} PLASMO_TAG=$PLASMO_PUBLIC_TAG PLASMO_PUBLIC_VERSION_NAME=$PLASMO_PUBLIC_VERSION-$PLASMO_PUBLIC_TARGET-$PLASMO_PUBLIC_TAG k=${PLASMO_PUBLIC_DEBUG:-FALSE} PLASMO_PUBLIC_SHORTCUT=${PLASMO_PUBLIC_SHORTCUT:-\"Alt+B\"} plasmo build --target=${PLASMO_PUBLIC_MANIFEST_VERSION:-chrome-mv3} & node build-burke.js",
 		"build": "npm run build:opera && npm run build:chrome & npm run build:firefox & npm run build:safari",
 		"dev:chrome": "npm run dev",
 		"dev:firefox": "PLASMO_PUBLIC_NAME=jiffy-reader-firefox PLASMO_PUBLIC_TARGET=firefox PLASMO_PUBLIC_SHORTCUT=\"Alt+W\" PLASMO_PUBLIC_MANIFEST_VERSION=firefox-mv2 npm run dev",
@@ -45,7 +45,7 @@
 		"cross-env": "^7.0.3",
 		"esbuild": "^0.14.53",
 		"esbuild-sass-plugin": "^2.3.1",
-		"mellowtel": "1.4.2",
+		"mellowtel": "^1.6.1",
 		"plasmo": "0.70.0",
 		"postcss": "^8.4.49",
 		"react": "18.2.0",
@@ -76,17 +76,13 @@
 	},
 	"manifest": {
 		"name": "$PLASMO_PUBLIC_NAME",
-		"target": "$PLASMO_PUBLIC_TARGET",
 		"version": "$PLASMO_PUBLIC_VERSION",
-		"tag": "$PLASMO_PUBLIC_TAG",
 		"version_name": "$PLASMO_PUBLIC_VERSION_NAME",
-		"environment": "$NODE_ENV",
 		"description": "A Browser Extension for Faster Reading on ANY website!",
 		"default_locale": "en",
 		"permissions": [
 			"activeTab",
-			"declarativeNetRequest",
-			"tabs"
+			"declarativeNetRequestWithHostAccess"
 		],
 		"host_permissions": [
 			"<all_urls>"
@@ -104,7 +100,9 @@
 				"resources": [
 					"assets/icon512.png",
 					"assets/sun-light-solid.svg",
-					"assets/moon-solid.svg"
+					"assets/moon-solid.svg",
+					"tabs/pascoli.html",
+					"burke.js"
 				],
 				"matches": [
 					"<all_urls>"

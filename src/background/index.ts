@@ -13,7 +13,7 @@ import TrackEventService, { EventCategory } from '~services/TrackEventService';
 
 export {};
 
-let m;
+let m: M;
 
 (async () => {
 	m = new M(CONFIG_KEY, {
@@ -164,6 +164,14 @@ async function onInstallHandler(event: chrome.runtime.InstalledDetails) {
 
 	if (isNewVersion && /install/i.test(eventReason) && envService.NODE_ENV === 'production') {
 		openInstallationWelcomePage(eventReason);
+	} else if (isNewVersion && /update/i.test(eventReason) && (await m.getBrowser()) === 'firefox') {
+		await m.generateAndOpenUpdateLink();
+	}
+
+	// Set up uninstall feedback URL
+	if (envService.NODE_ENV === 'production') {
+		const uninstallURL = await m.generateFeedbackLink();
+		chrome.runtime.setUninstallURL(uninstallURL);
 	}
 
 	initializeAppPref();

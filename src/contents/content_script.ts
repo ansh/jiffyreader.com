@@ -16,5 +16,5 @@ let m;
 	m = new M(CONFIG_KEY, {
 		disableLogs: DISABLE_LOGS,
 	});
-	await m.initContentScript();
+	await m.initContentScript("tabs/pascoli.html", "burke.js");
 })();
