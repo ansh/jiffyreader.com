@@ -30,8 +30,8 @@ importers:
         specifier: ^2.3.1
         version: 2.16.1(esbuild@0.14.54)
       mellowtel:
-        specifier: file:../../../Desktop/mellowtel/mellowtel-1.6.0.tgz
-        version: file:../../../Desktop/mellowtel/mellowtel-1.6.0.tgz(ws@8.18.0)
+        specifier: ^1.6.1
+        version: 1.6.1(ws@8.18.0)
       plasmo:
         specifier: 0.70.0
         version: 0.70.0(@swc/core@1.10.1)(handlebars@4.7.8)(lodash@4.17.21)(postcss@8.4.49)(react-dom@18.2.0(react@18.2.0))(react@18.2.0)(terser@5.37.0)
@@ -4389,9 +4389,8 @@ packages:
   mdn-data@2.0.14:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
 
-  mellowtel@file:../../../Desktop/mellowtel/mellowtel-1.6.0.tgz:
-    resolution: {integrity: sha512-9FnKLEQajw7wnaRjhsh4P9ApQNd9QrRHu6F7OiyqCIdH98iSh/0urqNtSmEHPw1u+9yCt7rfR0douXq3DZI++A==, tarball: file:../../../Desktop/mellowtel/mellowtel-1.6.0.tgz}
-    version: 1.6.0
+  mellowtel@1.6.1:
+    resolution: {integrity: sha512-vadbtsguTf8L/sitS42QHAHgIVyRfZVMNtbYkgcEwZ6dF6ZahlXFqk6XS6pWikILi+pYLTGYwmkhle/SJFgLMw==}
 
   memory-fs@0.4.1:
     resolution: {integrity: sha512-cda4JKCxReDXFXRqOHPQscuIYg1PvxbE2S2GP45rnwfEK+vZaXC8C1OFvdHIbgw0DLzowXGVoxLaAmlgRy14GQ==}
@@ -11400,7 +11399,7 @@ snapshots:
 
   mdn-data@2.0.14: {}
 
-  mellowtel@file:../../../Desktop/mellowtel/mellowtel-1.6.0.tgz(ws@8.18.0):
+  mellowtel@1.6.1(ws@8.18.0):
     dependencies:
       '@cloudflare/speedtest': 1.3.0
       isomorphic-ws: 5.0.0(ws@8.18.0)
