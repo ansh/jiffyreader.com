@@ -44,7 +44,8 @@ async function buildBurke() {
     'build/opera-mv3-prod'
   ]
 
-  for (const dir of directories) {
+  // Process all directories concurrently
+  await Promise.all(directories.map(async (dir) => {
     try {
       console.log(`Waiting for directory: ${dir}`)
       await waitForDirectory(dir)
@@ -54,7 +55,7 @@ async function buildBurke() {
     } catch (err) {
       console.log(`Skipping ${dir} - ${err.message}`)
     }
-  }
+  }))
 
   // Clean up the temporary file
   fs.unlinkSync('burke.bundled.js')
