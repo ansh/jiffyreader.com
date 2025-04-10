@@ -21,6 +21,7 @@ import { HtmlNodeToggles } from './HtmlNodeToggles';
 import Shortcut, { ShortcutGuide } from './shorcut';
 import { ShowDebugInline } from './ShowInlineDebug';
 import { useGetTabOriginCb } from './useGetTabOriginCb';
+import ColorPickerComponent from './ColorPickerComponent';
 
 const popupLogStyle = 'background:cyan;color:brown';
 
@@ -239,6 +240,14 @@ function IndexPopupNew() {
 
 	const errorOccured = !prefs || !tabSession;
 
+	const handleColorChange = (colors: string[]) => {
+		updateConfig('saccadesColors', colors); // Save to prefsStore
+	};
+
+	const handleToggleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		updateConfig('useUserColors', event.target.checked); // Save to prefsStore
+	};
+
 	console.log({ tabSession, prefs });
 
 	return (
@@ -357,6 +366,20 @@ function IndexPopupNew() {
 							</button> */}
 
 					<div className="flex || text-capitalize text-bold">Advanced Settings</div>
+
+					<label>
+						Use Custom Colors:
+						<input
+							type="checkbox"
+							checked={prefs.useUserColorOverides} // Use prefs.useUserColors
+							onChange={handleToggleChange}
+						/>
+					</label>
+
+					<ColorPickerComponent
+						initialColors={prefs.saccadesColorOverides} // Use prefs.saccadesColors
+						onChange={handleColorChange}
+					/>
 
 					<div className="flex justify-between flex-column || w-100">
 						<div className="input-container flex">
