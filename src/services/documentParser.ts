@@ -224,6 +224,10 @@ const setSaccadesStyle = (documentRef: typeof document) => (style) => {
 	}
 };
 
+const removeProperty = (documentRef: typeof document) => (property) => {
+	documentRef.body.style.removeProperty(property);
+};
+
 export default {
 	setReadingMode,
 	makeHandlers: (documentRef: typeof document) => ({
@@ -233,6 +237,7 @@ export default {
 		getProperty: getProperty(documentRef),
 		setSaccadesStyle: setSaccadesStyle(documentRef),
 		amendClasses: amendClasses(documentRef),
+		removeProperty: removeProperty(documentRef),
 	}),
 	hasLatex,
 };
