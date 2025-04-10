@@ -53,15 +53,20 @@ $saccadesColorsBase: (
 @mixin makeColorVariants($color, $id, $delta, $label) {
 	&[saccades-color='#{$label}'] {
 		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
-			--saccadesColor: var(--saccadesColorOveride-#{$id}, #{color.adjust($color, $lightness: $delta)});
+			--saccadesColor: #{color.adjust($color, $lightness: $delta)};
 		}
 	}
 
 	&[saccades-color='#{$label}-100'] {
 		br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
-			--saccadesColor: var(--saccadesColorOveride-#{$id}, #{color.adjust($color, $lightness: $delta * 2.7)});
+			--saccadesColor: #{color.adjust($color, $lightness: $delta * 2.7)};
 		}
 	}
+
+	&[saccades-color='custom'] br-bold:nth-of-type(#{$maxSaccadesInterval}n + #{$id}) {
+		--saccadesColor: var(--saccadesColorOveride-#{$id});
+	}
+
 }
 
 [br-mode='on'] {

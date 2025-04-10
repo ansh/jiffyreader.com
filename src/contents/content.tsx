@@ -27,7 +27,7 @@ export const createShadowRoot = (shadowHost) => {
 	return shadowHost.attachShadow({ mode: 'open' });
 };
 
-const { setAttribute, setProperty, setSaccadesStyle, getAttribute, amendClasses } = documentParser.makeHandlers(document);
+const { setAttribute, setProperty, setSaccadesStyle, getAttribute, amendClasses, removeProperty } = documentParser.makeHandlers(document);
 
 const contentLogStyle = 'background-color: pink';
 
@@ -151,6 +151,18 @@ const IndexContent = () => {
 		setAttribute('saccades-color', prefs.saccadesColor);
 		setAttribute('fixation-strength', prefs.fixationStrength);
 		setAttribute('saccades-interval', prefs.saccadesInterval);
+
+		// Set color overrides
+		if (prefs.saccadesColor === 'custom') {
+			prefs.saccadesColorOverides.forEach((color, index) => {
+				setProperty(`--saccadesColorOveride-${index + 1}`, color);
+			});
+		} else {
+			// Reset to default or remove the properties
+			[0, 1, 2, 3].forEach((index) => {
+				removeProperty(`--saccadesColorOveride-${index + 1}`);
+			});
+		}
 
 		const getPrefsClasses = (addedOrRemoved: boolean) =>
 			Object.entries(prefs.symanticTags)

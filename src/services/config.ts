@@ -1,4 +1,4 @@
-import { envService } from '~services/envService';	
+import { envService } from '~services/envService';
 export const USER_PREF_STORE_KEY = 'prefStore';
 export const APP_PREFS_STORE_KEY = 'appStore';
 export const STORAGE_AREA = ((envService.PLASMO_PUBLIC_TARGET as string).includes('firefox') && 'local') || 'sync';
@@ -18,11 +18,13 @@ export const SACCADE_COLORS = [
 	['Light-100', 'light-100'],
 	['Dark', 'dark'],
 	['Dark-100', 'dark-100'],
+	['Custom', 'custom'],
 ] as [Label: string, value: string][];
 
 export enum DisplayColorMode {
 	'LIGHT' = 'light',
 	'DARK' = 'dark',
+	'CUSTOM' = 'custom',
 }
 
 export const MaxSaccadesInterval = 4;
