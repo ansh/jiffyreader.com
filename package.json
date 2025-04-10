@@ -83,12 +83,7 @@
 		"description": "A Browser Extension for Faster Reading on ANY website!",
 		"default_locale": "en",
 		"permissions": [
-			"activeTab",
-			"declarativeNetRequest",
-			"tabs"
-		],
-		"host_permissions": [
-			"<all_urls>"
+			"activeTab"
 		],
 		"commands": {
 			"toggle-bionic": {

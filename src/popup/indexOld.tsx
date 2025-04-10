@@ -478,7 +478,7 @@ function IndexPopupOld() {
 					<HtmlNodeToggles />
 				</div>
 			)}
-			{!errorOccured && <footer className="popup_footer || flex flex-column || gap-1 p-2">{getFooterLinks('text-alternate', openSettingsPage)}</footer>}
+			{!errorOccured && <footer className="popup_footer || flex flex-column || gap-1 p-2">{getFooterLinks('text-alternate')}</footer>}
 		</>
 	);
 }
