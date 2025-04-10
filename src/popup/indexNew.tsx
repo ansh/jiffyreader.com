@@ -8,9 +8,7 @@ import usePrefs from '~services/usePrefs';
 
 import { useStorage } from '@plasmohq/storage';
 import type { Prefs, TabSession } from 'index';
-import M from 'mellowtel';
 
-import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
 import { APP_PREFS_STORE_KEY, COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, MaxSaccadesInterval, SACCADE_COLORS, SACCADE_STYLES, STORAGE_AREA } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
@@ -179,12 +177,6 @@ function IndexPopupNew() {
 		});
 	};
 
-	const openSettingsPage = async () => {
-		await new M(CONFIG_KEY, {
-			disableLogs: DISABLE_LOGS,
-		}).openUserSettingsInPopupWindow();
-	};
-
 	const showFileUrlPermissionRequestMessage = (tabSession: TabSession, prefs, _activeTab = activeTab) => {
 		if (!/chrome/i.test(envService.PLASMO_PUBLIC_TARGET) || !/^file:\/\//i.test(tabSession?.origin ?? activeTab?.url) || prefs) {
 			return null;
@@ -233,7 +225,7 @@ function IndexPopupNew() {
 		return (
 			<div className="flex flex-column m-md gap-1">
 				<>{showFileUrlPermissionRequestMessage(tabSession, prefs) || showUnsupportedPageErrorMessage() || showPageNotDetectedErrorMessage()}</>
-				<Footer textColor="text-alternate" chrome={chrome} onClickPasser={openSettingsPage} />
+				<Footer textColor="text-alternate" chrome={chrome} />
 			</div>
 		);
 	};
@@ -519,7 +511,7 @@ function IndexPopupNew() {
 
 			{!errorOccured && (
 				<footer className="popup_footer || flex flex-column || gap-1 p-2 mt-3">
-					<Footer chrome={chrome} onClickPasser={openSettingsPage} />
+					<Footer chrome={chrome} />
 				</footer>
 			)}
 		</>
@@ -528,7 +520,7 @@ function IndexPopupNew() {
 
 export default IndexPopupNew;
 
-function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
+function Footer({ textColor = 'text-secondary', chrome }) {
 	return (
 		<>
 			<div className="footer-links-wrapper flex justify-between gap-3">
@@ -549,10 +541,6 @@ function Footer({ textColor = 'text-secondary', chrome, onClickPasser }) {
 
 						<a className={`${textColor} text-capitalize`} href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request" target="_blank">
 							{chrome.i18n.getMessage('reportIssueLinkText')}
-						</a>
-
-						<a className={`${textColor} text-capitalize`} style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={onClickPasser} target="_blank">
-							{'Mellowtel'}
 						</a>
 					</div>
 					<div className="version_dark_mode_toggle|| flex justify-between align-items-center || ">

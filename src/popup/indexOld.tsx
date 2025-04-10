@@ -5,9 +5,7 @@ import TabHelper from '~services/TabHelper';
 import usePrefs, { usePrefStorage } from '~services/usePrefs';
 
 import type { TabSession } from 'index';
-import M from 'mellowtel';
 
-import { CONFIG_KEY, DISABLE_LOGS } from '~constants';
 import { COLOR_MODE_STATE_TRANSITIONS, DisplayColorMode, MaxSaccadesInterval, SACCADE_COLORS, SACCADE_STYLES } from '~services/config';
 import documentParser from '~services/documentParser';
 import defaultPrefs from '~services/preferences';
@@ -158,7 +156,7 @@ function IndexPopupOld() {
 		return 'animated-footer-link ' + (index === footerMessageIndex && ' animated-footer-link-show');
 	};
 
-	const getFooterLinks = (textColor = 'text-secondary', onClickPasser) => (
+	const getFooterLinks = (textColor = 'text-secondary') => (
 		<>
 			<div className="flex justify-between || text-center text-md text-bold w-full gap-3">
 				<a className={`${textColor} text-uppercase`} href="https://github.com/ansh/jiffyreader.com#FAQ" target="_blank">
@@ -167,10 +165,6 @@ function IndexPopupOld() {
 
 				<a className={`${textColor} text-capitalize`} href="https://github.com/ansh/jiffyreader.com#reporting-issues-bugs-and-feature-request" target="_blank">
 					{chrome.i18n.getMessage('reportIssueLinkText')}
-				</a>
-
-				<a className={`${textColor} text-capitalize`} style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={onClickPasser} target="_blank">
-					{'Mellowtel'}
 				</a>
 			</div>
 
@@ -268,19 +262,13 @@ function IndexPopupOld() {
 		);
 	};
 
-	const showErrorMessage = (onClickPasser) => {
+	const showErrorMessage = () => {
 		return (
 			<div className="flex flex-column m-md gap-1">
 				<>{showFileUrlPermissionRequestMessage(tabSession, prefs) || showUnsupportedPageErrorMessage() || showPageNotDetectedErrorMessage()}</>
-				{getFooterLinks('text-alternate', onClickPasser)}
+				{getFooterLinks('text-alternate')}
 			</div>
 		);
-	};
-
-	const openSettingsPage = async () => {
-		await new M(CONFIG_KEY, {
-			disableLogs: DISABLE_LOGS,
-		}).openUserSettingsInPopupWindow();
 	};
 
 	const errorOccured = !prefs || !tabSession;
@@ -290,7 +278,7 @@ function IndexPopupOld() {
 			<ShowDebugInline tabSession={tabSession} />
 
 			{errorOccured ? (
-				showErrorMessage(openSettingsPage)
+				showErrorMessage()
 			) : (
 				<div className="popup-container || flex flex-column  | gap-2" br-mode={tabSession.brMode ? 'On' : 'Off'}>
 					<div className="flex flex-column">
