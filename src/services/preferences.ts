@@ -38,7 +38,7 @@ const defaultPrefs = {
 		ol: true,
 		dialog: true,
 	},
-	saccadesColorOverides: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00'], // Add default saccadesColors
+	saccadesColorOverides: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00'], // Add default saccadesColors must match MAX_FIXATION_PARTS
 	useUserColorOverides: false, // Add default useUserColors
 };
 

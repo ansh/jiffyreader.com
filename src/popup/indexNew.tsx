@@ -367,20 +367,6 @@ function IndexPopupNew() {
 
 					<div className="flex || text-capitalize text-bold">Advanced Settings</div>
 
-					<label>
-						Use Custom Colors:
-						<input
-							type="checkbox"
-							checked={prefs.useUserColorOverides} // Use prefs.useUserColors
-							onChange={handleUserColorOverrideToggle}
-						/>
-					</label>
-
-					<ColorPickerComponent
-						initialColors={prefs.saccadesColorOverides} // Use prefs.saccadesColors
-						onChange={handleUpdateSaccadesColor}
-					/>
-
 					<div className="flex justify-between flex-column || w-100">
 						<div className="input-container flex">
 							<input
@@ -487,6 +473,12 @@ function IndexPopupNew() {
 								</option>
 							))}
 						</select>
+
+						<ColorPickerComponent
+							disabled={prefs.saccadesColor !== 'custom'}
+							initialColors={prefs.saccadesColorOverides} // Use prefs.saccadesColors
+							onChange={handleUpdateSaccadesColor}
+						/>
 					</div>
 
 					<div className="|| flex flex-column || w-100 gap-1">

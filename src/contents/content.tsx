@@ -159,7 +159,7 @@ const IndexContent = () => {
 			});
 		} else {
 			// Reset to default or remove the properties
-			[0, 1, 2, 3].forEach((index) => {
+			Array(prefs.MAX_FIXATION_PARTS).forEach((index) => {
 				removeProperty(`--saccadesColorOveride-${index + 1}`);
 			});
 		}
