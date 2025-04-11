@@ -52,8 +52,8 @@ jobs:
 
       - name: Build artifacts
         run: |
-            git config --global user.email "gh-action@github.com"
-            git config --global user.name "gh-action"
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
 
             npm run release
             make -s build test print-manifests

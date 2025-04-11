@@ -1,7 +1,7 @@
 {
 	"name": "jiffy-reader",
 	"displayName": "Jiffy reader",
-	"version": "1.6.6",
+	"version": "1.7.2",
 	"description": "jiffy reader",
 	"packageManager": "pnpm@9.15.3",
 	"scripts": {
@@ -40,12 +40,11 @@
 	"dependencies": {
 		"@plasmohq/prettier-plugin-sort-imports": "^1.1.1",
 		"@plasmohq/storage": "^0.8.1",
-		"axios": "^1.7.4",
+		"axios": "^1.8.2",
 		"commit-and-tag-version": "^12.5.0",
 		"cross-env": "^7.0.3",
-		"esbuild": "^0.14.53",
+		"esbuild": "^0.25.0",
 		"esbuild-sass-plugin": "^2.3.1",
-		"mellowtel": "1.4.2",
 		"plasmo": "0.70.0",
 		"postcss": "^8.4.49",
 		"react": "18.2.0",
@@ -84,12 +83,7 @@
 		"description": "A Browser Extension for Faster Reading on ANY website!",
 		"default_locale": "en",
 		"permissions": [
-			"activeTab",
-			"declarativeNetRequest",
-			"tabs"
-		],
-		"host_permissions": [
-			"<all_urls>"
+			"activeTab"
 		],
 		"commands": {
 			"toggle-bionic": {
