@@ -59,11 +59,11 @@ The best way to install this extension is to follow the instructions below.
       - [Reset Defaults](#reset-defaults)
   - [PDF and Epub support](#pdf-and-epub-support)
     - [Google Play Books Native (Epub)](#google-play-books-native-epub)
-      - [Upload Epubs to Google PlayBooks (Epubs)](#upload-epubs-to-google-playbooks-epubs)
+      - [Upload Epubs to Google Play Books (Epubs)](#upload-epubs-to-google-play-books-epubs)
     - [PFD Support (convert pdf files to epub or html)](#pfd-support-convert-pdf-files-to-epub-or-html)
     - [Google Docs support (publish method)](#google-docs-support-publish-method)
     - [Google Docs support (html download method)](#google-docs-support-html-download-method)
-    - [Enable file url permissions (chrome html)](#enable-file-url-permissions-chrome-html)
+    - [Enable file url permissions (Chrome)](#enable-file-url-permissions-chrome)
 - [Customizations](#customizations)
   - [Shortcut](#shortcut)
 - [What is Faster Reading?](#what-is-faster-reading)
@@ -77,14 +77,14 @@ The best way to install this extension is to follow the instructions below.
   - [Configure vscode to run the project when it is opened](#configure-vscode-to-run-the-project-when-it-is-opened)
   - [Release a new version](#release-a-new-version)
 
-# Installation Instructions 
+# Installation Instructions
 
 
 ## Chrome
 
   > Download via [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) or follow the instructions below
 
-  1. Click [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-chrome.zip) to download the latest `jiffyReader-chrome.zip` release
+  1. Click [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-chrome-prod.zip) to download the latest `jiffyReader-chrome-prod.zip` release
   2. Extract the file
   3. Open Chrome
   4. Enter `chrome://extensions`  in the address bar 
@@ -93,7 +93,7 @@ The best way to install this extension is to follow the instructions below.
   7. Find and select the extracted folder, this extension should now be installed
   8. To pin the extension, click the `puzzle icon` on the top right of Chrome, then `pin the extension`.
   9. The extensions default reading mode is set to off when installed
-  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
+  10. See the [FAQ](#FAQ) section on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/about-mellowtel), an open-source library to support the development of free browser extensions.
 
@@ -101,12 +101,12 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
 
 > Download via the [Mozilla Firefox Plugin/Add-on Store](https://addons.mozilla.org/en-US/firefox/addon/jiffy-reader/) or follow the instructions below
 
-  1. Download `jiffyReader-firefox.xpi` by right clicking [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-firefox.xpi) and choose `Save link as` to download the latest `jiffyReader-firefox.xpi `release
+  1. Download `jiffyReader-firefox-prod.xpi` by right-clicking [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-firefox-prod.xpi) and choose `Save link as` to download the latest `jiffyReader-firefox-prod.xpi `release
   2. Open Firefox
   3. Enter `about:debugging#/runtime/this-firefox`  in the address bar 
-  4. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `jiffyReader-firefox.xpi` and select it to install it
+  4. Click `Load Temporary Add-on...` and navigate to the path of the downloaded `jiffyReader-firefox-prod.xpi` and select it to install it
   5. The extensions default reading mode is set to off when installed
-  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
+  6. See the [FAQ](#FAQ) section on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 <strong>Firefox will remove the extension when the browser is closed if the extension is not downloaded from the store.</strong>
 
@@ -134,7 +134,7 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
 
 ## Opera
 
-  1. Download: Click [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-opera.crx) to download the latest `jiffyReader-opera.crx` release
+  1. Download: Click [here](https://github.com/ansh/jiffyreader.com/releases/latest/download/jiffyReader-opera-prod.crx) to download the latest `jiffyReader-opera-prod.crx` release
   2. Extract the file
   3. Open Opera
   4. Enter `opera://extensions`  in the address bar 
@@ -143,7 +143,7 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
   7. Find and select the extracted folder, this extension should now be installed and listed on the screen
   8. To pin the extension, click the `cube icon` on the top right of Chrome, then `pin the extension`.
   9. The extensions default reading mode is set to off when installed
-  10. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
+  10. See the [FAQ](#FAQ) section on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 ## Edge
 
@@ -155,7 +155,7 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
   3. Navigate to the extension listing on  [Chrome Store](https://chrome.google.com/webstore/detail/jiffy-reader/lljedihjnnjjefafchaljkhbpfhfkdic) and 
   4. Click the `Add to Chrome` button to install the extension
   5. The extensions default reading mode is set to off when installed
-  6. See the [faq section](#FAQ) on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
+  6. See the [FAQ](#FAQ) section on how to use the extension, customize it (global and per site settings) and excluding sites from `always on`
 
 ## Bookmarklet
 
@@ -202,7 +202,7 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
 
 #### Enable reading mode button
  - Click this button to turn on/off the emphasis (bionification) of the text on the page.
- - Press `ALT + B` on chrome and `ALT + W` on firefox to achieve the same effect as clicking this button on chrome. see the [shortcut-section](#shortcut) for more info.
+ - Press `ALT + B` on chrome and `ALT + W` on firefox to achieve the same effect as clicking this button on chrome. see the [shortcut](#shortcut) section for more info.
 
 #### Saccades interval slider
 - Use this slider to set how many words are left untouched/unbolded or un-emphasized after the first emphasized word or the first word.
@@ -234,14 +234,14 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
 ## PDF and Epub support
 
 ### Google Play Books Native (Epub)
-- This extension works with [google play books](https://play.google.com/books)
-1. Open or navigate to [google play books](https://play.google.com/books)
+- This extension works with [Google Play Books](https://play.google.com/books)
+1. Open or navigate to [Google Play Books](https://play.google.com/books)
 2. Click on any book in your library to read it and turn on the extension if not on already
 3. You can search for new books (paid or free) and add to your library to start reading
 
-#### Upload Epubs to Google PlayBooks (Epubs)
-- Upload your Epub ebooks to Google Play Books reads to be able to read it with JiffyReader.  
-1. Open [google play books](https://play.google.com/books)
+#### Upload Epubs to Google Play Books (Epubs)
+- Upload your Epub ebook(s) to Google Play Books, then you will be able to read it with JiffyReader.  
+1. Open [Google Play Books](https://play.google.com/books)
 2. Click the upload button
 3. Select your epub file to complete the upload 
 4. Click on the uploaded file to open it in the Google Play Books web reader. Have fun.
@@ -256,34 +256,34 @@ The Chrome version includes support for [mellowtel.dev](https://mellowtel.dev/ab
 
 
 - For chrome permission issues, follow the steps in [Enable file url permissions (Chrome)](#enable-file-url-permissions-chrome)
-- For epub files follow the steps in [Upload Epub to Google PlayBooks](#upload-epubs-to-google-playbooks-epubs)
+- For epub files follow the steps in [Upload Epub to Google Play Books](#upload-epubs-to-google-play-books-epubs)
 - JiffyReader does not collaborate with cloudconvert. Please consult their privacy policy for any privacy concerns.
 
 ### Google Docs support (publish method)
-1. Open the google docs document in your browser
+1. Open the Google Docs document in your browser
 2. Click File > click share > click publish to web
 3. Click publish and copy the published link. Alternatively you can replace `edit` in the address bar with `pub` to access the published document
 4. Open the published link in a new tab and turn on JiffyReader
 
 - Note: the document will be accessible to anyone on the internet as long as they have the correct link.
-If you want do not want to publish the document to the web then please follow the alternative steps in [Google Docs support (download method)](#google-docs-support-download-method)
+If you do not want to publish the document to the web then please follow the alternative steps in [Google Docs support (html download method)](#google-docs-support-html-download-method)
 
-### Google Docs support (html download method) 
+### Google Docs support (html download method)
 1. Click on File > click download
-2. Download the document as an html (preferred) or epub optional [Google Play Books Native (Epub)](#google-play-books-native-epub-and-pdf-support)
+2. Download the document as a html (preferred) or epub optional [Google Play Books Native (Epub)](#google-play-books-native-epub)
 3. Open the downloaded html with your browser and turn on JiffyReader
 - You may be required to enable permissions to access `file urls` for chrome. To do so follow [Enable file permissions](#enable-file-url-permissions-chrome)
 
-### Enable file url permissions (chrome html)
-1. (Chrome) Enable JiffyReader to work with tabs that have file urls by right clicking on the JiffyReader icon
+### Enable file url permissions (Chrome)
+1. Enable JiffyReader to work with tabs that have file urls by right-clicking on the JiffyReader icon
 2. Click manage extension
-3. Find and enable work with file urls
+3. Find `Allow access to file URLs` option and enable it
 
 
 # Customizations
 
 ## Shortcut
-- `Alt+B` is the default toggle shortcut to turn `on or off` the extension
+- `Alt+B` (on Windows) or `option+B` (on Mac) is the default toggle shortcut to turn `on or off` the extension
 - If preferred you may customize the extension shortcut with the help of the resources below
 - [Chrome, Firefox and Edge](https://www.makeuseof.com/open-browser-extensions-keyboard-shortcut/)
 - Opera: open the extension management tab and click the `Keyboard shortcuts` link to access the page for customizing opera shortcuts
@@ -297,8 +297,8 @@ As a result, the reader is only focusing on the bolded initial letters and lets 
 
 # Reporting Issues, bugs and feature request
   Visit the [issues page](https://github.com/ansh/jiffyreader.com/issues) to report, bugs or tell us about a feature you would like to see and hopefully we will get to you.
-  Kindly allow for some time after submitting a issue for someone to get back to you.
-  You can also see a list of open issues that you may contribute to by commenting to help out someone with a challenge or developing and opening a PR. [See contribution section](#how-to-contribution)
+  Kindly allow for some time after submitting an issue for someone to get back to you.
+  You can also see a list of open issues that you may contribute to by commenting to help out someone with a challenge or developing and opening a PR. See [How to Contribute](#how-to-contribute) section.
 
 
 
@@ -309,8 +309,8 @@ As a result, the reader is only focusing on the bolded initial letters and lets 
   JiffyReader is in need of translation help for what ever language you can.
   To help: 
   1. Please check that the language you would like to help with has not already been taken up by someone else by looking through both the open and closed tickets for translations.
-  2. Open a issue ticket and add the `translation` label to it along with the name of the language you want to translate. Use this [shortcut link to open a new ticket](https://github.com/ansh/jiffyreader.com/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+Give+a+suitable+title)
-  3. Copy either the english locale json  [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/asieduernest12/jiffyreader.com/blob/7ab4cfb06b5e29be8b9cd8e1eb1a9c77aff10ef3/assets/_locales/es/messages.json) translate into the language you can assist with using your preferred editor or even ms word. 
+  2. Open an issue ticket and add the `translation` label to it along with the name of the language you want to translate. Use this [shortcut link to open a new ticket](https://github.com/ansh/jiffyreader.com/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D+Give+a+suitable+title)
+  3. Copy either the english locale json  [click here](https://github.com/ansh/jiffyreader.com/blob/master/assets/_locales/en/messages.json) or spanish local json [click here](https://github.com/ansh/jiffyreader.com/blob/master/assets/_locales/es/messages.json) translate into the language you can assist with using your preferred editor or even Microsoft Word. 
   4. Indicate the language you would like to help translate in the ticket title. This helps to eliminate duplicate work.
 
   - Attach any questions or updates to the ticket you are working on and someone will try and get to them within a day or two.
