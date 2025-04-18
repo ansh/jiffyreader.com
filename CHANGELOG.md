@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.8.1](https://github.com/ansh/jiffyreader.com/compare/v1.8.0...v1.8.1) (2025-04-18)
+
 ## [1.8.0](https://github.com/ansh/jiffyreader.com/compare/v1.6.6...v1.8.0) (2025-04-11)
 
 
