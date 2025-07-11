@@ -1,6 +1,6 @@
 ====================================================================================
 
-**THIS PROJECT IS NO LONGER MAINTAINED. THIS REPOSITORY IS AN ARCHIVE FOR EDUCATIONAL PURPOSES ONLY.**
+**THIS PROJECT IS NO LONGER MAINTAINED. THIS REPOSITORY IS AN ARCHIVE FOR EDUCATIONAL PURPOSES ONLY. PLEASE FIND THE NEW REPO AT GITHUB.COM/JIFFYREADER WHICH IS NOW MAINTAINED BY NEW OWNERS.**
 
 ====================================================================================
 
